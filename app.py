@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
 
 # ---------------- Swiss Ephemeris ----------------
-swe.set_ephe_path(".")
+# swe.set_ephe_path(".")  # Removed to allow Render to use default pyswisseph bundled files
 swe.set_sid_mode(swe.SIDM_LAHIRI)
 
 PLANET_FLAGS = swe.FLG_SWIEPH | swe.FLG_SIDEREAL

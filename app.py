@@ -588,27 +588,23 @@ def chart():
 
     # Handling cross-platform pyswisseph API signature variations on Linux vs Windows
     try:
+        # Default with SWIEPH
         res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
         res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_SWIEPH)
-    except Exception as e1:
+    except Exception:
         try:
-            # Fallback 2: Try with Moshier ephemeris (no external files required)
+            # Fallback 1: Try with Moshier ephemeris (no external files required)
             res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_MOSEPH)
             res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0), 0.0, 0.0, swe.FLG_MOSEPH)
-        except TypeError:
+        except Exception:
             try:
-                # Fallback 3: Omit all trailing optionals (older signatures)
+                # Fallback 2: Omit all trailing optionals (older Linux pyswisseph signatures)
                 res_rise = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_RISE|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
                 res_set = swe.rise_trans(jd_midnight, swe.SUN, swe.CALC_SET|swe.BIT_DISC_CENTER, (lon, lat, 0.0))
             except Exception as e:
                 print(f"rise_trans final fallback failed: {e}")
                 res_rise = (0, (jd_midnight, 0))
                 res_set = (0, (jd_midnight, 0))
-        except Exception as e:
-            # Fallback 4: Safe zero-out to completely prevent 500 Crash
-            print(f"rise_trans Moshier failed: {e}")
-            res_rise = (0, (jd_midnight, 0))
-            res_set = (0, (jd_midnight, 0))
     
     # Convert UT to Local Time for display
     def jd_to_local_str(jd_time):

@@ -700,8 +700,35 @@ def chart():
             "nakshatra": p_nak_name,
             "padam": p_padam,
             "strength": strength_pct,
-            "color": color
+            "color": color,
+            "is_hand": False
         })
+
+        # Process hands for this planet
+        angles = [180] + SPECIAL_HANDS.get(n, [])
+        for a in angles:
+            hl = (longt + a) % 360
+            hr = RASI_TELUGU[int(hl/30)]
+            hd = int(hl % 30)
+            hm = int(((hl % 30) - hd) * 60)
+            
+            # Use same nakshatra logic for hand
+            h_nak_idx = int(hl / NAKSHATRA_SIZE)
+            h_nak_name = NAKSHATRAS_TELUGU[h_nak_idx]
+            h_nak_offset = hl - (h_nak_idx * NAKSHATRA_SIZE)
+            h_padam = int(h_nak_offset / PADAM_SIZE) + 1
+            h_strength = int(((hl % 30) / 30) * 100)
+
+            planet_positions.append({
+                "name": n,
+                "rasi": hr,
+                "degree": f"{hd}°{hm:02d}′",
+                "nakshatra": h_nak_name,
+                "padam": h_padam,
+                "strength": h_strength,
+                "color": color,
+                "is_hand": True
+            })
 
 
     # Store birth info in session for other pages
@@ -1023,6 +1050,456 @@ def go_to_birth_chart():
     else:
         # Redirect to index if no birth info
         return redirect(url_for('index'))
+
+@app.route("/results", methods=["GET", "POST"])
+def results():
+    """Calculate and display results based on planet own-house rules and party logic"""
+    # Check for password authorization in session
+    if 'results_authorized' not in session:
+        # Check if password was submitted
+        submitted_password = request.form.get('password')
+        if submitted_password:
+            if submitted_password == '9700836368':
+                session['results_authorized'] = True
+            else:
+                return render_template("results_password.html", error=True)
+        else:
+            # Not authorized and no password submitted, show password entry page
+            return render_template("results_password.html", error=False)
+
+    birth_info = session.get('birth_info', {})
+    if not birth_info:
+        return redirect(url_for('index'))
+    
+    planet_positions = birth_info.get('planet_positions', [])
+    lagna = birth_info.get('lagna', '')
+    
+    # Rasi ordering to find Bhava distances
+    RASI_ORDER = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
+    
+    # Party Mapping
+    GURU_PARTY_LAGNAS = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
+    
+    native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
+    
+    GURU_PARTY_PLANETS = ["సూర్యుడు", "భూమి", "కుజుడు", "గురు", "కేతు", "చంద్రుడు"]
+    
+    # Bitter Enemies (fixed pairs)
+    BITTER_ENEMIES = {
+        "కుజుడు": "శుక్రుడు",
+        "శుక్రుడు": "కుజుడు",
+        "మిత్ర": "భూమి",
+        "భూమి": "మిత్ర",
+        "చిత్ర": "కేతు",
+        "కేతు": "చిత్ర",
+        "చంద్రుడు": "రాహు",
+        "రాహు": "చంద్రుడు",
+        "సూర్యుడు": "శని",
+        "శని": "సూర్యుడు",
+        "బుధుడు": "గురు",
+        "గురు": "బుధుడు"
+    }
+
+    # Detailed Planetary Rulerships (ఆధీనములో ఉన్నవి)
+    PLANET_RULERSHIPS = {
+        "సూర్యుడు": "పిత, ఆత్మ, తనువు, రాజ్యము, ప్రభావము, ధైర్యము, అధికారము, నేత్రము, పిత్తము, శూరత్వము, శక్తి, విదేశ పర్యటన, జ్ఞాన తేజము, పరాక్రమము, ఉష్ణము, అగ్ని, ధర్మ ధ్యాస, కడుపు, కన్ను, పాలనాశక్తి, ప్రభుత్వ భూములు, కోర్టు వ్యవహారములు, బంజరు భూములు, గుండ్రని ఆకారముండు పొలములు, రారాజు యోచన, గ్రామాధీన జాగాలు, ఎర్రచందనము, ముద్రాధికారము, తెల్ల జిల్లేడు, తూర్పు, ఆంగ్ల విద్య, ఆదివారము, చైత్రమాసము, రాజభవనములు, వేడిని పుట్టించు నీలి వెలుగులు, పై అంతస్థులు గల భవనములు.",
+        "చంద్రుడు": "బుద్ధి, నీరు, స్త్రీలు, మనస్సు, సౌందర్యము, జల సౌఖ్యము, బలము, పంటలు, వెండి, యాత్రలు, గుర్రపుస్వారీ, నిద్ర, వేగము, సుగంధములు, మాతృ ప్రీతి, కోనేర్లు, బావులు, కీర్తి, స్త్రీ సుఖము, తెల్లని మెత్తని గుడ్డలు, సముద్రములు, పుష్ఠి, పూలు, నదులు, యాత్రలు, తెలుపురంగు, చెరువులు, శ్వాస, కడుపు, ముత్యములు, ముఖ అలంకరణ, గర్భము, మృదుత్వము, సుఖభోజనము, పాలు, మనోజపము, విమానయానము, విమానములు, నావలు, అంతస్తుల భవనములు, చౌడు భూములు, లాడ్జీలు, వర్షము, ముద్రణాధికారము, రాజ చిహ్నము, సన్మానము, ధాన్యములో వడ్లు, వెన్నెల, శయన గృహములు, సంతోషము, వీర్యబలము, అశ్వ వాహనము, జ్ఞాపకశక్తి, దూరాలోచన, శిరో ఆరోగ్యము, మెదడు బలము, గ్రాహితశక్తి, ఈతలో నైపుణ్యము, నదీస్నానము, నీటి ప్రదేశములు, చౌడు, జలచరములు, ఇంగ్లీషు భాష, విలాస వస్తువులు, వాయువ్యదిశ, సోమవారము, తెల్లని పూలు, మల్లె తోటలు.",
+        "కుజుడు": "పరాక్రమము, కోపము, సేనాధిపత్యము, సాహసము, విస్ఫోటనము, బాంబులు, తుపాకులు, మారణాయుధములు, కోతులు, కుక్కలు, కోరలు గల కూరజంతువులు, కొమ్ములుగల ఎద్దులు, శస్త్రవిద్య, తర్కశాస్త్రము, శత్రువృద్ధి, ఉష్ణము, ఎర్రభూమి, రాళ్ళభూమి, కొండలు, బండలు, ఎరుపు రంగు, రక్తము, యవ్వనము, యువకులు, యుక్తవయస్సు స్త్రీల పరిచయము, మెట్టభూమి, పట్టుదల, ప్రభుభక్తి, లక్ష్యమును ఛేదించుట, జయము, దక్షిణ దిక్కు అరణ్యములు, అరణ్య సంచారము, సండ్రచెట్టు, వేట జరుపుట, యువరాజు, కట్టెలు, ప్రవాహము, మరణశిక్ష, కోటలు, బురుజులు, సోదరబలము, చెల్లెండ్రు, వెంట్రుకలు, మీసము, కూరమైన ముఖవర్చస్సు, దీర్ఘబాహువులు, అంగరక్షకులు, పోలీసు, మిలటరీ, కందులు, సన్మానములు, సైన్య బలము, రాతి గుహలు, రచ్చబండలు, మంగమాణ్యములు, కుమ్మర మాణ్యములు, కుమ్మరాములు, వ్రణ వైద్యము, పిందెలు, కాయలు, మంగళవారము, నక్సలైట్లు.",
+        "బుధుడు": "జ్యోతిష్యము, గణితశాస్త్రము, మంత్రములు, యంత్రములు, వ్యాపారము, తల్లివైపు బంధువులు, మామగారు, యుక్తి, శిల్పవిద్య, మంత్ర తంత్రవిద్యలు, వేద విచారణ, హాస్యము, వైద్యము, జ్ఞానము, లిపి, పైత్యము, దృష్టిబలము, ఆకుపచ్చరంగు, శిల్పకళ, చిత్రలేఖనము, శివభక్తి, దాస దాసీ జన అభివృద్ధి, సంధిచేయుట, చాకచక్యముగా మాట్లాడుట, పొట్టితనము, విచిత్ర రచనలు, యుక్తియుక్త జ్ఞానము, చమత్కారము, సైంటిస్టు, ఉత్తరము దిక్కు బుధవారము, స్మశానభూములు, గోరీలు, దిబ్బలు, దింపుడు కల్లములు, దయ్యాల ఇండ్లు, బలి ఇచ్చుస్థానములు, దయ్యాలు, పాడుపడిన స్థలములు, వ్యాపార స్థలములు, అంగళ్ళు, శూన్యములు, సూక్ష్మములు, భూతవైద్యము, ఉత్తరేణి చెట్టు, పెసలు ధాన్యము.",
+        "గురు": "భూమిమీదున్న ప్రపంచ ధనము, వేదవిద్య, ప్రపంచ విద్య, పుత్రులు, జ్యోతిష్యము, గురువుగా ఉండుట, సత్కర్మ చేయుట, శబ్దశాస్త్రము, బ్రాహ్మణత్వము, యజ్ఞాది క్రతువులు, బంగారు, గృహము, అశ్వము, గజము, ఆచారము, సుజనత్వము, శాంతము, మంత్రిత్వము, ఐశ్వర్యము, బంధువృద్ధి, సత్యము, పురాణములు, పౌరాణికము, పుత్రపౌత్ర వృద్ధి, మంచి సంతతి, పూజనీయత, అధికార గౌరవములు, గ్రామాధికారము, పసుపు రంగు, మాట చమత్కారము, మేథావి, తీర్థయాత్ర దేవతా దర్శనములు, గ్రంథ పఠనము, అగ్రస్థానము, తియ్యని ఆహారము, సంస్కృతి, పాండిత్యములో ప్రతిభ, బంధుబలము, సంస్కృత భాష, గ్రంథరచన, ముక్తి సాధన, పౌరోహిత్యము, యజుర్వేదము, సమయస్ఫూర్తి, మత సిద్ధాంతము, దేవాలయ నిర్మాణము, చవుటి భూములు, కళ్యాణ మందిరములు, భజన మందిరములు నిర్మించుట, బోధనావృత్తి.",
+        "శుక్రుడు": "వివాహము, నాటక సాహిత్యము, స్త్రీ సౌఖ్యము, కామము, భోగము, వ్యభిచారము, వాహన సుఖము, ఆభరణములు, ఐశ్వర్యము, ముద్రణాధికారము, హాస్యము, మేహము, వేశ్యా సంభోగము, కన్యత్వ లభ్యము, తెల్లని వస్త్రము, సుగంధములు, సౌందర్యము, జలక్రీడ, చిత్రలేఖనము, కవిత్వము, గ్రంథరచన, సంగీతము, సామవేదము, మద్యపానము, నృత్యము, యువతి, మనోభావములు, అష్ట భోగములు, అష్ట ఐశ్వర్యములు, శృంగార కావ్య రచనలు, దేహసుఖము, సౌందర్యము, సుకుమారము, వీణ లేక వేణు గానము, వాహన సౌఖ్యము, అన్యస్త్రీల ఆలింగనము, బహు స్త్రీ సంగమము, కళానైపుణ్యము, వీర్యబలము, శివభక్తి, శాంభవీ విద్య, మృధురతి, స్త్రీలకు మిక్కిలి ప్రియముగా ఉండుట, వివాహములలో విందులలో పాల్గొనుట, సభా సన్మానములు, వేశ్యలు సన్నిహితముగా ఉండుట, వ్యసనాలలో స్త్రీకి లొంగిపోవడము, తాంబూలము, మాంసభక్షణ, శక్తిపూజలు, పశువుల ఇండ్లు, బండ్లు విడుచు స్థలము, వ్యభిచార గృహములు, పశువుల ఇళ్ళు, వంట కట్టెలు పెట్టుచోటు, శయన గృహములు, నవ యవ్వనుల మిత్రత్వము, కామకేళీ విలాసము.",
+        "శని": "ఆయుషు, నీచవిద్య, నీచ దేవతోపాసన, మరణము, దుఃఖము, అసత్యము, అధర్మము, బంధనము, కురూపము, శాంతము, దుష్ప్రవర్తన, పాపము, నరకము, నీచ జీవనము, రోగములు, దాసీజన సౌఖ్యము, విధవ సౌఖ్యము, నపుంసకత్వము, పౌరుషహీనము, పాపార్జన, అనాచారము, జైలు, కృశించిన శరీరము గలవాడు, చినిగిన వస్త్రములు కలవాడు, బ్రాహ్మణ ద్వేషి, దున్నలకు అధిపతి, భయంకరుడు, జంతువులతో రమించువాడు, నీచదేవతోపాసన, పాతాళ గృహము, కంచర గాడిదలు, చెడు ప్రవర్తన, దారిద్ర్యము, వంటలవాడు, మద్యపానము విక్రయించువాడు, మాంసవిక్రయుడు, మాంసవిక్రయశాల, భోజనవిక్రయము, ఇనుము అంగడి, శిథిల గృహము దాని నివాసము, కాఫీ హోటళ్ళు, దిబ్బలు, మలవిసర్జన స్థలములు, స్మశానము, చీకటిల్లు, సమాధులు, జమ్మిచెట్టు, నూగులు, వృత్వము, మారణాస్త్రములు, నలుపురంగు, కామదహన స్థలము, పీర్ల గుండము, సారాయి, కల్లు, అంగళ్ళు, ఇనుము, ఇనుప వ్యాపారము.",
+        "రాహు": "కౄరత్వము, పాపము, నీచవిద్య, నీచ జీవనము, చోర జీవనము, విషములు, సర్పములు, తేళ్ళు, మండ్రగబ్బలు, క్రిమికీటకాదులు, పాడు పడిన గృహములు, పుట్టలు, చెదలు, వంపులు, మినుములు ధాన్యము, గరికగడ్డి, మాంస విక్రయము, మాసిన వస్త్రములు ధరించుట, పొగరంగు, మోసము చేయుట, పాములు పట్టుట, చెప్పులు కుట్టుట, దొంగతనము చేయుట, మత్తు పదార్థములను అమ్ముట, మత్తు పదార్థములను సేవించుట, అపసవ్యముగా తిరుగుట, చండాలత్వము, రాక్షసత్వము, హత్యలు చేయడము.",
+        "కేతు": "ఆత్మజ్ఞానము, సన్న్యాసత్వము, నిరాకార భక్తి, దైవభక్తి, ఆశ్రమ నివాసము, సన్న్యాసులతో స్నేహము, వేదాంతము, దేవుని ధ్యాస, చిత్రవర్ణము, దర్భమొక్కలు, ఉలవల ధాన్యము, తపస్సు, మౌనము, అపసవ్య లిపిని వ్రాయడము లేక చదవడము, వైరాగ్యము, శూద్రగోష్టి, మహమ్మదీయులు, హేతువాదము.",
+        "భూమి": "గనులు, ఖనిజములు, ఇళ్ళ స్థలములు, గుహలు, మంచు ప్రదేశములు, హిమపాతము, అరికాళ్ళు అరిచేతులు నవ్వలు రావడము, అరికాళ్ళు అరిచేతులు చీలడము, చర్మరోగములు, సువాసనలు, సుగంధ ద్రవ్యములు, మొలలు.",
+        "మిత్ర": "నిద్ర, నిద్రలోని కదలికలు, నిద్రలోవచ్చు తలనొప్పి, నిద్రలేమి, మానసిక వ్యాధులు, ఆత్మజ్ఞానమునకు దారి, స్వప్నములు, నిద్రలోని కదలికలు, స్వప్నములోని కదలికలు.",
+        "చిత్ర": "అకాల మరణము తర్వాత పరకాయ ప్రవేశము, సూక్ష్మశరీర ముఖ జ్ఞానము, సూక్ష్మములచేత బాధింపబడడము, అకాలమృత్యువు, తాత్కాలిక మరణము, మనో బాధలు లేకుండా జ్ఞానచింతలో ఉండుట, అదృశ్యముగా ఉండి కొన్ని నిమిషములు కనిపించుట."
+    }
+
+    # Detailed Bhava Interpretations from user text
+    DETAILED_BHAVA_MEANINGS = {
+        1: {
+            "title": "ప్రథమ స్థానము (తనువు)",
+            "meaning": "శరీరము, ఆత్మ, రూపము, స్వభావము, అంగ సౌష్టవమును గురించిన విషయములు.",
+            "shubha": "మంచి బలమైన శరీరము, అందమైన రూపం, మంచి కొలతలు గల అంగసౌష్టవం కల్గియుండును.",
+            "paapa": "బలహీనమైన దేహం, అంగలోపం, అనారోగ్యాలకు అనువుగా ఉన్న దేహం, అంగసౌష్టవం లేని దేహం లభించును.",
+            "neutral": "మధ్యతరగతి ఆరోగ్యము, అందము, అంగసౌష్టవముగల శరీరముండును."
+        },
+        2: {
+            "title": "ద్వితీయ స్థానము (ధనము)",
+            "meaning": "ధనము, వాక్కు, కుటుంబము, నేత్రము, కర్ణము, ముఖ వర్చస్సు, మరణము.",
+            "shubha": "ముఖవర్చస్సులో ప్రత్యేకత, ఆకర్షణీయమైన కళ్ళు, ఆయుర్బలం, దైవభక్తి గల మంచి కుటుంబం లభించును. వాక్చాతురత కల్గియుండును.",
+            "paapa": "ముఖంలో అందం ఉండదు, మాటలో ఆకర్షణ ఉండదు, కుటుంబంలో అన్యోన్యత లోపించును, ధన ఇబ్బందులు ఎదురవుతాయి.",
+            "neutral": "రెండవ స్థానములోని విషయములు మధ్యరకముగా అందుచుండును. మంచి చెడు కాకుండా తటస్థముగా ఉండును."
+        },
+        3: {
+            "title": "తృతీయము (సోదర స్థానము)",
+            "meaning": "సోదరులు, ధైర్యము, పరాక్రమము.",
+            "shubha": "అన్నదమ్ముల వలన సుఖము లేకున్నా వ్యతిరేఖము లేకుండా సాధారణముగా ఉందురు. కష్టముండదు.",
+            "paapa": "సోదర వర్గం వలన బాధలు, వివాహం ఆలస్యం, దాయాదులతో ఇబ్బందులు, ఉత్సాహం లేని నీచ జీవనం, సేవక వృత్తి.",
+            "neutral": "సాధారణ ఫలితాలు ఉండును."
+        },
+        4: {
+            "title": "చతుర్థము (మాతృస్థానము)",
+            "meaning": "తల్లి, వాహనము, భూమి, గృహము, వ్యవసాయము, పంటలు, బంధువులు.",
+            "shubha": "గృహము, వస్తు వాహనములు, భూములు, జలాశయములు కల్గును. బంధు మిత్రుల బలము, మాతృప్రీతి, సుఖ సౌఖ్యములు కల్గును.",
+            "paapa": "పైన చెప్పిన శుభ ఫలితములకు వ్యతిరేఖ ప్రభావం ఉండును. సుఖ సౌఖ్యములు లోపించును.",
+            "neutral": "వస్తు భూమి లాభాలు మధ్యరకముగా ఉండును."
+        },
+        5: {
+            "title": "పంచమము (విద్యాస్థానము)",
+            "meaning": "విద్య, జ్ఞానము, జ్ఞప్తి శక్తి, సంతానము, మంత్రి పదవి, వివేకము.",
+            "shubha": "మంచి సంతానం, మంత్రి పదవి, వివేకము, వినయము, పాండిత్యం, గ్రంథ రచనలో ప్రావీణ్యం కలుగును.",
+            "paapa": "పుణ్యమును అందించదు, కానీ పాపము లేదు కనుక చెడు చేయదు. ఫలితాలు సామాన్యంగా ఉండును.",
+            "neutral": "విద్య సంతాన విషయములు సామాన్యము."
+        },
+        6: {
+            "title": "ఆరవది (శత్రుస్థానము)",
+            "meaning": "శత్రువు, ఋణము, రోగము, సమస్యలు.",
+            "shubha": "శత్రు, ఋణ, రోగ సమస్యలు ఉండవు. వడ్డీ వ్యాపారం లేదా వైద్యవృత్తితో ధనార్జన కలుగును.",
+            "paapa": "శత్రు, ఋణ, రోగ సమస్యలు జీవితమంతా వేధించవచ్చు. మనోచింత, అపవాదులు, అప్పుల చిక్కులు ఉండును.",
+            "neutral": "మధ్య రకముగా జరుగుచుండును."
+        },
+        7: {
+            "title": "సప్తమము (కళత్ర స్థానము)",
+            "meaning": "భార్య/భర్త, వివాహము, శరీర సుఖము.",
+            "shubha": "కళత్రము నుండి సుఖము, ఆకర్షణీయమైన భార్య/భర్త, ధనము, ఇతర సుఖములు సకాలంలో లభించును.",
+            "paapa": "భార్య/భర్త సౌఖ్యం ఉండదు, వివాహ సమస్యలు, మనోశాంతి లేకపోవడము. ఒకవేళ 8వ స్థాన దోషముంటే ఆత్మహత్య ప్రేరణ.",
+            "neutral": "వివాక సౌఖ్యము సామాన్యము."
+        },
+        8: {
+            "title": "అష్టమము (ఆయుస్థానము)",
+            "meaning": "ఆయుష్షు, మరణము, జీవనము, దుఃఖము.",
+            "shubha": "దీర్ఘాయువు, పుష్టి కలిగిన శరీరం, వీర్యపుష్టి, సౌఖ్యములు కల్గును. అకాల మృత్యు భయం ఉండదు.",
+            "paapa": "అల్పాయుష్కుడగును, అకాల మృత్యువు, కారాగార ప్రాప్తి, పరాభవములు కలుగును. కామవాంఛ లోపించును.",
+            "neutral": "మధ్యరకపు ఆయుర్దాయం."
+        },
+        9: {
+            "title": "నవమ స్థానము (పితృ స్థానము)",
+            "meaning": "తండ్రి ఆస్తి, భాగ్యము, ధనము, దైవభక్తి, జ్ఞానము.",
+            "shubha": "తండ్రి ఆస్తి లభించును, సకల ఐశ్వర్యములు, నిలువయుండే ధనము, భాగ్యము, దైవభక్తి కల్గును.",
+            "paapa": "నిర్భాగ్యుడగును, తీవ్ర పేదరికం, దైవభక్తి లోపం, ఆస్తి నష్టములు కలుగును.",
+            "neutral": "భాగ్యము సామాన్యము."
+        },
+        10: {
+            "title": "దశమ స్థానము (జీవన స్థానము)",
+            "meaning": "వృత్తి, ఉద్యోగము, కీర్తి, గౌరవము, రాజకీయము.",
+            "shubha": "ఉన్నత వృత్తి, రాజకీయ పదవులు, కీర్తి గౌరవము, అష్టభోగములు. నిగ్రహశక్తి కలిగిన జీవితం.",
+            "paapa": "జీవనమునకు నిరంతర పోరాటం, గౌరవ లోపం, వృత్తిలో ఇబ్బందులు ఎదురవుతాయి.",
+            "neutral": "కేవలం జీవనోపాధి లభించును."
+        },
+        11: {
+            "title": "ఏకాదశ స్థానము (లాభ స్థానము)",
+            "meaning": "లాభము, ఆదాయము, అదనపు ధనార్జన.",
+            "shubha": "వివిధ రూపాలలో ఆదాయం, లాటరీ లాభాలు, కట్నకానుకలు, భారీ ధన లాభములు కలుగును.",
+            "paapa": "ఆదాయంలో ఆటంకాలు, లాభాల్లో నష్టాలు, తండ్రి ఆస్తి నష్టం, దుర్వ్యసనాలు కలుగును.",
+            "neutral": "సామాన్య లాభం."
+        },
+        12: {
+            "title": "ద్వాదశ స్థానము (व्यయ స్థానము)",
+            "meaning": "ఖర్చు, ప్రారబ్ధ కర్మ ముగింపు, మోక్షము, మరణ చివరి భాగము.",
+            "shubha": "మంచి కార్యాలకు ఖర్చు, ఆధ్యాత్మిక చింతన, మరణ సమయమున సుఖము, స్వర్గలోక ప్రాప్తి.",
+            "paapa": "బంధువులు లేని అనాధ చావు, దుర్వినియోగమయ్యే ఖర్చులు, నిరాశతో కూడిన మరణం.",
+            "neutral": "ఖర్చులు ఆదాయానికి తగినట్లు ఉండును."
+        }
+    }
+
+    # Own house mapping
+    OWN_HOUSE_RULES = {
+        "కుజుడు": "మేషం",
+        "మిత్ర": "వృషభం",
+        "చిత్ర": "మిథునం",
+        "చంద్రుడు": "కర్కాటకం",
+        "సూర్యుడు": "సింహం",
+        "బుధుడు": "కన్య",
+        "శుక్రుడు": "తులా",
+        "భూమి": "వృశ్చికం",
+        "కేతు": "ధనస్సు",
+        "రాహు": "మకరం",
+        "శని": "కుంభం",
+        "గురు": "మీనం"
+    }
+
+    try:
+        lagna_idx = RASI_ORDER.index(lagna)
+    except ValueError:
+        lagna_idx = 0
+
+    # Process planets
+    results_data = []
+    for p in planet_positions:
+        p_name = p['name']
+        p_rasi = p['rasi']
+        
+        # is_friend?
+        is_green = any(gp in p_name for gp in GURU_PARTY_PLANETS)
+        is_friend = (is_green == (native_party == "గురు వర్గము"))
+        
+        # is_own_house?
+        own_house = "N/A"
+        is_own_house = False
+        for rule_name, rule_house in OWN_HOUSE_RULES.items():
+            if rule_name in p_name:
+                own_house = rule_house
+                is_own_house = (p_rasi == rule_house)
+                break
+        
+        # bitter_enemy?
+        bitter_enemy = None
+        for be_key, be_val in BITTER_ENEMIES.items():
+            if be_key in p_name:
+                bitter_enemy = be_val
+                break
+
+        # detailed Rulership
+        rulership = "N/A"
+        for r_name, r_text in PLANET_RULERSHIPS.items():
+            if r_name in p_name:
+                rulership = r_text
+                break
+
+        results_data.append({
+            "name": p_name,
+            "current_rasi": p_rasi,
+            "own_house": own_house,
+            "is_own_house": is_own_house,
+            "is_friend": is_friend,
+            "bitter_enemy": bitter_enemy,
+            "color": p.get('color', '#ffffff'),
+            "degree": p.get('degree', ''),
+            "strength": p.get('strength', 0),
+            "nakshatra": p.get('nakshatra', ''),
+            "padam": p.get('padam', ''),
+            "rulership": rulership,
+            "is_hand": p.get('is_hand', False)
+        })
+
+    # Group into Friends and Enemies (only real planets for these general lists)
+    friends = [p for p in results_data if p['is_friend'] and not p.get('is_hand')]
+    enemies = [p for p in results_data if not p['is_friend'] and not p.get('is_hand')]
+
+    # Bhava Report
+    bhava_report = []
+    for i in range(12):
+        house_num = i + 1
+        house_rasi = RASI_ORDER[(lagna_idx + i) % 12]
+        # Planets in this house
+        occ_planets = [p for p in results_data if p['current_rasi'] == house_rasi]
+        p_info = [{
+            "name": p['name'], 
+            "degree": p['degree'], 
+            "strength": p.get('strength', 0),
+            "color": p['color'],
+            "is_hand": p.get('is_hand', False)
+        } for p in occ_planets]
+        
+        # Determine house state based on occupants
+        # Rule: House is 'shubha' if at least one friend is present and NO enemies OR if more friends than enemies.
+        # Simplified: If any friend, status = shubha. If only enemies, status = paapa. If empty, neutral.
+        friends_in_house = [p for p in occ_planets if p['is_friend']]
+        enemies_in_house = [p for p in occ_planets if not p['is_friend']]
+
+        if friends_in_house:
+            state = "shubha"
+        elif enemies_in_house:
+            state = "paapa"
+        else:
+            state = "neutral"
+
+        bhava_data = DETAILED_BHAVA_MEANINGS[house_num]
+        interpretation = bhava_data.get(state, bhava_data["neutral"])
+        
+        # Specific Logic Expansion
+        special_note = ""
+        
+        # ----------------- SPECIFIC PLANETARY RULES (Life Scenarios) -----------------
+        
+        # 4th House: Sun Rules
+        if house_num == 4:
+            sun_p = [p for p in occ_planets if "సూర్యుడు" in p['name']]
+            if sun_p:
+                p = sun_p[0]
+                if p['is_friend']:
+                    special_note += "సూర్యుడు 4వ రాశిలో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును. ఒకవేళ పేదవారైనా ఆ ఇంటిలో నివాసము కల్గునట్లు చేయును. "
+                else:
+                    special_note += "సూర్యుడు శత్రుగ్రహమై 4వ రాశిలో ఉన్నందున గృహ సుఖములు లోపించును. ఉన్న పెద్ద ఇల్లును కూడా అమ్మి చిన్న ఇల్లును కొందామనుకొనును. "
+
+        # 8th House: Mars and others
+        if house_num == 8 and enemies_in_house:
+            for p in enemies_in_house:
+                if "రాహు" in p['name']: special_note += "పాముకాటు లేదా విషాహారం వలన ప్రమాదం. "
+                elif "చంద్రుడు" in p['name']: special_note += "నీటి గండముతో మరణ భయం. "
+                elif "శుక్రుడు" in p['name']: special_note += "అగ్ని వలన ప్రమాదం. "
+                elif "బుధుడు" in p['name']: special_note += "దయ్యాల పీడ లేదా వైద్యులకు అంతుచిక్కని రోగము. "
+                elif "కుజుడు" in p['name']: special_note += "ఆయుధాల చేత లేదా రక్తసిక్త ప్రమాదము (బాంబులు/తుపాకులు). "
+
+        # 6th House: Mars, Mercury
+        if house_num == 6:
+            for p in occ_planets:
+                if "కుజుడు" in p['name'] and not p['is_friend']:
+                    special_note += "మృగముల చేత గాయపడుట, ఆయుధములచేత దాడి, వ్రణములు, లేదా టీబీ/క్యాన్సర్ వంటి రోగముల భయము. "
+                if "బుధుడు" in p['name']:
+                    if p['is_friend']:
+                        special_note += "వైద్య విద్యలో రాణించుట, భూతవైద్యము కూడా తెలిసియుండుట. "
+                    else:
+                        special_note += "దయ్యాల బాధలు, దయ్యములు శరీరములో రోగరూపముగా ఉండి బాధింపవచ్చును. "
+
+        # 7th House: Venus, Mars
+        if house_num == 7:
+            for p in occ_planets:
+                if "శుక్రుడు" in p['name']:
+                    if p['is_friend']:
+                        special_note += "అందమైన, అనుకూలమైన భార్య/భర్త లభించును. ఆమె/అతని వలన మనశ్శాంతి, సుఖము ఉండును. "
+                    else:
+                        special_note += "కళత్రము వలన కష్టములు, మనఃశ్శాంతి లోపించును. "
+                if "కుజుడు" in p['name'] and not p['is_friend']:
+                    special_note += "యుక్తవయస్సులో వివాహము ఆలస్యమగును. "
+
+        # 3rd House: Jupiter Gold Logic
+        if house_num == 3:
+            for p in occ_planets:
+                if "గురు" in p['name']:
+                    if p['is_friend']:
+                        special_note += "బంగారము లేదా ధనము ఏదో ఒక విధంగా లభ్యమగుట (వ్యాపార లాభం లేదా అదృష్టం). "
+                    else:
+                        special_note += "ఉన్న బంగారమును కూడా అమ్మవలసిన పరిస్థితులు ఏర్పడును. "
+            # Rahu behind Jupiter logic
+            rahu_in_3 = any("రాహు" in p['name'] for p in occ_planets)
+            guru_in_3 = any("గురు" in p['name'] for p in occ_planets)
+            if rahu_in_3 and guru_in_3:
+                special_note += "రాహువు గురువు కలిసి ఉండటము వలన బంగారు దొంగలు ఎత్తుకొని పోవు భయమున్నది. "
+
+        # 10th House: Career (Existing but enhanced)
+        if house_num == 10 and occ_planets:
+            for p in occ_planets:
+                if "సూర్యుడు" in p['name'] or "చంద్రుడు" in p['name']:
+                    special_note += "ప్రభుత్వ ఉన్నత ఉద్యోగి (కలెక్టర్) లేదా మంత్రి పదవి యోగం. "
+                elif "కుజుడు" in p['name']:
+                    if any("సూర్యుడు" in p2['name'] or "చంద్రుడు" in p2['name'] for p2 in occ_planets):
+                        special_note += "మిలిటరీలో పెద్ద డాక్టరుగా పేరు తెచ్చుకొందురు. "
+                    else:
+                        special_note += "ప్రభుత్వ డాక్టరుగా లేదా గొప్ప సర్జన్ గా పేరు తెచ్చుకొందురు. "
+                elif "శుక్రుడు" in p['name']:
+                    special_note += "అష్టైశ్వర్యములతో కూడిన సుఖమయ జీవితం. "
+
+        # 11th House: Gains
+        if house_num == 11 and friends_in_house:
+            for p in friends_in_house:
+                if "బుధుడు" in p['name']: special_note += "కట్నకానుకల రూపంలో లబ్ది. "
+                elif "గురు" in p['name']: special_note += "డొనేషన్లు లేదా విద్యాసంస్థల ద్వారా లాభం. "
+
+        # 4th House again: Rahu illegal wealth
+        if house_num == 4:
+            for p in occ_planets:
+                if "రాహు" in p['name']:
+                    if p['is_friend']:
+                        special_note += "దొంగవృత్తి లేదా దోపిడీల ద్వారా లక్షలు సంపాదించుట, సమాజములో భయంతో కూడిన గౌరవము. "
+                    else:
+                        special_note += "దొంగతనములలో దొరికిపోవుట, పోలీస్ కేసులు, జైలు జీవితము అనుభవించవలసి రావచ్చు. "
+
+        # 5th House: Ketu God logic
+        if house_num == 5:
+            for p in occ_planets:
+                if "కేతు" in p['name']:
+                    if p['is_friend']:
+                        special_note += "దేవుని వైపు చింత, హేతువాదిక జ్ఞానము, సత్యాన్వేషణలో దైవభక్తి పెరగడము. "
+                    else:
+                        special_note += "దైవజ్ఞానము మీద ఆసక్తి ఉండదు, పూర్తిగా ప్రపంచ జ్ఞానములోనే ఉండిపోవుట. "
+
+        # Moon general water issues
+        is_moon_enemy = any("చంద్రుడు" in p['name'] for p in enemies_in_house) if enemies_in_house else False
+        if is_moon_enemy:
+            special_note += "చంద్రుడు వ్యతిరేఖముగా ఉన్నందున నీటి ఇబ్బందులు (బావులు ఎండిపోవుట, ఇంటిలో నీరు కారుట, బాత్ రూమ్ పైపులు చెడిపోవుట). "
+
+        # Saturn general iron logic
+        for p in occ_planets:
+            if "శని" in p['name'] and p['is_friend']:
+                special_note += "ఇనుము వ్యాపారములో మంచి లాభములు పొంది ధనికులయ్యే యోగము. "
+
+        # ----------------- ADVANCED Q&A LOGIC -----------------
+
+        # 7th House: Multiple Marriages / Secret Relations (Rahu/Ketu)
+        if house_num == 7:
+            rk_p = [p for p in occ_planets if any(x in p['name'] for x in ["రాహు", "కేతు"])]
+            if rk_p:
+                # Count opposing planets to see if Rahu/Ketu's effect is suppressed
+                # "Opposing" here means planets not in their natural party
+                rk_name = "రాహు" if "రాహు" in rk_p[0]['name'] else "కేతు"
+                opposing_count = 0
+                for p in occ_planets:
+                    if rk_name == "రాహు" and any(x in p['name'] for x in ["సూర్యుడు", "చంద్రుడు", "కుజుడు", "గురు"]):
+                        opposing_count += 1
+                    elif rk_name == "కేతు" and any(x in p['name'] for x in ["శుక్రుడు", "శని", "బుధుడు"]):
+                        opposing_count += 1
+                
+                if opposing_count >= 2:
+                    special_note += f"{rk_p[0]['name']} 7వ స్థానములో ఉన్నప్పటికీ, వ్యతిరేక గ్రహముల ప్రభావమువలన రెండవ వివాహము లేదా అక్రమ సంబంధముల ఆటంకములు తొలగిపోవును. "
+                else:
+                    special_note += f"{rk_p[0]['name']} 7వ స్థానములో ఉన్నందున రెండవ పెళ్ళికి లేదా అక్రమ సంబంధములకు అవకాశమున్నది. "
+
+        # Lagna (1st House): Discord Logic (Mars + Venus)
+        if house_num == 1:
+            has_mars = any("కుజుడు" in p['name'] for p in occ_planets)
+            has_venus = any("శుక్రుడు" in p['name'] for p in occ_planets)
+            if has_mars and has_venus:
+                # Check if they are enemies for this lagna
+                # Mars is Guru party, Venus is Sani party. They are always bitter enemies.
+                special_note += "కుజుడు మరియు శుక్రుడు ఇద్దరూ లగ్నములో కలిసి ఉన్నందున, భార్యాభర్తల మధ్య అన్యోన్యత లోపించి తరచూ పోట్లాటలు జరిగే సూచనలున్నవి. "
+
+        # 5th House vs 3, 7, 11: Intelligence (Moon)
+        if house_num == 5:
+            moon_p = [p for p in occ_planets if "చంద్రుడు" in p['name']]
+            if moon_p:
+                special_note += "చంద్రుడు 5వ స్థానములో ఉన్నందున మీరు గొప్ప మేధాశక్తి మరియు మంచి బుద్ధి గలవారై ఉంటారు. ఏ సమస్యకైనా సులభముగా జవాబు చెప్పగలరు. "
+        elif house_num in [3, 7, 11]:
+            moon_p = [p for p in occ_planets if "చంద్రుడు" in p['name']]
+            if moon_p:
+                special_note += "చంద్రుడు పాపస్థానములో (3, 7, 11) ఉన్నందున తెలివితేటలు తక్కువగా ఉండును లేదా ప్రవర్తనలో అజ్ఞానము కనిపించవచ్చును. "
+
+        # 4th House: Pathway/Road Disputes (Mars)
+        if house_num == 4:
+            mars_p = [p for p in occ_planets if "కుజుడు" in p['name']]
+            if mars_p and not mars_p[0]['is_friend']:
+                special_note += "కుజుడు 4వ స్థానములో వ్యతిరేఖముగా ఉన్నందున గృహము లేదా పొలము వద్ద దారికి సంబంధించిన తగాదాలు (దక్షిణ దిశలో) వచ్చే అవకాశమున్నది. "
+
+        # Mercury: Logic for Interest in Astrology
+        for p in occ_planets:
+            if "బుధుడు" in p['name']:
+                if house_num == 5 and p['is_friend']:
+                    special_note += "బుధుడు 5వ స్థానములో అనుకూలముగా ఉన్నందున మీకు జ్యోతిష్యము మరియు శాస్త్రముల మీద మంచి ఆసక్తి, అవగాహన కల్గును. "
+                elif not p['is_friend'] and any(x in p['name'] for x in ["చంద్రుడు"]):
+                    special_note += "బుధుడు చంద్రునితో కలిసి శత్రువుగా ఉన్నందున వ్యాపార విషయాలలో తెలివితక్కువతనము ప్రదర్శించవచ్చును. "
+
+        # Wealth: Jupiter (Stored) vs Venus (Flowing)
+        for p in occ_planets:
+            if "గురు" in p['name'] and not p['is_friend']:
+                special_note += "గురువు వ్యతిరేఖముగా ఉన్నందున ధనము నిలువ చేయడములో ఇబ్బందులు కల్గును. "
+            if "శుక్రుడు" in p['name'] and not p['is_friend']:
+                special_note += "శుక్రుడు వ్యతిరేఖముగా ఉన్నందున చేతిలో డబ్బు నిలువక ప్రవాహములా ఖర్చైపోవును. "
+
+        bhava_report.append({
+            "number": house_num,
+            "title": bhava_data["title"],
+            "rasi": house_rasi,
+            "meaning": bhava_data["meaning"],
+            "planets": p_info,
+            "interpretation": interpretation,
+            "special_note": special_note,
+            "state": state
+        })
+
+    return render_template("results.html", 
+                           results=results_data,
+                           friends=friends,
+                           enemies=enemies,
+                           bhava_report=bhava_report,
+                           native_party=native_party,
+                           lagna=lagna,
+                           name=birth_info.get('name', ''),
+                           dob=birth_info.get('dob', ''),
+                           tob=birth_info.get('tob', ''),
+                           place=birth_info.get('place', ''))
+
 
 @app.route("/go-to-dasha-chart")
 def go_to_dasha_chart():

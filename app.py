@@ -6,6 +6,9 @@ import os
 import threading
 import subprocess
 
+# Git path for Windows environment stability
+GIT_PATH = r'C:\Program Files\Git\cmd\git.exe'
+
 app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
 
@@ -311,9 +314,9 @@ def log_user_to_github(name, dob, tob, place):
                 
             # Git add, commit, and push
             try:
-                res_add = subprocess.run(f'git add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
-                res_commit = subprocess.run(f'git commit -m "Log new user data for {n}"', check=True, capture_output=True, text=True, shell=True)
-                res_push = subprocess.run('git push', check=True, capture_output=True, text=True, shell=True)
+                res_add = subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
+                res_commit = subprocess.run(f'"{GIT_PATH}" commit -m "Log new user data for {n}"', check=True, capture_output=True, text=True, shell=True)
+                res_push = subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True)
                 print(f"Successfully logged to Github. Push output: {res_push.stdout}")
             except subprocess.CalledProcessError as e:
                 print(f"Git subprocess error. Code: {e.returncode}")
@@ -1744,9 +1747,9 @@ def reset_user_data():
                 f.write("")
             
             # Git push to keep GitHub in sync
-            subprocess.run(f'git add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
-            subprocess.run('git commit -m "Reset user data log"', check=True, capture_output=True, text=True, shell=True)
-            subprocess.run('git push', check=True, capture_output=True, text=True, shell=True)
+            subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
+            subprocess.run(f'"{GIT_PATH}" commit -m "Reset user data log"', check=True, capture_output=True, text=True, shell=True)
+            subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True)
             
             return jsonify({"status": "success", "message": "Data reset successfully!"})
         except Exception as e:

@@ -1,3 +1,4 @@
 
 1. [14-Mar-2026 10:28:21] Name: trump, DOB: 2026-03-14, TOB: 15:58, Place: Hyderabad, Telangana, India
 2. [14-Mar-2026 10:29:38] Name: krishna reddy, DOB: 1988-10-24, TOB: 01:35, Place: Kandukur, Andhra Pradesh, 523105, India
+3. [14-Mar-2026 10:30:05] Name: krishna reddy, DOB: 1988-10-24, TOB: 01:35, Place: Kandukur, Andhra Pradesh, 523105, India

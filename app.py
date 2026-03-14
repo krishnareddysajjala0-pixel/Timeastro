@@ -1,3 +1,9 @@
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+import swisseph as swe
+import datetime
+import pytz
+import os
+import threading
 import subprocess
 import requests
 import base64

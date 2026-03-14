@@ -647,7 +647,84 @@
                 background: white !important;
                 color: black !important;
             }
+        /* ===== PRINT ===== */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
 
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+
+      body::before {
+        display: none !important;
+      }
+
+      .header {
+        color: #000 !important;
+      }
+
+      .om-title {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+        background: none !important;
+      }
+
+      .page-title, .person-name, .time-value, .nakshatra-title {
+        color: #000 !important;
+        text-shadow: none !important;
+      }
+
+      .chart-container,
+      .box,
+      .center {
+        border: 2px solid #000 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+      }
+
+      .chart-title {
+        color: #000 !important;
+        border-bottom: 2px solid #000 !important;
+      }
+
+      .house-no, .rasi-name {
+        background: #eee !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .hand {
+        background: #eee !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+
+      .action-buttons,
+      .nav-buttons,
+      .back-btn,
+      .theme-switcher-container,
+      .fixed-bottom-bar,
+      .contact-footer,
+      .no-print {
+        display: none !important;
+      }
+
+      .lagna {
+        border: 3px solid #000 !important;
+        box-shadow: none !important;
+      }
+    }
             .header,
             .section-header,
             .table-container,
@@ -737,43 +814,84 @@
         }
 
         /* Theme Switcher */
-        .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 8px;
-            background: var(--card-bg);
-            padding: 6px;
-            border-radius: 30px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 4px 15px var(--shadow-color);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
+    .theme-switcher-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
 
-        .theme-btn {
-            background: transparent;
-            border: none;
-            font-size: 16px;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0.5;
-        }
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--shadow-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
 
-        .theme-btn:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-        }
+    .theme-toggle-btn:hover {
+      transform: scale(1.05);
+      background: rgba(120, 120, 120, 0.2);
+    }
 
-        .theme-btn.active {
-            opacity: 1;
-            background: rgba(120, 120, 120, 0.2);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    .theme-switcher {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 8px;
+      border-radius: 25px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 15px var(--shadow-color);
+      backdrop-filter: blur(10px);
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      visibility: hidden;
+    }
+
+    .theme-switcher.expanded {
+      max-height: 300px;
+      opacity: 1;
+      visibility: visible;
+      padding: 10px 8px;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+
+    .theme-btn:hover {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+
+    .theme-btn.active {
+      opacity: 1;
+      background: rgba(120, 120, 120, 0.2);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 
 {% set is_guru_party = (lagna in ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]) if lagna else True %}
@@ -782,15 +900,25 @@
     style="--guru-color: {{ '#00ff00' if is_guru_party else '#ff3333' }}; --shani-color: {{ '#ff3333' if is_guru_party else '#00ff00' }};">
 
     <!-- Theme Switcher -->
-    <div class="theme-switcher no-print">
-        <button class="theme-btn active" data-theme-btn="default" onclick="setTheme('default')"
-            title="Cosmic Mode">✨</button>
-        <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
-        <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
-        <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
-        <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
-        <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
+  <div class="theme-switcher-container no-print">
+    <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Toggle Themes">🎨</button>
+    <div class="theme-switcher" id="themeSwitcherMenu">
+      <button class="theme-btn active" data-theme-btn="default" onclick="setTheme('default')"
+        title="Cosmic Mode">✨</button>
+      <button class="theme-btn" data-theme-btn="light" onclick="setTheme('light')" title="Day Mode">☀️</button>
+      <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Dark Mode">🌙</button>
+      <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset Mode">🌅</button>
+      <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean Mode">🌊</button>
+      <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest Mode">🌲</button>
     </div>
+  </div>
+
+  <script>
+    function toggleThemeMenu() {
+      const menu = document.getElementById('themeSwitcherMenu');
+      menu.classList.toggle('expanded');
+    }
+  </script>
 
     <style>
         .guru-table .planet-name-cell,

@@ -1,4 +1,4 @@
-﻿from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import swisseph as swe
 import datetime
 import pytz
@@ -7,7 +7,7 @@ import threading
 import subprocess
 
 # Git path for Windows environment stability
-GIT_PATH = r'C:\Program Files\Git\cmd\git.exe'
+GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.6\resources\app\git\cmd\git.exe'
 
 app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
@@ -290,7 +290,8 @@ def log_user_to_github(name, dob, tob, place):
     """Log user data to user_data.txt and push to GitHub in the background."""
     def background_task(n, d, t, p):
         try:
-            log_file = "user_data.txt"
+            basedir = os.path.dirname(os.path.abspath(__file__))
+            log_file = os.path.join(basedir, "user_data.txt")
             serial_no = 1
             
             # Read the last serial number if the file exists
@@ -314,9 +315,10 @@ def log_user_to_github(name, dob, tob, place):
                 
             # Git add, commit, and push
             try:
-                res_add = subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True)
-                res_commit = subprocess.run(f'"{GIT_PATH}" commit -m "Log new user data for {n}"', check=True, capture_output=True, text=True, shell=True)
-                res_push = subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True)
+                # Add the absolute path to git command
+                res_add = subprocess.run(f'"{GIT_PATH}" add "{log_file}"', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
+                res_commit = subprocess.run(f'"{GIT_PATH}" commit -m "Log new user data for {n}"', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
+                res_push = subprocess.run(f'"{GIT_PATH}" push', check=True, capture_output=True, text=True, shell=True, cwd=basedir)
                 print(f"Successfully logged to Github. Push output: {res_push.stdout}")
             except subprocess.CalledProcessError as e:
                 print(f"Git subprocess error. Code: {e.returncode}")

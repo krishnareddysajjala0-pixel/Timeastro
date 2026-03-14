@@ -1029,6 +1029,38 @@
             }
         });
     </script>
+<!-- Scrolling Contact Footer -->
+<style>
+  body { padding-bottom: 40px; }
+  .contact-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 8px 0;
+    font-size: 15px;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+  }
+  .contact-footer marquee {
+    margin: 0;
+    vertical-align: middle;
+  }
+  .contact-phone {
+    color: #ffd700;
+    font-weight: bold;
+    margin: 0 5px;
+  }
+</style>
+<div class="contact-footer">
+  <marquee behavior="scroll" direction="left" scrollamount="6">
+    ఏవైనా సలహాలు మరియు మార్పుల కోసం <span class="contact-phone">9700836368</span> ని సంప్రదించండి.
+  </marquee>
+</div>
 
 </body>
 

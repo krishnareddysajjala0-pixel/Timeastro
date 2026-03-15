@@ -25,3 +25,4 @@
 24. [15-Mar-2026 11:55:48] Name: Balinenirajasekhar , DOB: 1994-08-15, TOB: 17:11, Place: Kurnool, Andhra Pradesh, 518001, India
 25. [15-Mar-2026 12:44:23] Name: Gopal reddy, DOB: 1972-08-02, TOB: 06:30, Place: Kandukur, Andhra Pradesh, 523105, India
 26. [15-Mar-2026 12:52:39] Name: K v ramana reddy, DOB: 1967-01-08, TOB: 04:00, Place: Singarayakonda, Prakasam, Andhra Pradesh, 523101, India
+27. [15-Mar-2026 12:55:27] Name: K v ramana teddy, DOB: 1967-01-08, TOB: 03:03, Place: Kandukur, Andhra Pradesh, 523105, India

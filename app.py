@@ -1795,5 +1795,170 @@ def manual_nakshatra():
     )
 
 
+def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight):
+    from astral import LocationInfo
+    from astral.sun import sun
+    
+    sun_lon = swe.calc_ut(jd, swe.SUN, PLANET_FLAGS)[0][0]
+    moon_lon = swe.calc_ut(jd, swe.MOON, PLANET_FLAGS)[0][0]
+    
+    diff = (moon_lon - sun_lon) % 360
+    tithi_index = int(diff / 12)
+    tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
+    tithi_type = "తెల్లని" if tithi_index < 15 else "నల్లని"
+    
+    if tithi_index < 15:
+        tt_name = TITHIS_TELUGU[tithi_index]
+    else:
+        tt_name = TITHIS_KRISHNA_TELUGU[tithi_index - 15]
+    
+    nak_index = int(moon_lon / NAKSHATRA_SIZE)
+    nakshatra = NAKSHATRAS_TELUGU[nak_index]
+    
+    suryodayam = "06:00 AM"
+    suryastamayam = "06:00 PM"
+    try:
+        loc = LocationInfo("Local", "Region", local_tz.zone, lat or 17.3850, lon or 78.4867)
+        s = sun(loc.observer, date=local_midnight.date(), tzinfo=local_tz)
+        suryodayam = s["sunrise"].strftime("%I:%M %p")
+        suryastamayam = s["sunset"].strftime("%I:%M %p")
+    except Exception:
+        pass
+        
+    return {
+        "tithi_num": f"{tithi_index%15 + 1}వ తిథి",
+        "tithi_desc": f"{tithi_type} {tt_name}",
+        "tithi_full": f"{tithi_paksha} {tt_name}",
+        "nakshatra": nakshatra,
+        "sunrise": suryodayam,
+        "sunset": suryastamayam
+    }
+
+@app.route("/daily_panchangam", methods=["GET", "POST"])
+def daily_panchangam():
+    today = datetime.datetime.now()
+    dob = request.form.get("dob") if request.method == "POST" else today.strftime("%Y-%m-%d")
+    tob = request.form.get("tob") if request.method == "POST" else today.strftime("%H:%M")
+    place = request.form.get("place", "Hyderabad, Telangana")
+    lat_str = request.form.get("lat")
+    lon_str = request.form.get("lon")
+    
+    lat = float(lat_str) if lat_str else 17.3850
+    lon = float(lon_str) if lon_str else 78.4867
+    
+    try:
+        from timezonefinder import TimezoneFinder
+        tf = TimezoneFinder()
+        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon) or "Asia/Kolkata"
+    except ImportError:
+        timezone_str = "Asia/Kolkata"
+        
+    local_tz = pytz.timezone(timezone_str)
+    try:
+        local_dt = local_tz.localize(datetime.datetime.strptime(dob+" "+tob,"%Y-%m-%d %H:%M"))
+    except Exception:
+        local_dt = datetime.datetime.now(local_tz)
+        
+    utc_dt = local_dt.astimezone(pytz.utc)
+    jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600)
+    local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight)
+    
+    return render_template(
+        "daily_panchangam.html",
+        dob=dob, tob=tob, place=place, lat=lat, lon=lon,
+        tithi_num=panch_data["tithi_num"],
+        tithi_desc=panch_data["tithi_desc"],
+        tithi_full=panch_data["tithi_full"],
+        nakshatra=panch_data["nakshatra"],
+        sunrise=panch_data["sunrise"], sunset=panch_data["sunset"]
+    )
+
+@app.route("/calendar_view", methods=["GET", "POST"])
+def calendar_view():
+    input_date = request.form.get("calendar_date")
+    if not input_date:
+        input_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        
+    lat = 17.3850
+    lon = 78.4867
+    local_tz = pytz.timezone("Asia/Kolkata")
+    
+    try:
+        date_obj = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+    except Exception:
+        date_obj = datetime.datetime.now()
+        input_date = date_obj.strftime("%Y-%m-%d")
+        
+    local_calc = local_tz.localize(date_obj.replace(hour=12))
+    utc_calc = local_calc.astimezone(pytz.utc)
+    jd_input = swe.julday(utc_calc.year, utc_calc.month, utc_calc.day, utc_calc.hour + utc_calc.minute/60.0)
+    
+    def find_amavasya(jd_guess):
+        jd_val = jd_guess
+        for _ in range(10):
+            m = swe.calc_ut(jd_val, swe.MOON)[0][0]
+            s = swe.calc_ut(jd_val, swe.SUN)[0][0]
+            df = (m - s) % 360
+            if df > 180: df -= 360
+            jd_val -= df / 12.190749
+            if abs(df) < 0.0001:
+                break
+        return jd_val
+        
+    sun_lon = swe.calc_ut(jd_input, swe.SUN, PLANET_FLAGS)[0][0]
+    moon_lon = swe.calc_ut(jd_input, swe.MOON, PLANET_FLAGS)[0][0]
+    diff = (moon_lon - sun_lon) % 360
+    days_since = diff / 12.190749
+    jd_start = find_amavasya(jd_input - days_since)
+    jd_end = find_amavasya(jd_input + (360 - diff)/12.190749)
+    
+    y, m_dt, d, h = swe.revjul(jd_start)
+    start_dt = datetime.datetime(y, m_dt, d).date() + datetime.timedelta(days=1)
+    
+    y2, m2_dt, d2, h2 = swe.revjul(jd_end)
+    end_dt = datetime.datetime(y2, m2_dt, d2).date()
+    
+    amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    rasi_idx = int((amavasya_sun_lon % 360) / 30)
+    masam_index = (rasi_idx + 1) % 12
+    telugu_masam_name = TELUGU_MASALU[masam_index]
+    
+    total_days = (end_dt - start_dt).days + 1
+    
+    days_data = {i: [] for i in range(7)}
+    EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+    
+    for offset in range(total_days):
+        current_dt = start_dt + datetime.timedelta(days=offset)
+        wd = (current_dt.weekday() + 1) % 7
+        
+        calc_dt = datetime.datetime.combine(current_dt, datetime.time(6, 0))
+        local_calc = local_tz.localize(calc_dt)
+        utc_calc = local_calc.astimezone(pytz.utc)
+        jd = swe.julday(utc_calc.year, utc_calc.month, utc_calc.day, utc_calc.hour + utc_calc.minute/60.0)
+        
+        panch = get_daily_panchangam_basic(jd, lat, lon, local_tz, calc_dt)
+        
+        days_data[wd].append({
+            "date": current_dt.day,
+            "month_te": EN_MONTHS_TELUGU[current_dt.month - 1],
+            "tithi_num": panch["tithi_num"],
+            "tithi_desc": panch["tithi_desc"],
+            "sunrise": panch["sunrise"],
+            "sunset": panch["sunset"]
+        })
+        
+    return render_template(
+        "calendar_view.html",
+        input_date=input_date,
+        days_data=days_data,
+        year=date_obj.year,
+        telugu_masam=telugu_masam_name,
+        start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",
+        end_dt_str=f"{end_dt.day} {EN_MONTHS_TELUGU[end_dt.month - 1]}"
+    )
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)

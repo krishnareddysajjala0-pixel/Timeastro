@@ -74,13 +74,19 @@
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid var(--card-border);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        @media (max-width: 768px) {
+            .panchangam-result { grid-template-columns: 1fr; }
         }
         .result-item {
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--card-border);
             padding: 15px;
             border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 0;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -147,33 +153,63 @@
             </form>
 
             <div class="panchangam-result">
+                <!-- Year & Masam -->
+                <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15;">
+                    <div class="result-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div>
+                        <div class="result-label">సంవత్సరం & మాసం (Year & Masath)</div>
+                        <div class="result-value">{{ panch.year }} నామ సంవత్సరం, {{ panch.masam }} మాసం</div>
+                    </div>
+                </div>
+
+                <!-- Ayanam & Rutuvu -->
+                <div class="result-item" style="grid-column: 1 / -1; background: rgba(160, 160, 255, 0.1);">
+                    <div class="result-icon"><i class="fas fa-compass"></i></div>
+                    <div>
+                        <div class="result-label">అయనం & ఋతువు (Ayanam & Rutuvu)</div>
+                        <div class="result-value">{{ panch.ayanam }}, {{ panch.rutuvu }} ఋతువు</div>
+                    </div>
+                </div>
+
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-moon"></i></div>
                     <div>
                         <div class="result-label">తిథి (Tithi)</div>
-                        <div class="result-value">{{ tithi_num }}, {{ tithi_desc }}</div>
-                        <div style="font-size: 12px; color: #a0a0ff;">({{ tithi_full }})</div>
+                        <div class="result-value">{{ panch.tithi_num }}, {{ panch.tithi_desc }}</div>
+                        <div style="font-size: 12px; color: #a0a0ff;">({{ panch.tithi_full }})</div>
+                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">ముగింపు: {{ panch.tithi_end }}</div>
                     </div>
                 </div>
+                
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-star"></i></div>
                     <div>
                         <div class="result-label">నక్షత్రం (Nakshatra)</div>
-                        <div class="result-value">{{ nakshatra }}</div>
+                        <div class="result-value">{{ panch.nakshatra }}</div>
+                        <div style="font-size: 12px; color: #facc15; margin-top: 4px;">ముగింపు: {{ panch.nak_end }}</div>
                     </div>
                 </div>
+
+                <div class="result-item">
+                    <div class="result-icon"><i class="fas fa-yin-yang"></i></div>
+                    <div>
+                        <div class="result-label">యోగం & కరణం (Yoga & Karana)</div>
+                        <div class="result-value">{{ panch.yoga }} యోగం, {{ panch.karana }} కరణం</div>
+                    </div>
+                </div>
+                
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-sun" style="color: #ff9800;"></i></div>
                     <div>
                         <div class="result-label">సూర్యోదయం (Sunrise)</div>
-                        <div class="result-value">{{ sunrise }}</div>
+                        <div class="result-value">{{ panch.sunrise }}</div>
                     </div>
                 </div>
-                <div class="result-item">
+                <div class="result-item" style="grid-column: 1 / -1;">
                     <div class="result-icon"><i class="fas fa-cloud-sun" style="color: #ff5722;"></i></div>
                     <div>
                         <div class="result-label">సూర్యాస్తమయం (Sunset)</div>
-                        <div class="result-value">{{ sunset }}</div>
+                        <div class="result-value">{{ panch.sunset }}</div>
                     </div>
                 </div>
             </div>

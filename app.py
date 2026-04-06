@@ -1795,13 +1795,16 @@ def manual_nakshatra():
     )
 
 
-def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight):
+def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=False):
     from astral import LocationInfo
     from astral.sun import sun
+    import datetime
+    import pytz
     
     sun_lon = swe.calc_ut(jd, swe.SUN, PLANET_FLAGS)[0][0]
     moon_lon = swe.calc_ut(jd, swe.MOON, PLANET_FLAGS)[0][0]
     
+    # 1. Tithi
     diff = (moon_lon - sun_lon) % 360
     tithi_index = int(diff / 12)
     tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
@@ -1811,9 +1814,65 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight):
         tt_name = TITHIS_TELUGU[tithi_index]
     else:
         tt_name = TITHIS_KRISHNA_TELUGU[tithi_index - 15]
+        
+    tithi_end_str = ""
+    nak_end_str = ""
     
+    if calc_end_times:
+        rem_deg = ((tithi_index + 1) * 12) - diff
+        if rem_deg < 0: rem_deg += 360
+        hours_rem = rem_deg / 0.5079
+        
+        nak_rem_deg = ((int(moon_lon / NAKSHATRA_SIZE) + 1) * NAKSHATRA_SIZE) - moon_lon
+        if nak_rem_deg < 0: nak_rem_deg += 360
+        nak_hours_rem = nak_rem_deg / 0.549
+        
+        def add_hours(dt, hrs):
+            h = int(hrs)
+            m = int((hrs - h) * 60)
+            target = dt + datetime.timedelta(hours=h, minutes=m)
+            # Ensure it outputs cleanly "రాత్రి 8:30" format roughly
+            time_str = target.strftime("%I:%M")
+            ampm = "ఉ" if target.hour < 12 else ("మ" if target.hour < 16 else ("సా" if target.hour < 20 else "రా"))
+            return f"{ampm} {time_str}"
+            
+        y, m, d, h = swe.revjul(jd)
+        jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
+        
+        tithi_end_str = add_hours(jd_dt, hours_rem)
+        nak_end_str = add_hours(jd_dt, nak_hours_rem)
+
+    # Nakshatra
     nak_index = int(moon_lon / NAKSHATRA_SIZE)
     nakshatra = NAKSHATRAS_TELUGU[nak_index]
+    
+    # Yoga
+    yoga_index = int(((sun_lon + moon_lon) % 360) / NAKSHATRA_SIZE)
+    yoga_name = YOGAS_TELUGU[yoga_index]
+    
+    # Karana
+    karana_idx = int(diff / 6) + 1
+    if karana_idx == 1: karana_name = "కింస్తుఘ్న"
+    elif 2 <= karana_idx <= 57: karana_name = KARANAS_MOVABLE[(karana_idx - 2) % 7]
+    elif karana_idx == 58: karana_name = "శకుని"
+    elif karana_idx == 59: karana_name = "చతుష్పాద"
+    elif karana_idx == 60: karana_name = "నాగ"
+    else: karana_name = "N/A"
+    
+    # Ayanam & Rutuvu
+    ayanam = "ఉత్తరాయణం" if (sun_lon >= 270 or sun_lon < 90) else "దక్షిణాయణం"
+    rutuvu = TELUGU_RUTUVULU[int((sun_lon % 360) / 60)]
+    
+    # Masam & Year
+    rasi_idx = int((sun_lon % 360) / 30)
+    masam_index = (rasi_idx + 1) % 12
+    telugu_masam_name = TELUGU_MASALU[masam_index]
+    
+    year = local_midnight.year
+    month = local_midnight.month
+    adj_year = year - 1 if (month <= 6 and masam_index >= 9) else year
+    year_index = (adj_year - 1987) % 60
+    telugu_year = TELUGU_YEARS[year_index]
     
     suryodayam = "06:00 AM"
     suryastamayam = "06:00 PM"
@@ -1829,7 +1888,15 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight):
         "tithi_num": f"{tithi_index%15 + 1}వ తిథి",
         "tithi_desc": f"{tithi_type} {tt_name}",
         "tithi_full": f"{tithi_paksha} {tt_name}",
+        "tithi_end": tithi_end_str,
         "nakshatra": nakshatra,
+        "nak_end": nak_end_str,
+        "yoga": yoga_name,
+        "karana": karana_name,
+        "ayanam": ayanam,
+        "rutuvu": rutuvu,
+        "masam": telugu_masam_name,
+        "year": telugu_year,
         "sunrise": suryodayam,
         "sunset": suryastamayam
     }
@@ -1863,16 +1930,12 @@ def daily_panchangam():
     jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600)
     local_midnight = local_dt.replace(hour=0, minute=0, second=0, microsecond=0)
     
-    panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight)
+    panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True)
     
     return render_template(
         "daily_panchangam.html",
         dob=dob, tob=tob, place=place, lat=lat, lon=lon,
-        tithi_num=panch_data["tithi_num"],
-        tithi_desc=panch_data["tithi_desc"],
-        tithi_full=panch_data["tithi_full"],
-        nakshatra=panch_data["nakshatra"],
-        sunrise=panch_data["sunrise"], sunset=panch_data["sunset"]
+        panch=panch_data
     )
 
 @app.route("/calendar_view", methods=["GET", "POST"])
@@ -1927,28 +1990,38 @@ def calendar_view():
     
     total_days = (end_dt - start_dt).days + 1
     
-    days_data = {i: [] for i in range(7)}
+    # We organize by 6 possible weeks for each of 7 days
+    # So days_data[wd][week_idx] will be a dictionary or None
+    days_data = {i: [None]*6 for i in range(7)}
     EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+    
+    first_wd = (start_dt.weekday() + 1) % 7 # 0 = Sun
     
     for offset in range(total_days):
         current_dt = start_dt + datetime.timedelta(days=offset)
         wd = (current_dt.weekday() + 1) % 7
+        
+        # Calculate week index
+        week_idx = (offset + first_wd) // 7
         
         calc_dt = datetime.datetime.combine(current_dt, datetime.time(6, 0))
         local_calc = local_tz.localize(calc_dt)
         utc_calc = local_calc.astimezone(pytz.utc)
         jd = swe.julday(utc_calc.year, utc_calc.month, utc_calc.day, utc_calc.hour + utc_calc.minute/60.0)
         
-        panch = get_daily_panchangam_basic(jd, lat, lon, local_tz, calc_dt)
+        panch = get_daily_panchangam_basic(jd, lat, lon, local_tz, calc_dt, calc_end_times=True)
         
-        days_data[wd].append({
+        days_data[wd][week_idx] = {
             "date": current_dt.day,
             "month_te": EN_MONTHS_TELUGU[current_dt.month - 1],
             "tithi_num": panch["tithi_num"],
             "tithi_desc": panch["tithi_desc"],
+            "tithi_end": panch["tithi_end"],
+            "nakshatra": panch["nakshatra"],
+            "nak_end": panch["nak_end"],
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"]
-        })
+        }
         
     return render_template(
         "calendar_view.html",

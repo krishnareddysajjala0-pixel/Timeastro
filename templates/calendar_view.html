@@ -209,32 +209,35 @@
             </div>
             
             <div class="cal-cells">
-                {% for day_data in days_data[wd] %}
+                {% for week_idx in range(6) %}
+                {% set day_data = days_data[wd][week_idx] %}
+                {% if day_data %}
                 <div class="cal-cell">
                     <div class="tithi-text">
                         <span>{{ day_data.tithi_num }}</span>
                         <span class="tithi-sub">{{ day_data.tithi_desc }}</span>
                     </div>
+                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">ఉ.స: {{ day_data.tithi_end }}</div>
                     
                     <div class="date-section">
                         <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
                         <div class="month-text">{{ day_data.month_te }}</div>
                     </div>
                     
+                    <div class="nak-info" style="font-size: 11px; margin-top: 5px; color: #1565c0; font-weight: bold;">
+                        {{ day_data.nakshatra }}
+                        <span style="font-size: 10px; color: #777; display: block; font-weight: normal;">ఉ.స: {{ day_data.nak_end }}</span>
+                    </div>
+
                     <div class="sun-times">
                         <span>ఉ {{ day_data.sunrise.split(' ')[0] }}</span>
                         <span>సా {{ day_data.sunset.split(' ')[0] }}</span>
                     </div>
                 </div>
-                {% endfor %}
-                
-                <!-- Fill empty cells if a row has fewer items so grid looks aligned -->
-                {% set row_len = days_data[wd]|length %}
-                {% if row_len < 6 %}
-                    {% for _ in range(6 - row_len) %}
-                    <div class="cal-cell empty-cell"></div>
-                    {% endfor %}
+                {% else %}
+                <div class="cal-cell empty-cell"></div>
                 {% endif %}
+                {% endfor %}
             </div>
         </div>
         {% endfor %}

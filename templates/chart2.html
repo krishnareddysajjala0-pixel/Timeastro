@@ -1445,23 +1445,26 @@
                 <div><span style="color: #a0a0ff;">మొత్తం వ్యవధి:</span> <span style="color: #6bcf7f; font-weight: bold;">{{ total_cycle_years }} సం.</span></div>
                 <div><span style="color: #a0a0ff;">ప్రస్తుత సంవత్సరం:</span> <span style="color: #ffd93d; font-weight: bold;">{{ current_year }}</span></div>
             </div>
+
+            <!-- Page 1 Extra Matter (Moved from bottom) -->
+            <div class="first-page-extra" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center;">
+                <div style="margin-bottom: 5px; color: #a0a0ff;">
+                    జన్మ వివరాలు: <span style="color: #fff;">{{ dob }} | {{ tob }} | {{ place }} | {{ nakshatra }} ({{ padam }} పాదం)</span>
+                </div>
+                <div style="color: #ffd700; font-size: 12px;">
+                    ఏవైనా సలహాలు మరియు మార్పుల కోసం 9700836368 ని సంప్రదించండి.
+                </div>
+                <div style="margin-top: 5px; color: #ff9999; font-size: 11px; font-style: italic;">
+                    ⚠️ ఈ గణనలు జ్యోతిష్య శాస్త్ర మరియు పంచాంగం సూత్రాల ప్రకారం మాత్రమే.
+                </div>
+            </div>
+
         </div>
 
 
 
-        <!-- Footer -->
-        <div class="footer" style="padding-bottom: 20px;">
-            <div style="margin-bottom: 10px;">
-                జన్మ వివరాలు: {{ dob }} | సమయం: {{ tob }} | స్థలం: {{ place }} | నక్షత్రం: {{ nakshatra }} ({{ padam }}
-                పాదం)
-            </div>
-            <div style="margin-bottom: 10px;">
-                రిపోర్ట్ జనరేట్ చేసిన తేదీ: {{ now_date }}
-            </div>
-            <div class="disclaimer">
-                ⚠️ ఈ గణనలు జ్యోతిష్య శాస్త్ర మరియు పంచాంగం సూత్రాల ప్రకారం మాత్రమే. సలహా కోసం నిపుణులను సంప్రదించండి.
-            </div>
-        </div>
+        <!-- Footer items moved to top -->
+
     </div>
 
     <!-- Floating Bottom Action Bar -->
@@ -1737,11 +1740,8 @@
     </script>
 
 
-  <div class="scrolling-footer">
-    <div class="scrolling-footer-text">
-       ఏవైనా సలహాలు మరియు మార్పుల కోసం 9700836368 ని సంప్రదించండి.
-    </div>
-  </div>
+  <!-- Scrolling footer moved to top area for PDF consistency -->
+
 </body>
 
 </html>

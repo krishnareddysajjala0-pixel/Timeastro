@@ -1181,7 +1181,7 @@
 
       <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
         onclick="window.location.href='/go-to-dasha-chart'">
-        <i class="fas fa-calendar-alt"></i> దశాచార
+        <i class="fas fa-calendar-alt"></i> దశాచారము
       </button>
       <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
         onclick="window.location.href='/results'">
@@ -1313,21 +1313,6 @@
         form.submit();
       };
 
-        {% if lagna_deg is defined and lagna_deg %}
-        fields['lagna_deg'] = '{{ lagna_deg }}';
-        {% endif %}
-
-        for (const [key, value] of Object.entries(fields)) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = value;
-          form.appendChild(input);
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-      }
 
       function shareChart() {
         const shareData = {

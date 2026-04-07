@@ -1632,26 +1632,7 @@
 
             document.body.appendChild(form);
             form.submit();
-        }
-
-        function goToCorrection() {
-            // Create a form dynamically to submit to /manual_nakshatra route
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/manual_nakshatra';
-            form.style.display = 'none';
-
-            // Add all necessary fields
-            const fields = {
-                'dob': '{{ dob }}',
-                'tob': '{{ tob }}',
-                'name': '{{ name }}',
-                'place': '{{ place }}',
-                'nak_index': '{{ nak_index|default(0) }}',
-                'elapsed_h': '{{ elapsed_h|default(0) }}',
-                'elapsed_m': '{{ elapsed_m|default(0) }}',
-                'nakshatra': '{{ nakshatra }}'
-            };
+        };
 
             for (const [key, value] of Object.entries(fields)) {
                 const input = document.createElement('input');

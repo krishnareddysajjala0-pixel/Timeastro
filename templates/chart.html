@@ -1192,10 +1192,6 @@
         <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
       </button>
 
-      <button class="float-btn" style="background: linear-gradient(135deg, #ff9800, #f57c00);"
-        onclick="goToCorrection()">
-        <i class="fas fa-edit"></i> నక్షత్ర సవరణ
-      </button>
       <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
         onclick="window.print()">
         <i class="fas fa-file-pdf"></i> ప్రింట్
@@ -1315,26 +1311,7 @@
 
         document.body.appendChild(form);
         form.submit();
-      }
-
-      function goToCorrection() {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/manual_nakshatra';
-        form.style.display = 'none';
-
-        const fields = {
-          'dob': '{{ dob }}',
-          'tob': '{{ tob }}',
-          'name': '{{ name }}',
-          'place': '{{ place }}',
-          'nakshatra': '{{ nakshatra }}',
-          'nak_index': '{{ nak_index }}',
-          'elapsed_h': '{{ elapsed_h }}',
-          'elapsed_m': '{{ elapsed_m }}',
-          'lat': '{{ lat }}',
-          'lon': '{{ lon }}'
-        };
+      };
 
         {% if lagna_deg is defined and lagna_deg %}
         fields['lagna_deg'] = '{{ lagna_deg }}';

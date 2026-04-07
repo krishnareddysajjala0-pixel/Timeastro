@@ -124,12 +124,13 @@
             width: 100%; 
             max-width: 500px; 
             aspect-ratio: 1; 
-            border: 2px solid #ffd700; 
+            border: 3px solid #ffd700; 
             background: rgba(0,0,0,0.4);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            animation: rainbow-border 3s linear infinite;
         }
         .box-c { 
-            border: 1px solid rgba(255, 215, 0, 0.3); 
+            border: 1px solid rgba(255, 215, 0, 0.4); 
             padding: 5px; 
             position: relative; 
             display: flex; 
@@ -139,6 +140,17 @@
             font-size: 11px; 
             color: #fff;
             min-height: 70px;
+            transition: border-color 0.3s ease;
+        }
+
+        @keyframes rainbow-border {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.3); }
+            16% { border-color: #ff8000; box-shadow: 0 0 15px rgba(255,128,0,0.3); }
+            33% { border-color: #ffff00; box-shadow: 0 0 15px rgba(255,255,0,0.3); }
+            50% { border-color: #00ff00; box-shadow: 0 0 15px rgba(0,255,0,0.3); }
+            66% { border-color: #0000ff; box-shadow: 0 0 15px rgba(0,0,255,0.3); }
+            83% { border-color: #8b00ff; box-shadow: 0 0 15px rgba(139,0,255,0.3); }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.3); }
         }
         .center-c { 
             grid-column: 2 / span 2; 
@@ -182,9 +194,29 @@
             gap: 10px;
         }
         .hand { color: #facc15; }
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 30, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100000; color: #ffd700; font-family: 'Segoe UI', cursive;
+        }
+        .loader-astro {
+            width: 60px; height: 60px;
+            border: 5px solid rgba(255,215,0,0.2);
+            border-top: 5px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, rainbow-border 3s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+    <div id="loading-overlay">
+        <div class="loader-astro"></div>
+        <p style="font-size: 20px; font-weight: bold;">గణన చేస్తోంది...</p>
+    </div>
 <style>
 .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,41,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; backdrop-filter: blur(5px); }
 .spinner { width: 50px; height: 50px; border: 5px solid rgba(255, 215, 0, 0.3); border-top-color: #ffd700; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
@@ -424,5 +456,25 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
             <span>క్యాలెండర్</span>
         </a>
     </div>
+    <script>
+        function showLoader() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+        
+        // Navigation auto-loader
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(!this.href.includes('#')) showLoader();
+            });
+        });
+
+        // Form submission loader
+        const showForm = document.querySelector('form');
+        if(showForm) {
+            showForm.addEventListener('submit', function() {
+                showLoader();
+            });
+        }
+    </script>
 </body>
 </html>

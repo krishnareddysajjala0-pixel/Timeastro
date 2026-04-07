@@ -24,11 +24,36 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+            animation: rainbow-text 3s linear infinite;
         }
         
-        .header-branding { font-size: 14px; border-bottom: 1px solid rgba(255,255,0,0.3); padding-bottom: 4px; }
-        .header-masam { font-size: 18px; color: yellow; }
+        .header-branding { 
+            font-size: 14px; 
+            border-bottom: 2px solid yellow; 
+            padding-bottom: 4px; 
+            animation: rainbow-border 3s linear infinite;
+        }
+        .header-masam { font-size: 18px; color: yellow; animation: rainbow-text 3s linear infinite; }
         .header-pakshams { font-size: 13px; color: #fff; font-weight: normal; }
+
+        @keyframes rainbow-border {
+            0% { border-color: #ff0000; }
+            16% { border-color: #ff8000; }
+            33% { border-color: #ffff00; }
+            50% { border-color: #00ff00; }
+            66% { border-color: #0000ff; }
+            83% { border-color: #8b00ff; }
+            100% { border-color: #ff0000; }
+        }
+        @keyframes rainbow-text {
+            0% { color: #ff0000; }
+            16% { color: #ff8000; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #0000ff; }
+            83% { color: #8b00ff; }
+            100% { color: #ff0000; }
+        }
 
         .search-bar { background: rgba(0,0,0,0.5); padding: 10px; text-align: center; }
         .search-bar form { display: inline-flex; gap: 8px; align-items: center; }
@@ -174,9 +199,29 @@
             .sun-times { font-size: 7px; flex-direction: column; }
             .festival-name-tag { font-size: 8px; }
         }
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 30, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100000; color: #ffd700; font-family: 'Segoe UI', cursive;
+        }
+        .loader-astro {
+            width: 60px; height: 60px;
+            border: 5px solid rgba(255,215,0,0.2);
+            border-top: 5px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, rainbow-border 3s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+    <div id="loading-overlay">
+        <div class="loader-astro"></div>
+        <p style="font-size: 20px; font-weight: bold;">గణన చేస్తోంది...</p>
+    </div>
     <div class="header-top">
         <div class="header-branding">
             {{ year_name }} నామ సంవత్సరం ({{ year_index }}), కలియుగ సంవత్సరం-{{ kaliyuga_year }}, త్రైత శకము-{{ thraitha_sakamu }}
@@ -258,5 +303,25 @@
             <span>క్యాలెండర్</span>
         </a>
     </div>
+    <script>
+        function showLoader() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+        
+        // Navigation auto-loader
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(!this.href.includes('#')) showLoader();
+            });
+        });
+
+        // Form submission loader
+        const showForm = document.querySelector('form');
+        if(showForm) {
+            showForm.addEventListener('submit', function() {
+                showLoader();
+            });
+        }
+    </script>
 </body>
 </html>

@@ -242,6 +242,8 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
             ("శని దినము", "శనివారము")
         ] %}
 
+        {% set ns = namespace(fest_idx=0) %}
+
         {% for wd in range(7) %}
         <div class="cal-row">
             <div class="day-header day-{{ wd }}">
@@ -268,12 +270,17 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     <div class="nakshatra-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">{{ day_data.calendar_nak_end }} వరకు</div>
                     
                     <div class="sun-times" style="font-size: 9px; color: #888; margin-top: 5px;">
-                        <div>సూర్యోదయం ఉ {{ day_data.sunrise.split(' ')[0] }}</div>
-                        <div>సూర్యాస్తమయం సా {{ day_data.sunset.split(' ')[0] }}</div>
+                        <div>సూ.ఉ {{ day_data.sunrise.split(' ')[0] }}</div>
+                        <div>సూ.స్త {{ day_data.sunset.split(' ')[0] }}</div>
                     </div>
                 </div>
                 {% else %}
-                <div class="cal-cell empty-cell"></div>
+                <div class="cal-cell empty-cell" style="display: flex; align-items: center; justify-content: center; text-align: center; color: rgba(255, 215, 0, 0.7); font-size: 13px; font-weight: bold; background: rgba(0,0,0,0.2);">
+                    {% if ns.fest_idx < festivals|length %}
+                        {{ festivals[ns.fest_idx] }}
+                        {% set ns.fest_idx = ns.fest_idx + 1 %}
+                    {% endif %}
+                </div>
                 {% endif %}
                 {% endfor %}
             </div>

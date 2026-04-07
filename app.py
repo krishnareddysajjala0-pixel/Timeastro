@@ -2140,6 +2140,22 @@ def calendar_view():
     masam_index = (rasi_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
+    FESTIVALS_BY_MASAM = {
+        "చైత్ర": ["ఉగాది", "శ్రీరామ నవమి", "అంబేద్కర్ జయ."],
+        "వైశాఖ": ["అక్షయ తృతీయ", "బుద్ధ పూర్ణిమ"],
+        "జ్యేష్ఠ": ["వట సావిత్రి వ్రతం", "నిర్జల ఏకాదశి"],
+        "ఆషాఢ": ["తొలి ఏకాదశి", "గురు పూర్ణిమ", "బోనాలు"],
+        "శ్రావణ": ["వరాహలక్ష్మీ వ్రతం", "నాగుల పంచమి", "కృష్ణాష్టమి"],
+        "భాద్రపద": ["వినాయక చవితి", "అనంత పద్మనాభ వ్రతం"],
+        "ఆశ్వయుజ": ["దసరా శరన్నవరాత్రులు", "బతుకమ్మ", "విజయదశమి", "దీపావళి"],
+        "కార్తీక": ["నాగుల చవితి", "కార్తీక పూర్ణిమ"],
+        "మార్గశిర": ["శ్రీ దత్తాత్రేయ జయంతి", "భగవద్గీత జయంతి"],
+        "పుష్య": ["భోగి", "మకర సంక్రాంతి", "కనుమ"],
+        "మాఘ": ["వసంత పంచమి", "మహా శివరాత్రి"],
+        "ఫాల్గుణ": ["హోలీ", "కామదహనం"]
+    }
+    festivals = FESTIVALS_BY_MASAM.get(telugu_masam_name, [])
+    
     total_days = (end_dt - start_dt).days + 1
     
     # We organize by 6 possible weeks for each of 7 days
@@ -2180,6 +2196,7 @@ def calendar_view():
     return render_template(
         "calendar_view.html",
         input_date=input_date,
+        festivals=festivals,
         days_data=days_data,
         year=date_obj.year,
         telugu_masam=telugu_masam_name,

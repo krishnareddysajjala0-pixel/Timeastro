@@ -371,13 +371,15 @@
         .data-table th {
             background: transparent;
             color: var(--text-muted);
-            padding: 10px 15px;
+            padding: 12px 15px;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             border-bottom: 2px solid var(--card-border);
+            vertical-align: middle;
+            display: table-cell;
         }
 
         .data-table td {
@@ -388,6 +390,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             vertical-align: middle;
+            display: table-cell !important;
         }
 
         .data-table tbody tr {
@@ -487,12 +490,8 @@
         /* Gemstone Cells */
         .gemstone-cell {
             font-weight: 600;
-        }
-
-        /* Gemstone Cells */
-        .gemstone-cell {
-            font-weight: 600;
             padding: 12px 10px !important;
+            white-space: nowrap;
         }
 
         /* Category Cells */
@@ -511,6 +510,7 @@
 
         .direction-cell {
             color: #00d2ff;
+            white-space: nowrap;
         }
 
         .direction-icon {

@@ -172,6 +172,28 @@
             .tithi-text { font-size: 12px; flex-direction: column; }
             .month-text { font-size: 12px; }
         }
+        .festival-cell {
+            background: rgba(255, 215, 0, 0.15) !important;
+            border: 1px solid rgba(255, 215, 0, 0.5) !important;
+            position: relative;
+        }
+        .festival-name-tag {
+            font-size: 10px;
+            color: #facc15;
+            font-weight: bold;
+            display: block;
+            margin-top: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .mana-pandugalu-header {
+            color: #facc15;
+            font-size: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -255,7 +277,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 {% for week_idx in range(6) %}
                 {% set day_data = days_data[wd][week_idx] %}
                 {% if day_data %}
-                <div class="cal-cell">
+                <div class="cal-cell {% if day_data.is_festival %}festival-cell{% endif %}">
                     <div class="tithi-text">
                         <span style="font-size:14px;">{{ day_data.tithi_full }}</span>
                     </div>
@@ -273,11 +295,20 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                         <div>సూ.ఉ {{ day_data.sunrise.split(' ')[0] }}</div>
                         <div>సూ.స్త {{ day_data.sunset.split(' ')[0] }}</div>
                     </div>
+                    
+                    {% if day_data.is_festival %}
+                    <div class="festival-name-tag">{{ day_data.fest_name }}</div>
+                    {% endif %}
                 </div>
                 {% else %}
-                <div class="cal-cell empty-cell" style="display: flex; align-items: center; justify-content: center; text-align: center; color: rgba(255, 215, 0, 0.7); font-size: 13px; font-weight: bold; background: rgba(0,0,0,0.2);">
-                    {% if ns.fest_idx < festivals|length %}
-                        {{ festivals[ns.fest_idx] }}
+                <div class="cal-cell empty-cell" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: rgba(255, 215, 0, 0.8); font-size: 12px; background: rgba(0,0,0,0.3); padding: 5px;">
+                    {% if ns.fest_idx == 0 %}
+                        <div class="mana-pandugalu-header">మన పండుగలు</div>
+                        {% set ns.fest_idx = 1 %}
+                    {% elif (ns.fest_idx - 1) < festivals|length %}
+                        {% set f = festivals[ns.fest_idx - 1] %}
+                        <div style="font-weight: bold; color: #facc15;">{{ f.day }}</div>
+                        <div style="font-size: 11px;">{{ f.name }}</div>
                         {% set ns.fest_idx = ns.fest_idx + 1 %}
                     {% endif %}
                 </div>

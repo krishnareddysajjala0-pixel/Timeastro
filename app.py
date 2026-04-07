@@ -1880,49 +1880,43 @@ def daily_panchangam():
     
     panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True)
     
+    chart_data = {}
+    rasi_houses = {}
+    lagna = ""
+    
     try:
-        from app import chart
-        # The logic is deeply embedded in chart(). We only want the array parts.
-        # It's better to just re-implement the short calculation here:
-        import swisseph as swe
-        
-        PLANETS = {
-            "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
-            "బుధ": swe.MERCURY, "గురు": swe.JUPITER, "శుక్ర": swe.VENUS, "శని": swe.SATURN
-        }
-        RASI_TELUGU = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
-        
+        # Re-implementing the planetary positions calculation for the daily chart
+        # to avoid circular imports and ensure consistent data structure
         chart_data_temp = {r:[] for r in RASI_TELUGU}
         base_pos = {}
-        for name_p, pid in PLANETS.items():
-            lonp = swe.calc_ut(jd, pid, 2|256)[0][0]
+        
+        # Use a list of visible planets for the daily chart
+        DAILY_PLANETS = {
+            "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
+            "బుధుడు": swe.MERCURY, "గురువు": swe.JUPITER, "శుక్రుడు": swe.VENUS, "శని": swe.SATURN,
+            "రాహు": swe.MEAN_NODE
+        }
+        
+        for name_p, pid in DAILY_PLANETS.items():
+            res = swe.calc_ut(jd, pid, PLANET_FLAGS)
+            lonp = res[0][0]
             base_pos[name_p] = lonp
             r = RASI_TELUGU[int(lonp/30)]
             d = int(lonp%30); m = int(((lonp%30)-d)*60)
             chart_data_temp[r].append((lonp%30, f"<b>{name_p}</b> <small>{d}°{m:02d}′</small>"))
             
-        rahu = base_pos.get("రాహు", 0)
-        ketu = (rahu + 180) % 360
-        r = RASI_TELUGU[int(ketu/30)]
-        d = int(ketu%30); m = int(((ketu%30)-d)*60)
-        chart_data_temp[r].append((ketu%30, f"<b>కేతు</b> <small>{d}°{m:02d}′</small>"))
-        base_pos["కేతు"] = ketu
-        
-        der = {"భూమి": (base_pos.get("సూర్యుడు", 0)+180)%360, "చిత్ర": (rahu+3.3333)%360, "మిత్ర": (ketu+3.3333)%360}
-        for n, lonp in der.items():
-            r = RASI_TELUGU[int(lonp/30)]
-            d = int(lonp%30); m = int(((lonp%30)-d)*60)
-            chart_data_temp[r].append((lonp%30, f"<b>{n}</b> <small>{d}°{m:02d}′</small>"))
-            
-        # hands
-        for n, base in base_pos.items():
-            hl = (base + 180)%360
-            r = RASI_TELUGU[int(hl/30)]
-            d = int(hl%30); min_val = int(((hl%30)-d)*60)
-            chart_data_temp[r].append((hl%30, f"<span class='hand'><span style='font-size: 0.7em;'>👉</span> {n} <small>{d}°{min_val:02d}′</small></span>"))
-            
+        # Add Ketu (180 deg from Rahu)
+        rahu_lon = base_pos.get("రాహు", 0)
+        ketu_lon = (rahu_lon + 180) % 360
+        r_k = RASI_TELUGU[int(ketu_lon/30)]
+        dk = int(ketu_lon%30); mk = int(((ketu_lon%30)-dk)*60)
+        chart_data_temp[r_k].append((ketu_lon%30, f"<b>కేతు</b> <small>{dk}°{mk:02d}′</small>"))
+
+        # Calculate Lagna
         hus, ascmc = swe.houses(jd, lat, lon)
-        lagna_lon = (ascmc[0] - swe.get_ayanamsa_ut(jd)) % 360
+        # ascmc[0] is tropical ascendant. We need sidereal.
+        ayanamsa = swe.get_ayanamsa_ut(jd)
+        lagna_lon = (ascmc[0] - ayanamsa) % 360
         lagna = RASI_TELUGU[int(lagna_lon/30)]
         lagna_deg = int(lagna_lon%30); lagna_min = int(((lagna_lon%30)-lagna_deg)*60)
         chart_data_temp[lagna].append((lagna_lon%30, f"<b>లగ్నం</b> <small>{lagna_deg}°{lagna_min:02d}′</small>"))
@@ -1935,7 +1929,7 @@ def daily_panchangam():
         panch_data['houses'] = rasi_houses
         panch_data['lagna'] = lagna
     except Exception as e:
-        print("Error computing chart for daily panchangam", e)
+        print("Error computing chart for daily panchangam:", e)
 
     
     return render_template(
@@ -1994,26 +1988,47 @@ def calendar_view():
     masam_index = (rasi_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
-    FESTIVALS_BY_MASAM = {
-        "చైత్ర": ["ఉగాది", "శ్రీరామ నవమి", "అంబేద్కర్ జయ."],
-        "వైశాఖ": ["అక్షయ తృతీయ", "బుద్ధ పూర్ణిమ"],
-        "జ్యేష్ఠ": ["వట సావిత్రి వ్రతం", "నిర్జల ఏకాదశి"],
-        "ఆషాఢ": ["తొలి ఏకాదశి", "గురు పూర్ణిమ", "బోనాలు"],
-        "శ్రావణ": ["వరాహలక్ష్మీ వ్రతం", "నాగుల పంచమి", "కృష్ణాష్టమి"],
-        "భాద్రపద": ["వినాయక చవితి", "అనంత పద్మనాభ వ్రతం"],
-        "ఆశ్వయుజ": ["దసరా శరన్నవరాత్రులు", "బతుకమ్మ", "విజయదశమి", "దీపావళి"],
-        "కార్తీక": ["నాగుల చవితి", "కార్తీక పూర్ణిమ"],
-        "మార్గశిర": ["శ్రీ దత్తాత్రేయ జయంతి", "భగవద్గీత జయంతి"],
-        "పుష్య": ["భోగి", "మకర సంక్రాంతి", "కనుమ"],
-        "మాఘ": ["వసంత పంచమి", "మహా శివరాత్రి"],
-        "ఫాల్గుణ": ["హోలీ", "కామదహనం"]
+    # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
+    # Paksham: 0 for Shukla, 1 for Krishna
+    FEST_MAP = {
+        ("చైత్ర", 0, "పాడ్యమి"): "ఉగాది",
+        ("చైత్ర", 0, "నవమి"): "శ్రీరామ నవమి",
+        ("వైశాఖ", 0, "తదియ"): "అక్షయ తృతీయ",
+        ("వైశాఖ", 0, "పౌర్ణమి"): "బుద్ధ పూర్ణిమ",
+        ("జ్యేష్ఠ", 0, "ఏకాదశి"): "నిర్జల ఏకాదశి",
+        ("ఆషాఢ", 0, "ఏకాదశి"): "తొలి ఏకాదశి",
+        ("ఆషాఢ", 0, "పౌర్ణమి"): "గురు పూర్ణిమ",
+        ("శ్రావణ", 0, "చవితి"): "నాగుల చవితి",
+        ("శ్రావణ", 0, "పంచమి"): "నాగుల పంచమి",
+        ("శ్రావణ", 1, "అష్టమి"): "కృష్ణాష్టమి",
+        ("భాద్రపద", 0, "చవితి"): "వినాయక చవితి",
+        ("భాద్రపద", 0, "చతుర్దశి"): "అనంత చతుర్దశి",
+        ("ఆశ్వయుజ", 0, "దశమి"): "విజయదశమి (దసరా)",
+        ("ఆశ్వయుజ", 1, "అమావాస్య"): "దీపావళి",
+        ("కార్తీక", 0, "ద్వాదశి"): "చిలుకు ద్వాదశి",
+        ("కార్తీక", 0, "పౌర్ణమి"): "కార్తీక పూర్ణిమ",
+        ("మార్గశిర", 0, "పౌర్ణమి"): "దత్తాత్రేయ జయంతి",
+        ("పుష్య", 0, "ఏకాదశి"): "వైకుంఠ ఏకాదశి",
+        ("మాఘ", 0, "పంచమి"): "వసంత పంచమి",
+        ("మాఘ", 1, "చతుర్దశి"): "మహా శివరాత్రి",
+        ("ఫాల్గుణ", 0, "పౌర్ణమి"): "హోలీ"
     }
-    festivals = FESTIVALS_BY_MASAM.get(telugu_masam_name, [])
+    
+    # Date based festivals
+    DATE_FESTS = {
+        (4, 14): "అంబేద్కర్ జయంతి",
+        (8, 15): "స్వాతంత్ర దినోత్సవం",
+        (10, 2): "గాంధీ జయంతి",
+        (1, 14): "మకర సంక్రాంతి",
+        (1, 13): "భోగి",
+        (1, 15): "కనుమ"
+    }
+
+    festivals_list = []
     
     total_days = (end_dt - start_dt).days + 1
     
     # We organize by 6 possible weeks for each of 7 days
-    # So days_data[wd][week_idx] will be a dictionary or None
     days_data = {i: [None]*6 for i in range(7)}
     EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
     
@@ -2022,8 +2037,6 @@ def calendar_view():
     for offset in range(total_days):
         current_dt = start_dt + datetime.timedelta(days=offset)
         wd = (current_dt.weekday() + 1) % 7
-        
-        # Calculate week index
         week_idx = (offset + first_wd) // 7
         
         calc_dt = datetime.datetime.combine(current_dt, datetime.time(6, 0))
@@ -2033,10 +2046,28 @@ def calendar_view():
         
         panch = get_daily_panchangam_basic(jd, lat, lon, local_tz, calc_dt, calc_end_times=True)
         
+        # Check for festival
+        f_name = ""
+        pks = 0 if "శుక్ల" in panch["paksha"] else 1
+        # Extract tithi name (removing suffix like '1వ తిథి' if any, or just use naming from panch)
+        t_name = panch["tithi_full"]
+        m_name = panch["masam"]
+        
+        # Match from map
+        key = (m_name, pks, t_name)
+        f_name = FEST_MAP.get(key, "")
+        
+        # Match from date
+        d_key = (current_dt.month, current_dt.day)
+        if not f_name:
+            f_name = DATE_FESTS.get(d_key, "")
+            
+        if f_name:
+            festivals_list.append({"day": current_dt.day, "name": f_name})
+            
         days_data[wd][week_idx] = {
             "date": current_dt.day,
             "month_te": EN_MONTHS_TELUGU[current_dt.month - 1],
-            "tithi_num": panch["tithi_num"],
             "tithi_full": panch["tithi_full"],
             "tithi_end": panch["tithi_end"],
             "calendar_tithi_end": panch.get("calendar_tithi_end", ""),
@@ -2044,13 +2075,15 @@ def calendar_view():
             "nak_end": panch["nak_end"],
             "calendar_nak_end": panch.get("calendar_nak_end", ""),
             "sunrise": panch["sunrise"],
-            "sunset": panch["sunset"]
+            "sunset": panch["sunset"],
+            "is_festival": bool(f_name),
+            "fest_name": f_name
         }
         
     return render_template(
         "calendar_view.html",
         input_date=input_date,
-        festivals=festivals,
+        festivals=festivals_list,
         days_data=days_data,
         year=date_obj.year,
         telugu_masam=telugu_masam_name,

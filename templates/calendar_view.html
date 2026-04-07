@@ -17,8 +17,8 @@
             background: #ab1f22; /* Dark red */
             color: yellow;
             text-align: center;
-            padding: 15px;
-            font-size: 20px;
+            padding: 10px;
+            font-size: 18px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -26,48 +26,34 @@
             flex-wrap: wrap;
         }
         
-        .header-top span { margin: 5px 15px; }
+        .header-top span { margin: 2px 10px; }
 
-        .search-bar { background: rgba(0,0,0,0.5); padding: 15px; text-align: center; }
-        .search-bar form { display: inline-flex; gap: 10px; align-items: center; }
-        .search-bar input[type="date"] { padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
-        .search-bar button { padding: 10px 20px; background: #facc15; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
+        .search-bar { background: rgba(0,0,0,0.5); padding: 10px; text-align: center; }
+        .search-bar form { display: inline-flex; gap: 8px; align-items: center; }
+        .search-bar input[type="date"] { padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
+        .search-bar button { padding: 6px 12px; background: #facc15; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 14px; }
 
-        /* The Transposed Grid Container */
         .calendar-container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
             width: 100%;
             max-width: 1200px;
-            margin: 20px auto;
-            border-top: 2px solid white;
-            border-right: 2px solid white;
-            background: white;
-            color: black;
-        }
-
-        .cal-row {
-            display: flex;
-            border-bottom: 2px solid #ccc;
+            margin: 10px auto;
+            background: #ddd;
+            gap: 1px;
+            border: 1px solid #ccc;
         }
 
         .day-header {
-            width: 150px;
-            min-width: 150px;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-            border-right: 2px solid #ccc;
-            border-left: 2px solid #ccc;
+            background: #f4f4f4;
+            color: black;
             text-align: center;
-            padding: 10px;
+            padding: 8px 2px;
+            font-weight: bold;
+            font-size: 13px;
+            border-bottom: 2px solid #ccc;
         }
         
-        /* Sun, Mon, Tue header colors similar to Telugu calendars */
         .day-0 { color: red; } /* Sun */
         .day-1 { color: blue; } /* Mon */
         .day-2 { color: #d32f2f; } /* Tue */
@@ -76,77 +62,78 @@
         .day-5 { color: #e91e63; } /* Fri */
         .day-6 { color: #424242; } /* Sat */
 
-        .day-sub { font-size: 14px; font-weight: normal; margin-top: 5px; color: black; }
-
-        .cal-cells {
-            display: flex;
-            flex-grow: 1;
-            flex-wrap: wrap;
-        }
-
         .cal-cell {
-            flex: 1;
-            min-width: 120px;
-            /* width: 20%; */
-            border-right: 2px solid #ccc;
-            padding: 8px;
+            background: white;
+            min-height: 90px;
+            color: black;
+            padding: 4px;
+            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .empty-cell {
-            background: #f9f9f9;
+            justify-content: flex-start;
+            overflow: hidden;
         }
 
-        /* Tithi Row */
+        .date-number {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 18px;
+            font-weight: 900;
+            color: blue;
+            z-index: 2;
+        }
+        .date-number.sunday { color: red; }
+
         .tithi-text {
             color: red;
             font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .tithi-sub {
-            color: blue;
-            font-size: 13px;
-        }
-
-        /* Large Number Row */
-        .date-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0;
-            padding: 0 10px;
-        }
-        .date-number {
-            font-size: 38px;
-            font-weight: 900;
-            color: blue;
-        }
-        .date-number.sunday { color: red; }
-        
-        .month-text {
-            font-size: 16px;
-            font-weight: bold;
-            color: #007bb5;
-            display: flex;
-            align-items: center;
-            transform: rotate(-90deg);
-            transform-origin: center right;
-        }
-
-        /* Sunrise/set Row */
-        .sun-times {
             font-size: 11px;
-            color: #555;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            padding-right: 25px; /* Stay clear of date */
+        }
+        .tithi-time { color: blue; font-size: 9px; margin-bottom: 2px; }
+
+        .nakshatra-text { font-size: 10px; color: #333; font-weight: 600; margin-top: 2px; }
+        .nakshatra-time { font-size: 9px; color: #777; }
+
+        .sun-times {
+            font-size: 8px;
+            color: #888;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+            padding-top: 2px;
             display: flex;
             justify-content: space-between;
-            margin-top: 5px;
         }
 
-        /* General UI components */
+        .festival-cell { background: #f0fff4 !important; }
+        .festival-name-tag {
+            font-size: 9px;
+            color: #16a34a;
+            font-weight: bold;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pournami-cell { background: #f8fafc !important; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+        .amavasya-cell { background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; }
+
+        .empty-cell { background: #fafafa !important; }
+
+        .mana-pandugalu-container {
+            grid-column: span 7;
+            background: white;
+            color: #16a34a;
+            padding: 10px;
+            font-size: 12px;
+            border-top: 1px solid #ccc;
+        }
+        .festival-item-list { display: inline-block; margin-right: 15px; font-size: 11px; }
+
         /* Bottom Navbar */
         .fixed-bottom-bar-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
@@ -154,167 +141,65 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             display: flex; justify-content: space-around;
-            padding: 12px 0; z-index: 10000;
+            padding: 10px 0; z-index: 10000;
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center;
-            color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
-            transition: all 0.3s ease;
+            color: #a0a0ff; text-decoration: none; font-size: 11px; gap: 4px;
         }
         .nav-item.active { color: #ffd700; }
-        .nav-item i { font-size: 20px; }
-        .nav-item:hover { color: #fff; }
+        .nav-item i { font-size: 18px; }
 
-        @media (max-width: 768px) {
-            .day-header { width: 100px; min-width: 100px; font-size: 14px; }
-            .cal-cell { min-width: 90px; }
-            .date-number { font-size: 28px; }
-            .tithi-text { font-size: 12px; flex-direction: column; }
-            .month-text { font-size: 12px; }
-        }
-        .festival-cell {
-            background: rgba(34, 197, 94, 0.1) !important;
-            border: 1px solid rgba(34, 197, 94, 0.4) !important;
-        }
-        .festival-name-tag {
-            font-size: 10px;
-            color: #16a34a;
-            font-weight: bold;
-            display: block;
-            margin-top: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .mana-pandugalu-header {
-            color: #16a34a;
-            font-size: 16px;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(22, 163, 74, 0.2);
-            margin-bottom: 8px;
-            text-decoration: underline;
-        }
-        .festival-item-list {
-            color: #16a34a;
-            font-size: 11px;
-            text-align: left;
-            width: 100%;
-            padding-left: 5px;
-        }
-        .pournami-cell {
-            box-shadow: inset 0 0 15px rgba(192, 192, 192, 0.4);
-            border: 2px solid silver !important;
-        }
-        .amavasya-cell {
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-            border: 2px solid #333 !important;
-            background: rgba(0,0,0,0.05);
-        }
-        .empty-cell {
-            background: white !important;
-            color: black !important;
-            border: 1px solid #ddd !important;
+        @media (max-width: 600px) {
+            .calendar-container { gap: 1px; }
+            .cal-cell { min-height: 80px; padding: 2px; }
+            .date-number { font-size: 15px; top: 1px; right: 2px; }
+            .day-header { font-size: 10px; padding: 5px 1px; }
+            .tithi-text { font-size: 9px; padding-right: 18px; }
+            .nakshatra-text { font-size: 8px; }
+            .sun-times { font-size: 7px; flex-direction: column; }
+            .festival-name-tag { font-size: 8px; }
         }
     </style>
 </head>
 <body>
-<style>
-.loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,41,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; backdrop-filter: blur(5px); }
-.spinner { width: 50px; height: 50px; border: 5px solid rgba(255, 215, 0, 0.3); border-top-color: #ffd700; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-</style>
-<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">గణన చేస్తోంది...</div></div>
-<script>
-function showLoading() { document.getElementById('loading').style.display = 'flex'; }
-function hideLoading() { document.getElementById('loading').style.display = 'none'; }
-window.addEventListener('pageshow', function (e) { hideLoading(); });
-</script>
-
-<!-- APP GLOW BORDER -->
-<style>
-.app-glow-frame {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none;
-    z-index: 99999;
-    padding: 6px;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-}
-.app-glow-frame::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 150vmax; height: 150vmax;
-    background: conic-gradient(from 0deg, transparent 60%, rgba(255, 215, 0, 0.6) 80%, #FFD700 100%);
-    transform: translate(-50%, -50%) rotate(0deg);
-    animation: appGlowSpin 4s linear infinite;
-}
-@keyframes appGlowSpin {
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-</style>
-<div class="app-glow-frame"></div>
-
-
     <div class="header-top">
         <span>{{ year }}</span>
-        <span>{{ start_dt_str }} నుండి {{ end_dt_str }} వరకు</span>
-        <span>{{ telugu_masam }} మాసము</span>
+        <span>{{ start_dt_str }} - {{ end_dt_str }}</span>
+        <span>{{ telugu_masam }}</span>
     </div>
 
     <div class="search-bar">
-        <form action="/calendar_view" method="POST" onsubmit="showLoading()">
+        <form action="/calendar_view" method="POST">
             <input type="date" name="calendar_date" value="{{ input_date }}" required>
-            <button type="submit"><i class="fas fa-search"></i> వీక్షించు</button>
+            <button type="submit">వీక్షించు</button>
         </form>
     </div>
 
     <div class="calendar-container">
-        
-        {% set days_names = [
-            ("సూర్యుని దినము", "ఆదివారము"),
-            ("చంద్రుని దినము", "సోమవారము"),
-            ("కుజుని దినము", "మంగళవారము"),
-            ("బుధుని దినము", "బుధవారము"),
-            ("గురుని దినము", "గురువారము"),
-            ("శుక్రుని దినము", "శుక్రవారము"),
-            ("శని దినము", "శనివారము")
-        ] %}
-
-        {% set ns = namespace(fest_idx=0) %}
-
+        <!-- Weekday Headers -->
+        {% set days_names = ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"] %}
         {% for wd in range(7) %}
-        <div class="cal-row">
-            <div class="day-header day-{{ wd }}">
-                {{ days_names[wd][0] }}
-                <div class="day-sub">{{ days_names[wd][1] }}</div>
-            </div>
-            
-            <div class="cal-cells">
-                {% for week_idx in range(6) %}
+        <div class="day-header day-{{ wd }}">{{ days_names[wd] }}</div>
+        {% endfor %}
+
+        <!-- Calendar Cells -->
+        {% for week_idx in range(6) %}
+            {% for wd in range(7) %}
                 {% set day_data = days_data[wd][week_idx] %}
                 {% if day_data %}
                 <div class="cal-cell {% if day_data.is_festival %}festival-cell{% endif %} {% if day_data.is_pournami %}pournami-cell{% endif %} {% if day_data.is_amavasya %}amavasya-cell{% endif %}">
-                    <div class="tithi-text">
-                        <span style="font-size:14px;">{{ day_data.tithi_full }}</span>
-                    </div>
-                    <div class="tithi-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">{{ day_data.calendar_tithi_end }} వరకు</div>
+                    <div class="date-number {% if wd == 0 %}sunday{% endif %}">{{ day_data.date }}</div>
                     
-                    <div class="date-section">
-                        <div class="date-number">{{ day_data.date }}</div>
-                        <div class="month-text">{{ day_data.month_te }}</div>
-                    </div>
+                    <div class="tithi-text">{{ day_data.tithi_full }}</div>
+                    <div class="tithi-time text-muted">{{ day_data.calendar_tithi_end }}</div>
                     
-                    <div class="nakshatra-text" style="font-size:12px; margin-top:2px;">{{ day_data.nakshatra }}</div>
-                    <div class="nakshatra-time" style="font-size: 10px; color: #777; margin-bottom: 5px;">{{ day_data.calendar_nak_end }} వరకు</div>
+                    <div class="nakshatra-text">{{ day_data.nakshatra }}</div>
+                    <div class="nakshatra-time text-muted">{{ day_data.calendar_nak_end }}</div>
                     
-                    <div class="sun-times" style="font-size: 9px; color: #888; margin-top: 5px;">
-                        <div>సూ.ఉ {{ day_data.sunrise.split(' ')[0] }}</div>
-                        <div>సూ.స్త {{ day_data.sunset.split(' ')[0] }}</div>
+                    <div class="sun-times">
+                        <span>ఉ {{ day_data.sunrise.split(' ')[0] }}</span>
+                        <span>సా {{ day_data.sunset.split(' ')[0] }}</span>
                     </div>
                     
                     {% if day_data.is_festival %}
@@ -322,25 +207,18 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     {% endif %}
                 </div>
                 {% else %}
-                <div class="cal-cell empty-cell" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 8px; overflow-y: auto;">
-                    {% if ns.fest_idx == 0 %}
-                        <div class="mana-pandugalu-header">మన పండుగలు</div>
-                        <div style="width: 100%;">
-                        {% for f in festivals %}
-                            <div class="festival-item-list">
-                                <b>{{ f.day }}</b>: {{ f.name }}
-                            </div>
-                        {% endfor %}
-                        </div>
-                        {% set ns.fest_idx = 1 %}
-                    {% endif %}
-                </div>
+                <div class="cal-cell empty-cell"></div>
                 {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+            {% endfor %}
         {% endfor %}
 
+        <!-- Festivals Footer -->
+        <div class="mana-pandugalu-container">
+            <div style="font-weight: bold; margin-bottom: 5px; text-decoration: underline;">ముఖ్యమైన పండుగలు:</div>
+            {% for f in festivals %}
+            <div class="festival-item-list"><b>{{ f.day }}</b>: {{ f.name }}</div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="fixed-bottom-bar-nav">
@@ -349,14 +227,13 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
             <span>హోమ్</span>
         </a>
         <a href="/daily_panchangam" class="nav-item">
-          <i class="fas fa-om"></i>
-          <span>దిన పంచాంగం</span>
-      </a>
+            <i class="fas fa-om"></i>
+            <span>పంచాంగం</span>
+        </a>
         <a href="/calendar_view" class="nav-item active">
             <i class="fas fa-calendar-alt"></i>
             <span>క్యాలెండర్</span>
         </a>
     </div>
-
 </body>
 </html>

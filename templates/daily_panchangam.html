@@ -135,9 +135,9 @@
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            font-size: 13px; 
+            font-size: 11px; 
             color: #fff;
-            min-height: 80px;
+            min-height: 70px;
         }
         .center-c { 
             grid-column: 2 / span 2; 
@@ -387,7 +387,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
                 {% if panch.chart %}
                 <div class="chart-container-c">
-                    <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> రాశి చక్రం</h2>
+                    <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> లగ్న కుండలి</h2>
                     {% macro full_box(rasi, panch) %}
                         {% set hno = panch.houses.get(rasi, "") if panch.houses else "" %}
                         <div class="box-c {% if panch.lagna==rasi %}lagna-c{% endif %}">
@@ -398,7 +398,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                     {% endmacro %}
                     <div class="chart-c">
                         {{ full_box("మీనం", panch) }} {{ full_box("మేషం", panch) }} {{ full_box("వృషభం", panch) }} {{ full_box("మిథునం", panch) }}
-                        {{ full_box("కుంభం", panch) }} <div class="center-c">జాతకము</div> {{ full_box("కర్కాటకం", panch) }}
+                        {{ full_box("కుంభం", panch) }} <div class="center-c" style="font-size: 14px; text-align: center;">ద్వాదశ గ్రహముల సంచారము</div> {{ full_box("కర్కాటకం", panch) }}
                         {{ full_box("మకరం", panch) }} {{ full_box("సింహం", panch) }}
                         {{ full_box("ధనస్సు", panch) }} {{ full_box("వృశ్చికం", panch) }} {{ full_box("తులా", panch) }} {{ full_box("కన్య", panch) }}
                     </div>

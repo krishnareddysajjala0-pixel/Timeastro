@@ -1898,21 +1898,26 @@ def daily_panchangam():
             "శని": swe.SATURN, "రాహు": swe.MEAN_NODE
         }
         
+        def get_p_info(name, lon):
+            d = int(lon % 30); m = int(((lon % 30) - d) * 60)
+            nak_idx = int(lon / NAKSHATRA_SIZE)
+            n_name = NAKSHATRAS_TELUGU[nak_idx % 27]
+            pdm = int((lon % NAKSHATRA_SIZE) / PADAM_SIZE) + 1
+            return f"<b>{name}</b> <small>{d}°{m:02d}′</small><br><span style='font-size:0.8em; color:rgba(255,255,255,0.7);'>{n_name}-{pdm}</span>"
+
         for name_p, pid in DAILY_PLANETS.items():
             res = swe.calc_ut(jd, pid, PLANET_FLAGS)
             lonp = res[0][0]
             base_pos[name_p] = lonp
-            r = RASI_TELUGU[int(lonp/30)]
-            d = int(lonp%30); m = int(((lonp%30)-d)*60)
-            chart_data_temp[r].append((lonp%30, f"<b>{name_p}</b> <small>{d}°{m:02d}′</small>"))
+            r = RASI_TELUGU[int(lonp / 30)]
+            chart_data_temp[r].append((lonp % 30, get_p_info(name_p, lonp)))
             
         # 9. Ketu (180 deg from Rahu)
         rahu_lon = base_pos.get("రాహు", 0)
         ketu_lon = (rahu_lon + 180) % 360
         base_pos["కేతు"] = ketu_lon
-        r_k = RASI_TELUGU[int(ketu_lon/30)]
-        dk = int(ketu_lon%30); mk = int(((ketu_lon%30)-dk)*60)
-        chart_data_temp[r_k].append((ketu_lon%30, f"<b>కేతు</b> <small>{dk}°{mk:02d}′</small>"))
+        r_k = RASI_TELUGU[int(ketu_lon / 30)]
+        chart_data_temp[r_k].append((ketu_lon % 30, get_p_info("కేతు", ketu_lon)))
 
         # Derived planets (Dasacharam Logic - Verified)
         derived = {
@@ -1922,18 +1927,16 @@ def daily_panchangam():
         }
         for n, lonp in derived.items():
             base_pos[n] = lonp
-            r = RASI_TELUGU[int(lonp/30)]
-            d = int(lonp%30); m = int(((lonp%30)-d)*60)
-            chart_data_temp[r].append((lonp%30, f"<b>{n}</b> <small>{d}°{m:02d}′</small>"))
+            r = RASI_TELUGU[int(lonp / 30)]
+            chart_data_temp[r].append((lonp % 30, get_p_info(n, lonp)))
 
         # Calculate Lagna
         hus, ascmc = swe.houses(jd, lat, lon)
         # ascmc[0] is tropical ascendant. We need sidereal.
         ayanamsa = swe.get_ayanamsa_ut(jd)
         lagna_lon = (ascmc[0] - ayanamsa) % 360
-        lagna = RASI_TELUGU[int(lagna_lon/30)]
-        lagna_deg = int(lagna_lon%30); lagna_min = int(((lagna_lon%30)-lagna_deg)*60)
-        chart_data_temp[lagna].append((lagna_lon%30, f"<b>లగ్నం</b> <small>{lagna_deg}°{lagna_min:02d}′</small>"))
+        lagna = RASI_TELUGU[int(lagna_lon / 30)]
+        chart_data_temp[lagna].append((lagna_lon % 30, get_p_info("లగ్నం", lagna_lon)))
         
         chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
         rsi_idx = RASI_TELUGU.index(lagna)

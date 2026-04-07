@@ -1179,14 +1179,6 @@ def chart3():
     lagna = birth_info.get('lagna', '')
     return render_template("chart3.html", current_year=current_year, lagna=lagna)
 
-@app.route("/panchangam")
-def panchangam():
-    """Display Panchangam Information"""
-    birth_info = session.get('birth_info', {})
-    if not birth_info:
-        return redirect(url_for('index'))
-    return render_template("panchangam.html", **birth_info)
-
 @app.route("/go-to-birth-chart")
 def go_to_birth_chart():
     """Redirect to birth chart with session data"""

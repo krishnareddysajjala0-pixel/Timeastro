@@ -541,7 +541,8 @@
         /* Disease List */
         .disease-cell {
             text-align: left;
-            padding: 15px !important;
+            padding: 10px !important;
+            vertical-align: top;
         }
 
         .disease-list {
@@ -549,9 +550,9 @@
             padding: 0;
             margin: 0;
             background: rgba(255, 99, 132, 0.05);
-            border-left: 3px solid #ff6b6b;
-            border-radius: 0 8px 8px 0;
-            padding: 10px;
+            border-left: 2px solid #ff6b6b;
+            border-radius: 0 6px 6px 0;
+            padding: 5px 8px;
         }
 
         .disease-list li {
@@ -597,6 +598,34 @@
 
         .shani-table tbody tr:hover {
             background: rgba(156, 39, 176, 0.1);
+        }
+
+        /* Responsive Fixes for Transposed Tables */
+        .data-table th, .data-table td {
+            min-width: 120px;
+            word-wrap: break-word;
+            text-align: center;
+        }
+
+        .data-table th:first-child, 
+        .data-table td:first-child {
+            min-width: 100px;
+            position: sticky;
+            left: 0;
+            background: #1e293b;
+            z-index: 5;
+            border-right: 2px solid var(--card-border);
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .data-table thead th:first-child {
+            z-index: 10;
+            background: #1e1b4b;
+        }
+
+        .disease-cell {
+            min-width: 180px !important;
         }
 
         /* Footer */
@@ -1248,7 +1277,7 @@
                             </tr>
                             <!-- కారకత్వం -->
                             <tr>
-                                <td style="font-weight: bold; color: var(--text-muted);">కారకత్వ</td>
+                                <td style="font-weight: bold; color: var(--text-muted);">కారకత్వం</td>
                                 <td class="category-cell">ఆయువు</td>
                                 <td class="category-cell">మిత్రుడు</td>
                                 <td class="category-cell">శత్రువు</td>

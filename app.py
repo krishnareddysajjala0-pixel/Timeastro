@@ -1890,11 +1890,12 @@ def daily_panchangam():
         chart_data_temp = {r:[] for r in RASI_TELUGU}
         base_pos = {}
         
-        # Use a list of visible planets for the daily chart
+        # Use a list of visible planets for the daily chart (Matching Kundali rules)
+        # Main 12 planets: 9 Standard + 3 Derived (Earth, Chitra, Mitra)
         DAILY_PLANETS = {
             "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
-            "బుధుడు": swe.MERCURY, "గురువు": swe.JUPITER, "శుక్రుడు": swe.VENUS, "శని": swe.SATURN,
-            "రాహు": swe.MEAN_NODE, "హర్ష (Uru)": swe.URANUS, "వరుణ (Nep)": swe.NEPTUNE
+            "బుధుడు": swe.MERCURY, "గురు": swe.JUPITER, "శుక్రుడు": swe.VENUS, 
+            "శని": swe.SATURN, "రాహు": swe.MEAN_NODE
         }
         
         for name_p, pid in DAILY_PLANETS.items():
@@ -1905,12 +1906,25 @@ def daily_panchangam():
             d = int(lonp%30); m = int(((lonp%30)-d)*60)
             chart_data_temp[r].append((lonp%30, f"<b>{name_p}</b> <small>{d}°{m:02d}′</small>"))
             
-        # Add Ketu (180 deg from Rahu)
+        # 9. Ketu (180 deg from Rahu)
         rahu_lon = base_pos.get("రాహు", 0)
         ketu_lon = (rahu_lon + 180) % 360
+        base_pos["కేతు"] = ketu_lon
         r_k = RASI_TELUGU[int(ketu_lon/30)]
         dk = int(ketu_lon%30); mk = int(((ketu_lon%30)-dk)*60)
         chart_data_temp[r_k].append((ketu_lon%30, f"<b>కేతు</b> <small>{dk}°{mk:02d}′</small>"))
+
+        # Derived planets (Dasacharam Logic - Verified)
+        derived = {
+            "భూమి": (base_pos["సూర్యుడు"] + 180) % 360,
+            "చిత్ర": (base_pos["రాహు"] + 3.3333) % 360,
+            "మిత్ర": (base_pos["కేతు"] + 3.3333) % 360
+        }
+        for n, lonp in derived.items():
+            base_pos[n] = lonp
+            r = RASI_TELUGU[int(lonp/30)]
+            d = int(lonp%30); m = int(((lonp%30)-d)*60)
+            chart_data_temp[r].append((lonp%30, f"<b>{n}</b> <small>{d}°{m:02d}′</small>"))
 
         # Calculate Lagna
         hus, ascmc = swe.houses(jd, lat, lon)

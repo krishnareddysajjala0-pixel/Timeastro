@@ -1894,7 +1894,7 @@ def daily_panchangam():
         DAILY_PLANETS = {
             "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
             "బుధుడు": swe.MERCURY, "గురువు": swe.JUPITER, "శుక్రుడు": swe.VENUS, "శని": swe.SATURN,
-            "రాహు": swe.MEAN_NODE
+            "రాహు": swe.MEAN_NODE, "హర్ష (Uru)": swe.URANUS, "వరుణ (Nep)": swe.NEPTUNE
         }
         
         for name_p, pid in DAILY_PLANETS.items():

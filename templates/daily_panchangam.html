@@ -46,6 +46,7 @@
             font-size: 28px;
             background: var(--header-bg);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
         }
@@ -112,6 +113,74 @@
         .nav-item.active { color: #ffd700; }
         .nav-item i { font-size: 20px; }
         .nav-item:hover { color: #fff; }
+
+        /* Kundali Chart Styles */
+        .chart-container-c { width: 100%; display: flex; flex-direction: column; align-items: center; margin: 30px 0; grid-column: 1 / -1; }
+        .chart-c { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(4, 1fr); 
+            width: 100%; 
+            max-width: 500px; 
+            aspect-ratio: 1; 
+            border: 2px solid #ffd700; 
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+        .box-c { 
+            border: 1px solid rgba(255, 215, 0, 0.3); 
+            padding: 5px; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            font-size: 13px; 
+            color: #fff;
+            min-height: 80px;
+        }
+        .center-c { 
+            grid-column: 2 / span 2; 
+            grid-row: 2 / span 2; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #ffd700; 
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        .house-no-c { 
+            position: absolute; 
+            top: 2px; 
+            left: 4px; 
+            font-size: 10px; 
+            color: rgba(255, 215, 0, 0.7); 
+            font-weight: bold; 
+        }
+        .rasi-name-c { 
+            position: absolute; 
+            bottom: 2px; 
+            right: 4px; 
+            font-size: 10px; 
+            color: rgba(255, 255, 255, 0.5); 
+        }
+        .lagna-c { 
+            background: rgba(255, 215, 0, 0.1); 
+        }
+        .section-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 22px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .hand { color: #facc15; }
     </style>
 </head>
 <body>
@@ -223,25 +292,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
 
                 
                 
-                {% if panch.chart %}
-                <h2 class="section-title" style="margin-top: 20px;"><i class="fas fa-th-large section-icon"></i> రాశి చక్రం</h2>
-                {% macro full_box(rasi, panch) %}
-                    {% set hno = panch.houses.get(rasi, "") if panch.houses else "" %}
-                    <div class="box-c {% if panch.lagna==rasi %}lagna-c{% endif %}">
-                        {% if hno %}<span class="house-no-c">{{ hno }}</span>{% endif %}
-                        <div style="margin-bottom: 12px; line-height: 1.4;">{{ panch.chart[rasi] | safe }}</div>
-                        <span class="rasi-name-c">{{ rasi }}</span>
-                    </div>
-                {% endmacro %}
-                <div class="chart-container-c">
-                    <div class="chart-c">
-                        {{ full_box("మీనం", panch) }} {{ full_box("మేషం", panch) }} {{ full_box("వృషభం", panch) }} {{ full_box("మిథునం", panch) }}
-                        {{ full_box("కుంభం", panch) }} <div class="center-c">జాతకము</div> {{ full_box("కర్కాటకం", panch) }}
-                        {{ full_box("మకరం", panch) }} {{ full_box("సింహం", panch) }}
-                        {{ full_box("ధనస్సు", panch) }} {{ full_box("వృశ్చికం", panch) }} {{ full_box("తులా", panch) }} {{ full_box("కన్య", panch) }}
-                    </div>
-                </div>
-                {% endif %}
+
 
                 <!-- Tithi -->
                 <div class="result-item">
@@ -334,6 +385,25 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                         </table>
                     </div>
                 </div>
+                {% if panch.chart %}
+                <div class="chart-container-c">
+                    <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> రాశి చక్రం</h2>
+                    {% macro full_box(rasi, panch) %}
+                        {% set hno = panch.houses.get(rasi, "") if panch.houses else "" %}
+                        <div class="box-c {% if panch.lagna==rasi %}lagna-c{% endif %}">
+                            {% if hno %}<span class="house-no-c">{{ hno }}</span>{% endif %}
+                            <div style="text-align: center; line-height: 1.4;">{{ panch.chart[rasi] | safe }}</div>
+                            <span class="rasi-name-c">{{ rasi }}</span>
+                        </div>
+                    {% endmacro %}
+                    <div class="chart-c">
+                        {{ full_box("మీనం", panch) }} {{ full_box("మేషం", panch) }} {{ full_box("వృషభం", panch) }} {{ full_box("మిథునం", panch) }}
+                        {{ full_box("కుంభం", panch) }} <div class="center-c">జాతకము</div> {{ full_box("కర్కాటకం", panch) }}
+                        {{ full_box("మకరం", panch) }} {{ full_box("సింహం", panch) }}
+                        {{ full_box("ధనస్సు", panch) }} {{ full_box("వృశ్చికం", panch) }} {{ full_box("తులా", panch) }} {{ full_box("కన్య", panch) }}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

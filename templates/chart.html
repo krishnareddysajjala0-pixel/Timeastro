@@ -25,6 +25,10 @@
       box-sizing: border-box;
     }
 
+    .short-name, .short-deg {
+      display: none;
+    }
+
     :root {
       --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       --text-main: #ffffff;
@@ -364,6 +368,8 @@
       justify-content: center;
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      line-height: 1;
+      padding: 0;
     }
 
     .rasi-name {
@@ -849,10 +855,64 @@
       }
 
       .box {
-        min-height: 100px;
-        padding: 8px;
-        font-size: 11px;
-        line-height: 1.2;
+        min-height: 35px;
+        padding: 3px;
+        font-size: 8.5px !important;
+        line-height: 1;
+        text-align: left !important;
+      }
+      
+      .house-no {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+      }
+
+      .full-name, .full-deg {
+        display: none !important;
+      }
+      
+      .short-name, .short-deg {
+        display: inline !important;
+      }
+
+      .chart-container {
+        padding: 5px;
+        margin-bottom: 20px;
+        max-height: none;
+        overflow: visible;
+        display: block;
+      }
+
+      .header {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+      }
+
+      .om-title {
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+
+      .page-title {
+        font-size: 24px;
+        margin-bottom: 0.5em;
+      }
+
+      .person-name {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+
+      .party-badge {
+        padding: 2px 8px;
+        font-size: 10px;
+        margin-bottom: 5px;
       }
 
       .box span {
@@ -862,11 +922,11 @@
       }
 
       .box-condensed {
-        font-size: 10px !important;
+        font-size: 9px !important;
       }
 
       .box-condensed span {
-        line-height: 1.1;
+        line-height: 1;
       }
 
       .house-no {
@@ -883,13 +943,30 @@
         padding: 1px 3px;
       }
 
+      .rasi-name {
+        font-size: 8px !important;
+        padding: 2px 5px !important;
+        bottom: 2px !important;
+        right: 2px !important;
+      }
+
       .center {
-        padding: 15px;
-        font-size: 13px;
+        padding: 2px;
+        font-size: 8.5px !important;
       }
 
       .person-name {
-        font-size: 18px;
+        font-size: 8.5px !important;
+        margin: 0 !important;
+      }
+
+      .center table {
+        border-spacing: 0 1px !important;
+        font-size: 8.5px !important;
+      }
+
+      .nakshatra-info {
+        display: none !important;
       }
 
       .form-btn {
@@ -899,6 +976,18 @@
 
       .form-buttons {
         flex-direction: column;
+      }
+
+      .hand {
+        padding: 2px 5px !important;
+        font-size: 9px !important;
+        margin: 1px 0 !important;
+        white-space: nowrap !important;
+        border-radius: 8px !important;
+      }
+
+      .box b, .box small {
+        font-size: 9px !important;
       }
 
       .nav-buttons {
@@ -1040,11 +1129,82 @@
     function toggleThemeMenu() {
       document.getElementById('themeSwitcher').classList.toggle('expanded');
     }
+    
+    function toggleKarma() {
+      document.body.classList.toggle('hide-karma');
+      const btn = document.getElementById('karmaBtn');
+      if (document.body.classList.contains('hide-karma')) {
+        btn.style.opacity = '0.5';
+      } else {
+        btn.style.opacity = '1';
+      }
+    }
+
+    function toggleAspects() {
+      document.body.classList.toggle('hide-hands');
+      const btn = document.getElementById('chupuluBtn');
+      if (document.body.classList.contains('hide-hands')) {
+        btn.style.opacity = '0.5';
+      } else {
+        btn.style.opacity = '1';
+      }
+    }
   </script>
+
+  <style>
+    .hide-hands .hand {
+      display: none !important;
+    }
+    .hide-karma .karma-label {
+      display: none !important;
+    }
+    .toggle-container {
+      display: inline-flex;
+      gap: 10px;
+      vertical-align: middle;
+      margin-right: 15px;
+    }
+    .header-toggle-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      color: gold;
+      outline: none;
+    }
+    .header-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    @media (max-width: 768px) {
+      .header-toggle-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+      }
+      .toggle-container {
+        margin-right: 8px;
+        gap: 5px;
+      }
+    }
+  </style>
 
   <!-- Header -->
   <div class="header">
-    <div class="om-title">🕉️ ఓం శ్రీ గురవే నమః 🕉️</div>
+    <div class="om-title">
+      <div class="toggle-container">
+        <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
+        <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">పీ</button>
+      </div>
+      🕉️ ఓం శ్రీ గురవే నమః 🕉️
+    </div>
     <div class="page-title"><img src="/static/images/emblem.png" class="title-emblem"
         style="width: 30px; height: 30px; vertical-align: middle; margin: 0 8px; filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));"
         alt="Emblem"> జాఫతకము <img src="/static/images/emblem.png" class="title-emblem"
@@ -1127,11 +1287,7 @@
       {% if "లగ్నం" in line %}
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
-        {% if lagna==rasi and lagna_deg is defined and lagna_deg %}
-        లగ్నం {{ lagna_deg }}
-        {% else %}
         {{ line | safe }}
-        {% endif %}
       </div>
       {% elif line.strip() %}
       {# Other planets #}
@@ -1158,18 +1314,20 @@
         <!-- CENTER -->
         <div class="center">
           <div class="center-content">
-            <div class="party-badge"
-              style="background: {{ '#22c55e' if lagna in positive_lagnas else '#ef4444' }}; color: {{ '#000' if lagna in positive_lagnas else '#fff' }};">
-              {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
-            </div>
-
-            <div class="person-name">{{ name }}</div>
-
             <table
               style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
               <tr>
-                <td style="color: #ffd700; width: 35%; white-space: nowrap;"><i class="fas fa-calendar-alt"></i> తేదీ:
+                <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
+                <td style="color: {{ '#22c55e' if lagna in positive_lagnas else '#ef4444' }}; font-weight: bold;">
+                  {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
                 </td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">పేరు:</td>
+                <td style="color: var(--text-main);">{{ name }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> తేదీ:</td>
                 <td style="color: var(--text-main);">{{ dob }} ({{ day_name }})</td>
               </tr>
               <tr>
@@ -1182,12 +1340,26 @@
               </tr>
               <tr>
                 <td style="color: #ffd700;"><i class="fas fa-compass"></i> లగ్నం:</td>
-                <td style="color: var(--text-main);">{{ lagna }} {% if lagna_deg is defined and lagna_deg %}({{
-                  lagna_deg }}){% endif %}</td>
+                <td style="color: var(--text-main);">
+                  {{ lagna }} 
+                  {% if lagna_deg is defined and lagna_deg %}
+                    (<span class="full-deg">{{ lagna_deg }}</span><span class="short-deg">{{ lagna_deg.split('°')[0] }}°</span>)
+                  {% endif %}
+                </td>
               </tr>
               <tr>
                 <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> నక్షత్రం:</td>
-                <td style="color: var(--text-main);">{{ nakshatra }} ({{ padam }} పాదం)</td>
+                <td style="color: var(--text-main);">
+                  {{ nakshatra }} ({{ padam }} పాదం)
+                </td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">గడిచిన సమయం:</td>
+                <td style="color: var(--text-main);">{{ nak_elapsed }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">మిగిలిన సమయం:</td>
+                <td style="color: var(--text-main);">{{ nak_remaining }}</td>
               </tr>
             </table>
 
@@ -1197,12 +1369,12 @@
 
               <div class="time-info">
                 <div class="time-item">
-                  <div class="time-value">{{ nak_elapsed }}</div>
-                  <div class="time-label">గడిచిన సమయం</div>
+                  <div class="time-value" style="font-size: 11px;">{{ nak_elapsed }}</div>
+                  <div class="time-label" style="font-size: 9px;">గడిచిన సమయం</div>
                 </div>
                 <div class="time-item">
-                  <div class="time-value">{{ nak_remaining }}</div>
-                  <div class="time-label">మిగిలిన సమయం</div>
+                  <div class="time-value" style="font-size: 11px;">{{ nak_remaining }}</div>
+                  <div class="time-label" style="font-size: 9px;">మిగిలిన సమయం</div>
                 </div>
               </div>
             </div>
@@ -1219,6 +1391,18 @@
         {{ box("కన్య") }}
       </div>
     </div>
+
+    <!-- Transit Button and Container -->
+    <div style="text-align: center; margin: 20px 0;">
+      <button onclick="fetchTransitChart()" id="transit-btn" style="background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4); display: inline-flex; align-items: center; gap: 8px;">
+        <i class="fas fa-satellite"></i> ఈ రోజు గ్రహ స్థితి
+      </button>
+      <div id="transit-loading" style="display: none; color: #ffd700; margin-top: 15px; font-size: 14px;">
+        <i class="fas fa-spinner fa-spin"></i> జనరేట్ చేస్తోంది...
+      </div>
+    </div>
+    
+    <div id="transit-container"></div>
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
@@ -1386,6 +1570,61 @@
 
       function goToPlanetDetails() {
         window.location.href = '/chart3';
+      }
+
+      function fetchTransitChart() {
+        const btn = document.getElementById('transit-btn');
+        const loading = document.getElementById('transit-loading');
+        const container = document.getElementById('transit-container');
+        
+        if (btn) btn.style.display = 'none';
+        if (loading) loading.style.display = 'block';
+
+        let lat = '{{ session.get("birth_info", {}).get("lat", "17.3850") }}';
+        let lon = '{{ session.get("birth_info", {}).get("lon", "78.4867") }}';
+        let timezone = '{{ session.get("birth_info", {}).get("timezone_str", "Asia/Kolkata") }}';
+        let place = '{{ session.get("birth_info", {}).get("place", "Hyderabad") }}';
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function(position) {
+              lat = position.coords.latitude;
+              lon = position.coords.longitude;
+              sendTransitRequest(lat, lon, timezone, place);
+            },
+            function(error) {
+              console.log('Geolocation error or denied, using birth location.', error);
+              sendTransitRequest(lat, lon, timezone, place);
+            }
+          );
+        } else {
+          sendTransitRequest(lat, lon, timezone, place);
+        }
+
+        function sendTransitRequest(lat, lon, timezone, place) {
+          const formData = new FormData();
+          formData.append('lat', lat);
+          formData.append('lon', lon);
+          formData.append('timezone', timezone);
+          formData.append('place', place);
+
+          fetch('/transit_chart', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.text())
+          .then(html => {
+            loading.style.display = 'none';
+            container.innerHTML = html;
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          })
+          .catch(error => {
+            console.error('Error fetching transit chart:', error);
+            loading.style.display = 'none';
+            if (btn) btn.style.display = 'inline-flex';
+            alert('గ్రహ స్థితిని తీసుకురావడంలో లోపం ఏర్పడింది.');
+          });
+        }
       }
 
       // Print optimization

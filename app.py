@@ -45,6 +45,22 @@ SPECIAL_HANDS = {
     "శని": [60, 270]
 }
 
+SHORT_PLANETS_TELUGU = {
+    "సూర్యుడు": "సూర్య",
+    "చంద్రుడు": "చంద్ర",
+    "కుజుడు": "కుజ",
+    "బుధుడు": "బుధ",
+    "గురు": "గురు",
+    "శుక్రుడు": "శుక్ర",
+    "శని": "శని",
+    "రాహు": "రాహు",
+    "కేతు": "కేతు",
+    "భూమి": "భూమి",
+    "మిత్ర": "మిత్ర",
+    "చిత్ర": "చిత్ర",
+    "లగ్నం": "లగ్నం"
+}
+
 # ---------------- Day name Telugu ----------------
 DAY_TELUGU = {
     "Sunday": "ఆదివారం",
@@ -518,7 +534,8 @@ def chart():
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
-        html_str = f"<b>{name_p}</b> <small>{d}°{m:02d}′</small>"
+        short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
+        html_str = f"<b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
         chart_data_temp[rasi].append((deg, html_str))
 
     # Ketu
@@ -530,7 +547,8 @@ def chart():
     deg_k = ketu % 30
     d = int(deg_k)
     m = int((deg_k-d)*60)
-    html_str = f"<b>కేతు</b> <small>{d}°{m:02d}′</small>"
+    short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
+    html_str = f"<b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
     chart_data_temp[r].append((deg_k, html_str))
 
     # Derived planets (Dasacharam Logic - Verified)
@@ -546,7 +564,8 @@ def chart():
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
-        html_str = f"<b>{n}</b> <small>{d}°{m:02d}′</small>"
+        short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
+        html_str = f"<b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
         chart_data_temp[r].append((deg, html_str))
 
     # Month mappings linking Telugu to English Gregorian periods
@@ -578,7 +597,8 @@ def chart():
             deg = hl % 30
             d = int(deg)
             m = int((deg-d)*60)
-            html_str = f"<span class='hand'><span style='font-size: 0.7em;'>👉</span> {n} <small>{d}°{m:02d}′</small></span>"
+            short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
+            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
             chart_data_temp[r].append((deg, html_str))
 
     # Lagna
@@ -595,7 +615,9 @@ def chart():
     lagna_degree_str = f"{lagna_deg}°{lagna_min:02d}′"
     
     # Add Lagna to chart data
-    html_str = f"<b>లగ్నం</b> <small>{lagna_degree_str}</small>"
+    short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
+    lagna_short_deg = f"{lagna_deg}°"
+    html_str = f"<b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small>"
     chart_data_temp[lagna].append((lagna_lon % 30, html_str))
     
     # Sort elements per house by degree
@@ -916,6 +938,121 @@ def chart():
         elapsed_h=elapsed_h,
         elapsed_m=elapsed_m,
         all_nakshatras=NAKSHATRAS_TELUGU
+    )
+
+@app.route("/transit_chart", methods=["POST"])
+def transit_chart():
+    lat = request.form.get("lat")
+    lon = request.form.get("lon")
+    timezone_str = request.form.get("timezone", "Asia/Kolkata")
+    
+    if not lat or not lon:
+        return "❌ Location not provided", 400
+
+    lat = float(lat)
+    lon = float(lon)
+
+    local_tz = pytz.timezone(timezone_str)
+    local_dt = datetime.datetime.now(local_tz)
+    utc_dt = local_dt.astimezone(pytz.utc)
+
+    jd = swe.julday(
+        utc_dt.year, utc_dt.month, utc_dt.day,
+        utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600
+    )
+
+    chart_data_temp = {r:[] for r in RASI_TELUGU}
+    base_pos = {}
+
+    for name_p, pid in PLANETS.items():
+        lonp = swe.calc_ut(jd, pid, PLANET_FLAGS)[0][0]
+        base_pos[name_p] = lonp
+        rasi = RASI_TELUGU[int(lonp/30)]
+        deg = lonp % 30
+        d = int(deg)
+        m = int((deg-d)*60)
+        short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
+        html_str = f"<b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+        chart_data_temp[rasi].append((deg, html_str))
+
+    rahu = base_pos["రాహు"]
+    ketu = (rahu + 180) % 360
+    base_pos["కేతు"] = ketu
+
+    r = RASI_TELUGU[int(ketu/30)]
+    deg_k = ketu % 30
+    d = int(deg_k)
+    m = int((deg_k-d)*60)
+    short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
+    html_str = f"<b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+    chart_data_temp[r].append((deg_k, html_str))
+
+    derived = {
+        "భూమి": (base_pos["సూర్యుడు"] + 180) % 360,
+        "చిత్ర": (rahu + 3.3333) % 360,
+        "మిత్ర": (ketu + 3.3333) % 360
+    }
+
+    for n, lonp in derived.items():
+        base_pos[n] = lonp
+        r = RASI_TELUGU[int(lonp/30)]
+        deg = lonp % 30
+        d = int(deg)
+        m = int((deg-d)*60)
+        short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
+        html_str = f"<b class='full-name'>{n}</b><b class='short-name'>{short_n}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+        chart_data_temp[r].append((deg, html_str))
+
+    for n, base in base_pos.items():
+        angles = [180] + SPECIAL_HANDS.get(n,[])
+        for a in angles:
+            hl = (base + a) % 360
+            r = RASI_TELUGU[int(hl/30)]
+            deg = hl % 30
+            d = int(deg)
+            m = int((deg-d)*60)
+            short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
+            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
+            chart_data_temp[r].append((deg, html_str))
+
+    houses, ascmc = swe.houses(jd, lat, lon)
+    asc_tropical = ascmc[0]
+    ayan = swe.get_ayanamsa_ut(jd)
+    lagna_lon = (asc_tropical - ayan) % 360
+
+    lagna = RASI_TELUGU[int(lagna_lon/30)]
+    
+    lagna_deg = int(lagna_lon % 30)
+    lagna_min = int(((lagna_lon % 30) - lagna_deg) * 60)
+    lagna_degree_str = f"{lagna_deg}°{lagna_min:02d}′"
+    
+    short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
+    lagna_short_deg = f"{lagna_deg}°"
+    html_str = f"<b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small>"
+    chart_data_temp[lagna].append((lagna_lon % 30, html_str))
+    
+    chart_data = {}
+    for r in RASI_TELUGU:
+        chart_data_temp[r].sort(key=lambda x: x[0])
+        if chart_data_temp[r]:
+            chart_data[r] = "<br>".join(item[1] for item in chart_data_temp[r]) + "<br>"
+        else:
+            chart_data[r] = ""
+
+    houses_map = {}
+    idx = RASI_TELUGU.index(lagna)
+    for i in range(12):
+        houses_map[RASI_TELUGU[(idx+i)%12]] = i+1
+
+    return render_template(
+        "transit_partial.html",
+        chart=chart_data,
+        lagna=lagna,
+        lagna_deg=lagna_degree_str,
+        houses=houses_map,
+        name="ఈ రోజు గ్రహ స్థితి",
+        dob=local_dt.strftime("%d-%m-%Y"),
+        tob=local_dt.strftime("%H:%M:%S")
     )
 
 @app.route("/chart2", methods=["GET", "POST"])

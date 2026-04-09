@@ -1154,12 +1154,20 @@
             100% { transform: translateX(-100%); }
         }
         @media print {
-            .scrolling-footer { display: none !important; }
-            #transit-btn, #transit-loading, .fixed-bottom-bar, .theme-switcher, .print-hide { display: none !important; }
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+                background: transparent !important;
+                color: #000 !important;
+                backdrop-filter: none !important;
+                filter: none !important;
+            }
             body {
                 background: #fff !important;
-                color: #000 !important;
             }
+            .scrolling-footer { display: none !important; }
+            #transit-btn, #transit-loading, .fixed-bottom-bar, .theme-switcher, .print-hide, .maha-accordion-toggle { display: none !important; }
+            
             .box {
                 background: #ffffff !important;
                 border: 1px solid #000 !important;
@@ -1168,6 +1176,34 @@
             .chart-container, #transit-container {
                 page-break-inside: avoid;
                 break-inside: avoid;
+            }
+            
+            .print-summary-section { 
+                display: block !important; 
+                page-break-before: always; 
+                page-break-after: always;
+            }
+            
+            .dasa-section {
+                 page-break-before: always;
+            }
+            
+            .maha-dasa-card {
+                 page-break-inside: avoid;
+                 margin-bottom: 20px !important;
+                 border: 1px solid #000 !important;
+                 padding: 5px !important;
+            }
+            
+            .anthara-wrapper {
+                display: block !important;
+                max-height: none !important;
+                opacity: 1 !important;
+            }
+
+            .maha-dasa-number, .table-icon {
+                border: 1px solid #000 !important;
+                color: #000 !important;
             }
         }
         @page {
@@ -1323,6 +1359,35 @@
         </div>
 
 
+
+        <!-- PRINT ONLY: Maha Dasa Summary -->
+        <div class="print-summary-section" style="display: none;">
+            <div style="text-align: center; margin-bottom: 25px; font-size: 22px; font-weight: bold; text-decoration: underline;">మహాదశల సారాంశం</div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #000; padding: 10px;">క్ర.సం</th>
+                        <th style="border: 1px solid #000; padding: 10px;">మహాదశ</th>
+                        <th style="border: 1px solid #000; padding: 10px;">సంవత్సరాలు</th>
+                        <th style="border: 1px solid #000; padding: 10px;">ప్రారంభం</th>
+                        <th style="border: 1px solid #000; padding: 10px;">ముగింపు</th>
+                        <th style="border: 1px solid #000; padding: 10px;">వయసు</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dasa in all_dasas %}
+                    <tr>
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold;">{{ loop.index }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.icon }} {{ dasa.maha }}</td>
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ dasa.years }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.start }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.end }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.age_start }} - {{ dasa.age_end }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <!-- Complete Dasa Details -->
         <div class="dasa-section">

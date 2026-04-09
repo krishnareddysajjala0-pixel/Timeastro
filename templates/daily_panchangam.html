@@ -267,7 +267,10 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
             </form>
 
-            <div class="panchangam-result">
+            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--card-border);">
+                <button type="button" id="toggleMoreBtn" class="btn" style="padding: 6px 15px; font-size: 14px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid #ffd700;"><i class="fas fa-plus-circle"></i> More</button>
+            </div>
+            <div class="panchangam-result" style="margin-top: 10px; padding-top: 0; border-top: none;">
                 <!-- Header Block -->
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15;">
                     <div class="result-icon"><i class="fas fa-calendar-alt"></i></div>
@@ -337,7 +340,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
 
                 <!-- Yoga -->
-                <div class="result-item">
+                <div class="result-item more-data" style="display: none;">
                     <div class="result-icon"><i class="fas fa-praying-hands" style="color: #34d399;"></i></div>
                     <div>
                         <div class="result-label">యోగాలు (Yoga)</div>
@@ -346,7 +349,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
 
                 <!-- Karana -->
-                <div class="result-item">
+                <div class="result-item more-data" style="display: none;">
                     <div class="result-icon"><i class="fas fa-yin-yang" style="color: #a78bfa;"></i></div>
                     <div>
                         <div class="result-label">కరణములు (Karana)</div>
@@ -381,7 +384,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
 
                 <!-- Inauspicious Timings -->
-                <div class="result-item" style="grid-column: 1 / -1; border-color: #ef4444; background: rgba(239, 68, 68, 0.05);">
+                <div class="result-item more-data" style="display: none; grid-column: 1 / -1; border-color: #ef4444; background: rgba(239, 68, 68, 0.05);">
                     <div class="result-icon"><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i></div>
                     <div>
                         <div class="result-label" style="color: #fca5a5;">అశుభ సమయాలు</div>
@@ -397,7 +400,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 </div>
 
                 <!-- Auspicious Timings -->
-                <div class="result-item" style="grid-column: 1 / -1; border-color: #10b981; background: rgba(16, 185, 129, 0.05);">
+                <div class="result-item more-data" style="display: none; grid-column: 1 / -1; border-color: #10b981; background: rgba(16, 185, 129, 0.05);">
                     <div class="result-icon"><i class="fas fa-check-circle" style="color: #10b981;"></i></div>
                     <div>
                         <div class="result-label" style="color: #6ee7b7;">శుభ సమయాలు</div>
@@ -456,6 +459,27 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 if(!this.href.includes('#')) showLoader();
             });
         });
+
+        // Toggle More button
+        const toggleMoreBtn = document.getElementById('toggleMoreBtn');
+        if(toggleMoreBtn) {
+            toggleMoreBtn.addEventListener('click', function() {
+                const moreItems = document.querySelectorAll('.more-data');
+                let isHidden = true;
+                
+                if(moreItems.length > 0) {
+                    isHidden = moreItems[0].style.display === 'none';
+                }
+
+                if (isHidden) {
+                    moreItems.forEach(item => item.style.display = 'flex');
+                    this.innerHTML = '<i class="fas fa-minus-circle"></i> Less';
+                } else {
+                    moreItems.forEach(item => item.style.display = 'none');
+                    this.innerHTML = '<i class="fas fa-plus-circle"></i> More';
+                }
+            });
+        }
 
         // Form submission loader
         const showForm = document.querySelector('form');

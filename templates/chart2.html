@@ -882,31 +882,26 @@
                 border: 1.5px solid #333 !important;
                 border-radius: 3px !important;
                 padding: 5px 7px !important;
-                margin: 0 0 6px 0 !important;
+                margin: 0 0 5px 0 !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
-                /* Do NOT keep whole card together — allow anthara table to flow */
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                /* Allow the card to split so 2nd card can always follow 1st on same page */
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
 
-            /* Force a new page before every ODD card (1st, 3rd, 5th …)
-               after the very first one (which follows the header on page 1) */
-            .dasa-section .maha-dasa-card:nth-child(odd) {
+            /* .dasa-section children: child-1 = section-title, child-2 = 1st card, child-3 = 2nd card …
+               Cards at even positions (2,4,6…) = 1st,3rd,5th cards → start a new page.
+               Cards at odd positions  (3,5,7…) = 2nd,4th,6th cards → share the page above. */
+            .dasa-section .maha-dasa-card:nth-child(even) {
                 page-break-before: always !important;
                 break-before: page !important;
             }
 
-            /* Even cards share the page with the card above — no break */
-            .dasa-section .maha-dasa-card:nth-child(even) {
+            /* Odd children (2nd,4th,6th cards) share the page — no forced break */
+            .dasa-section .maha-dasa-card:nth-child(odd) {
                 page-break-before: avoid !important;
                 break-before: avoid !important;
-            }
-
-            /* First card starts on a new page (after header+summary on p.1) */
-            .dasa-section .maha-dasa-card:first-child {
-                page-break-before: always !important;
-                break-before: page !important;
             }
 
             /* Mahadasa header row */
@@ -1049,9 +1044,14 @@
                 white-space: nowrap;
             }
 
-            /* Antharadasa age sub-line — hide to save space */
+            /* Antharadasa age sub-line — show compactly */
             .anthara-table td div {
-                display: none !important;
+                display: block !important;
+                font-size: 6pt !important;
+                color: #555 !important;
+                font-weight: normal !important;
+                line-height: 1.2 !important;
+                margin-top: 1px !important;
             }
         }
 

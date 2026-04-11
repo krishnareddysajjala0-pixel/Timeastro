@@ -850,21 +850,26 @@
             .highlight.text-unfavorable { color: #b22222 !important; }
             .progress-container { display: none !important; }
 
-            /* ── Print Summary Table (show it) ── */
+            /* ── Print Summary Table (show it, keep on page 1 — no forced break) ── */
             .print-summary-section {
                 display: block !important;
-                page-break-before: always !important;
-                break-before: page !important;
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+                margin-top: 6px !important;
             }
-            .print-summary-section table { font-size: 8pt !important; width: 100% !important; }
+            .print-summary-section table { font-size: 7pt !important; width: 100% !important; }
             .print-summary-section th, .print-summary-section td {
                 border: 1px solid #333 !important;
-                padding: 4px 6px !important;
+                padding: 3px 5px !important;
                 color: #000 !important;
+            }
+            .print-summary-section div[style*="font-size: 20px"] {
+                font-size: 10pt !important;
+                margin-bottom: 6px !important;
             }
 
             /* ────────────────────────────────────────────
-               CORE FIX: Each Mahadasa card on its own page
+               CORE FIX: TWO Mahadasa cards per A4 page
             ─────────────────────────────────────────────*/
             .dasa-section {
                 width: 100% !important;
@@ -873,34 +878,43 @@
             }
 
             .maha-dasa-card {
-                /* Force every card onto a fresh page */
-                page-break-before: always !important;
-                break-before: page !important;
-                /* Prevent the card itself from splitting across pages */
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-
                 background: #fff !important;
-                border: 2px solid #333 !important;
-                border-radius: 4px !important;
-                padding: 8px 10px !important;
-                margin: 0 !important;
+                border: 1.5px solid #333 !important;
+                border-radius: 3px !important;
+                padding: 5px 7px !important;
+                margin: 0 0 6px 0 !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                /* Do NOT keep whole card together — allow anthara table to flow */
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
-            /* First card — no page break before it (header is before) */
-            .maha-dasa-card:first-of-type {
-                page-break-before: auto !important;
-                break-before: auto !important;
+            /* Force a new page before every ODD card (1st, 3rd, 5th …)
+               after the very first one (which follows the header on page 1) */
+            .dasa-section .maha-dasa-card:nth-child(odd) {
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+
+            /* Even cards share the page with the card above — no break */
+            .dasa-section .maha-dasa-card:nth-child(even) {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+            }
+
+            /* First card starts on a new page (after header+summary on p.1) */
+            .dasa-section .maha-dasa-card:first-child {
+                page-break-before: always !important;
+                break-before: page !important;
             }
 
             /* Mahadasa header row */
             .maha-dasa-header {
                 display: flex !important;
                 align-items: flex-start !important;
-                gap: 8px !important;
-                margin-bottom: 6px !important;
+                gap: 6px !important;
+                margin-bottom: 4px !important;
                 flex-wrap: wrap !important;
             }
 
@@ -908,36 +922,39 @@
                 background: transparent !important;
                 border: 1px solid #333 !important;
                 color: #000080 !important;
-                padding: 3px 7px !important;
-                border-radius: 10px !important;
-                font-size: 8pt !important;
+                padding: 2px 5px !important;
+                border-radius: 8px !important;
+                font-size: 7pt !important;
                 font-weight: bold !important;
-                min-width: 24px !important;
+                min-width: 20px !important;
             }
 
             .maha-dasa-name {
-                font-size: 10pt !important;
+                font-size: 8.5pt !important;
                 font-weight: bold !important;
                 color: #000 !important;
-                margin-bottom: 2px !important;
+                margin-bottom: 1px !important;
             }
 
             .maha-dasa-period {
-                font-size: 8pt !important;
+                font-size: 7pt !important;
                 color: #8B4513 !important;
                 font-weight: 600 !important;
             }
 
+            .maha-dasa-period br { display: none !important; }
+            .maha-dasa-period span { display: none !important; }
+
             .maha-dasa-badges {
                 display: flex !important;
-                gap: 4px !important;
-                margin-top: 2px !important;
+                gap: 3px !important;
+                margin-top: 1px !important;
             }
 
             .status-badge {
-                font-size: 7pt !important;
-                padding: 2px 6px !important;
-                border-radius: 8px !important;
+                font-size: 6.5pt !important;
+                padding: 1px 5px !important;
+                border-radius: 6px !important;
             }
             .current-badge { border: 1px solid #006400 !important; color: #006400 !important; background: transparent !important; }
             .past-badge    { border: 1px solid #555 !important;    color: #555 !important;    background: transparent !important; }
@@ -946,8 +963,8 @@
 
             .text-favorable   { color: #006400 !important; }
             .text-unfavorable { color: #b22222 !important; }
-            .favorable   { color: #006400 !important; font-size: 7pt !important; }
-            .unfavorable { color: #b22222 !important; font-size: 7pt !important; }
+            .favorable   { color: #006400 !important; font-size: 6.5pt !important; }
+            .unfavorable { color: #b22222 !important; font-size: 6.5pt !important; }
 
             /* ── Anthara wrapper: show collapsed drawers ── */
             .anthara-wrapper {
@@ -957,23 +974,27 @@
                 overflow: visible !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                margin-top: 6px !important;
+                margin-top: 4px !important;
             }
 
             /* ── Anthara container & table ── */
             .anthara-container {
                 background: #fafafa !important;
                 border: 1px solid #ccc !important;
-                border-radius: 4px !important;
-                padding: 6px 8px !important;
+                border-radius: 3px !important;
+                padding: 3px 5px !important;
+            }
+
+            .anthara-container > div:first-child {
+                font-size: 6.5pt !important;
+                margin-bottom: 3px !important;
             }
 
             .anthara-table {
                 width: 100% !important;
                 border-collapse: collapse !important;
-                font-size: 8pt !important;
+                font-size: 7pt !important;
                 background: #fff !important;
-                /* Allow table to break across page if single mahadasa overflows one A4 */
                 page-break-inside: auto !important;
                 break-inside: auto !important;
             }
@@ -982,15 +1003,15 @@
                 background: #e8e8e8 !important;
                 color: #000 !important;
                 border: 1px solid #999 !important;
-                padding: 4px 6px !important;
-                font-size: 7pt !important;
+                padding: 2px 4px !important;
+                font-size: 6.5pt !important;
                 text-align: left !important;
             }
 
             .anthara-table td {
                 color: #000 !important;
                 border: 1px solid #ccc !important;
-                padding: 3px 5px !important;
+                padding: 2px 4px !important;
                 vertical-align: middle !important;
             }
 
@@ -1001,16 +1022,16 @@
             .anthara-table .planet-cell {
                 display: flex !important;
                 align-items: center !important;
-                gap: 5px !important;
+                gap: 3px !important;
                 color: #8B0000 !important;
                 font-weight: bold !important;
-                font-size: 8pt !important;
+                font-size: 7pt !important;
             }
 
             .table-icon {
-                width: 18px !important;
-                height: 18px !important;
-                font-size: 11px !important;
+                width: 14px !important;
+                height: 14px !important;
+                font-size: 9px !important;
                 border-radius: 50% !important;
                 border: 1px solid #555 !important;
                 background: transparent !important;
@@ -1023,16 +1044,14 @@
             .anthara-table td:nth-child(2),
             .anthara-table td:nth-child(3) {
                 color: #8B4513 !important;
-                font-size: 8pt !important;
+                font-size: 7pt !important;
                 font-weight: bold !important;
                 white-space: nowrap;
             }
 
-            /* Antharadasa age sub-line */
+            /* Antharadasa age sub-line — hide to save space */
             .anthara-table td div {
-                font-size: 7pt !important;
-                color: #555 !important;
-                font-weight: normal !important;
+                display: none !important;
             }
         }
 

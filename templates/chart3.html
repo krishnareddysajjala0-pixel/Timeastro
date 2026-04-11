@@ -686,37 +686,160 @@
         }
 
         /* ===== PRINT ===== */
-    @media print {
-      * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-      }
-      .scrolling-footer { display: none !important; }
-      .header,
-            .section-header,
-            .table-container,
-            .footer {
-                background: white !important;
-                border: 1px solid #000 !important;
+        /* ===== PRINT OPTIMIZATIONS ===== */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm 6mm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: economy !important;
+                print-color-adjust: economy !important;
+                background-color: transparent !important;
+                color: #000 !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+                animation: none !important;
+            }
+
+            body {
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 10pt;
+            }
+
+            body::before { display: none !important; }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .header {
+                padding: 10px !important;
+                margin-bottom: 15px !important;
+                border: 1px solid #ddd !important;
+                background: #f9f9f9 !important;
+                border-radius: 10px !important;
+            }
+
+            .header h1 {
+                font-size: 18pt !important;
+                margin-bottom: 5px !important;
+                background: none !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+            .header-subtitle {
+                font-size: 11pt !important;
+                color: #333 !important;
+            }
+
+            .section-header {
+                margin: 15px 0 10px !important;
+                padding: 8px !important;
+                border-radius: 8px !important;
+                background: #eee !important;
+            }
+
+            .section-title {
+                font-size: 14pt !important;
+                margin-bottom: 3px !important;
+                background: none !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+            .section-subtitle {
+                font-size: 9pt !important;
+                color: #444 !important;
+            }
+
+            .table-container {
+                padding: 8px !important;
+                margin-bottom: 15px !important;
+                border-radius: 10px !important;
+                border: 1px solid #ccc !important;
+            }
+
+            .data-table {
+                font-size: 7.5pt !important;
+                width: 100% !important;
+            }
+
+            .data-table th, .data-table td {
+                padding: 3px 2px !important;
+                border: 1px solid #eee !important;
+                min-width: auto !important;
+                width: auto !important;
+                background: none !important;
+            }
+
+            /* Disable sticky headers/columns for print */
+            .data-table th:first-child, 
+            .data-table td:first-child {
+                position: static !important;
+                background: #f4f4f4 !important;
+                min-width: 80px !important;
+                width: 90px !important;
+                border-right: 1px solid #ccc !important;
                 box-shadow: none !important;
             }
 
-            .nav-buttons,
-            .float-buttons {
-                display: none !important;
-            }
-
-            .color-display {
-                border: 1px solid #000 !important;
+            .disease-list {
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: none !important;
             }
 
             .disease-list li {
-                color: #000 !important;
+                font-size: 7.5pt !important;
+                padding: 1px 0 !important;
+                padding-left: 10px !important;
+            }
+
+            .disease-list li::before {
+                font-size: 8px !important;
+            }
+
+            .color-display {
+                width: 15px !important;
+                height: 15px !important;
+                border: 1px solid #000 !important;
+            }
+
+            .footer {
+                margin-top: 10px !important;
+                padding: 10px !important;
+                background: none !important;
+                border-top: 1px solid #eee !important;
+            }
+
+            .disclaimer {
+                font-size: 8pt !important;
+                padding: 5px !important;
+                margin-top: 5px !important;
+                border-left-width: 2px !important;
+            }
+
+            /* Hide interactive elements */
+            .fixed-bottom-bar,
+            .scrolling-footer,
+            .theme-switcher,
+            .section-icon,
+            .float-btn,
+            #loading-overlay {
+                display: none !important;
+            }
+
+            /* Force single page */
+            html, body {
+                height: 99.5%;
+                overflow: hidden !important;
             }
         }
 
@@ -1320,10 +1443,6 @@
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
             <i class="fas fa-file-pdf"></i> ప్రింట్
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #3f3f46, #27272a);"
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <i class="fas fa-arrow-up"></i> పైకి
         </button>
     </div>
 

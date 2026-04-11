@@ -732,6 +732,10 @@
                 width: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                /* Force scaling for single page */
+                transform: scale(0.8);
+                transform-origin: top center;
+                zoom: 0.8;
             }
 
             .header {
@@ -916,10 +920,27 @@
                 right: 15px;
             }
 
+            /* Optimized Bottom Bar for Mobile */
+            .fixed-bottom-bar {
+                padding: 8px 10px !important;
+                gap: 6px !important;
+                bottom: 35px !important;
+            }
             .float-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+                padding: 8px 12px !important;
+                font-size: 15px !important;
+                min-width: 45px !important;
+                width: auto !important;
+                height: auto !important;
+                justify-content: center !important;
+                max-width: 55px !important;
+                border-radius: 12px !important;
+                overflow: hidden !important;
+                white-space: nowrap !important;
+            }
+            .float-btn i {
+                margin: 0 !important;
+                font-size: 16px !important;
             }
         }
 
@@ -1441,23 +1462,23 @@
     <div class="fixed-bottom-bar" id="action-bar">
         <button class="nav-item nav-home float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
             onclick="window.location.href='/'">
-            <i class="fas fa-home"></i> హోమ్
+            <i class="fas fa-home"></i> హో
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
             onclick="goToBirthChart()">
-            <i class="fas fa-arrow-left"></i> కుండలికి
+            <i class="fas fa-arrow-left"></i> కు
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
             onclick="goToDashaChart()">
-            <i class="fas fa-calendar-alt"></i> దశాచారము
+            <i class="fas fa-calendar-alt"></i> ద
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
             onclick="window.location.href='/results'">
-            <i class="fas fa-chart-line"></i> ఫలితాలు
+            <i class="fas fa-chart-line"></i> ఫ
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
-            <i class="fas fa-file-pdf"></i> ప్రింట్
+            <i class="fas fa-file-pdf"></i> ప్రి
         </button>
     </div>
 

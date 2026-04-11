@@ -389,19 +389,21 @@
       position: absolute;
       right: 4px;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(-50%) scale(0.2); /* Strictly 20% size */
+      transform-origin: right center;
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      font-size: 4px; /* Reduced to ~30% of planet text size */
+      font-size: 13px; /* Base size */
       line-height: 1.1;
       color: rgba(255, 255, 255, 0.85);
       font-weight: 700;
       background: rgba(0, 0, 0, 0.3);
-      padding: 4px 2px;
-      border-radius: 3px;
+      padding: 10px 5px; /* Proportional padding */
+      border-radius: 10px;
       letter-spacing: 0.5px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 5;
+      white-space: nowrap;
     }
 
 
@@ -1148,7 +1150,7 @@
 
 <body>
   <!-- Right Side Controls (Vertical Stack) -->
-  <div style="position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; z-index: 10000;">
+  <div id="top-button-stack" style="position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; z-index: 10000;">
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="themeSwitcher" style="position: static; margin-bottom: 0;">
       <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Themes" style="outline:none;">🎨</button>
@@ -1235,6 +1237,12 @@
       .toggle-container {
         margin-right: 8px;
         gap: 5px;
+      }
+      /* Shift top buttons to the left on mobile */
+      #top-button-stack {
+        right: auto !important;
+        left: 20px !important;
+        align-items: flex-start !important;
       }
     }
   </style>

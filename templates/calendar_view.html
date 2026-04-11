@@ -12,163 +12,199 @@
         body { 
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); 
             color: white; padding-bottom: 100px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Starry background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+                radial-gradient(2px 2px at 40% 70%, #fff, transparent),
+                radial-gradient(3px 3px at 60% 20%, #fff, transparent),
+                radial-gradient(2px 2px at 80% 50%, #fff, transparent),
+                radial-gradient(3px 3px at 10% 80%, #fff, transparent),
+                radial-gradient(2px 2px at 90% 10%, #fff, transparent),
+                radial-gradient(3px 3px at 30% 40%, #fff, transparent);
+            background-size: 200px 200px;
+            z-index: -1;
+            animation: stars 20s linear infinite;
+        }
+
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
         }
 
         .header-top {
-            background: #ab1f22; /* Dark red */
-            color: yellow;
+            background: linear-gradient(135deg, #8b0000, #4a0000);
+            color: #ffd700;
             text-align: center;
-            padding: 8px;
+            padding: 12px;
             font-size: 15px;
             font-weight: bold;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            animation: rainbow-text 3s linear infinite;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
         .header-branding { 
             font-size: 14px; 
-            border-bottom: 2px solid yellow; 
-            padding-bottom: 4px; 
-            animation: rainbow-border 3s linear infinite;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3); 
+            padding-bottom: 6px; 
         }
-        .header-masam { font-size: 18px; color: yellow; animation: rainbow-text 3s linear infinite; }
-        .header-pakshams { font-size: 13px; color: #fff; font-weight: normal; }
+        .header-masam { font-size: 20px; color: #ffd700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .header-pakshams { font-size: 13px; color: #fff; font-weight: normal; opacity: 0.9; }
 
-        @keyframes rainbow-border {
-            0% { border-color: #ff0000; }
-            16% { border-color: #ff8000; }
-            33% { border-color: #ffff00; }
-            50% { border-color: #00ff00; }
-            66% { border-color: #0000ff; }
-            83% { border-color: #8b00ff; }
-            100% { border-color: #ff0000; }
-        }
-        @keyframes rainbow-text {
-            0% { color: #ff0000; }
-            16% { color: #ff8000; }
-            33% { color: #ffff00; }
-            50% { color: #00ff00; }
-            66% { color: #0000ff; }
-            83% { color: #8b00ff; }
-            100% { color: #ff0000; }
-        }
-
-        .search-bar { background: rgba(0,0,0,0.5); padding: 10px; text-align: center; }
-        .search-bar form { display: inline-flex; gap: 8px; align-items: center; }
-        .search-bar input[type="date"] { padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
-        .search-bar button { padding: 6px 12px; background: #facc15; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .search-bar { background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .search-bar form { display: inline-flex; gap: 10px; align-items: center; }
+        .search-bar input[type="date"] { padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; font-size: 14px; }
+        .search-bar button { padding: 8px 18px; background: linear-gradient(135deg, #facc15, #eab308); border: none; font-weight: bold; border-radius: 8px; cursor: pointer; color: #111; transition: transform 0.2s; }
+        .search-bar button:hover { transform: scale(1.05); }
 
         .calendar-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             width: 100%;
             max-width: 1200px;
-            margin: 10px auto;
-            background: #ccc;
-            gap: 1px;
-            border: 1px solid #ccc;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            gap: 2px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
         .day-header {
-            background: #f4f4f4;
-            color: black;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffd700;
             text-align: center;
-            padding: 8px 2px;
+            padding: 12px 2px;
             font-weight: bold;
-            font-size: 13px;
-            border-bottom: 2px solid #ccc;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
         }
         
-        .day-0 { color: red; } /* Sun */
-        .day-1 { color: blue; } /* Mon */
-        .day-2 { color: #d32f2f; } /* Tue */
-        .day-3 { color: #2e7d32; } /* Wed */
-        .day-4 { color: #f57f17; } /* Thu */
-        .day-5 { color: #e91e63; } /* Fri */
-        .day-6 { color: #424242; } /* Sat */
+        .day-0 { color: #ff6b6b; } /* Sun */
+        .day-1 { color: #60a5fa; } /* Mon */
+        .day-2 { color: #fca5a5; } /* Tue */
+        .day-3 { color: #4ade80; } /* Wed */
+        .day-4 { color: #fbbf24; } /* Thu */
+        .day-5 { color: #f472b6; } /* Fri */
+        .day-6 { color: #94a3b8; } /* Sat */
 
         .cal-cell {
-            min-height: 95px;
-            padding: 4px;
+            min-height: 110px;
+            padding: 8px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            overflow: hidden;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .cal-cell:hover {
+            z-index: 10;
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
         }
 
         /* Paksham Based Colors */
-        .shukla-box { background: white !important; color: black !important; }
-        .krishna-box { background: #1a1a1a !important; color: #e2e8f0 !important; }
+        .shukla-box { 
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important; 
+            color: #0f172a !important; 
+        }
+        .krishna-box { 
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important; 
+            color: #f1f5f9 !important; 
+        }
 
         .date-number {
             position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 18px;
+            top: 4px;
+            right: 8px;
+            font-size: 22px;
             font-weight: 900;
             z-index: 2;
+            opacity: 0.9;
         }
-        .shukla-box .date-number { color: blue; }
+        .shukla-box .date-number { color: #2563eb; }
         .krishna-box .date-number { color: #60a5fa; }
-        .date-number.sunday { color: red !important; }
+        .date-number.sunday { color: #ef4444 !important; text-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
 
         .tithi-text {
-            font-weight: bold;
-            font-size: 11px;
+            font-weight: 800;
+            font-size: 12px;
             line-height: 1.2;
-            margin-bottom: 1px;
-            padding-right: 25px; /* Stay clear of date */
+            margin-bottom: 2px;
+            padding-right: 30px;
         }
-        .shukla-box .tithi-text { color: red; }
+        .shukla-box .tithi-text { color: #b91c1c; }
         .krishna-box .tithi-text { color: #fca5a5; }
 
-        .tithi-time { font-size: 9px; margin-bottom: 2px; }
-        .shukla-box .tithi-time { color: blue; }
+        .tithi-time { font-size: 10px; font-weight: 500; margin-bottom: 4px; opacity: 0.8; }
+        .shukla-box .tithi-time { color: #1d4ed8; }
         .krishna-box .tithi-time { color: #93c5fd; }
 
-        .nakshatra-text { font-size: 10px; font-weight: 600; margin-top: 1px; }
-        .shukla-box .nakshatra-text { color: #333; }
+        .nakshatra-text { font-size: 11px; font-weight: 700; margin-top: 2px; }
+        .shukla-box .nakshatra-text { color: #334155; }
         .krishna-box .nakshatra-text { color: #cbd5e1; }
 
-        .nakshatra-time { font-size: 9px; color: #777; }
+        .nakshatra-time { font-size: 10px; opacity: 0.7; }
 
         .sun-times {
-            font-size: 8px;
+            font-size: 9px;
             border-top: 1px solid rgba(0,0,0,0.1);
             margin-top: auto;
-            padding-top: 2px;
+            padding-top: 4px;
             display: flex;
             justify-content: space-between;
+            font-weight: 600;
         }
         .krishna-box .sun-times { border-top-color: rgba(255,255,255,0.1); color: #94a3b8; }
 
-        .shukla-box.festival-cell { background: #f0fff4 !important; }
-        .krishna-box.festival-cell { background: #064e3b !important; }
+        .festival-cell {
+            position: relative;
+            border: 1px solid #ffd700 !important;
+            box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.1);
+        }
+        .festival-cell::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            pointer-events: none;
+        }
 
         .festival-name-tag {
-            font-size: 9px;
-            font-weight: bold;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 10px;
+            font-weight: 900;
+            margin-top: 4px;
+            padding: 2px 4px;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 4px;
+            color: #d97706 !important;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
-        .shukla-box .festival-name-tag { color: #16a34a; }
-        .krishna-box .festival-name-tag { color: #4ade80; }
+        .krishna-box .festival-name-tag { color: #fbbf24 !important; background: rgba(251, 191, 36, 0.1); }
 
         .mana-pandugalu-container {
             grid-column: span 7;
-            background: white;
-            color: #16a34a;
-            padding: 10px;
-            font-size: 12px;
-            border-top: 1px solid #ccc;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            color: #fbbf24;
+            padding: 20px;
+            font-size: 14px;
+            border-top: 2px solid #ffd700;
         }
-        .festival-item-list { display: inline-block; margin-right: 15px; font-size: 11px; }
+        .festival-item-list { display: inline-block; margin-right: 20px; font-size: 13px; padding: 4px 0; }
 
         /* Bottom Navbar */
         .fixed-bottom-bar-nav {
@@ -177,17 +213,15 @@
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             display: flex; justify-content: space-around;
-            padding: 10px 0; z-index: 10000;
+            padding: 12px 0; z-index: 10000;
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center;
-            color: #a0a0ff; text-decoration: none; font-size: 11px; gap: 4px;
+            color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
             transition: all 0.3s ease;
         }
         .nav-item.active { color: #ffd700; }
-        .nav-item i { font-size: 18px; }
-        
-        /* Always glow for Home, Panchangam and Calendar */
+        .nav-item i { font-size: 20px; }
         .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
 
         @keyframes nav-rainbow {
@@ -199,35 +233,35 @@
             100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .header-branding { font-size: 11px; }
-            .header-masam { font-size: 15px; }
+            .header-masam { font-size: 16px; }
             .header-pakshams { font-size: 10px; }
-            .calendar-container { gap: 1px; }
-            .cal-cell { min-height: 85px; padding: 2px; }
-            .date-number { font-size: 15px; top: 1px; right: 2px; }
-            .day-header { font-size: 10px; padding: 5px 1px; }
-            .tithi-text { font-size: 9px; padding-right: 18px; }
-            .nakshatra-text { font-size: 8px; }
-            .sun-times { font-size: 7px; flex-direction: column; }
-            .festival-name-tag { font-size: 8px; }
+            .calendar-container { gap: 1px; width: 100%; border-radius: 0; border: none; }
+            .cal-cell { min-height: 90px; padding: 4px; }
+            .date-number { font-size: 18px; top: 2px; right: 4px; }
+            .day-header { font-size: 11px; padding: 8px 1px; }
+            .tithi-text { font-size: 10px; padding-right: 22px; }
+            .nakshatra-text { font-size: 9px; }
+            .sun-times { font-size: 8px; flex-direction: column; }
+            .festival-name-tag { font-size: 9px; }
         }
         /* Loading Overlay */
         #loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 10, 30, 0.95);
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100000; color: #ffd700; font-family: 'Segoe UI', cursive;
+            z-index: 100000; color: #ffd700;
         }
         .loader-astro {
             width: 60px; height: 60px;
             border: 5px solid rgba(255,215,0,0.2);
             border-top: 5px solid #ffd700;
             border-radius: 50%;
-            animation: spin 1s linear infinite, rainbow-border 3s linear infinite;
+            animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>

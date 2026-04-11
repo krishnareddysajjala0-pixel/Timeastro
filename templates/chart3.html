@@ -148,20 +148,18 @@
                 radial-gradient(2px 2px at 20% 30%, #fff, transparent),
                 radial-gradient(2px 2px at 40% 70%, #fff, transparent),
                 radial-gradient(3px 3px at 60% 20%, #fff, transparent),
-                radial-gradient(2px 2px at 80% 50%, #fff, transparent);
+                radial-gradient(2px 2px at 80% 50%, #fff, transparent),
+                radial-gradient(3px 3px at 10% 80%, #fff, transparent),
+                radial-gradient(2px 2px at 90% 10%, #fff, transparent),
+                radial-gradient(3px 3px at 30% 40%, #fff, transparent);
             background-size: 200px 200px;
             z-index: -1;
             animation: stars 20s linear infinite;
         }
 
         @keyframes stars {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(-200px);
-            }
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
         }
 
         .container {

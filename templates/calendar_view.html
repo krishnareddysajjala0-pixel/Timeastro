@@ -184,7 +184,19 @@
             color: #a0a0ff; text-decoration: none; font-size: 11px; gap: 4px;
         }
         .nav-item.active { color: #ffd700; }
-        .nav-item i { font-size: 18px; }
+        .nav-item i { font-size: 18px; transition: all 0.3s ease; }
+        
+        /* Always glow for Panchangam and Calendar */
+        .nav-panch i, .nav-cal i { animation: nav-rainbow 3s linear infinite; }
+
+        @keyframes nav-rainbow {
+            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        }
 
         @media (max-width: 600px) {
             .header-branding { font-size: 11px; }
@@ -294,11 +306,11 @@
             <i class="fas fa-home"></i>
             <span>హోమ్</span>
         </a>
-        <a href="/daily_panchangam" class="nav-item">
+        <a href="/daily_panchangam" class="nav-item nav-panch">
             <i class="fas fa-om"></i>
-            <span>పంచాంగం</span>
+            <span>దిన పంచాంగం</span>
         </a>
-        <a href="/calendar_view" class="nav-item active">
+        <a href="/calendar_view" class="nav-item active nav-cal">
             <i class="fas fa-calendar-alt"></i>
             <span>క్యాలెండర్</span>
         </a>

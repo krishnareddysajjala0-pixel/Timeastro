@@ -1372,9 +1372,21 @@
         color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
         transition: all 0.3s ease;
     }
-    .nav-item.active { color: #ffd700; animation: rainbow-text 3s linear infinite; }
-    .nav-item i { font-size: 20px; }
+    .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
+    .nav-item i { font-size: 20px; transition: all 0.3s ease; }
     .nav-item:hover { color: #fff; }
+
+    /* Always glow for Panchangam and Calendar */
+    .nav-panch i, .nav-cal i { animation: nav-rainbow 3s linear infinite; }
+
+    @keyframes nav-rainbow {
+        0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+        40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+        60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+        80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+        100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+    }
     
     /* Loading Overlay */
     #loading-overlay {
@@ -1408,11 +1420,11 @@
           <i class="fas fa-home"></i>
           <span>హోమ్</span>
       </a>
-      <a href="/daily_panchangam" class="nav-item">
+      <a href="/daily_panchangam" class="nav-item nav-panch">
           <i class="fas fa-om"></i>
           <span>దిన పంచాంగం</span>
       </a>
-      <a href="/calendar_view" class="nav-item">
+      <a href="/calendar_view" class="nav-item nav-cal">
           <i class="fas fa-calendar-alt"></i>
           <span>క్యాలెండర్</span>
       </a>

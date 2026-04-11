@@ -129,10 +129,10 @@
             font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
             min-height: 100vh;
             padding: 20px;
-            padding-bottom: 120px;
-            /* space for bottom bar and footer */
+            padding-bottom: 100px;
             position: relative;
             overflow-x: hidden;
+            overflow-y: visible !important; /* Ensure scrollability */
             transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
         }
 
@@ -500,10 +500,10 @@
         .caste-cell,
         .gemstone-cell {
             font-weight: 600;
-            padding: 12px 8px;
+            padding: 10px 5px;
             color: var(--text-main);
             letter-spacing: 0.5px;
-            min-width: 140px;
+            min-width: 65px;
         }
 
         .direction-cell {
@@ -519,9 +519,9 @@
         /* Disease List */
         .disease-cell {
             text-align: left;
-            padding: 10px !important;
+            padding: 8px !important;
             vertical-align: top;
-            min-width: 220px !important;
+            min-width: 120px !important;
         }
         .disease-list {
             list-style: none;
@@ -581,7 +581,7 @@
         /* Responsive Fixes for Transposed Tables */
         /* Responsive Fixes for Transposed Tables */
         .data-table th, .data-table td {
-            min-width: 80px; /* Reduced base min-width */
+            min-width: 45px; /* Aggressively reduced base min-width */
             word-wrap: break-word;
             text-align: center;
             box-sizing: border-box;
@@ -722,6 +722,7 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 font-size: 10pt;
+                padding-bottom: 0 !important; /* Fix for extra empty page */
             }
 
             body::before { display: none !important; }

@@ -2047,9 +2047,24 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
 @app.route("/daily_panchangam", methods=["GET", "POST"])
 def daily_panchangam():
     today = datetime.datetime.now()
-    dob = request.form.get("dob") if request.method == "POST" else today.strftime("%Y-%m-%d")
-    tob = request.form.get("tob") if request.method == "POST" else today.strftime("%H:%M")
-    place = request.form.get("place", "Hyderabad, Telangana")
+    dob = today.strftime("%Y-%m-%d")
+    tob = today.strftime("%H:%M")
+    place = "Hyderabad, Telangana"
+    lat = 17.3850
+    lon = 78.4867
+
+    # On GET request: return empty form so JS can auto-detect location
+    if request.method == "GET":
+        return render_template(
+            "daily_panchangam.html",
+            dob=dob, tob=tob, place=place, lat=lat, lon=lon,
+            panch=None
+        )
+
+    # On POST: use submitted values
+    dob = request.form.get("dob", dob)
+    tob = request.form.get("tob", tob)
+    place = request.form.get("place", place)
     lat_str = request.form.get("lat")
     lon_str = request.form.get("lon")
     

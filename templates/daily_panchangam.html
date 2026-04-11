@@ -66,12 +66,25 @@
             border-radius: 12px; border: 2px solid var(--input-border);
             background: var(--input-bg); color: var(--text-main); font-size: 16px;
         }
-        .btn-container { margin-top: 20px; display: flex; justify-content: center; }
+        .btn-container { margin-top: 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .btn {
             padding: 14px 24px; border-radius: 12px; border: none; font-size: 16px;
             font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px;
             background: var(--btn-show-bg); color: #111;
         }
+        .btn-locate {
+            padding: 14px 20px; border-radius: 12px; border: 1px solid rgba(102,126,234,0.5); font-size: 15px;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            background: rgba(102,126,234,0.15); color: #a0a0ff;
+            transition: all 0.3s ease;
+        }
+        .btn-locate:hover { background: rgba(102,126,234,0.3); color: #fff; }
+        #geo-status {
+            text-align: center; margin-top: 12px; font-size: 13px; color: #a0a0ff;
+            min-height: 20px; transition: all 0.3s ease;
+        }
+        #geo-status.error { color: #fca5a5; }
+        #geo-status.success { color: #34d399; }
         .panchangam-result {
             margin-top: 30px;
             padding-top: 20px;
@@ -236,33 +249,35 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 <h2><i class="fas fa-calendar-alt"></i> దిన పంచాంగం</h2>
             </div>
             
-            <form action="/daily_panchangam" method="POST" onsubmit="showLoading()">
+            <form id="panch-form" action="/daily_panchangam" method="POST" onsubmit="showLoading()">
                 <div class="form-grid">
                     <div>
                         <label><i class="fas fa-calendar"></i> తేది (Date)</label>
                         <div class="input-container">
                             <i class="fas fa-calendar-day input-icon"></i>
-                            <input type="date" name="dob" value="{{ dob }}" required>
+                            <input type="date" id="inp-dob" name="dob" value="{{ dob }}" required>
                         </div>
                     </div>
                     <div>
                         <label><i class="fas fa-clock"></i> సమయం (Time)</label>
                         <div class="input-container">
                             <i class="fas fa-clock input-icon"></i>
-                            <input type="time" name="tob" value="{{ tob }}" required>
+                            <input type="time" id="inp-tob" name="tob" value="{{ tob }}" required>
                         </div>
                     </div>
                     <div style="grid-column: 1 / -1;">
                         <label><i class="fas fa-map-marker-alt"></i> స్థలం (Place)</label>
                         <div class="input-container">
                             <i class="fas fa-map-marker-alt input-icon"></i>
-                            <input type="text" name="place" value="{{ place }}" placeholder="గ్రామం, నగరం, రాష్ట్రం">
+                            <input type="text" id="inp-place" name="place" value="{{ place }}" placeholder="గ్రామం, నగరం, రాష్ట్రం">
                         </div>
-                        <input type="hidden" name="lat" value="{{ lat }}">
-                        <input type="hidden" name="lon" value="{{ lon }}">
+                        <input type="hidden" id="inp-lat" name="lat" value="{{ lat }}">
+                        <input type="hidden" id="inp-lon" name="lon" value="{{ lon }}">
                     </div>
                 </div>
+                <div id="geo-status"></div>
                 <div class="btn-container">
+                    <button type="button" class="btn-locate" onclick="detectLocation()"><i class="fas fa-location-arrow"></i> నా స్థానం</button>
                     <button type="submit" class="btn"><i class="fas fa-sync"></i> పంచాంగం చూడండి</button>
                 </div>
             </form>
@@ -487,6 +502,81 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
             showForm.addEventListener('submit', function() {
                 showLoader();
             });
+        }
+
+        // ── Geolocation helpers ───────────────────────────────────────────
+        function setGeoStatus(msg, type) {
+            const el = document.getElementById('geo-status');
+            if (!el) return;
+            el.textContent = msg;
+            el.className = type || '';
+        }
+
+        function fillCurrentDateTime() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm   = String(now.getMonth() + 1).padStart(2, '0');
+            const dd   = String(now.getDate()).padStart(2, '0');
+            const hh   = String(now.getHours()).padStart(2, '0');
+            const mi   = String(now.getMinutes()).padStart(2, '0');
+            const dobEl = document.getElementById('inp-dob');
+            const tobEl = document.getElementById('inp-tob');
+            if (dobEl) dobEl.value = `${yyyy}-${mm}-${dd}`;
+            if (tobEl) tobEl.value = `${hh}:${mi}`;
+        }
+
+        function reverseGeocode(lat, lon, callback) {
+            // Use OpenStreetMap Nominatim (free, no key required)
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
+            fetch(url, { headers: { 'Accept-Language': 'en' } })
+                .then(r => r.json())
+                .then(data => {
+                    const a = data.address || {};
+                    const city    = a.city || a.town || a.village || a.county || '';
+                    const state   = a.state || '';
+                    const country = a.country || '';
+                    const place   = [city, state, country].filter(Boolean).join(', ');
+                    callback(place || 'Current Location');
+                })
+                .catch(() => callback('Current Location'));
+        }
+
+        function detectLocation() {
+            if (!navigator.geolocation) {
+                setGeoStatus('మీ బ్రౌజర్ లోకేషన్ తెలుసుకోలేదు. దయచేసి మాన్యువల్‌గా స్థలం నమోదు చేయండి.', 'error');
+                return;
+            }
+            setGeoStatus('📍 మీ ప్రస్తుత స్థానం గుర్తిస్తోంది...', '');
+            navigator.geolocation.getCurrentPosition(
+                function(pos) {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    document.getElementById('inp-lat').value = lat;
+                    document.getElementById('inp-lon').value = lon;
+                    fillCurrentDateTime();
+                    setGeoStatus('✅ స్థానం గుర్తించబడింది. లోడ్ అవుతోంది...', 'success');
+                    reverseGeocode(lat, lon, function(placeName) {
+                        document.getElementById('inp-place').value = placeName;
+                        showLoader();
+                        document.getElementById('panch-form').submit();
+                    });
+                },
+                function(err) {
+                    let msg = 'స్థానం తెలుసుకోలేకపోయాము';
+                    if (err.code === 1) msg = 'లొకేషన్ పర్మిషన్ నిరాకరించబడింది. దయచేసి బ్రౌజర్ లొకేషన్ యాక్సెస్ ఇవ్వండి.';
+                    else if (err.code === 2) msg = 'స్థాన సమాచారం అందుబాటులో లేదు.';
+                    else if (err.code === 3) msg = 'స్థానం తెలుసుకోవడానికి సమయం అయిపోయింది.';
+                    setGeoStatus(msg, 'error');
+                },
+                { timeout: 12000, maximumAge: 60000, enableHighAccuracy: false }
+            );
+        }
+
+        // ── Auto-detect on first visit (GET request = no panchangam data yet) ──
+        const isFirstLoad = {{ 'true' if not panch else 'false' }};
+        if (isFirstLoad) {
+            // Small delay so the page is visible first
+            setTimeout(detectLocation, 300);
         }
     </script>
 </body>

@@ -138,6 +138,12 @@
         }
         .nav-item i { animation: nav-rainbow 3s linear infinite; }
         .nav-item span { color: #ffd700; font-weight: 600; }
+        .rainbow-text-glow {
+            animation: nav-rainbow 3s linear infinite;
+            font-weight: bold;
+            margin-left: 10px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
 
         /* Kundali Chart Styles */
         .chart-container-c { width: 100%; display: flex; flex-direction: column; align-items: center; margin: 30px 0; grid-column: 1 / -1; }
@@ -302,9 +308,9 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15;">
                     <div class="result-icon"><i class="fas fa-calendar-alt"></i></div>
                     <div>
-                        <div class="result-label">ఇందు క్యాలెండర్ వివరాలు</div>
+                        <div class="result-label">ఇందు క్యాలెండర్ వివరాలు <span class="rainbow-text-glow">త్రైత శకము-{{ panch.thraitha_sakamu }}</span></div>
                         <div class="result-value">
-                            {{ panch.year_name }} నామ సంవత్సరం ({{ panch.year_index + 1 }}), కలియుగ సంవత్సరం-{{ panch.kaliyuga_year }}, త్రైత శకము-{{ panch.thraitha_sakamu }}
+                            {{ panch.year_name }} నామ సంవత్సరం ({{ panch.year_index + 1 }}), కలియుగ సంవత్సరం-{{ panch.kaliyuga_year }}
                         </div>
                         <div class="result-value" style="font-size: 15px; margin-top: 5px; color: #e2e8f0;">
                             తెలుగు మాసం: {{ panch.masam_full }} <br>

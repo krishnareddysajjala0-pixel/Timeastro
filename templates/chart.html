@@ -390,7 +390,7 @@
       transform: translateY(-50%);
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      font-size: clamp(6px, 1.1vw, 8px); /* Dynamic, crisp scaling always smaller than planet text */
+      font-size: 6.5px; /* 50% of 13px */
       line-height: 1;
       color: rgba(255, 255, 255, 0.9);
       font-weight: 800;
@@ -957,9 +957,9 @@
       }
 
       .karma-label {
-        font-size: 8px;
-        margin-bottom: 4px;
-        padding: 1px 3px;
+      font-size: 4.25px; /* 50% of 8.5px */
+      margin-bottom: 2px;
+      padding: 1px 2px;
       }
 
       .rasi-name {
@@ -1148,9 +1148,9 @@
 
 <body>
   <!-- Right Side Controls (Vertical Stack) -->
-  <div id="top-button-stack" style="position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; z-index: 10000;">
+  <div id="top-button-stack" class="top-button-stack">
     <!-- Theme Switcher -->
-    <div class="theme-switcher" id="themeSwitcher" style="position: static; margin-bottom: 0;">
+    <div class="theme-switcher" id="themeSwitcher">
       <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Themes" style="outline:none;">🎨</button>
       <div class="theme-options">
         <button class="theme-btn active" data-theme-btn="default" onclick="setTheme('default')" title="Cosmic Mode">✨</button>
@@ -1162,10 +1162,10 @@
       </div>
     </div>
 
-    <!-- Chart Toggle Buttons Side-by-Side on Desktop/Mobile -->
-    <div class="toggle-container" id="chart-toggles" style="display: flex; gap: 10px;">
-      <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects" style="width: 40px; height: 40px; font-size: 20px;">👆</button>
-      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma" style="width: 50px; height: 40px; border-radius: 20px; font-size: 14px; font-weight: bold;">కర్మ</button>
+    <!-- Chart Toggle Buttons -->
+    <div class="toggle-container" id="chart-toggles">
+      <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
+      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">కర్మ</button>
     </div>
   </div>
   <script>
@@ -1201,11 +1201,35 @@
     .hide-karma .karma-label {
       display: none !important;
     }
+    .top-button-stack {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 15px;
+      z-index: 10000;
+    }
+    .theme-switcher {
+      position: static;
+      margin-bottom: 0;
+    }
     .toggle-container {
-      display: inline-flex;
+      display: flex;
       gap: 10px;
-      vertical-align: middle;
-      margin-right: 15px;
+    }
+    #chupuluBtn {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    #karmaBtn {
+      width: 50px;
+      height: 40px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
     }
     .header-toggle-btn {
       background: rgba(255, 255, 255, 0.1);
@@ -1227,40 +1251,41 @@
       transform: scale(1.1);
     }
     @media (max-width: 768px) {
-      .header-toggle-btn {
-        width: 24px;
-        height: 24px;
-        font-size: 11px;
-      }
-      /* Separated: Theme/Hand to Top-Left, Karma to Top-Right */
-      #top-button-stack {
-        right: 0 !important;
-        left: 0 !important;
+      .top-button-stack {
         top: 10px !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        width: 100% !important;
-        padding: 0 10px !important;
-        align-items: center !important;
-        gap: 0 !important;
+        right: 10px !important;
+        gap: 8px !important;
       }
-      #chart-toggles {
-        flex-direction: row-reverse !important; /* Forces Hand towards center, Karma towards edge */
-        gap: 0 !important;
-        margin-left: -5px;
-      }
-      #themeSwitcher {
-        order: -1;
+      .header-toggle-btn {
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 12px !important;
       }
       #chupuluBtn {
-        order: 1;
-        margin-right: auto;
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 12px !important;
       }
       #karmaBtn {
         position: fixed !important;
         top: 10px !important;
-        right: 15px !important;
-        order: 10;
+        left: 10px !important;
+        right: auto !important;
+        width: 35px !important;
+        height: 25px !important;
+        font-size: 9px !important;
+        border-radius: 12px !important;
+      }
+      #chart-toggles {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .theme-switcher {
+        max-width: 35px !important;
+      }
+      .theme-toggle-btn {
+        font-size: 16px !important;
+        min-width: 25px !important;
       }
     }
   </style>

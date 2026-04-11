@@ -726,12 +726,12 @@ def chart():
         res_setUTC = s["sunset"]
         
         # Convert Astral's timezone-aware response directly to the requested format
-        suryodayam = res_riseUTC.strftime("%I:%M") + (" ఉ:" if res_riseUTC.hour < 12 else " సా:")
-        suryastamayam = res_setUTC.strftime("%I:%M") + (" ఉ:" if res_setUTC.hour < 12 else " సా:")
+        suryodayam = ("ఉ: " if res_riseUTC.hour < 12 else "సా: ") + res_riseUTC.strftime("%I:%M")
+        suryastamayam = ("ఉ: " if res_setUTC.hour < 12 else "సా: ") + res_setUTC.strftime("%I:%M")
     except Exception as e:
         print(f"Astral Sun Calculation Failed: {e}")
-        suryodayam = "06:00 ఉ:"
-        suryastamayam = "06:00 సా:"
+        suryodayam = "ఉ: 06:00"
+        suryastamayam = "సా: 06:00"
     
     # Astral has already given us formatted 'suryodayam' and 'suryastamayam'
 
@@ -1801,9 +1801,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     
     def get_am_pm_str(dt):
         time_str = dt.strftime("%I:%M")
-        ampm = "ఉ" if dt.hour < 12 else ("మ" if dt.hour < 16 else ("సా" if dt.hour < 20 else "రా"))
-        exact_ampm = "ఉ:" if dt.hour < 12 else "సా:"
-        return f"{time_str} {exact_ampm}"
+        ampm = "ఉ: " if dt.hour < 12 else "సా: "
+        return f"{ampm}{time_str}"
         
     diff = (moon_lon - sun_lon) % 360
     tithi_index = int(diff / 12)
@@ -1854,10 +1853,10 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     
     target_tithi = jd_dt + datetime.timedelta(hours=int(hours_rem), minutes=int((hours_rem%1)*60))
     tithi_end_str = get_am_pm_str(target_tithi)
-    calendar_tithi_end = f"{'ఉ' if target_tithi.hour < 12 else ('మ' if target_tithi.hour < 16 else ('సా' if target_tithi.hour < 20 else 'రా'))} {target_tithi.strftime('%I:%M')}"
+    calendar_tithi_end = f"{'ఉ: ' if target_tithi.hour < 12 else 'సా: '}{target_tithi.strftime('%I:%M')}"
     target_nak = jd_dt + datetime.timedelta(hours=int(nak_hours_rem), minutes=int((nak_hours_rem%1)*60))
     nak_end_str = get_am_pm_str(target_nak)
-    calendar_nak_end = f"{'ఉ' if target_nak.hour < 12 else ('మ' if target_nak.hour < 16 else ('సా' if target_nak.hour < 20 else 'రా'))} {target_nak.strftime('%I:%M')}"
+    calendar_nak_end = f"{'ఉ: ' if target_nak.hour < 12 else 'సా: '}{target_nak.strftime('%I:%M')}"
     
     # Yoga
     yoga_index = int(((sun_lon + moon_lon) % 360) / NAKSHATRA_SIZE)
@@ -1943,8 +1942,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     wd_index = local_midnight.weekday()
     vara_name = telugu_weekdays[wd_index]
     
-    suryodayam = "06:00 ఉ:"
-    suryastamayam = "06:00 సా:"
+    suryodayam = "ఉ: 06:00"
+    suryastamayam = "సా: 06:00"
     moonrise_str = "N/A"
     moonset_str = "N/A"
     

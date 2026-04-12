@@ -234,3 +234,4 @@
 233. [12-Apr-2026 00:57:39] Name: Krishnareddy Sajjala, DOB: 2026-04-12, TOB: 06:27, Place: Bengaluru, Karnataka, India
 234. [12-Apr-2026 01:11:33] Name: Krishnareddy Sajjala, DOB: 2026-04-25, TOB: 06:41, Place: Ulavapadu, Sri Potti Sriramulu Nellore, Andhra Pradesh, 523292, India
 235. [12-Apr-2026 05:21:29] Name: Raj, DOB: 1991-06-26, TOB: 17:50, Place: Hyderabad, Telangana, India
+236. [12-Apr-2026 07:22:40] Name: Ajay, DOB: 1987-04-03, TOB: 23:03, Place: Visakhapatnam ,India

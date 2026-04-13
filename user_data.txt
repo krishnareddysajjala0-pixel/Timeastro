@@ -255,3 +255,4 @@
 254. [13-Apr-2026 05:52:07] Name: Raviphani S N, DOB: 1989-02-03, TOB: 20:44, Place: Hindupur, హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, 515200, India
 255. [13-Apr-2026 05:53:24] Name: Raviphani S N, DOB: 1989-02-03, TOB: 20:44, Place: Hindupur, హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, 515200, India
 256. [13-Apr-2026 12:01:25] Name: Kavya , DOB: 1998-08-09, TOB: 09:19, Place: Pavagada, Pavagada taluk, Tumakuru, Karnataka, 561202, India
+257. [13-Apr-2026 15:56:36] Name: Reddy, DOB: 2026-04-13, TOB: 21:26, Place: Zarugumalli, Prakasam, Andhra Pradesh, 523271, India

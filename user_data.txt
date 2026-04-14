@@ -257,3 +257,4 @@
 256. [13-Apr-2026 12:01:25] Name: Kavya , DOB: 1998-08-09, TOB: 09:19, Place: Pavagada, Pavagada taluk, Tumakuru, Karnataka, 561202, India
 257. [13-Apr-2026 15:56:36] Name: Reddy, DOB: 2026-04-13, TOB: 21:26, Place: Zarugumalli, Prakasam, Andhra Pradesh, 523271, India
 258. [13-Apr-2026 15:57:50] Name: Reddy, DOB: 2026-04-13, TOB: 21:27, Place: Bengaluru, Karnataka, India
+259. [14-Apr-2026 03:27:54] Name: Chintala varun, DOB: 1998-08-02, TOB: 02:00, Place: Hyderabad, Telangana, India

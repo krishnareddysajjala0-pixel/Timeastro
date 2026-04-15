@@ -2327,6 +2327,7 @@ def calendar_view():
             
         days_data[wd][week_idx] = {
             "date": current_dt.day,
+            "month_en": current_dt.strftime("%b"),
             "month_te": EN_MONTHS_TELUGU[current_dt.month - 1],
             "tithi_full": panch["tithi_full"],
             "tithi_end": panch["tithi_end"],
@@ -2340,7 +2341,8 @@ def calendar_view():
             "fest_name": f_name,
             "is_shukla": "శుక్ల" in panch["paksha"],
             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
-            "is_amavasya": "అమావాస్య" in panch["tithi_full"]
+            "is_amavasya": "అమావాస్య" in panch["tithi_full"],
+            "is_today": current_dt == datetime.datetime.now().date()
         }
         
     return render_template(

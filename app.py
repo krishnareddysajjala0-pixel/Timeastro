@@ -20,7 +20,7 @@ app.secret_key = 'astrology-secret-key-2024'  # Required for session
 # swe.set_ephe_path(".")  # Removed to allow Render to use default pyswisseph bundled files
 swe.set_sid_mode(swe.SIDM_LAHIRI)
 
-PLANET_FLAGS = swe.FLG_SWIEPH | swe.FLG_SIDEREAL
+PLANET_FLAGS = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED
 
 RASI_TELUGU = [
     "మేషం","వృషభం","మిథునం","కర్కాటకం",
@@ -2278,12 +2278,17 @@ def daily_panchangam():
             rasi_idx = int(lon_now / 30) % 12
             rasi_name = RASI_TELUGU[rasi_idx]
 
-            # Find entry (when planet entered this rasi) and exit (when it leaves)
-            jd_exit = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=True)
-            jd_entry = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=False)
+            # Find both rasi boundaries (one in each temporal direction)
+            jd_bound1 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=True)
+            jd_bound2 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=False)
+
+            # Sort chronologically: smaller JD = past = entry, larger JD = future = exit
+            bounds = sorted([b for b in [jd_bound1, jd_bound2] if b is not None])
+            jd_entry = bounds[0] if len(bounds) >= 1 else None
+            jd_exit  = bounds[1] if len(bounds) >= 2 else None
 
             entry_str = jd_to_date_str(jd_entry) if jd_entry else "—"
-            exit_str = jd_to_date_str(jd_exit) if jd_exit else "—"
+            exit_str  = jd_to_date_str(jd_exit)  if jd_exit  else "—"
 
             transit_table.append({
                 "name": p_name,

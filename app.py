@@ -36,8 +36,8 @@ PLANETS = {
     "గురు": swe.JUPITER,
     "శుక్రుడు": swe.VENUS,
     "శని": swe.SATURN,
-    "రాహు": swe.MEAN_NODE
-}
+    "రాహు": swe.TRUE_NODE
+};
 
 SPECIAL_HANDS = {
     "కుజుడు": [90, 210],
@@ -2105,7 +2105,7 @@ def daily_panchangam():
         DAILY_PLANETS = {
             "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
             "బుధుడు": swe.MERCURY, "గురు": swe.JUPITER, "శుక్రుడు": swe.VENUS, 
-            "శని": swe.SATURN, "రాహు": swe.MEAN_NODE
+            "శని": swe.SATURN, "రాహు": swe.TRUE_NODE
         }
         
         def get_p_info(name, lon):
@@ -2171,16 +2171,16 @@ def daily_panchangam():
         def get_derived_lon(jd_val, ptype):
             """Get longitude for derived planets"""
             if ptype == "కేతు":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 return (rahu + 180) % 360
             elif ptype == "భూమి":
                 sun = get_planet_lon(jd_val, swe.SUN)
                 return (sun + 180) % 360
             elif ptype == "చిత్ర":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 return (rahu + 3.3333) % 360
             elif ptype == "మిత్ర":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 ketu = (rahu + 180) % 360
                 return (ketu + 3.3333) % 360
 
@@ -2207,15 +2207,9 @@ def daily_panchangam():
                find_exit=True  -> look for next rasi change (exit)
                find_exit=False -> look for previous rasi change (entry)
             """
-            # Determine actual motion direction at jd_start
-            retro = is_planet_retrograde(jd_start, name, pid)
-
-            # For exit: search forward in time if prograde, backward if retrograde
-            # For entry: search backward in time if prograde, forward if retrograde
-            if find_exit:
-                direction = -1 if retro else +1
-            else:
-                direction = +1 if retro else -1
+            # Entry is always in the past (direction = -1)
+            # Exit is always in the future (direction = 1)
+            direction = 1 if find_exit else -1
 
             step_days = {
                 "చంద్రుడు": 0.5, "సూర్యుడు": 3, "భూమి": 3,
@@ -2256,12 +2250,12 @@ def daily_panchangam():
         def jd_to_date_str(jd_val):
             """Convert JD to Telugu-formatted date + time string"""
             y, m, d, h = swe.revjul(jd_val)
-            dt_val = datetime.datetime(int(y), int(m), int(d), int(h), int((h % 1) * 60))
+            dt_val = datetime.datetime(int(y), int(m), int(d)) + datetime.timedelta(hours=h)
             dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
             te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
                          "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
             ampm = "ఉ" if dt_val.hour < 12 else "సా"
-            time_str = dt_val.strftime("%I:%M").lstrip("0") or "12:00"
+            time_str = dt_val.strftime("%I:%M:%S").lstrip("0") or "12:00:00"
             return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year} ({ampm}: {time_str})"
 
         # All 12 planets

@@ -303,3 +303,4 @@
 302. [16-Apr-2026 14:25:26] Name: pujita, DOB: 2001-02-12, TOB: 15:05, Place: Kandukur, Andhra Pradesh, 523105, India
 303. [16-Apr-2026 14:31:29] Name: sai akilesh, DOB: 1999-06-12, TOB: 00:20, Place: Nellore, Sri Potti Sriramulu Nellore, Andhra Pradesh, 524001, India
 304. [16-Apr-2026 15:03:47] Name: Pujitha , DOB: 2001-02-12, TOB: 15:05, Place: Kandukur, Prakasam Andhra Pradesh 
+305. [16-Apr-2026 15:04:00] Name: Lakshmisetty Vandana , DOB: 2003-01-14, TOB: 15:05, Place: Kandukur, Andhra Pradesh, 523105, India

@@ -313,3 +313,4 @@
 312. [16-Apr-2026 15:36:46] Name: Lakshmisetty Naveen , DOB: 1999-05-31, TOB: 13:00, Place: Kavali, Sri Potti Sriramulu Nellore, Andhra Pradesh, 524200, India
 313. [16-Apr-2026 15:38:40] Name: Pujitha , DOB: 2001-02-12, TOB: 15:05, Place: Visakhapatnam, Andhra Pradesh, India
 314. [16-Apr-2026 15:40:27] Name: Pujitha , DOB: 2001-02-12, TOB: 15:05, Place: Kandukur, Andhra Pradesh, India
+315. [16-Apr-2026 15:40:34] Name: Lakshmisetty Vandana , DOB: 2003-01-14, TOB: 15:05, Place: Kandukur, Andhra Pradesh, 523105, India

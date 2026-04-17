@@ -1546,9 +1546,9 @@
         }
 
         .current-dasa-title {
-            font-size: 22px;
+            font-size: 15px;
             color: #ff9800;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-weight: 700;
             text-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
         }
@@ -1662,15 +1662,15 @@
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 13px;
             color: var(--text-main);
             background: linear-gradient(90deg,
                     rgba(102, 126, 234, 0.3),
                     rgba(118, 75, 162, 0.3));
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid #667eea;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -1726,16 +1726,16 @@
         }
 
         .maha-dasa-name {
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             color: var(--text-main);
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .maha-dasa-period {
-            font-size: 12px;
+            font-size: 10px;
             color: #ffd700;
-            margin-top: 2px;
+            margin-top: 1px;
             font-weight: 600;
         }
 
@@ -1789,10 +1789,10 @@
         .anthara-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 13px;
+            margin-top: 5px;
+            font-size: 10px;
             background: rgba(40, 40, 70, 0.5);
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
         }
 
@@ -2650,20 +2650,21 @@
 /* Ensure compare wrapping still works */
 .compare-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-direction: row;
+    gap: 10px;
     width: 100%;
-    max-width: 1800px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 5px;
 }
-@media (min-width: 1100px) {
+.chart-container-wrapper {
+    flex: 1;
+    min-width: 0;
+}
+@media (max-width: 768px) {
     .compare-wrapper {
-        flex-direction: row;
-    }
-    .chart-container-wrapper {
-        flex: 1;
-        min-width: 0;
+        gap: 5px;
+        padding: 0 2px;
     }
 }
 
@@ -2818,40 +2819,6 @@
     <!-- Floating Bottom Action Bar -->
     <!-- Floating Bottom Action Bar -->
     <!-- Floating Bottom Action Bar -->
-    <style>
-        @keyframes rainbow-glow {
-            0% { box-shadow: 0 0 5px #ff0000; }
-            20% { box-shadow: 0 0 5px #ff7f00; }
-            40% { box-shadow: 0 0 5px #ffff00; }
-            60% { box-shadow: 0 0 5px #00ff00; }
-            80% { box-shadow: 0 0 5px #0000ff; }
-            100% { box-shadow: 0 0 5px #ff0000; }
-        }
-        .rainbow-animate { animation: rainbow-glow 3s infinite alternate; }
-    </style>
-    <div class="fixed-bottom-bar" id="action-bar">
-        <button class="nav-item nav-home float-btn rainbow-animate" style="background: linear-gradient(135deg, #FFD700, #DAA520); color: #000;"
-            onclick="window.location.href='/'">
-            <i class="fas fa-home"></i> హోమ్
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
-            onclick="window.location.href='/go-to-birth-chart'">
-            <i class="fas fa-arrow-left"></i> కుండలికి
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
-            onclick="window.location.href='/results'">
-            <i class="fas fa-chart-line"></i> ఫలితాలు
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
-            onclick="window.location.href='/chart3'">
-            <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
-        </button>
-        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="window.print()">
-            <i class="fas fa-file-pdf"></i> PDF
-        </button>
-
-    </div>
 
     <script>
         // Theme Management

@@ -6,1310 +6,30 @@
     <title>దశాచార పోలిక</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    .short-name, .short-deg {
-      display: none;
-    }
-
-    :root {
-      --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      --text-main: #ffffff;
-      --text-muted: #a0a0ff;
-      --card-bg: rgba(25, 25, 35, 0.7);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --box-border: rgba(255, 255, 255, 0.2);
-      --box-border-hover: rgba(255, 255, 255, 0.4);
-      --header-bg: linear-gradient(45deg, gold, #ffd700);
-      --shadow-color: rgba(0, 0, 0, 0.4);
-    }
-
-    [data-theme="light"] {
-      --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      --text-main: #1e293b;
-      --text-muted: #475569;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --card-border: rgba(0, 0, 0, 0.1);
-      --box-border: rgba(0, 0, 0, 0.15);
-      --box-border-hover: rgba(0, 0, 0, 0.3);
-      --header-bg: linear-gradient(45deg, #b45309, #d97706);
-      --shadow-color: rgba(0, 0, 0, 0.1);
-    }
-
-    [data-theme="dark"] {
-      --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --card-bg: rgba(15, 23, 42, 0.8);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --box-border: rgba(255, 255, 255, 0.15);
-      --box-border-hover: rgba(255, 255, 255, 0.35);
-      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
-      --shadow-color: rgba(0, 0, 0, 0.5);
-    }
-
-    [data-theme="sunset"] {
-      --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
-      --text-main: #fff0f5;
-      --text-muted: #ffe4e1;
-      --card-bg: rgba(43, 11, 23, 0.85);
-      --card-border: rgba(255, 255, 255, 0.2);
-      --box-border: rgba(255, 255, 255, 0.25);
-      --box-border-hover: rgba(255, 255, 255, 0.45);
-      --header-bg: linear-gradient(45deg, #fceabb, #f8b500);
-      --shadow-color: rgba(0, 0, 0, 0.6);
-    }
-
-    [data-theme="ocean"] {
-      --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
-      --text-main: #f0fdfa;
-      --text-muted: #ccfbf1;
-      --card-bg: rgba(9, 32, 63, 0.85);
-      --card-border: rgba(255, 255, 255, 0.2);
-      --box-border: rgba(255, 255, 255, 0.25);
-      --box-border-hover: rgba(255, 255, 255, 0.45);
-      --header-bg: linear-gradient(45deg, #4facfe, #00f2fe);
-      --shadow-color: rgba(0, 0, 0, 0.6);
-    }
-
-    [data-theme="forest"] {
-      --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
-      --text-main: #f0fdf4;
-      --text-muted: #dcfce7;
-      --card-bg: rgba(11, 56, 36, 0.85);
-      --card-border: rgba(255, 255, 255, 0.2);
-      --box-border: rgba(255, 255, 255, 0.25);
-      --box-border-hover: rgba(255, 255, 255, 0.45);
-      --header-bg: linear-gradient(45deg, #f9d423, #ff4e50);
-      --shadow-color: rgba(0, 0, 0, 0.6);
-    }
-
-    body {
-      background: var(--bg-primary);
-      color: var(--text-main);
-      font-family: 'Segoe UI', 'Noto Serif Telugu', serif;
-      padding: 10px;
-      min-height: 100vh;
-      position: relative;
-      padding-bottom: 80px;
-    }
-
-    /* Bottom Navbar */
-    .fixed-bottom-bar-nav {
-        position: fixed; bottom: 0; left: 0; width: 100%;
-        background: rgba(15, 12, 41, 0.95);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        display: flex; justify-content: space-around;
-        padding: 12px 0; z-index: 10000;
-    }
-    .nav-item {
-        display: flex; flex-direction: column; align-items: center;
-        color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
-        transition: all 0.3s ease;
-    }
-    .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
-    .nav-item i { font-size: 20px; transition: all 0.3s ease; }
-    .nav-item:hover { color: #fff; }
-
-    /* Always glow for Home, Panchangam and Calendar */
-    .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
-
-    @keyframes nav-rainbow {
-        0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-        20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
-        40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
-        60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
-        80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
-        100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-    }
-
-    /* Rainbow numbers background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      z-index: -1;
-      animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
-    }
-
-    @keyframes float-up {
-      from { transform: translateY(0); }
-      to { transform: translateY(-200px); }
-    }
-
-    @keyframes rainbow-scroll {
-      from { filter: hue-rotate(0deg); }
-      to { filter: hue-rotate(360deg); }
-    }
-
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      position: relative;
-    }
-
-    .header::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 25%;
-      width: 50%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, gold, transparent);
-      border-radius: 3px;
-    }
-
-    .om-title {
-      font-size: 28px;
-      background: var(--header-bg);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 800;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-
-    .page-title {
-      font-size: 36px;
-      color: var(--text-main);
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
-      margin-bottom: 1.5em;
-    }
-
-    /* Action buttons */
-    .action-buttons {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 1000;
-    }
-
-    .action-btn {
-      padding: 12px 24px;
-      border-radius: 25px;
-      border: none;
-      cursor: pointer;
-      font-family: 'Segoe UI', 'Noto Serif Telugu', serif;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .back-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-    }
-
-    .back-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-
-    .print-btn {
-      background: linear-gradient(135deg, #8b0000, #660000);
-      color: white;
-    }
-
-    .print-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
-    }
-
-    /* Navigation Buttons */
-    .fixed-bottom-bar {
-      position: fixed !important;
-      bottom: 45px !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      margin: 0 !important;
-      background: rgba(20, 19, 50, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(120, 119, 198, 0.3);
-      border-radius: 30px;
-      padding: 10px 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      z-index: 9999;
-      max-width: 95vw;
-    }
-
-    .fixed-bottom-bar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .float-btn {
-      flex: 0 0 auto;
-      padding: 10px 18px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-      font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: white;
-      white-space: nowrap;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, filter 0.2s ease;
-    }
-
-    .float-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.2);
-    }
-
-    .float-btn:active {
-      transform: translateY(0);
-    }
-
-    .nav-btn-home {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-    }
-
-    .nav-btn-dasa {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-    }
-
-    .nav-btn-planets {
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-    }
-
-    .chart-container {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      padding: 20px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 20px 40px var(--shadow-color);
-    }
-
-    .chart {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 8px;
-      margin: auto;
-    }
-
-    /* ===== HOUSE BOX ===== */
-    .box {
-      position: relative;
-      border: 2px solid var(--box-border);
-      min-height: 130px;
-      padding: 12px;
-      font-size: 13px;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      overflow: hidden;
-    }
-
-    .box:hover {
-      transform: translateY(-3px);
-      border-color: var(--box-border-hover);
-      box-shadow: 0 10px 20px var(--shadow-color);
-    }
-
-    /* ===== HOUSE BACKGROUND COLORS ===== */
-    .house-green {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0.15));
-      border-left: 4px solid rgba(34, 197, 94, 0.6);
-    }
-
-    .house-red {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(239, 68, 68, 0.15));
-      border-left: 4px solid rgba(239, 68, 68, 0.6);
-    }
-
-    .house-mixed {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(239, 68, 68, 0.15));
-      border-left: 4px solid rgba(148, 163, 184, 0.6);
-    }
-
-    /* ===== LAGNA ===== */
-    .lagna {
-      border: 3px solid gold;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-      position: relative;
-    }
-
-
-    /* ===== TEXT ===== */
-    .house-no {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      background: rgba(0, 0, 0, 0.3);
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      line-height: 1;
-      padding: 0;
-    }
-
-    .rasi-name {
-      position: absolute;
-      bottom: 8px;
-      right: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px 10px;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .karma-label {
-      position: absolute;
-      right: 2px;
-      top: 50%;
-      transform: translateY(-50%);
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      font-size: 6.5px; /* 50% of 13px */
-      line-height: 1;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 800;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 4px 2px;
-      border-radius: 4px;
-      letter-spacing: 0px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      z-index: 5;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-
-
-
-    /* ===== CENTER ===== */
-    .center {
-      grid-column: 2 / 4;
-      grid-row: 2 / 4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      border: 2px solid var(--box-border);
-      border-radius: 15px;
-      font-size: 15px;
-      background: var(--card-bg);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .center::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.05) 100%);
-    }
-
-    .center-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .party-badge {
-      display: inline-block;
-      padding: 6px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .person-name {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin: 10px 0;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    .info-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 6px 0;
-      font-size: 13px;
-      color: var(--text-main);
-    }
-
-    .info-line i {
-      color: #ffd700;
-      width: 16px;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      margin: 12px auto;
-      width: 80%;
-    }
-
-    .nakshatra-info {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 10px;
-      margin: 10px 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .nakshatra-title {
-      font-weight: bold;
-      color: #ffd700;
-      margin-bottom: 5px;
-    }
-
-    .time-info {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 8px;
-    }
-
-    .time-item {
-      text-align: center;
-    }
-
-    .time-value {
-      font-weight: bold;
-      color: white;
-      font-size: 14px;
-    }
-
-    .time-label {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    /* ===== PLANET COLORS ===== */
-    .pos {
-      color: #22c55e;
-      font-weight: 600;
-    }
-
-    .neg {
-      color: #ef4444;
-      font-weight: 600;
-    }
-
-    .hand {
-      display: inline-block;
-      padding: 3px 10px;
-      margin: 3px 2px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      font-size: 11px;
-      background: rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .hand:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.05);
-    }
-
-    /* ===== FORM STYLE ===== */
-    .form-container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 25px;
-      background: rgba(25, 25, 35, 0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-    }
-
-    .form-buttons {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .form-btn {
-      padding: 16px 35px;
-      background: linear-gradient(135deg, #8b0000, #660000);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: 'Noto Serif Telugu', serif;
-      font-size: 16px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-width: 280px;
-      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.3);
-    }
-
-    .form-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(139, 0, 0, 0.4);
-      background: linear-gradient(135deg, #660000, #8b0000);
-    }
-
-    .form-btn:active {
-      transform: translateY(0);
-    }
-
-    .form-btn-alt {
-      background: linear-gradient(135deg, #ff9800, #f57c00);
-      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
-    }
-
-    .form-btn-alt:hover {
-      background: linear-gradient(135deg, #f57c00, #ff9800);
-      box-shadow: 0 10px 25px rgba(255, 152, 0, 0.4);
-    }
-
-    .btn-icon {
-      font-size: 18px;
-    }
-
-    /* Quick actions */
-    .quick-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .quick-action-btn {
-      padding: 12px 25px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
-      font-family: 'Noto Serif Telugu', serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      justify-content: center;
-      min-width: 200px;
-    }
-
-    .quick-action-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(45deg, #8b0000, #660000);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(45deg, #660000, #8b0000);
-    }
-
-    /* ===== PRINT ===== */
-    @media print {
-      *, *::before, *::after {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
-        animation: none !important;
-        backdrop-filter: none !important;
-      }
-      
-      body::before, body::after, .background-overlay, .cosmic-bg {
-        display: none !important;
-      }
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
-        min-height: 100vh !important;
-      }
-
-      .header {
-        color: #000 !important;
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-        margin-bottom: 5px !important;
-        width: 100% !important;
-        text-align: center !important;
-        border: none !important;
-      }
-
-
-      
-      .center {
-        border: 2px solid #000 !important;
-        background: #fff !important;
-      }
-      
-      .center::before { display: none !important; }
-
-      .om-title {
-        -webkit-text-fill-color: #d2691e !important;
-        color: #d2691e !important;
-      }
-
-      .page-title {
-        color: #d2691e !important;
-      }
-      
-      .person-name {
-        -webkit-text-fill-color: #000080 !important;
-        color: #000080 !important;
-        background: none !important;
-      }
-      
-      .house-no {
-        background: transparent !important;
-        color: #b22222 !important;
-        border: 1px solid #b22222 !important;
-        top: 2px !important;
-        right: 2px !important;
-        width: 18px !important;
-        height: 18px !important;
-        font-size: 9px !important;
-      }
-      
-      .rasi-name {
-        background: transparent !important;
-        color: #000080 !important;
-        border: none !important;
-        bottom: 2px !important;
-        right: 2px !important;
-        font-size: 10px !important;
-        padding: 2px 6px !important;
-      }
-      
-      table td {
-        color: #000000 !important;
-      }
-      
-      table td i {
-        color: #b22222 !important;
-      }
-      
-      .time-value { color: #d2691e !important; }
-      .time-label { color: #000080 !important; }
-      
-      .party-badge {
-        background: #fff !important;
-        color: #000 !important;
-        border: 2px solid #000 !important;
-      }
-
-      .action-buttons,
-      .nav-buttons,
-      .back-btn,
-      .no-print,
-      .form-container,
-      .scrolling-footer,
-      .quick-actions,
-      .theme-switcher,
-      .fixed-bottom-bar,
-      #action-bar,
-      .float-btn,
-      .print-hide,
-      #transit-btn,
-      #transit-loading,
-      .toggle-container {
-        display: none !important;
-      }
-
-      .chart-container, #transit-container {
-        page-break-inside: avoid;
-        break-inside: avoid;
-        padding: 0 !important;
-        margin: 0 auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        border: none !important;
-        transform: scale(0.90);
-        transform-origin: top center;
-      }
-
-      .chart {
-        gap: 2px !important;
-        width: 100% !important;
-      }
-
-      .box {
-        background: #ffffff !important;
-        border: 1px solid #000 !important;
-        padding: 3px !important;
-        min-height: 95px !important;
-        font-size: 13px !important;
-        line-height: 1.25 !important;
-      }
-
-      .center {
-        padding: 12px !important;
-        font-size: 14px !important;
-        border: 1px solid #000 !important;
-      }
-      
-      .center table {
-        font-size: 12px !important;
-      }
-
-
-      .pos {
-        color: #006400 !important;
-      }
-
-      .neg {
-        color: #8b0000 !important;
-      }
-
-      .lagna {
-        border: 3px solid #000 !important;
-        box-shadow: none !important;
-      }
-      
-      .karma-label {
-        color: #000 !important;
-        font-size: 6.5px !important;
-        background: none !important;
-        border: 1px solid #ccc !important;
-        right: 2px !important;
-        padding: 4px 2px !important;
-      }
-
-
-    }
-
-    @page {
-      size: A4 portrait;
-      margin: 5mm;
-    }
-
-    /* Scrolling Footer */
-    .scrolling-footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        color: #ffd700;
-        padding: 8px 0;
-        overflow: hidden;
-        white-space: nowrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-        z-index: 10000;
-        backdrop-filter: blur(5px);
-    }
-    .scrolling-footer-text {
-        display: inline-block;
-        animation: scrollLeft 20s linear infinite;
-        font-size: 15px;
-        font-weight: bold;
-        padding-left: 100%;
-    }
-    @keyframes scrollLeft {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .chart {
-        gap: 5px;
-      }
-
-      .box {
-        min-height: 35px;
-        padding: 3px;
-        font-size: 8.5px !important;
-        line-height: 1;
-        text-align: left !important;
-      }
-      
-      .house-no {
-        width: 18px !important;
-        height: 18px !important;
-        font-size: 10px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        line-height: 0 !important;
-        padding: 0 !important;
-      }
-
-      .full-name, .full-deg {
-        display: none !important;
-      }
-      
-      .short-name, .short-deg {
-        display: inline !important;
-      }
-
-      .chart-container {
-        padding: 5px;
-        margin-bottom: 20px;
-        max-height: none;
-        overflow: visible;
-        display: block;
-      }
-
-      .header {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-      }
-
-      .om-title {
-        font-size: 18px;
-        margin-bottom: 2px;
-      }
-
-      .page-title {
-        font-size: 24px;
-        margin-bottom: 0.5em;
-      }
-
-      .person-name {
-        font-size: 16px;
-        margin: 5px 0;
-      }
-
-      .party-badge {
-        padding: 2px 8px;
-        font-size: 10px;
-        margin-bottom: 5px;
-      }
-
-      .box span {
-        display: inline-block;
-        max-width: 85%; /* Prevents overlap with house number on right */
-        word-break: break-word;
-      }
-
-      .box-condensed {
-        font-size: 9px !important;
-      }
-
-      .box-condensed span {
-        line-height: 1;
-      }
-
-      .house-no {
-        width: 20px;
-        height: 20px;
-        font-size: 10px;
-        top: 4px;
-        right: 4px;
-      }
-
-      .karma-label {
-      font-size: 4.25px; /* 50% of 8.5px */
-      margin-bottom: 2px;
-      padding: 1px 2px;
-      }
-
-      .rasi-name {
-        font-size: 8px !important;
-        padding: 2px 5px !important;
-        bottom: 2px !important;
-        right: 2px !important;
-      }
-
-      .center {
-        padding: 2px;
-        font-size: 8.5px !important;
-      }
-
-      .person-name {
-        font-size: 8.5px !important;
-        margin: 0 !important;
-      }
-
-      .center table {
-        border-spacing: 0 1px !important;
-        font-size: 8.5px !important;
-      }
-
-      .nakshatra-info {
-        display: none !important;
-      }
-
-      .form-btn {
-        min-width: 100%;
-        padding: 14px;
-      }
-
-      .form-buttons {
-        flex-direction: column;
-      }
-
-      .hand {
-        padding: 2px 5px !important;
-        font-size: 9px !important;
-        margin: 1px 0 !important;
-        white-space: nowrap !important;
-        border-radius: 8px !important;
-      }
-
-      .box b, .box small {
-        font-size: 9px !important;
-      }
-
-      .nav-buttons {
-        bottom: 15px;
-        padding: 10px 15px;
-        flex-wrap: wrap;
-        width: 95%;
-        justify-content: center;
-      }
-
-      .nav-btn {
-        padding: 8px 15px;
-        font-size: 12px;
-      }
-
-      .quick-action-btn {
-        min-width: 100%;
-      }
-    }
-
-    /* Theme Switcher */
-    .theme-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 8px;
-      background: var(--card-bg);
-      padding: 6px;
-      border-radius: 30px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 4px 15px var(--shadow-color);
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      transition: max-width 0.3s ease;
-      overflow: hidden;
-      max-width: 45px;
-    }
-
-    .theme-switcher.expanded {
-      max-width: 300px;
-    }
-
-    .theme-toggle-btn {
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      padding: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 30px;
-    }
-
-    .theme-options {
-      display: flex;
-      gap: 8px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .theme-switcher.expanded .theme-options {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .theme-btn {
-      background: transparent;
-      border: none;
-      font-size: 16px;
-      padding: 8px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      opacity: 0.5;
-    }
-
-    .theme-btn:hover {
-      opacity: 0.8;
-      transform: scale(1.1);
-    }
-
-    .theme-btn.active {
-      opacity: 1;
-      background: rgba(120, 120, 120, 0.2);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Scrolling Footer */
-    .scrolling-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      color: #ffd700;
-      padding: 8px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-      z-index: 10000;
-      backdrop-filter: blur(5px);
-    }
-    .scrolling-footer-text {
-      display: inline-block;
-      animation: scrollLeft 20s linear infinite;
-      font-size: 15px;
-      font-weight: bold;
-      padding-left: 100%;
-    }
-    @keyframes scrollLeft {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-    @media print {
-      .scrolling-footer { display: none !important; }
-    }
-
-    /* Rainbow glow animation */
-    @keyframes nav-rainbow {
-      0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-      20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
-      40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
-      60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
-      80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
-      100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-    }
-
-    /* Apply rainbow glow to requested buttons */
-    .nav-home i, .theme-toggle-btn, .header-toggle-btn {
-      animation: nav-rainbow 3s linear infinite !important;
-    }
-  
-        .compare-wrapper {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 0 5px;
-    }
-    .chart-container-wrapper {
-        flex: 1;
-        min-width: 300px;
-    }
-    @media (max-width: 800px) {
-        .compare-wrapper {
-            flex-direction: column;
-        }
-        .chart-container-wrapper {
-            min-width: 100%;
-        }
-    }
-    
-    .compare-person-header {
-        text-align: center;
-        color: #ffd700;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        text-shadow: 0 2px 5px rgba(255, 215, 0, 0.4);
-        border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-        padding-bottom: 5px;
-    }
-    /* Bottom Navbar */
-    .fixed-bottom-bar-nav {
-        position: fixed; bottom: 0; left: 0; width: 100%;
-        background: rgba(15, 12, 41, 0.95);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        display: flex; justify-content: space-around;
-        padding: 12px 0; z-index: 10000;
-    }
-    .nav-item {
-        display: flex; flex-direction: column; align-items: center;
-        color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
-        transition: all 0.3s ease;
-    }
-    .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
-    .nav-item i { font-size: 20px; transition: all 0.3s ease; }
-    .nav-item:hover { color: #fff; }
-
-    .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
-
-    @keyframes nav-rainbow {
-        0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-        20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
-        40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
-        60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
-        80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
-        100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-    }
-    /* Loading Overlay */
-    #loading-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(10, 10, 30, 0.95);
-        display: none; flex-direction: column; align-items: center; justify-content: center;
-        z-index: 100000; color: #ffd700; font-family: 'Segoe UI', cursive;
-    }
-    .loader-astro {
-        width: 60px; height: 60px;
-        border: 5px solid rgba(255,215,0,0.2);
-        border-top: 5px solid #ffd700;
-        border-radius: 50%;
-        animation: spin 1s linear infinite, rainbow-border 3s linear infinite;
-        margin-bottom: 20px;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .hide-hands .hand { display: none !important; }
-    .hide-karma .karma-label { display: none !important; }
-    .top-button-stack {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 15px;
-      z-index: 10000;
-    }
-    #chupuluBtn { width: 40px; height: 40px; font-size: 20px; }
-    #karmaBtn { width: 50px; height: 40px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-    .header-toggle-btn {
-      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.3s ease; color: gold; outline: none;
-    }
-    .header-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
-    @media (max-width: 768px) {
-      .top-button-stack { top: 10px !important; right: 10px !important; gap: 8px !important; }
-      .header-toggle-btn { width: 25px !important; height: 25px !important; font-size: 12px !important; }
-      #chupuluBtn { width: 30px !important; height: 30px !important; font-size: 16px !important; }
-      #karmaBtn {
-        position: fixed !important; top: 10px !important; left: 10px !important; right: auto !important;
-        width: 35px !important; height: 25px !important; font-size: 9px !important; border-radius: 12px !important;
-      }
-    }
-    body { padding-bottom: 80px; }
-
-/* chart2 CSS */
-
-        @page {
-            size: A4;
-            margin: 1cm;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            --text-main: #f8fafc;
+            --text-main: #ffffff;
             --text-muted: #a0a0ff;
-            --card-bg: rgba(25, 25, 35, 0.9);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --header-bg: linear-gradient(135deg, rgba(41, 39, 92, 0.9) 0%, rgba(30, 29, 70, 0.9) 50%, rgba(20, 19, 50, 0.9) 100%);
-            --dasa-card-bg: linear-gradient(135deg, rgba(40, 40, 80, 0.9), rgba(30, 30, 60, 0.9));
+            --card-bg: rgba(25, 25, 35, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.4);
         }
 
         [data-theme="light"] {
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             --text-main: #1e293b;
             --text-muted: #475569;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.85);
             --card-border: rgba(0, 0, 0, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.1);
-            --header-bg: linear-gradient(135deg, rgba(230, 240, 255, 0.9) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(255, 255, 255, 0.9) 100%);
-            --dasa-card-bg: rgba(255, 255, 255, 0.9);
         }
 
         [data-theme="dark"] {
             --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --card-bg: rgba(15, 23, 42, 0.85);
+            --card-bg: rgba(15, 23, 42, 0.8);
             --card-border: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.7);
-            --header-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 50%, rgba(2, 6, 23, 0.9) 100%);
-            --dasa-card-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.9));
         }
 
         [data-theme="sunset"] {
@@ -1318,9 +38,6 @@
             --text-muted: #ffe4e1;
             --card-bg: rgba(43, 11, 23, 0.85);
             --card-border: rgba(255, 255, 255, 0.2);
-            --shadow-color: rgba(0, 0, 0, 0.6);
-            --header-bg: linear-gradient(135deg, rgba(252, 234, 187, 0.9) 0%, rgba(248, 181, 0, 0.9) 100%);
-            --dasa-card-bg: linear-gradient(135deg, rgba(43, 11, 23, 0.9), rgba(20, 5, 10, 0.9));
         }
 
         [data-theme="ocean"] {
@@ -1329,9 +46,6 @@
             --text-muted: #ccfbf1;
             --card-bg: rgba(9, 32, 63, 0.85);
             --card-border: rgba(255, 255, 255, 0.2);
-            --shadow-color: rgba(0, 0, 0, 0.6);
-            --header-bg: linear-gradient(135deg, rgba(79, 172, 254, 0.9) 0%, rgba(0, 242, 254, 0.9) 100%);
-            --dasa-card-bg: linear-gradient(135deg, rgba(9, 32, 63, 0.9), rgba(4, 15, 30, 0.9));
         }
 
         [data-theme="forest"] {
@@ -1340,1743 +54,371 @@
             --text-muted: #dcfce7;
             --card-bg: rgba(11, 56, 36, 0.85);
             --card-border: rgba(255, 255, 255, 0.2);
-            --shadow-color: rgba(0, 0, 0, 0.6);
-            --header-bg: linear-gradient(135deg, rgba(249, 212, 35, 0.9) 0%, rgba(255, 78, 80, 0.9) 100%);
-            --dasa-card-bg: linear-gradient(135deg, rgba(11, 56, 36, 0.9), rgba(5, 25, 15, 0.9));
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-            line-height: 1.6;
-            font-size: 13px;
-            color: var(--text-main);
             background: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Segoe UI', 'Noto Serif Telugu', serif;
             min-height: 100vh;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 15px;
-            padding-bottom: 110px;
-            /* Space for fixed bottom bar and footer */
-            position: relative;
+            padding-bottom: 100px;
+            overflow-x: hidden;
         }
 
         /* Rainbow numbers background */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
             background-size: 200px 200px;
             z-index: -1;
             animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
         }
 
-        @keyframes float-up {
-            from { transform: translateY(0); }
-            to { transform: translateY(-200px); }
-        }
+        @keyframes float-up { from { transform: translateY(0); } to { transform: translateY(-200px); } }
+        @keyframes rainbow-scroll { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
 
-        @keyframes rainbow-scroll {
-            from { filter: hue-rotate(0deg); }
-            to { filter: hue-rotate(360deg); }
-        }
-
-
-
-        /* Glowing Container */
-        .glow-container {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--card-border);
-            box-shadow:
-                0 8px 32px var(--shadow-color),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .glow-container:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        /* Compact Header - Cosmic Style */
-        .cosmic-header {
+        .header {
             text-align: center;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: var(--header-bg);
-            border-radius: 15px;
-            border: 1px solid var(--card-border);
-            box-shadow:
-                0 8px 32px var(--shadow-color),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
+            padding: 30px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .cosmic-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg,
-                    #ff6b6b,
-                    #ffd93d,
-                    #6bcf7f,
-                    #4d96ff,
-                    #9d4edd);
-            border-radius: 15px 15px 0 0;
-        }
-
-        .party-name {
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: #ffd700;
+        .page-title {
+            font-size: 32px;
             font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
-                0 0 20px rgba(255, 140, 0, 0.6),
-                0 0 30px rgba(255, 69, 0, 0.4);
-        }
-
-        .person-name {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
-            background: linear-gradient(45deg, #ffffff, #a0a0ff);
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .info-row {
+        .compare-wrapper {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .info-icon {
-            font-size: 16px;
-            color: #a0a0ff;
-        }
-
-        .nakshatra-box {
-            background: linear-gradient(135deg,
-                    rgba(32, 32, 72, 0.9),
-                    rgba(25, 25, 55, 0.9));
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(120, 119, 198, 0.3);
-            margin-top: 15px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: row;
             gap: 15px;
-            font-size: 15px;
-        }
-
-        .nakshatra-box::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(120, 119, 198, 0.5),
-                    transparent);
-        }
-
-        .nakshatra-name {
-            font-weight: bold;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .nakshatra-name span {
-            color: #ffd700;
-        }
-
-        .time-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .time-label {
-            color: #a0a0ff;
-            font-size: 13px;
-        }
-
-        .time-value {
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        /* Current Dasa - Galaxy Style */
-        .current-dasa-box {
+            padding: 0 15px;
             width: 100%;
-            text-align: center;
-            background: linear-gradient(135deg,
-                    rgba(30, 30, 60, 0.9),
-                    rgba(20, 20, 40, 0.9));
-            border-radius: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .person-column {
+            flex: 0 0 calc(50% - 15px);
+            min-width: 400px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
             padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 152, 0, 0.3);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
-        .current-dasa-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%,
-                    rgba(255, 152, 0, 0.1) 0%,
-                    transparent 50%);
-            pointer-events: none;
+        @media (max-width: 900px) {
+            .person-column {
+                flex: 0 0 90vw;
+                min-width: 320px;
+            }
         }
 
-        .current-dasa-title {
-            font-size: 15px;
-            color: #ff9800;
-            margin-bottom: 5px;
-            font-weight: 700;
-            text-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
-        }
-
-        .current-dasa-title .planet-icon {
+        .person-header {
             font-size: 24px;
-            margin-right: 10px;
-        }
-
-        .dasa-dates {
-            font-size: 18px;
-            color: #b0b0ff;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
             margin-bottom: 20px;
-            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        /* Progress Bar - Cosmic */
-        .progress-container {
-            margin: 20px auto;
-            max-width: 550px;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.05),
-                    transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg,
-                    #4CAF50,
-                    #8BC34A,
-                    #CDDC39);
-            border-radius: 5px;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.2),
-                    transparent);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        .progress-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 12px;
-            font-size: 12px;
-            color: #b0b0ff;
-        }
-
-        .progress-stats span {
-            padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Dasa Section */
         .dasa-section {
-            width: 100%;
-            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .section-title {
-            font-size: 13px;
-            color: var(--text-main);
-            background: linear-gradient(90deg,
-                    rgba(102, 126, 234, 0.3),
-                    rgba(118, 75, 162, 0.3));
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 3px solid #667eea;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Maha Dasa Cards */
-        .maha-dasa-card {
-            background: var(--dasa-card-bg);
-            border-radius: 10px;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .maha-dasa-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .maha-dasa-card.current {
-            border: 2px solid #4CAF50;
-            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
-        }
-
-        .maha-dasa-card.birth {
-            border: 2px solid #2196F3;
-            box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
-        }
-
-        .maha-dasa-header {
-            display: flex;
-            align-items: center;
+            font-size: 14px;
+            color: #a0a0ff;
+            text-align: center;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
-        .maha-dasa-number {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 20px;
-            margin-right: 10px;
-            font-weight: bold;
-            font-size: 12px;
-            min-width: 30px;
-            text-align: center;
+        .maha-dasa-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .maha-dasa-info {
-            flex: 1;
-        }
+        .maha-dasa-card:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.08); }
+        .maha-dasa-card.current { border: 2px solid #4CAF50; box-shadow: 0 0 15px rgba(76, 175, 80, 0.3); }
 
-        .maha-dasa-name {
-            font-size: 11px;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 1px;
-        }
-
-        .maha-dasa-period {
-            font-size: 10px;
-            color: #ffd700;
-            margin-top: 1px;
-            font-weight: 600;
-        }
-
-        .maha-dasa-badges {
+        .maha-header {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 12px;
         }
+
+        .maha-icon {
+            font-size: 24px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .maha-info { flex: 1; }
+        .maha-name { font-size: 18px; font-weight: bold; }
+        .maha-period { font-size: 14px; color: #ffd700; margin-top: 3px; }
+        .maha-age { font-size: 12px; color: #a0a0ff; }
 
         .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
+        .current-badge { background: #4CAF50; color: white; }
+        .birth-badge { background: #FF9800; color: white; }
 
-        .current-badge {
-            background: linear-gradient(45deg, #4CAF50, #2E7D32);
-            color: white;
-            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-        }
-
-        .past-badge {
-            background: linear-gradient(45deg, #757575, #424242);
-            color: white;
-        }
-
-        .future-badge {
-            background: linear-gradient(45deg, #2196F3, #0D47A1);
-            color: white;
-            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
-        }
-
-        .birth-badge {
-            background: linear-gradient(45deg, #FF9800, #F57C00);
-            color: white;
-            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
-        }
-
-        /* Anthara Table - Modern */
-        .anthara-container {
-            background: rgba(30, 30, 50, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Table Styles for Anthara */
-        .anthara-table {
+        .antharas-table {
             width: 100%;
+            margin-top: 15px;
             border-collapse: collapse;
-            margin-top: 5px;
-            font-size: 10px;
-            background: rgba(40, 40, 70, 0.5);
-            border-radius: 6px;
-            overflow: hidden;
+            font-size: 13px;
+            display: none; /* Initially hidden */
         }
+        .maha-dasa-card.expanded .antharas-table { display: table; }
 
-        .anthara-table th,
-        .anthara-table td {
-            padding: 8px 12px;
+        .antharas-table th, .antharas-table td {
+            padding: 8px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+        .antharas-table th { color: #a0a0ff; font-weight: 600; font-size: 11px; }
+        .anthara-current { background: rgba(76, 175, 80, 0.1); }
 
-        .anthara-table th {
-            background: rgba(30, 30, 50, 0.8);
-            color: #a0a0ff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.5px;
+        /* Navigation */
+        .top-nav {
+            position: fixed; top: 20px; left: 20px; z-index: 1000;
+            display: flex; gap: 10px;
         }
-
-        .anthara-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .anthara-table tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .anthara-table tr.current {
-            background: rgba(76, 175, 80, 0.1);
-        }
-
-        .anthara-table .planet-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            color: white;
-        }
-
-        .table-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 14px;
-        }
-
-        .favorable {
-            color: #4CAF50;
-            font-weight: 700;
-            font-size: 11px;
-            margin-left: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .unfavorable {
-            color: #ff6b6b;
-            font-weight: 700;
-            font-size: 10px;
-            margin-left: 5px;
-            letter-spacing: 0.2px;
-        }
-
-        .text-favorable {
-            color: #4CAF50 !important;
-        }
-
-        .text-unfavorable {
-            color: #ff6b6b !important;
-        }
-
-        /* Accordion Styles */
-        .maha-dasa-card {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .maha-accordion-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: transform 0.3s ease;
-            margin-left: auto;
-        }
-
-        .maha-dasa-card.expanded .maha-accordion-toggle {
-            transform: rotate(180deg);
-            background: rgba(102, 126, 234, 0.3);
-        }
-
-        .anthara-wrapper {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.5s ease;
-            opacity: 0;
-        }
-
-        .maha-dasa-card.expanded .anthara-wrapper {
-            max-height: 2000px;
-            /* Large enough to hold contents */
-            opacity: 1;
-            margin-top: 15px;
-        }
-
-        /* Summary Section - Galaxy Cards */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .summary-card {
-            background: linear-gradient(135deg,
-                    rgba(50, 50, 100, 0.8),
-                    rgba(30, 30, 70, 0.8));
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg,
-                    #ff6b6b,
-                    #ffd93d,
-                    #6bcf7f);
-        }
-
-        .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .summary-label {
-            font-size: 12px;
-            color: #a0a0ff;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .summary-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 11px;
-            color: #8888cc;
-            width: 100%;
-        }
-
-        .disclaimer {
-            background: linear-gradient(135deg,
-                    rgba(198, 40, 40, 0.2),
-                    rgba(244, 67, 54, 0.2));
-            color: #ff9999;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 11px;
-            border-left: 4px solid #f44336;
-        }
-
-        /* ===== PRINT / PDF OPTIMIZATIONS ===== */
-        /* Single unified @media print block — ensures each Mahadasa
-           (header + all Antharadasa rows) occupies exactly one A4 page */
-        @media print {
-            @page {
-                size: A4 portrait;
-                margin: 8mm 10mm 8mm 10mm;
-            }
-
-            /* Reset all decorative effects */
-            *, *::before, *::after {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                box-shadow: none !important;
-                text-shadow: none !important;
-                backdrop-filter: none !important;
-                filter: none !important;
-                animation: none !important;
-                transition: none !important;
-            }
-
-            /* Remove animated pseudo-elements */
-            body::before, body::after,
-            .progress-bar::before, .progress-fill::after,
-            .cosmic-header::before, .nakshatra-box::before,
-            .current-dasa-box::before {
-                display: none !important;
-            }
-
-            body {
-                background: #fff !important;
-                color: #000 !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                font-size: 9pt !important;
-                font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
-            }
-
-            /* ── Hide all navigation / UI chrome ── */
-            .print-button, .nav-buttons, .scrolling-footer,
-            .theme-switcher, .fixed-bottom-bar, #action-bar,
-            .float-btn, .print-hide, .maha-accordion-toggle,
-            #transit-btn, #transit-loading, .dasa-section .section-title {
-                display: none !important;
-            }
-
-            /* ── Glow container: remove decorative chrome ── */
-            .glow-container {
-                background: #fff !important;
-                border: none !important;
-                padding: 0 !important;
-            }
-
-            /* ── Cosmic header (name / birth details) ── */
-            .cosmic-header {
-                background: #f5f5f5 !important;
-                border: 1px solid #333 !important;
-                border-radius: 4px !important;
-                padding: 8px 10px !important;
-                margin-bottom: 6px !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-            .cosmic-header * { color: #000 !important; }
-            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 10pt !important; }
-            .person-name { font-size: 12pt !important; font-weight: bold !important; color: #000080 !important; }
-            .info-row { display: flex; flex-wrap: wrap; gap: 6px; font-size: 8pt !important; }
-
-            /* ── Nakshatra box ── */
-            .nakshatra-box {
-                background: #f9f9f9 !important;
-                border: 1px solid #333 !important;
-                padding: 4px 8px !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-            .nakshatra-box * { color: #000 !important; }
-            .nakshatra-name { font-size: 9pt !important; }
-            .time-label { color: #555 !important; }
-            .time-value { color: #b22222 !important; font-weight: bold !important; }
-
-            /* ── Current Dasa box ── */
-            .current-dasa-box {
-                background: #f9f9f9 !important;
-                border: 2px solid #333 !important;
-                padding: 6px 8px !important;
-                margin-bottom: 6px !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-                font-size: 9pt !important;
-            }
-            .current-dasa-box * { color: #000 !important; }
-            .current-dasa-title { color: #d2691e !important; }
-            .highlight.text-favorable { color: #006400 !important; }
-            .highlight.text-unfavorable { color: #b22222 !important; }
-            .progress-container { display: none !important; }
-
-            /* ── Print Summary Table (show it, keep on page 1 — no forced break) ── */
-            .print-summary-section {
-                display: block !important;
-                page-break-before: avoid !important;
-                break-before: avoid !important;
-                margin-top: 6px !important;
-            }
-            .print-summary-section table { font-size: 7pt !important; width: 100% !important; }
-            .print-summary-section th, .print-summary-section td {
-                border: 1px solid #333 !important;
-                padding: 3px 5px !important;
-                color: #000 !important;
-            }
-            .print-summary-section div[style*="font-size: 20px"] {
-                font-size: 10pt !important;
-                margin-bottom: 6px !important;
-            }
-
-            /* ────────────────────────────────────────────
-               CORE FIX: TWO Mahadasa cards per A4 page
-            ─────────────────────────────────────────────*/
-            .dasa-section {
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            .maha-dasa-card {
-                background: #fff !important;
-                border: 1.5px solid #333 !important;
-                border-radius: 3px !important;
-                padding: 5px 7px !important;
-                margin: 0 0 5px 0 !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-                /* Allow the card to split so 2nd card can always follow 1st on same page */
-                page-break-inside: auto !important;
-                break-inside: auto !important;
-            }
-
-            /* .dasa-section children: child-1 = section-title, child-2 = 1st card, child-3 = 2nd card …
-               Cards at even positions (2,4,6…) = 1st,3rd,5th cards → start a new page.
-               Cards at odd positions  (3,5,7…) = 2nd,4th,6th cards → share the page above. */
-            .dasa-section .maha-dasa-card:nth-child(even) {
-                page-break-before: always !important;
-                break-before: page !important;
-            }
-
-            /* Odd children (2nd,4th,6th cards) share the page — no forced break */
-            .dasa-section .maha-dasa-card:nth-child(odd) {
-                page-break-before: avoid !important;
-                break-before: avoid !important;
-            }
-
-            /* Mahadasa header row */
-            .maha-dasa-header {
-                display: flex !important;
-                align-items: flex-start !important;
-                gap: 6px !important;
-                margin-bottom: 4px !important;
-                flex-wrap: wrap !important;
-            }
-
-            .maha-dasa-number {
-                background: transparent !important;
-                border: 1px solid #333 !important;
-                color: #000080 !important;
-                padding: 2px 5px !important;
-                border-radius: 8px !important;
-                font-size: 7pt !important;
-                font-weight: bold !important;
-                min-width: 20px !important;
-            }
-
-            .maha-dasa-name {
-                font-size: 8.5pt !important;
-                font-weight: bold !important;
-                color: #000 !important;
-                margin-bottom: 1px !important;
-            }
-
-            .maha-dasa-period {
-                font-size: 7pt !important;
-                color: #8B4513 !important;
-                font-weight: 600 !important;
-            }
-
-            .maha-dasa-period br { display: none !important; }
-            .maha-dasa-period span { display: none !important; }
-
-            .maha-dasa-badges {
-                display: flex !important;
-                gap: 3px !important;
-                margin-top: 1px !important;
-            }
-
-            .status-badge {
-                font-size: 6.5pt !important;
-                padding: 1px 5px !important;
-                border-radius: 6px !important;
-            }
-            .current-badge { border: 1px solid #006400 !important; color: #006400 !important; background: transparent !important; }
-            .past-badge    { border: 1px solid #555 !important;    color: #555 !important;    background: transparent !important; }
-            .future-badge  { border: 1px solid #000080 !important; color: #000080 !important; background: transparent !important; }
-            .birth-badge   { border: 1px solid #8B4513 !important; color: #8B4513 !important; background: transparent !important; }
-
-            .text-favorable   { color: #006400 !important; }
-            .text-unfavorable { color: #b22222 !important; }
-            .favorable   { color: #006400 !important; font-size: 6.5pt !important; }
-            .unfavorable { color: #b22222 !important; font-size: 6.5pt !important; }
-
-            /* ── Anthara wrapper: show collapsed drawers ── */
-            .anthara-wrapper {
-                display: block !important;
-                max-height: none !important;
-                height: auto !important;
-                overflow: visible !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                margin-top: 4px !important;
-            }
-
-            /* ── Anthara container & table ── */
-            .anthara-container {
-                background: #fafafa !important;
-                border: 1px solid #ccc !important;
-                border-radius: 3px !important;
-                padding: 3px 5px !important;
-            }
-
-            .anthara-container > div:first-child {
-                font-size: 6.5pt !important;
-                margin-bottom: 3px !important;
-            }
-
-            .anthara-table {
-                width: 100% !important;
-                border-collapse: collapse !important;
-                font-size: 7pt !important;
-                background: #fff !important;
-                page-break-inside: auto !important;
-                break-inside: auto !important;
-            }
-
-            .anthara-table th {
-                background: #e8e8e8 !important;
-                color: #000 !important;
-                border: 1px solid #999 !important;
-                padding: 2px 4px !important;
-                font-size: 6.5pt !important;
-                text-align: left !important;
-            }
-
-            .anthara-table td {
-                color: #000 !important;
-                border: 1px solid #ccc !important;
-                padding: 2px 4px !important;
-                vertical-align: middle !important;
-            }
-
-            .anthara-table tr.current td {
-                background: #e6ffe6 !important;
-            }
-
-            .anthara-table .planet-cell {
-                display: flex !important;
-                align-items: center !important;
-                gap: 3px !important;
-                color: #8B0000 !important;
-                font-weight: bold !important;
-                font-size: 7pt !important;
-            }
-
-            .table-icon {
-                width: 14px !important;
-                height: 14px !important;
-                font-size: 9px !important;
-                border-radius: 50% !important;
-                border: 1px solid #555 !important;
-                background: transparent !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            /* Date cells in anthara table */
-            .anthara-table td:nth-child(2),
-            .anthara-table td:nth-child(3) {
-                color: #8B4513 !important;
-                font-size: 7pt !important;
-                font-weight: bold !important;
-                white-space: nowrap;
-            }
-
-            /* Antharadasa age sub-line — show compactly */
-            .anthara-table td div {
-                display: block !important;
-                font-size: 6pt !important;
-                color: #555 !important;
-                font-weight: normal !important;
-                line-height: 1.2 !important;
-                margin-top: 1px !important;
-            }
-        }
-
-        /* Scrolling Footer */
-        .scrolling-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            color: #ffd700;
-            padding: 8px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 10000;
-            backdrop-filter: blur(5px);
-        }
-        .scrolling-footer-text {
-            display: inline-block;
-            animation: scrollLeft 20s linear infinite;
-            font-size: 15px;
-            font-weight: bold;
-            padding-left: 100%;
-        }
-        @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-            }
-        }
-
-        .animate-fade {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .animate-pulse {
-            animation: pulse 2s infinite;
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #764ba2, #667eea);
-        }
-
-        /* Chart Form Styling - FIXED */
-        .chart-form {
-            text-align: center;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(30, 30, 50, 0.7);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .chart-form-title {
-            font-size: 16px;
-            color: #ffffff;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .chart-form-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .chart-form-btn {
-            padding: 14px 30px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+        .top-btn {
+            background: rgba(0, 0, 0, 0.6);
+            color: white; border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 18px; border-radius: 30px;
+            cursor: pointer; backdrop-filter: blur(10px);
+            font-size: 14px; transition: all 0.3s ease;
             text-decoration: none;
-            min-width: 250px;
-            justify-content: center;
         }
-
-        .chart-form-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .chart-form-btn:active {
-            transform: translateY(0);
-        }
-
-
-
-        /* Floating Bottom Action Bar */
-        /* Floating Bottom Action Bar */
-        .fixed-bottom-bar {
-            position: fixed !important;
-            bottom: 45px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            margin: 0 !important;
-            background: rgba(20, 19, 50, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(120, 119, 198, 0.3);
-            border-radius: 30px;
-            padding: 10px 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            /* Firefox */
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            z-index: 9999;
-            max-width: 95vw;
-        }
-
-        .fixed-bottom-bar::-webkit-scrollbar {
-            display: none;
-            /* Chrome, Safari */
-        }
-
-        .float-btn {
-            flex: 0 0 auto;
-            padding: 10px 18px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
-
-        .float-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.2);
-        }
-
-        .float-btn:active {
-            transform: translateY(0);
-        }
+        .top-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
         /* Theme Switcher */
         .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: row-reverse;
-            gap: 8px;
-            background: var(--card-bg);
-            padding: 6px;
-            border-radius: 30px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 4px 15px var(--shadow-color);
-            z-index: 1000;
+            position: fixed; top: 20px; right: 20px;
+            display: flex; flex-direction: row-reverse; gap: 8px;
+            background: rgba(0, 0, 0, 0.6); padding: 8px;
+            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000; backdrop-filter: blur(10px);
+            overflow: hidden; max-width: 45px; transition: max-width 0.3s ease;
+        }
+        .theme-switcher.expanded { max-width: 300px; }
+        .theme-toggle-btn { background: transparent; border: none; color: gold; font-size: 20px; cursor: pointer; min-width: 30px; animation: rainbow-glow 3s infinite linear; }
+        .theme-options { display: flex; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .theme-switcher.expanded .theme-options { opacity: 1; pointer-events: auto; }
+        .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
+        .theme-btn:hover { opacity: 1; transform: scale(1.1); }
+
+        @keyframes rainbow-glow {
+            0% { color: #ff4444; } 25% { color: #ffeb3b; } 50% { color: #4caf50; } 75% { color: #2196f3; } 100% { color: #ff4444; }
+        }
+
+        .fixed-bottom-bar-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(15, 12, 41, 0.95);
             backdrop-filter: blur(10px);
-            transition: max-width 0.3s ease;
-            overflow: hidden;
-            max-width: 45px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; justify-content: space-around;
+            padding: 12px 0; z-index: 10000;
         }
-
-        .theme-switcher.expanded {
-            max-width: 300px;
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
         }
+        .nav-item.active { color: #ffd700; }
+        .nav-item i { font-size: 20px; }
+        
+        .nav-home i, .nav-panch i, .nav-cal i { animation: rainbow-glow 3s infinite linear; }
 
-        .theme-toggle-btn {
-            background: transparent;
-            border: none;
-            font-size: 20px;
-            padding: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 30px;
+        @media print {
+            .print-hide, .theme-switcher, .fixed-bottom-bar-nav, .top-nav { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .person-column { border: 1px solid #ccc !important; min-width: 48% !important; flex: 0 0 48% !important; }
+            .compare-wrapper { flex-wrap: wrap !important; }
         }
-
-        .theme-options {
-            display: flex;
-            gap: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .theme-switcher.expanded .theme-options {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .theme-btn {
-            background: transparent;
-            border: none;
-            font-size: 16px;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0.5;
-        }
-
-        .theme-btn:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-        }
-
-        .theme-btn.active {
-            opacity: 1;
-            background: rgba(120, 120, 120, 0.2);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Scrolling Footer */
-        .scrolling-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            color: #ffd700;
-            padding: 8px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 10000;
-            backdrop-filter: blur(5px);
-        }
-        .scrolling-footer-text {
-            display: inline-block;
-            animation: scrollLeft 20s linear infinite;
-            font-size: 15px;
-            font-weight: bold;
-            padding-left: 100%;
-        }
-        @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Rainbow glow animation */
-        @keyframes nav-rainbow {
-            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
-            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
-            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
-            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
-            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-        }
-
-        /* Apply rainbow glow */
-        .theme-toggle-btn, .nav-home i {
-            animation: nav-rainbow 3s linear infinite !important;
-        }
-        /* NOTE: All @media print and @page rules are now consolidated
-           in the single block above (around line 756). */
-        @page {
-            size: A4 portrait;
-            margin: 8mm 10mm 8mm 10mm;
-        }
-            /* Mobile Responsive adjustments */
-            @media (max-width: 768px) {
-                .maha-dasa-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 12px;
-                }
-
-                .maha-dasa-badges {
-                    flex-wrap: wrap;
-                    margin-top: 5px;
-                }
-
-                .info-row {
-                    flex-direction: column;
-                    gap: 10px;
-                }
-
-                .anthara-table {
-                    font-size: 11px;
-                }
-
-                .anthara-table th,
-                .anthara-table td {
-                    padding: 6px 4px;
-                }
-
-                .table-icon {
-                    width: 18px;
-                    height: 18px;
-                    font-size: 12px;
-                }
-
-                .person-name {
-                    font-size: 20px;
-                }
-
-                .summary-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .chart-form-buttons {
-                    flex-direction: column;
-                }
-
-                .chart-form-btn {
-                    width: 100%;
-                    min-width: 100%;
-                }
-            }
-    
-
-/* Ensure compare wrapping still works */
-/* Ensure compare wrapping still works */
-.compare-container {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 0;
-}
-.compare-wrapper {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 10px;
-    width: fit-content;
-    min-width: 100%;
-    margin: 0;
-    padding: 0 5px 30px 5px;
-}
-.chart-container-wrapper {
-    flex: 0 0 auto;
-    width: 48vw;
-    min-width: 450px;
-}
-@media (max-width: 768px) {
-    .chart-container-wrapper {
-        min-width: 360px;
-    }
-    .compare-wrapper {
-        gap: 5px;
-    }
-}
-@media (max-width: 768px) {
-    .compare-wrapper {
-        gap: 5px;
-        padding: 0 2px;
-    }
-}
-
     </style>
 </head>
-<body class="dark-mode">
-  <div class="header" style="margin-top: 20px;">
-    <h2 class="page-title">దశాచార పోలిక</h2>
-  </div>
+<body>
+    <div class="top-nav print-hide">
+        <a href="javascript:history.back()" class="top-btn"><i class="fas fa-arrow-left"></i> వెనుకకు</a>
+        <button onclick="window.print()" class="top-btn"><i class="fas fa-print"></i> ప్రింట్</button>
+    </div>
 
-  <button onclick="window.history.back()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-arrow-left"></i> వెనుకకు</button>
-  <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
-
-  <div class="compare-container">
-    <div class="compare-wrapper">
-    <div class="chart-container-wrapper">
-      <div class="compare-person-header">{{ p1.name }}</div>
-      <div class="dasa-section">
-            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ dasha1.total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
-
-            {% for dasa in dasha1.all_dasas %}
-            <div class="maha-dasa-card {% if dasa.is_current %}current expanded{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
-                onclick="toggleAnthara(this)">
-                <div class="maha-dasa-header">
-                    <div class="maha-dasa-number"
-                        style="background: linear-gradient(45deg, {{ dasa.color }}, {{ dasa.color }}80);">
-                        {{ loop.index }}
-                    </div>
-                    <div class="maha-dasa-info">
-                        <div class="maha-dasa-name">
-                            <span style="color: {{ dasa.color }}; margin-right: 8px;">{{ dasa.icon }}</span>
-                            {% if dasa.is_favorable %}
-                            <span class="text-favorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="favorable">అనుకూలము</span>
-                            {% else %}
-                            <span class="text-unfavorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="unfavorable">ప్రతికూలము</span>
-                            {% endif %}
-                        </div>
-                        <div class="maha-dasa-period">
-                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
-                            <br>
-                            <span style="font-size: 13px; color: #a0a0ff;">
-                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
-                            </span>
-                        </div>
-                    </div>
-                    <div class="maha-dasa-badges">
-                        {% if dasa.is_current %}
-                        <span class="status-badge current-badge animate-pulse">ప్రస్తుతం</span>
-                        {% endif %}
-                        {% if dasa.is_birth_dasa %}
-                        <span class="status-badge birth-badge">జన్మ దశ</span>
-                        {% endif %}
-                    </div>
-                    <div class="maha-accordion-toggle">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-
-                <div class="anthara-wrapper">
-                    {% if dasa.antharas|length > 0 %}
-                    <div class="anthara-container">
-                        <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
-                            అంతర్దశలు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
-                        </div>
-
-                        <table class="anthara-table">
-                            <thead>
-                                <tr>
-                                    <th>అంతర్దశ</th>
-                                    <th>ప్రారంభం</th>
-                                    <th>ముగింపు</th>
-                                    <th>స్థితి</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for a in dasa.antharas %}
-                                {% set dob_parts = dob.split('-') if dob else ['2000','01','01'] %}
-                                {% set dob_num = (dob_parts[0] ~ dob_parts[1] ~ dob_parts[2])|int %}
-
-                                {% set now_parts = now_date.split('-') if now_date else ['01','01','2000'] %}
-                                {% set start_parts = a.start.split('-') if a.start else ['01','01','2000'] %}
-                                {% set end_parts = a.end.split('-') if a.end else ['01','01','2000'] %}
-
-                                {% set now_num = (now_parts[2] ~ now_parts[1] ~ now_parts[0])|int %}
-                                {% set start_num = (start_parts[2] ~ start_parts[1] ~ start_parts[0])|int %}
-                                {% set end_num = (end_parts[2] ~ end_parts[1] ~ end_parts[0])|int %}
-
-                                {% set is_janma = (dob_num >= start_num and dob_num <= end_num) %} {% set
-                                    is_present=(now_num>= start_num and now_num <= end_num) %} {% set status='' %} {%
-                                        set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
-                                        badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
-                                        set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
-                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
-                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
-                                        class="{% if badge_class == 'current-badge' %}current{% endif %}">
-                                        <td>
-                                            <div class="planet-cell">
-                                                <div class="table-icon" style="background: {{ a.color }};">
-                                                    {{ a.icon }}
-                                                </div>
-                                                {% if a.is_favorable %}
-                                                <span class="anthara-name text-favorable"
-                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="favorable">అనుకూలము</span>
-                                                {% else %}
-                                                <span class="anthara-name text-unfavorable"
-                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="unfavorable">ప్రతికూలము</span>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
-                                            {{ a.start }}
-                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
-                                                a.age_start }}</div>
-                                        </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
-                                            {{ a.end }}
-                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
-                                                a.age_end }}</div>
-                                        </td>
-                                        <td>
-                                            <span class="status-badge {{ badge_class }}">
-                                                {{ status }}
-                                            </span>
-                                        </td>
-                                        </tr>
-                                        {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <div style="text-align: center; padding: 15px; color: #8888cc; font-style: italic; 
-                            background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 10px;">
-                        ఈ మహాదశకు అంతర్దశల వివరాలు అందుబాటులో లేవు
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
+    <div class="theme-switcher print-hide">
+        <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options">
+            <button class="theme-btn" onclick="setTheme('default')" title="Default"><i class="fas fa-moon"></i></button>
+            <button class="theme-btn" onclick="setTheme('light')" title="Light"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
+            <button class="theme-btn" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+            <button class="theme-btn" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
+            <button class="theme-btn" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
         </div>
     </div>
-    
-    <div class="chart-container-wrapper">
-      <div class="compare-person-header">{{ p2.name }}</div>
-      <div class="dasa-section">
-            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ dasha2.total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
 
-            {% for dasa in dasha2.all_dasas %}
-            <div class="maha-dasa-card {% if dasa.is_current %}current expanded{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
-                onclick="toggleAnthara(this)">
-                <div class="maha-dasa-header">
-                    <div class="maha-dasa-number"
-                        style="background: linear-gradient(45deg, {{ dasa.color }}, {{ dasa.color }}80);">
-                        {{ loop.index }}
-                    </div>
-                    <div class="maha-dasa-info">
-                        <div class="maha-dasa-name">
-                            <span style="color: {{ dasa.color }}; margin-right: 8px;">{{ dasa.icon }}</span>
-                            {% if dasa.is_favorable %}
-                            <span class="text-favorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="favorable">అనుకూలము</span>
-                            {% else %}
-                            <span class="text-unfavorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="unfavorable">ప్రతికూలము</span>
-                            {% endif %}
+    <div class="header">
+        <h1 class="page-title">దశాచార పోలిక</h1>
+    </div>
+
+    <div class="compare-wrapper">
+        <!-- Individual 1 -->
+        <div class="person-column">
+            <div class="person-header">{{ p1.name }}</div>
+            <div class="section-title">✨ {{ dasha1.total_cycle_years }} సంవత్సరాల చక్రం ✨</div>
+            <div class="dasa-section">
+                {% for dasa in dasha1.all_dasas %}
+                <div class="maha-dasa-card {% if dasa.is_current %}current expanded{% endif %}" onclick="this.classList.toggle('expanded')">
+                    <div class="maha-header">
+                        <div class="maha-icon" style="color: {{ dasa.color }}">{{ dasa.icon }}</div>
+                        <div class="maha-info">
+                            <div class="maha-name" style="color: {{ dasa.color }}">{{ dasa.maha }} మహాదశ</div>
+                            <div class="maha-period">{{ dasa.start }} నుండి {{ dasa.end }}</div>
+                            <div class="maha-age">వయసు: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
                         </div>
-                        <div class="maha-dasa-period">
-                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
-                            <br>
-                            <span style="font-size: 13px; color: #a0a0ff;">
-                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
-                            </span>
+                        <div class="maha-badges">
+                            {% if dasa.is_current %}<span class="status-badge current-badge">ప్రస్తుతం</span>{% endif %}
+                            {% if dasa.is_birth_dasa %}<span class="status-badge birth-badge">జన్మ దశ</span>{% endif %}
                         </div>
                     </div>
-                    <div class="maha-dasa-badges">
-                        {% if dasa.is_current %}
-                        <span class="status-badge current-badge animate-pulse">ప్రస్తుతం</span>
-                        {% endif %}
-                        {% if dasa.is_birth_dasa %}
-                        <span class="status-badge birth-badge">జన్మ దశ</span>
-                        {% endif %}
-                    </div>
-                    <div class="maha-accordion-toggle">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    {% if dasa.antharas %}
+                    <table class="antharas-table">
+                        <thead>
+                            <tr>
+                                <th>అంతర్దశ</th>
+                                <th>ప్రారంభం</th>
+                                <th>ముగింపు</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in dasa.antharas %}
+                            <tr class="{% if a.is_current %}anthara-current{% endif %}">
+                                <td style="color: {{ a.color }}">{{ a.icon }} {{ a.anthara }}</td>
+                                <td>{{ a.start }}</td>
+                                <td>{{ a.end }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
                 </div>
+                {% endfor %}
+            </div>
+        </div>
 
-                <div class="anthara-wrapper">
-                    {% if dasa.antharas|length > 0 %}
-                    <div class="anthara-container">
-                        <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
-                            అంతర్దశలు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
+        <!-- Individual 2 -->
+        <div class="person-column">
+            <div class="person-header">{{ p2.name }}</div>
+            <div class="section-title">✨ {{ dasha2.total_cycle_years }} సంవత్సరాల చక్రం ✨</div>
+            <div class="dasa-section">
+                {% for dasa in dasha2.all_dasas %}
+                <div class="maha-dasa-card {% if dasa.is_current %}current expanded{% endif %}" onclick="this.classList.toggle('expanded')">
+                    <div class="maha-header">
+                        <div class="maha-icon" style="color: {{ dasa.color }}">{{ dasa.icon }}</div>
+                        <div class="maha-info">
+                            <div class="maha-name" style="color: {{ dasa.color }}">{{ dasa.maha }} మహాదశ</div>
+                            <div class="maha-period">{{ dasa.start }} నుండి {{ dasa.end }}</div>
+                            <div class="maha-age">వయసు: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
                         </div>
+                        <div class="maha-badges">
+                            {% if dasa.is_current %}<span class="status-badge current-badge">ప్రస్తుతం</span>{% endif %}
+                            {% if dasa.is_birth_dasa %}<span class="status-badge birth-badge">జన్మ దశ</span>{% endif %}
+                        </div>
+                    </div>
+                    {% if dasa.antharas %}
+                    <table class="antharas-table">
+                        <thead>
+                            <tr>
+                                <th>అంతర్దశ</th>
+                                <th>ప్రారంభం</th>
+                                <th>ముగింపు</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in dasa.antharas %}
+                            <tr class="{% if a.is_current %}anthara-current{% endif %}">
+                                <td style="color: {{ a.color }}">{{ a.icon }} {{ a.anthara }}</td>
+                                <td>{{ a.start }}</td>
+                                <td>{{ a.end }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
-                        <table class="anthara-table">
-                            <thead>
-                                <tr>
-                                    <th>అంతర్దశ</th>
-                                    <th>ప్రారంభం</th>
-                                    <th>ముగింపు</th>
-                                    <th>స్థితి</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for a in dasa.antharas %}
-                                {% set dob_parts = dob.split('-') if dob else ['2000','01','01'] %}
-                                {% set dob_num = (dob_parts[0] ~ dob_parts[1] ~ dob_parts[2])|int %}
+    <div class="fixed-bottom-bar-nav print-hide">
+        <a href="/" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>హోమ్</span>
+        </a>
+        <a href="/compare_kundali" class="nav-item active">
+            <i class="fas fa-balance-scale"></i>
+            <span>పోలిక</span>
+        </a>
+        <a href="/daily_panchangam" class="nav-item">
+            <i class="fas fa-om"></i>
+            <span>దిన పంచాంగం</span>
+        </a>
+        <a href="/calendar_view" class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>క్యాలెండర్</span>
+        </a>
+    </div>
 
-                                {% set now_parts = now_date.split('-') if now_date else ['01','01','2000'] %}
-                                {% set start_parts = a.start.split('-') if a.start else ['01','01','2000'] %}
-                                {% set end_parts = a.end.split('-') if a.end else ['01','01','2000'] %}
-
-                                {% set now_num = (now_parts[2] ~ now_parts[1] ~ now_parts[0])|int %}
-                                {% set start_num = (start_parts[2] ~ start_parts[1] ~ start_parts[0])|int %}
-                                {% set end_num = (end_parts[2] ~ end_parts[1] ~ end_parts[0])|int %}
-
-                                {% set is_janma = (dob_num >= start_num and dob_num <= end_num) %} {% set
-                                    is_present=(now_num>= start_num and now_num <= end_num) %} {% set status='' %} {%
-                                        set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
-                                        badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
-                                        set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
-                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
-                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
-                                        class="{% if badge_class == 'current-badge' %}current{% endif %}">
-                                        <td>
-                                            <div class="planet-cell">
-                                                <div class="table-icon" style="background: {{ a.color }};">
-                                                    {{ a.icon }}
-                                                </div>
-                                                {% if a.is_favorable %}
-                                                <span class="anthara-name text-favorable"
-                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="favorable">అనుకూలము</span>
-                                                {% else %}
-                                                <span class="anthara-name text-unfavorable"
-                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="unfavorable">ప్రతికూలము</span>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
-                                            {{ a.start }}
-                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
-                                                a.age_start }}</div>
-                                        </td>
-                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
-                                           <script>
-    // Theme Management
-    function setTheme(themeName) {
-        if (themeName === 'default') {
-            document.documentElement.removeAttribute('data-theme');
-        } else {
-            document.documentElement.setAttribute('data-theme', themeName);
-        }
-        localStorage.setItem('preferred-theme', themeName);
-
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-theme-btn') === themeName) {
-                btn.classList.add('active');
+    <script>
+        function setTheme(theme) {
+            if (theme === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
             }
-        });
-    }
-
-    const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'default';
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
-            btn.classList.add('active');
+            localStorage.setItem('preferred-theme', theme);
         }
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const cards = document.querySelectorAll('.maha-dasa-card, .anthara-card, .summary-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-5px)'; });
-            card.addEventListener('mouseleave', () => { card.style.transform = 'translateY(0)'; });
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('animate-fade');
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.querySelectorAll('.maha-dasa-card, .anthara-card').forEach(el => observer.observe(el));
-    });
-
-    function goToChart() {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/chart';
-        form.style.display = 'none';
-        const fields = {
-            'dob': '{{ dob|default("2000-01-01") }}',
-            'tob': '{{ tob|default("12:00") }}',
-            'name': '{{ name|default("User") }}',
-            'place': '{{ place|default("India") }}',
-            'lat': '17.3850',
-            'lon': '78.4867'
-        };
-        for (const [key, value] of Object.entries(fields)) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            form.appendChild(input);
-        }
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    function goToPlanetDetails() { window.location.href = '/chart3'; }
-    function toggleAnthara(element) { element.classList.toggle('expanded'); }
-
-    function initializeTooltips() {
-        const tooltips = {
-            'సూర్య': 'సూర్యుడు - జీవిత శక్తి, ప్రతిష్ట', 'చంద్ర': 'చంద్రుడు - మనస్సు, భావోద్వేగాలు',
-            'కుజ': 'కుజుడు - శక్తి, సాహసం', 'గురు': 'గురువు - జ్ఞానం, అదృష్టం',
-            'శుక్ర': 'శుక్రుడు - ప్రేమ, సౌందర్యం', 'శని': 'శని - కర్మ, పరిశ్రమ',
-            'బుధ': 'బుధుడు - బుద్ధి, వాణిజ్యం', 'రాహు': 'రాహువు - కామనా, అస్పష్టత',
-            'కేతు': 'కేతువు - ఆధ్యాత్మికత, విముక్తి', 'భూమి': 'భూమి - స్థిరత్వం, ప్రాథమిక అవసరాలు',
-            'మిత్ర': 'మిత్ర - స్నేహం, సహకారం', 'చిత్ర': 'చిత్ర - సృజనాత్మకత, కళ'
-        };
-        document.querySelectorAll('.anthara-name, .maha-dasa-name').forEach(el => {
-            const planetName = el.textContent.replace(/[✦☉☽♂☿♃♀♄☊☋♁☆]/g, '').trim().split(' ')[0];
-            if (tooltips[planetName]) { el.title = tooltips[planetName]; el.style.cursor = 'help'; }
-        });
-    }
-    initializeTooltips();
-
-    document.addEventListener('keydown', function (e) {
-        if (e.ctrlKey && e.key === 'p') { e.preventDefault(); window.print(); }
-    });
-
-    function showLoader() { document.getElementById('loading-overlay').style.display = 'flex'; }
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function(e) { if(!this.href.includes('#')) showLoader(); });
-    });
-</script>
-
-  <div class="fixed-bottom-bar-nav">
-      <a href="/" class="nav-item nav-home">
-          <i class="fas fa-home"></i>
-          <span>హోమ్</span>
-      </a>
-      <a href="/compare_kundali" class="nav-item active nav-compare">
-          <i class="fas fa-balance-scale"></i>
-          <span>పోలిక</span>
-      </a>
-      <a href="/daily_panchangam" class="nav-item nav-panch">
-          <i class="fas fa-om"></i>
-          <span>దిన పంచాంగం</span>
-      </a>
-      <a href="/calendar_view" class="nav-item nav-cal">
-          <i class="fas fa-calendar-alt"></i>
-          <span>క్యాలెండర్</span>
-      </a>
-  </div>
-
-<div id="loading-overlay">
-    <div class="loader-astro"></div>
-    <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
-</div>
+        // Initialize theme
+        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        setTheme(savedTheme);
+    </script>
 </body>
 </html>

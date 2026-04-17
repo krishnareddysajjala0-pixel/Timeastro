@@ -1330,7 +1330,15 @@ def compare_dasha():
     dasha1 = get_dasha_info(data1)
     dasha2 = get_dasha_info(data2)
 
-    return render_template("compare_dasha.html", p1=data1, p2=data2, dasha1=dasha1, dasha2=dasha2, planet_colors=PLANET_COLORS)
+    now = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+    now_date = now.strftime("%d-%m-%Y")
+    now_time = now.strftime("%H:%M")
+
+    return render_template("compare_dasha.html", 
+                         p1=data1, p2=data2, 
+                         dasha1=dasha1, dasha2=dasha2, 
+                         planet_colors=PLANET_COLORS,
+                         now_date=now_date, now_time=now_time)
 
 @app.route("/chart3")
 def chart3():

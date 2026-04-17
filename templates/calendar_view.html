@@ -10,10 +10,45 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         
         body { 
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); 
-            color: white; padding-bottom: 100px;
+            background: var(--bg-primary); 
+            color: var(--text-main); 
+            padding-bottom: 100px;
             position: relative;
             min-height: 100vh;
+        }
+
+        :root {
+            --bg-primary: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --text-main: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --header-bg-top: linear-gradient(135deg, #8b0000, #4a0000);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --text-main: #1e293b;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --header-bg-top: linear-gradient(135deg, #b45309, #d97706);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
+            --text-main: #f8fafc;
+        }
+
+        [data-theme="sunset"] {
+            --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+            --text-main: #fff0f5;
+        }
+
+        [data-theme="ocean"] {
+            --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
+            --text-main: #f0fdfa;
+        }
+
+        [data-theme="forest"] {
+            --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+            --text-main: #f0fdf4;
         }
 
         /* Rainbow numbers background */
@@ -38,7 +73,7 @@
         }
 
         .header-top {
-            background: linear-gradient(135deg, #8b0000, #4a0000);
+            background: var(--header-bg-top);
             color: #ffd700;
             text-align: center;
             padding: 12px;
@@ -93,7 +128,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 20px auto;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
             gap: 2px;
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
@@ -338,7 +373,23 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }% { transform: rotate(360deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed; top: 20px; right: 20px;
+            display: flex; flex-direction: row-reverse; gap: 8px;
+            background: rgba(0, 0, 0, 0.6); padding: 8px;
+            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000; backdrop-filter: blur(10px);
+            overflow: hidden; max-width: 45px; transition: max-width 0.3s ease;
+        }
+        .theme-switcher.expanded { max-width: 300px; }
+        .theme-toggle-btn { background: transparent; border: none; color: gold; font-size: 20px; cursor: pointer; min-width: 30px; }
+        .theme-options { display: flex; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .theme-switcher.expanded .theme-options { opacity: 1; pointer-events: auto; }
+        .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
+        .theme-btn:hover { opacity: 1; transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -416,6 +467,20 @@
         </div>
     </div>
 
+    <div class="theme-switcher print-hide">
+        <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options">
+            <button class="theme-btn" onclick="setTheme('default')" title="Default"><i class="fas fa-moon"></i></button>
+            <button class="theme-btn" onclick="setTheme('light')" title="Light"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
+            <button class="theme-btn" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+            <button class="theme-btn" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
+            <button class="theme-btn" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
+        </div>
+    </div>
+
     <div class="fixed-bottom-bar-nav">
         <a href="/" class="nav-item nav-home">
             <i class="fas fa-home"></i>
@@ -451,8 +516,23 @@
         if(showForm) {
             showForm.addEventListener('submit', function() {
                 showLoader();
-            });
+            }
         }
+
+        function setTheme(theme) {
+            if (theme === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        // Initialize theme
+        (function() {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            setTheme(savedTheme);
+        })();
     </script>
 </body>
 </html>

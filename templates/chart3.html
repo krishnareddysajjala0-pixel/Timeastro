@@ -128,9 +128,41 @@
             color: var(--text-main);
             font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
             min-height: 100vh;
-            padding: 20px;
-            padding-bottom: 100px;
+            padding-bottom: 110px;
             position: relative;
+        }
+
+        /* Bottom Navbar */
+        .fixed-bottom-bar-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; justify-content: space-around;
+            padding: 12px 0; z-index: 10000;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
+            transition: all 0.3s ease;
+        }
+        .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
+        .nav-item i { font-size: 20px; transition: all 0.3s ease; }
+        .nav-item:hover { color: #fff; }
+
+        /* Always glow for Home, Panchangam and Calendar */
+        .nav-home i, .nav-panch i, .nav-cal i, .theme-toggle-btn { animation: nav-rainbow 3s linear infinite !important; }
+
+        @keyframes nav-rainbow {
+            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        }
+        
+        body {
             overflow-x: hidden;
             overflow-y: visible !important; /* Ensure scrollability */
             transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
@@ -1413,28 +1445,23 @@
         </div>
     </div>
 
-    <!-- Floating Bottom Action Bar -->
-    <div class="fixed-bottom-bar" id="action-bar">
-        <button class="nav-item nav-home float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
-            onclick="window.location.href='/'">
-            హో
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
-            onclick="goToBirthChart()">
-            కు
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
-            onclick="goToDashaChart()">
-            ద
-        </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
-            onclick="window.location.href='/results'">
-            ఫ
-        </button>
-        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="window.print()">
-            ప్రి
-        </button>
+    <div class="fixed-bottom-bar-nav">
+        <a href="/" class="nav-item active nav-home">
+            <i class="fas fa-home"></i>
+            <span>హోమ్</span>
+        </a>
+        <a href="/compare_kundali" class="nav-item nav-compare">
+            <i class="fas fa-balance-scale"></i>
+            <span>పోలిక</span>
+        </a>
+        <a href="/daily_panchangam" class="nav-item nav-panch">
+            <i class="fas fa-om"></i>
+            <span>దిన పంచాంగం</span>
+        </a>
+        <a href="/calendar_view" class="nav-item nav-cal">
+            <i class="fas fa-calendar-alt"></i>
+            <span>క్యాలెండర్</span>
+        </a>
     </div>
 
     <script>

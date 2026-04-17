@@ -2648,18 +2648,35 @@
     
 
 /* Ensure compare wrapping still works */
-.compare-wrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+/* Ensure compare wrapping still works */
+.compare-container {
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 5px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+}
+.compare-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+    width: fit-content;
+    min-width: 100%;
+    margin: 0;
+    padding: 0 5px 30px 5px;
 }
 .chart-container-wrapper {
-    flex: 1;
-    min-width: 0;
+    flex: 0 0 auto;
+    width: 48vw;
+    min-width: 450px;
+}
+@media (max-width: 768px) {
+    .chart-container-wrapper {
+        min-width: 360px;
+    }
+    .compare-wrapper {
+        gap: 5px;
+    }
 }
 @media (max-width: 768px) {
     .compare-wrapper {
@@ -2678,7 +2695,8 @@
   <button onclick="window.history.back()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-arrow-left"></i> వెనుకకు</button>
   <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
 
-  <div class="compare-wrapper">
+  <div class="compare-container">
+    <div class="compare-wrapper">
     <div class="chart-container-wrapper">
       <div class="compare-person-header">{{ p1.name }}</div>
       <div class="dasa-section">
@@ -2807,18 +2825,139 @@
             </div>
             {% endfor %}
         </div>
-
-        <!-- Summary Section Removed -->
-
-
-
-        <!-- Footer items moved to top -->
-
     </div>
+    
+    <div class="chart-container-wrapper">
+      <div class="compare-person-header">{{ p2.name }}</div>
+      <div class="dasa-section">
+            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ dasha2.total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
 
-    <!-- Floating Bottom Action Bar -->
-    <!-- Floating Bottom Action Bar -->
-    <!-- Floating Bottom Action Bar -->
+            {% for dasa in dasha2.all_dasas %}
+            <div class="maha-dasa-card {% if dasa.is_current %}current expanded{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
+                onclick="toggleAnthara(this)">
+                <div class="maha-dasa-header">
+                    <div class="maha-dasa-number"
+                        style="background: linear-gradient(45deg, {{ dasa.color }}, {{ dasa.color }}80);">
+                        {{ loop.index }}
+                    </div>
+                    <div class="maha-dasa-info">
+                        <div class="maha-dasa-name">
+                            <span style="color: {{ dasa.color }}; margin-right: 8px;">{{ dasa.icon }}</span>
+                            {% if dasa.is_favorable %}
+                            <span class="text-favorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
+                            <span class="favorable">అనుకూలము</span>
+                            {% else %}
+                            <span class="text-unfavorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
+                            <span class="unfavorable">ప్రతికూలము</span>
+                            {% endif %}
+                        </div>
+                        <div class="maha-dasa-period">
+                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
+                            <br>
+                            <span style="font-size: 13px; color: #a0a0ff;">
+                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="maha-dasa-badges">
+                        {% if dasa.is_current %}
+                        <span class="status-badge current-badge animate-pulse">ప్రస్తుతం</span>
+                        {% endif %}
+                        {% if dasa.is_birth_dasa %}
+                        <span class="status-badge birth-badge">జన్మ దశ</span>
+                        {% endif %}
+                    </div>
+                    <div class="maha-accordion-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="anthara-wrapper">
+                    {% if dasa.antharas|length > 0 %}
+                    <div class="anthara-container">
+                        <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
+                            అంతర్దశలు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
+                        </div>
+
+                        <table class="anthara-table">
+                            <thead>
+                                <tr>
+                                    <th>అంతర్దశ</th>
+                                    <th>ప్రారంభం</th>
+                                    <th>ముగింపు</th>
+                                    <th>స్థితి</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in dasa.antharas %}
+                                {% set dob_parts = dob.split('-') if dob else ['2000','01','01'] %}
+                                {% set dob_num = (dob_parts[0] ~ dob_parts[1] ~ dob_parts[2])|int %}
+
+                                {% set now_parts = now_date.split('-') if now_date else ['01','01','2000'] %}
+                                {% set start_parts = a.start.split('-') if a.start else ['01','01','2000'] %}
+                                {% set end_parts = a.end.split('-') if a.end else ['01','01','2000'] %}
+
+                                {% set now_num = (now_parts[2] ~ now_parts[1] ~ now_parts[0])|int %}
+                                {% set start_num = (start_parts[2] ~ start_parts[1] ~ start_parts[0])|int %}
+                                {% set end_num = (end_parts[2] ~ end_parts[1] ~ end_parts[0])|int %}
+
+                                {% set is_janma = (dob_num >= start_num and dob_num <= end_num) %} {% set
+                                    is_present=(now_num>= start_num and now_num <= end_num) %} {% set status='' %} {%
+                                        set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
+                                        badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
+                                        set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
+                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
+                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
+                                        class="{% if badge_class == 'current-badge' %}current{% endif %}">
+                                        <td>
+                                            <div class="planet-cell">
+                                                <div class="table-icon" style="background: {{ a.color }};">
+                                                    {{ a.icon }}
+                                                </div>
+                                                {% if a.is_favorable %}
+                                                <span class="anthara-name text-favorable"
+                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
+                                                <span class="favorable">అనుకూలము</span>
+                                                {% else %}
+                                                <span class="anthara-name text-unfavorable"
+                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
+                                                <span class="unfavorable">ప్రతికూలము</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.start }}
+                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                                a.age_start }}</div>
+                                        </td>
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.end }}
+                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                                a.age_end }}</div>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge {{ badge_class }}">
+                                                {{ status }}
+                                            </span>
+                                        </td>
+                                        </tr>
+                                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div style="text-align: center; padding: 15px; color: #8888cc; font-style: italic; 
+                            background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 10px;">
+                        ఈ మహాదశకు అంతర్దశల వివరాలు అందుబాటులో లేవు
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    </div>
 
     <script>
         // Theme Management
@@ -3370,30 +3509,146 @@
     </div>
   </div>
 
+<script>
+    // Theme Management
+    function setTheme(themeName) {
+        if (themeName === 'default') {
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            document.documentElement.setAttribute('data-theme', themeName);
+        }
+        localStorage.setItem('preferred-theme', themeName);
+
+        // Update UI buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-theme-btn') === themeName) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // Load saved theme state into buttons immediately
+    const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'default';
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.maha-dasa-card, .anthara-card, .summary-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.maha-dasa-card, .anthara-card').forEach(el => {
+            observer.observe(el);
+        });
+    });
+
+    function goToChart() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/chart';
+        form.style.display = 'none';
+
+        const fields = {
+            'dob': '{{ dob|default("2000-01-01") }}',
+            'tob': '{{ tob|default("12:00") }}',
+            'name': '{{ name|default("User") }}',
+            'place': '{{ place|default("India") }}',
+            'lat': '17.3850',
+            'lon': '78.4867'
+        };
+
+        for (const [key, value] of Object.entries(fields)) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    };
+
+    function goToPlanetDetails() {
+        window.location.href = '/chart3';
+    }
+
+    function toggleAnthara(element) {
+        element.classList.toggle('expanded');
+    }
+
+    // Initialize tooltips
+    function initializeTooltips() {
+        const tooltips = {
+            'సూర్య': 'సూర్యుడు - జీవిత శక్తి, ప్రతిష్ట',
+            'చంద్ర': 'చంద్రుడు - మనస్సు, భావోద్వేగాలు',
+            'కుజ': 'కుజుడు - శక్తి, సాహసం',
+            'గురు': 'గురువు - జ్ఞానం, అదృష్టం',
+            'శుక్ర': 'శుక్రుడు - ప్రేమ, సౌందర్యం',
+            'శని': 'శని - కర్మ, పరిశ్రమ',
+            'బుధ': 'బుధుడు - బుద్ధి, వాణిజ్యం',
+            'రాహు': 'రాహువు - కామనా, అస్పష్టత',
+            'కేతు': 'కేతువు - ఆధ్యాత్మికత, విముక్తి',
+            'భూమి': 'భూమి - స్థిరత్వం, ప్రాథమిక అవసరాలు',
+            'మిత్ర': 'మిత్ర - స్నేహం, సహకారం',
+            'చిత్ర': 'చిత్ర - సృజనాత్మకత, కళ'
+        };
+
+        document.querySelectorAll('.anthara-name, .maha-dasa-name').forEach(el => {
+            const planetName = el.textContent.replace(/[✦☉☽♂☿♃♀♄☊☋♁☆]/g, '').trim();
+            const words = planetName.split(' ');
+            const mainPlanet = words[0];
+
+            if (tooltips[mainPlanet]) {
+                el.title = tooltips[mainPlanet];
+                el.style.cursor = 'help';
+            }
+        });
+    }
+
+    initializeTooltips();
+
+    document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.key === 'p') {
+            e.preventDefault();
+            window.print();
+        }
+    });
+</script>
+
   <div id="loading-overlay">
       <div class="loader-astro"></div>
       <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
   </div>
   
   <!-- Same bottom bar as compare_results -->
-  <div class="fixed-bottom-bar-nav">
-      <a href="/" class="nav-item nav-home">
-          <i class="fas fa-home"></i>
-          <span>హోమ్</span>
-      </a>
-      <a href="/compare_kundali" class="nav-item active nav-compare">
-          <i class="fas fa-balance-scale"></i>
-          <span>పోలిక</span>
-      </a>
-      <a href="/daily_panchangam" class="nav-item nav-panch">
-          <i class="fas fa-om"></i>
-          <span>దిన పంచాంగం</span>
-      </a>
-      <a href="/calendar_view" class="nav-item nav-cal">
-          <i class="fas fa-calendar-alt"></i>
-          <span>క్యాలెండర్</span>
-      </a>
-  </div>
   
   <script>
       function toggleAccordion(id) {

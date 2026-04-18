@@ -1095,7 +1095,6 @@ def get_dasha_info(birth_info):
     elapsed_m = birth_info.get('elapsed_m', 0)
     padam = birth_info.get('padam', 1)
 
-    # Parse birth datetime
     timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
     local_tz = pytz.timezone(timezone_str)
     try:
@@ -1105,37 +1104,27 @@ def get_dasha_info(birth_info):
     except ValueError:
         return "❌ Invalid date/time format"
 
-    # ===== CALCULATE FULL 120-YEAR DASA CYCLE =====
-    
-    # 1. Calculate birth Mahadasha
     birth_dasa, dasa_index = get_running_dasa(nak_index, padam)
     
-    # 2. Calculate elapsed time in birth dasa (Based on Rasi-based 30-degree movement)
     moon_lon = birth_info.get('moon_lon')
     if moon_lon is None:
-        # Fallback to manual timing if longitude not stored
         elapsed_minutes = nak_minutes(elapsed_h, elapsed_m)
         fraction = elapsed_minutes / TOTAL_NAK_MINUTES if TOTAL_NAK_MINUTES > 0 else 0
     else:
-        # According to the text, each Dasa is 30 degrees (9 padas/1 Rasi)
         fraction = (moon_lon % 30) / 30
     
     birth_dasa_years = DASA_YEARS.get(birth_dasa, 10)
     elapsed_years_in_birth_dasa = birth_dasa_years * fraction
     
-    # 3. Calculate start date of birth dasa (before birth)
     birth_dasa_start = birth_dt - datetime.timedelta(days=int(elapsed_years_in_birth_dasa * 365.25))
     birth_dasa_end = add_years(birth_dasa_start, birth_dasa_years)
     
-    # 4. Get today's date for current dasa detection
     today = datetime.datetime.now()
     today_str = today.strftime("%d-%m-%Y")
     
-    # 5. Calculate ALL 12 Mahadashas in sequence (120 years)
     all_dasas = []
     start_date = birth_dasa_start
     
-    # Variables to track current dasa
     current_maha_index = -1
     current_maha_name = ""
     current_maha_start = ""
@@ -1144,7 +1133,6 @@ def get_dasha_info(birth_info):
     current_maha_age_start = ""
     current_maha_age_end = ""
     
-    # Start from birth dasa and go through all 12
     for i in range(12):
         dasa_index_calc = (dasa_index + i) % 12
         dasa_name = DASA_ORDER[dasa_index_calc]
@@ -1154,24 +1142,15 @@ def get_dasha_info(birth_info):
         start_str = start_date.strftime("%d-%m-%Y")
         end_str = end_date.strftime("%d-%m-%Y")
         
-        # Calculate Anthara dasas for this Mahadasha
         antharas = calculate_anthara_periods(dasa_name, start_date, end_date, lagna, birth_dt)
         
-        # Check if TODAY is within this dasa
         is_current_today = is_date_within_range(today_str, start_str, end_str)
-        
-        # Check if this is the birth dasa
         is_birth_dasa = (i == 0)
-        
-        # Determine favorability for full Mahadasa
         is_maha_favorable = is_dasa_favorable(lagna, dasa_name)
         
-        # Add color and icon to dasa
         dasa_color = "#22c55e" if is_maha_favorable else "#ef4444"
         dasa_icon = PLANET_ICONS.get(dasa_name, "•")
         
-        
-        # Calculate Age
         age_start_str = ""
         age_end_str = ""
         
@@ -1187,7 +1166,6 @@ def get_dasha_info(birth_info):
             age_end_m = (age_end_days % 365) // 30
             age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
 
-        # Add this Mahadasha to list
         all_dasas.append({
             "maha": dasa_name,
             "start": start_str,
@@ -1203,20 +1181,17 @@ def get_dasha_info(birth_info):
             "age_end": age_end_str
         })
         
-        # If this is current dasa, store its info
         if is_current_today:
             current_maha_index = i
             current_maha_name = dasa_name
-            current_maha_start = start_str
-            current_maha_end = end_str
+            current_maha_start = start_date.strftime("%d-%m-%Y")
+            current_maha_end = end_date.strftime("%d-%m-%Y")
             current_maha_years = dasa_years
             current_maha_age_start = age_start_str
             current_maha_age_end = age_end_str
         
-        # Move to next Mahadasha start date
         start_date = end_date
     
-    # 6. If no dasa matches today, use birth dasa as current
     if current_maha_index == -1:
         today_dt = datetime.datetime.strptime(today_str, "%d-%m-%Y")
         birth_start_dt = datetime.datetime.strptime(birth_dasa_start.strftime("%d-%m-%Y"), "%d-%m-%Y")
@@ -1233,34 +1208,17 @@ def get_dasha_info(birth_info):
         current_dasa_favorable = all_dasas[current_maha_index]["is_favorable"]
         current_maha_age_start = all_dasas[current_maha_index].get("age_start", "")
         current_maha_age_end = all_dasas[current_maha_index].get("age_end", "")
+        current_dasa_color = all_dasas[current_maha_index]["color"]
+        current_dasa_icon = all_dasas[current_maha_index]["icon"]
     else:
         current_dasa_favorable = is_dasa_favorable(lagna, current_maha_name)
-    
-    # 7. Calculate elapsed/remaining for CURRENT dasa
-    current_start_dt = datetime.datetime.strptime(current_maha_start, "%d-%m-%Y")
-    current_end_dt = datetime.datetime.strptime(current_maha_end, "%d-%m-%Y")
-    
-    # Calculate elapsed days in current dasa
-    total_days_current = (current_end_dt - current_start_dt).days
-    elapsed_days_current = (today - current_start_dt).days
-    
-    # Ensure days are within range
-    elapsed_days_current = max(0, min(elapsed_days_current, total_days_current))
-    
-    elapsed_years_current = elapsed_days_current / 365.25
-    remaining_years_current = (total_days_current - elapsed_days_current) / 365.25
-    
-    # 8. Calculate total years covered
-    total_years_covered = sum(dasa.get("years", 10) for dasa in all_dasas)
-    
-    # 9. Current year for reference
-    current_year = datetime.datetime.now().year
-    
-    # 10. Get planet colors and icons for current dasa
-    current_dasa_color = PLANET_COLORS.get(current_maha_name, "#FFD700")
-    current_dasa_icon = PLANET_ICONS.get(current_maha_name, "☉")
+        current_dasa_color = all_dasas[current_maha_index]["color"]
+        current_dasa_icon = all_dasas[current_maha_index]["icon"]
 
-   
+    elapsed_years_current = 0
+    remaining_years_current = 0
+    total_years_covered = 120
+    
     return {
         "maha": current_maha_name,
         "maha_start": current_maha_start,
@@ -1277,159 +1235,29 @@ def get_dasha_info(birth_info):
         "total_cycle_years": total_years_covered,
     }
 
-@app.route("/chart2", methods=["GET", "POST"])
-def chart2():
-    birth_info = session.get('birth_info', {})
-    
-    dob = birth_info.get('dob', '')
-    tob = birth_info.get('tob', '')
-    name = birth_info.get('name', '')
-    place = birth_info.get('place', '')
-    day_name = birth_info.get('day_name', '')
-    nakshatra = birth_info.get('nakshatra', '')
-    padam = birth_info.get('padam', 1)
-    nak_elapsed = birth_info.get('nak_elapsed', '0గం 0ని')
-    nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
-
-    if not dob:
-        return "❌ No birth info found"
-
-    dasha_data = get_dasha_info(birth_info)
-
-    return render_template(
-        "chart2.html",
-        name=name, dob=dob, tob=tob, place=place, day_name=day_name,
-        nakshatra=nakshatra, padam=padam, nak_elapsed=nak_elapsed, nak_remaining=nak_remaining,
-        **dasha_data,
-        planet_colors=PLANET_COLORS,
-    )
-
-
-@app.route("/compare_dasha", methods=["POST"])
-def compare_dasha():
-    name1 = request.form.get("name1","")
-    dob1 = request.form.get("dob1","")
-    tob1 = request.form.get("tob1","")
-    place1 = request.form.get("place1","")
-    lat1 = request.form.get("lat1")
-    lon1 = request.form.get("lon1")
-
-    name2 = request.form.get("name2","")
-    dob2 = request.form.get("dob2","")
-    tob2 = request.form.get("tob2","")
-    place2 = request.form.get("place2","")
-    lat2 = request.form.get("lat2")
-    lon2 = request.form.get("lon2")
-
-    if not lat1 or not lon1 or not lat2 or not lon2:
-        return "❌ Please select place from suggestion list for both entries"
-
-    data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
-    data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
-    
-    dasha1 = get_dasha_info(data1)
-    dasha2 = get_dasha_info(data2)
-
-    now = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
-    now_date = now.strftime("%d-%m-%Y")
-    now_time = now.strftime("%H:%M")
-
-    return render_template("compare_dasha.html", 
-                         p1=data1, p2=data2, 
-                         dasha1=dasha1, dasha2=dasha2, 
-                         planet_colors=PLANET_COLORS,
-                         now_date=now_date, now_time=now_time)
-
-@app.route("/chart3")
-def chart3():
-    """Display Dwadasa Grahamula Phalitalu"""
-    current_year = datetime.datetime.now().year
-    birth_info = session.get('birth_info', {})
-    lagna = birth_info.get('lagna', '')
-    return render_template("chart3.html", current_year=current_year, lagna=lagna)
-
-@app.route("/go-to-birth-chart")
-def go_to_birth_chart():
-    """Redirect to birth chart with session data"""
-    birth_info = session.get('birth_info', {})
-    if birth_info:
-        # Instead of just rendering chart.html which requires complex SWISSEPH calculations,
-        # we repopulate a pseudo-form request to the main chart endpoint or we can 
-        # just regenerate chart() if we refactored it. Since /chart expects POST data,
-        # we'll build a simple redirect page that auto-submits.
-        return f"""
-        <html>
-            <body onload="document.forms[0].submit()">
-                <form action="/chart" method="POST">
-                    <input type="hidden" name="name" value="{birth_info.get('name', '')}">
-                    <input type="hidden" name="dob" value="{birth_info.get('dob', '')}">
-                    <input type="hidden" name="tob" value="{birth_info.get('tob', '')}">
-                    <input type="hidden" name="place" value="{birth_info.get('place', '')}">
-                    <input type="hidden" name="lat" value="{birth_info.get('lat', '')}">
-                    <input type="hidden" name="lon" value="{birth_info.get('lon', '')}">
-                </form>
-                <p>Loading Birth Chart...</p>
-            </body>
-        </html>
-        """
-    else:
-        # Redirect to index if no birth info
-        return redirect(url_for('index'))
-
-@app.route("/results", methods=["GET", "POST"])
-def results():
-    """Calculate and display results based on planet own-house rules and party logic"""
-    # Check for password authorization in session
-    if 'results_authorized' not in session:
-        # Check if password was submitted
-        submitted_password = request.form.get('password')
-        if submitted_password:
-            if submitted_password == 'Ravan@963':
-                session['results_authorized'] = True
-            else:
-                return render_template("results_password.html", error=True)
-        else:
-            # Not authorized and no password submitted, show password entry page
-            return render_template("results_password.html", error=False)
-
-    birth_info = session.get('birth_info', {})
+def analyze_kundali_results(birth_info):
+    """Refactored logic to calculate kundali results for one person, returning a data dictionary."""
     if not birth_info:
-        return redirect(url_for('index'))
-    
+        return None
+        
     planet_positions = birth_info.get('planet_positions', [])
     lagna = birth_info.get('lagna', '')
     
-    # Rasi ordering to find Bhava distances
     RASI_ORDER = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
-    
-    # Party Mapping
     GURU_PARTY_LAGNAS = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
-    
     native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
-    
     GURU_PARTY_PLANETS = ["సూర్యుడు", "భూమి", "కుజుడు", "గురు", "కేతు", "చంద్రుడు"]
     
-    # Bitter Enemies (fixed pairs)
-    BITTER_ENEMIES = {
-        "కుజుడు": "శుక్రుడు",
-        "శుక్రుడు": "కుజుడు",
-        "మిత్ర": "భూమి",
-        "భూమి": "మిత్ర",
-        "చిత్ర": "కేతు",
-        "కేతు": "చిత్ర",
-        "చంద్రుడు": "రాహు",
-        "రాహు": "చంద్రుడు",
-        "సూర్యుడు": "శని",
-        "శని": "సూర్యుడు",
-        "బుధుడు": "గురు",
-        "గురు": "బుధుడు"
+    OWN_HOUSE_RULES = {
+        "కుజుడు": "మేషం", "మిత్ర": "వృషభం", "చిత్ర": "మిథునం", "చంద్రుడు": "కర్కాటకం",
+        "సూర్యుడు": "సింహం", "బుధుడు": "కన్య", "శుక్రుడు": "తులా", "భూమి": "వృశ్చికం",
+        "కేతు": "ధనస్సు", "రాహు": "మకరం", "శని": "కుంభం", "గురు": "మీనం"
     }
 
-    # Detailed Planetary Rulerships (ఆధీనములో ఉన్నవి)
     PLANET_RULERSHIPS = {
         "సూర్యుడు": "పిత, ఆత్మ, తనువు, రాజ్యము, ప్రభావము, ధైర్యము, అధికారము, నేత్రము, పిత్తము, శూరత్వము, శక్తి, విదేశ పర్యటన, జ్ఞాన తేజము, పరాక్రమము, ఉష్ణము, అగ్ని, ధర్మ ధ్యాస, కడుపు, కన్ను, పాలనాశక్తి, ప్రభుత్వ భూములు, కోర్టు వ్యవహారములు, బంజరు భూములు, గుండ్రని ఆకారముండు పొలములు, రారాజు యోచన, గ్రామాధీన జాగాలు, ఎర్రచందనము, ముద్రాధికారము, తెల్ల జిల్లేడు, తూర్పు, ఆంగ్ల విద్య, ఆదివారము, చైత్రమాసము, రాజభవనములు, వేడిని పుట్టించు నీలి వెలుగులు, పై అంతస్థులు గల భవనములు. (జాతి: క్షత్రియ, రంగు: గోధుమరంగు)",
         "చంద్రుడు": "బుద్ధి, నీరు, స్త్రీలు, మనస్సు, సౌందర్యము, జల సౌఖ్యము, బలము, పంటలు, వెండి, యాత్రలు, గుర్రపుస్వారీ, నిద్ర, వేగము, సుగంధములు, మాతృ ప్రీతి, కోనేర్లు, బావులు, కీర్తి, స్త్రీ సుఖము, తెల్లని మెత్తని గుడ్డలు, సముద్రములు, పుష్ఠి, పూలు, నదులు, యాత్రలు, తెలుపురంగు, చెరువులు, శ్వాస, కడుపు, ముత్యములు, ముఖ అలంకరణ, గర్భము, మృదుత్వము, సుఖభోజనము, పాలు, మనోజపము, విమానయానము, విమానములు, నావలు, అంతస్తుల భవనములు, చౌడు భూములు, లాడ్జీలు, వర్షము, ముద్రణాధికారము, రాజ చిహ్నము, సన్మానము, ధాన్యములో వడ్లు, వెన్నెల, శయన గృహములు, సంతోషము, వీర్యబలము, అశ్వ వాహనము, జ్ఞాపకశక్తి, దూరాలోచన, శిరో ఆరోగ్యము, మెదడు బలము, గ్రాహితశక్తి, ఈతలో నైపుణ్యము, నదీస్నానము, నీటి ప్రదేశములు, చౌడు, జలచరములు, ఇంగ్లీషు భాష, విలాస వస్తువులు, వాయువ్యదిశ, సోమవారము, తెల్లని పూలు, మల్లె తోటలు. (జాతి: బ్రాహ్మణ, రంగు: తెల్లనిరంగు)",
-        "కుజుడు": "పరాక్రమము, కోపము, సేనాధిపత్యము, సాహసము, విస్ఫోటనము, బాంబులు, తుపాకులు, మారణాయుధములు, కోతులు, కుక్కలు, కోరలు గల కూరజంతువులు, కొమ్ములుగల ఎద్దులు, శస్త్రవిద్య, తర్కశాస్త్రము, శత్రువృద్ధి, ఉష్ణము, ఎర్రభూమి, రాళ్ళభూమి, కొండలు, బండలు, ఎరుపు రంగు, రక్తము, యవ్వనము, యువకులు, యుక్తవయస్సు స్త్రీల పరిచయము, మెట్టభూమి, పట్టుదల, ప్రభుభక్తి, లక్ష్యమును ఛేదించుట, జయము, దక్షిణ దిక్కు అరణ్యములు, అరణ్య సంచారము, సండ్రచెట్టు, వేట జరుపుట, యువరాజు, కట్టెలు, ప్రవాహము, మరణశిక్ష, కోటలు, బురుజులు, సోదరబలము, చెల్లెండ్రు, వెంట్రుకలు, మీసము, కూరమైన ముఖవర్చస్సు, దీర్ఘబాహువులు, అంగరక్షకులు, పోలీసు, మిలటరీ, కందులు, సన్మానములు, సైన్య బలము, రాతి గుహలు, రచ్చబండలు, మంగమాణ్యములు, కుమ్మర మాణ్యములు, కుమ్మరాములు, వ్రణ వైద్యము, పిందెలు, కాయలు, మంగళవారము, నక్సలైట్లు. (జాతి: నాయిబ్రాహ్మణ, రంగు: ఎరుపురంగు)",
+        "కుజుడు": "పరాక్రమము, కోపము, సేనాధిపత్యము, సాహసము, విస్ఫోటనము, బాంబులు, తుపాకులు, మారణాయుధములు, కోతులు, కుక్కలు, కోరలు గల కూరజంతువులు, కొమ్ములుగల ఎద్దులు, శస్త్రవిద్య, తర్కశాస్త్రము, శత్రువృద్ధి, ఉష్ణము, ఎర్రభూమి, రాళ్ళభూమి, కొండలు, బండలు, ఎరుపు రంగు, రక్తము, యవ్వనము, యువకులు, యుక్తవయస్సు స్త్రీల పరిచయము, మెట్టభూమి, పట్టుదల, ప్రభుభక్తి, లక్ష్యమును ఛేదించుట, జయము, దక్షిణ దిక్కు అరణ్యములు, అరణ్య సంచారము, సండ్రచెట్టు, వేట జరుపుట, యువరాజు, కట్టెలు, ప్రవాహము, మరణశిక్ష, కోటలు, బురుజులు, సోదరబలము, చెల్లెండ్రు, వెంట్రుకలు, మీసము, కూరమైన ముఖవర్చస్సు, దీర్ఘబాహువులు, అంగరక్షకులు, పోలీసు, మిలటరీ, కందులు, సన్మానములు, సైన్య బలము, రాతి గుహలు, రచ్చబండలు, మంగమాణ్యములు, కమ్మర మాణ్యములు, కుమ్మరాములు, వ్రణ వైద్యము, పిందెలు, కాయలు, మంగళవారము, నక్సలైట్లు. (జాతి: నాయిబ్రాహ్మణ, రంగు: ఎరుపురంగు)",
         "బుధుడు": "జ్యోతిష్యము, గణితశాస్త్రము, మంత్రములు, యంత్రములు, వ్యాపారము, తల్లివైపు బంధువులు, మామగారు, యుక్తి, శిల్పవిద్య, మంత్ర తంత్రవిద్యలు, వేద విచారణ, హాస్యము, వైద్యము, జ్ఞానము, లిపి, పైత్యము, దృష్టిబలము, ఆకుపచ్చరంగు, శిల్పకళ, చిత్రలేఖనము, శివభక్తి, దాస దాసీ జన అభివృద్ధి, సంధిచేయుట, చాకచక్యముగా మాట్లాడుట, పొట్టితనము, విచిత్ర రచనలు, యుక్తియుక్త జ్ఞానము, చమత్కారము, సైంటిస్టు, ఉత్తరము దిక్కు బుధవారము, స్మశానభూములు, గోరీలు, దిబ్బలు, దింపుడు కల్లములు, దయ్యాల ఇండ్లు, బలి ఇచ్చుస్థానములు, దయ్యాలు, పాడుపడిన స్థలములు, వ్యాపార స్థలములు, అంగళ్ళు, శూన్యములు, సూక్ష్మములు, భూతవైద్యము, ఉత్తరేణి చెట్టు, పెసలు ధాన్యము. (జాతి: వైశ్య, రంగు: ఆకుపచ్చ రంగు)",
         "గురు": "భూమిమీదున్న ప్రపంచ ధనము, వేదవిద్య, ప్రపంచ విద్య, పుత్రులు, జ్యోతిష్యము, గురువుగా ఉండుట, సత్కర్మ చేయుట, శబ్దశాస్త్రము, బ్రాహ్మణత్వము, యజ్ఞాది క్రతువులు, బంగారు, గృహము, అశ్వము, గజము, ఆచారము, సుజనత్వము, శాంతము, మంత్రిత్వము, ఐశ్వర్యము, బంధువృద్ధి, సత్యము, పురాణములు, పౌరాణికము, పుత్రపౌత్ర వృద్ధి, మంచి సంతతి, పూజనీయత, అధికార గౌరవములు, గ్రామాధికారము, పసుపు రంగు, మాట చమత్కారము, మేథావి, తీర్థయాత్ర దేవతా దర్శనములు, గ్రంథ పఠనము, అగ్రస్థానము, తియ్యని ఆహారము, సంస్కృతి, పాండిత్యములో ప్రతిభ, బంధుబలము, సంస్కృత భాష, గ్రంథరచన, ముక్తి సాధన, పౌరోహిత్యము, యజుర్వేదము, సమయస్ఫూర్తి, మత సిద్ధాంతము, దేవాలయ నిర్మాణము, చవుటి భూములు, కళ్యాణ మందిరములు, భజన మందిరములు నిర్మించుట, బోధనావృత్తి. (జాతి: బ్రాహ్మణ, రంగు: పసుపు రంగు)",
         "శుక్రుడు": "వివాహము, నాటక సాహిత్యము, స్త్రీ సౌఖ్యము, కామము, భోగము, వ్యభిచారము, వాహన సుఖము, ఆభరణములు, ఐశ్వర్యము, ముద్రణాధికారము, హాస్యము, మేహము, వేశ్యా సంభోగము, కన్యత్వ లభ్యము, తెల్లని వస్త్రము, సుగంధములు, సౌందర్యము, జలక్రీడ, చిత్రలేఖనము, కవిత్వము, గ్రంథరచన, సంగీతము, సామవేదము, మద్యపానము, నృత్యము, యువతి, మనోభావములు, అష్ట భోగములు, అష్ట ఐశ్వర్యములు, శృంగార కావ్య రచనలు, దేహసుఖము, సౌందర్యము, సుకుమారము, వీణ లేక వేణు గానము, వాహన సౌఖ్యము, అన్యస్త్రీల ఆలింగనము, బహు స్త్రీ సంగమము, కళానైపుణ్యము, వీర్యబలము, శివభక్తి, శాంభవీ విద్య, మృధురతి, స్త్రీలకు మిక్కిలి ప్రియముగా ఉండుట, వివాహములలో విందులలో పాల్గొనుట, సభా సన్మానములు, వేశ్యలు సన్నిహితముగా ఉండుట, వ్యసనాలలో స్త్రీకి లొంగిపోవడము, తాంబూలము, మాంసభక్షణ, శక్తిపూజలు, పశువుల ఇండ్లు, బండ్లు విడుచు స్థలము, వ్యభిచార గృహములు, పశువుల ఇళ్ళు, వంట కట్టెలు పెట్టుచోటు, శయన గృహములు, నవ యవ్వనుల మిత్రత్వము, కామకేళీ విలాసము. (జాతి: నంభీబ్రాహ్మణ, రంగు: తెలుపు రంగు)",
@@ -1441,27 +1269,202 @@ def results():
         "చిత్ర": "అకాల మరణము తర్వాత పరకాయ ప్రవేశము, సూక్ష్మశరీర ముఖ జ్ఞానము, సూక్ష్మములచేత బాధింపబడడము, అకాలమృత్యువు, తాత్కాలిక మరణము, మనో బాధలు లేకుండా జ్ఞానచింతలో ఉండుట, అదృశ్యముగా ఉండి కొన్ని నిమిషములు కనిపించుట. (జాతి: సిక్కులు, రంగు: లేత పసుపు)"
     }
 
-    # Detailed Bhava Interpretations from user text
     DETAILED_BHAVA_MEANINGS = {
-        1: {
-            "title": "ప్రథమ స్థానము (తనువు)",
-            "meaning": "శరీరము, ఆత్మ, రూపము, స్వభావము, అంగ సౌష్టవమును గురించిన విషయములు.",
-            "shubha": "మంచి బలమైన శరీరము, అందమైన రూపం, మంచి కొలతలు గల అంగసౌష్టవం కల్గియుండును.",
-            "paapa": "బలహీనమైన దేహం, అంగలోపం, అనారోగ్యాలకు అనువుగా ఉన్న దేహం, అంగసౌష్టవం లేని దేహం లభించును.",
-            "neutral": "మధ్యతరగతి ఆరోగ్యము, అందము, అంగసౌష్టవముగల శరీరముండును."
-        },
-        2: {
-            "title": "ద్వితీయ స్థానము (ధనము)",
-            "meaning": "ధనము, వాక్కు, కుటుంబము, నేత్రము, కర్ణము, ముఖ వర్చస్సు, మరణము.",
-            "shubha": "ముఖవర్చస్సులో ప్రత్యేకత, ఆకర్షణీయమైన కళ్ళు, ఆయుర్బలం, దైవభక్తి గల మంచి కుటుంబం లభించును. వాక్చాతురత కల్గియుండును.",
-            "paapa": "ముఖంలో అందం ఉండదు, మాటలో ఆకర్షణ ఉండదు, కుటుంబంలో అన్యోన్యత లోపించును, ధన ఇబ్బందులు ఎదురవుతాయి.",
-            "neutral": "రెండవ స్థానములోని విషయములు మధ్యరకముగా అందుచుండును. మంచి చెడు కాకుండా తటస్థముగా ఉండును."
-        },
-        3: {
-            "title": "తృతీయము (సోదర స్థానము)",
-            "meaning": "సోదరులు, ధైర్యము, పరాక్రమము.",
-            "shubha": "అన్నదమ్ముల వలన సుఖము లేకున్నా వ్యతిరేఖము లేకుండా సాధారణముగా ఉందురు. కష్టముండదు.",
-            "paapa": "సోదర వర్గం వలన బాధలు, వివాహం ఆలస్యం, దాయాదులతో ఇబ్బందులు, ఉత్సాహం లేని నీచ జీవనం, సేవక వృత్తి.",
+        1: {"title": "ప్రథమ స్థానము (తనువు)", "meaning": "శరీరము, ఆత్మ, రూపము, స్వభావము, అంగ సౌష్టవమును గురించిన విషయములు.", "shubha": "మంచి బలమైన శరీరము, అందమైన రూపం, మంచి కొలతలు గల అంగసౌష్టవం కల్గియుండును.", "paapa": "బలహీనమైన దేహం, అంగలోపం, అనారోగ్యాలకు అనువుగా ఉన్న దేహం, అంగసౌష్టవం లేని దేహం లభించును.", "neutral": "మధ్యతరగతి ఆరోగ్యము, అందము, అంగసౌష్టవముగల శరీరముండును."},
+        2: {"title": "ద్వితీయ స్థానము (ధనము)", "meaning": "ధనము, వాక్కు, కుటుంబము, నేత్రము, కర్ణము, ముఖ వర్చస్సు, మరణము.", "shubha": "ముఖవర్చస్సులో ప్రత్యేకత, ఆకర్షణీయమైన కళ్ళు, ఆయుర్బలం, దైవభక్తి గల మంచి కుటుంబం లభించును. వాక్చాతురత కల్గియుండును.", "paapa": "ముఖంలో అందం ఉండదు, మాటలో ఆకర్షణ ఉండదు, కుటుంబంలో అన్యోన్యత లోపించును, ధన ఇబ్బందులు ఎదురవుతాయి.", "neutral": "రెండవ స్థానములోని విషయములు మధ్యరకముగా అందుచుండును. మంచి చెడు కాకుండా తటస్థముగా ఉండును."},
+        3: {"title": "తృతీయము (సోదర స్థానము)", "meaning": "సోదరులు, ధైర్యము, పరాక్రమము.", "shubha": "అన్నదమ్ముల వలన సుఖము లేకున్నా వ్యతిరేఖము లేకుండా సాధారణముగా ఉందురు. కష్టముండదు.", "paapa": "సోదర వర్గం వలన బాధలు, వివాహం ఆలస్యం, దాయాదులతో ఇబ్బందులు, ఉత్సాహం లేని నీచ జీవనం, సేవక వృత్తి.", "neutral": "సాధారణ ఫలితాలు ఉండును."},
+        4: {"title": "చతుర్థము (మాతృస్థానము)", "meaning": "తల్లి, వాహనము, భూమి, గృహము, వ్యవసాయము, పంటలు, బంధువులు.", "shubha": "గృహము, వస్తు వాహనములు, భూములు, జలాశయములు కల్గును. బంధు మిత్రుల బలము, మాతృప్రీతి, సుఖ సౌఖ్యములు కల్గును.", "paapa": "పైన చెప్పిన శుభ ఫలితములకు వ్యతిరేఖ ప్రభావం ఉండును. సుఖ సౌఖ్యములు లోపించును.", "neutral": "వస్తు భూమి లాభాలు మధ్యరకముగా ఉండును."},
+        5: {"title": "పంచమము (విద్యాస్థానము)", "meaning": "విద్య, జ్ఞానము, జ్ఞప్తి శక్తి, సంతానము, మంత్రి పదవి, వివేకము.", "shubha": "మంచి సంతానం, మంత్రి పదవి, వివేకము, వినయము, పాండిత్యం, గ్రంథ రచనలో ప్రావీణ్యం కలుగును.", "paapa": "పుణ్యమును అందించదు, కానీ పాపము లేదు కనుక చెడు చేయదు. ఫలితాలు సామాన్యంగా ఉండును.", "neutral": "విద్య సంతాన విషయములు సామాన్యము."},
+        6: {"title": "ఆరవది (శత్రుస్థానము)", "meaning": "శత్రువు, ఋణము, రోగము, సమస్యలు.", "shubha": "శత్రు, ఋణ, రోగ సమస్యలు ఉండవు. వడ్డీ వ్యాపారం లేదా వైద్యవృత్తితో ధనార్జన కలుగును.", "paapa": "శత్రు, ఋణ, రోగ సమస్యలు జీవితమంతా వేధించవచ్చు. మనోచింత, అపవాదులు, అప్పుల చిక్కులు ఉండును.", "neutral": "మధ్య రకముగా జరుగుచుండును."},
+        7: {"title": "సప్తమము (కళత్ర స్థానము)", "meaning": "భార్య/భర్త, వివాహము, శరీర సుఖము.", "shubha": "కళత్రము నుండి సుఖము, ఆకర్షణీయమైన భార్య/భర్త, ధనము, ఇతర సుఖములు సకాలంలో లభించును.", "paapa": "భార్య/భర్త సౌఖ్యం ఉండదు, వివాహ సమస్యలు, మనోశాంతి లేకపోవడము. ఒకవేళ 8వ స్థాన దోషముంటే ఆత్మహత్య ప్రేరణ.", "neutral": "వివాక సౌఖ్యము సామాన్యము."},
+        8: {"title": "అష్టమము (ఆయుస్థానము)", "meaning": "ఆయుష్షు, మరణము, జీవనము, దుఃఖము.", "shubha": "దీర్ఘాయువు, పుష్టి కలిగిన శరీరం, వీర్యపుష్టి, సౌఖ్యములు కల్గును. అకాల మృత్యు భయం ఉండదు.", "paapa": "అల్పాయుష్కుడగును, అకాల మృత్యువు, కారాగార ప్రాప్తి, పరాభవములు కలుగును. కామవాంఛ లోపించును.", "neutral": "మధ్యరకపు ఆయుర్దాయం."},
+        9: {"title": "నవమ స్థానము (పితృ స్థానము)", "meaning": "తండ్రి ఆస్తి, భాగ్యము, ధనము, దైవభక్తి, జ్ఞానము.", "shubha": "తండ్రి ఆస్తి లభించును, సకల ఐశ్వర్యములు, నిలువయుండే ధనము, భాగ్యము, దైవభక్తి కల్గును.", "paapa": "నిర్భాగ్యుడగును, తీవ్ర పేదరికం, దైవభక్తి లోపం, ఆస్తి నష్టములు కలుగును.", "neutral": "భాగ్యము సామాన్యము."},
+        10: {"title": "దశమ స్థానము (జీవన స్థానము)", "meaning": "వృత్తి, ఉద్యోగము, కీర్తి, గౌరవము, రాజకీయము.", "shubha": "ఉన్నత వృత్తి, రాజకీయ పదవులు, కీర్తి గౌరవము, అష్టభోగములు. నిగ్రహశక్తి కలిగిన జీవితం.", "paapa": "జీవనమునకు నిరంతర పోరాటం, గౌరవ లోపం, వృత్తిలో ఇబ్బందులు ఎదురవుతాయి.", "neutral": "కేవలం జీవనోపాధి లభించును."},
+        11: {"title": "ఏకాదశ స్థానము (లాభ స్థానము)", "meaning": "లాభము, ఆదాయము, అదనపు ధనార్జన.", "shubha": "వివిధ రూపాలలో ఆదాయం, లాటరీ లాభాలు, కట్నకానుకలు, భారీ ధన లాభములు కలుగును.", "paapa": "ఆదాయంలో ఆటంకాలు, లాభాల్లో నష్టాలు, తండ్రి ఆస్తి నష్టం, దుర్వ్యసనాలు కలుగును.", "neutral": "సామాన్య లాభం."},
+        12: {"title": "ద్వాదశ స్థానము (వ్యయ స్థానము)", "meaning": "ఖర్చు, ప్రారబ్ధ కర్మ ముగింపు, మోక్షము, మరణ చివరి భాగము.", "shubha": "మంచి కార్యాలకు ఖర్చు, ఆధ్యాత్మిక చింతన, మరణ సమయమున సుఖము, స్వర్గలోక ప్రాప్తి.", "paapa": "బంధువులు లేని అనాధ చావు, దుర్వినియోగమయ్యే ఖర్చులు, నిరాశతో కూడిన మరణం.", "neutral": "ఖర్చులు ఆదాయానికి తగినట్లు ఉండును."}
+    }
+
+    OWN_HOUSE_RULES = {
+        "కుజుడు": "మేషం", "మిత్ర": "వృషభం", "చిత్ర": "మిథునం", "చంద్రుడు": "కర్కాటకం",
+        "సూర్యుడు": "సింహం", "బుధుడు": "కన్య", "శుక్రుడు": "తులా", "భూమి": "వృశ్చికం",
+        "కేతు": "ధనస్సు", "రాహు": "మకరం", "శని": "కుంభం", "గురు": "మీనం"
+    }
+
+    try:
+        lagna_idx = RASI_ORDER.index(lagna)
+    except ValueError:
+        lagna_idx = 0
+
+    results_data = []
+    for p in planet_positions:
+        p_name = p['name']
+        p_rasi = p['rasi']
+        is_green = any(gp in p_name for gp in GURU_PARTY_PLANETS)
+        is_friend = (is_green == (native_party == "గురు వర్గము"))
+        is_own_house = False
+        for rule_name, rule_house in OWN_HOUSE_RULES.items():
+            if rule_name in p_name:
+                is_own_house = (p_rasi == rule_house)
+                break
+        
+        rulership = "N/A"
+        for r_name, r_text in PLANET_RULERSHIPS.items():
+            if r_name in p_name:
+                rulership = r_text
+                break
+
+        results_data.append({
+            "name": p_name, "current_rasi": p_rasi, "is_own_house": is_own_house,
+            "is_friend": is_friend, "color": p.get('color', '#ffffff'),
+            "degree": p.get('degree', ''), "strength": p.get('strength', 0),
+            "nakshatra": p.get('nakshatra', ''), "padam": p.get('padam', ''),
+            "rulership": rulership, "is_hand": p.get('is_hand', False)
+        })
+
+    bhava_report = []
+    for i in range(12):
+        house_num = i + 1
+        house_rasi = RASI_ORDER[(lagna_idx + i) % 12]
+        occ_planets = [p for p in results_data if p['current_rasi'] == house_rasi]
+        friends_in_house = [p for p in occ_planets if p['is_friend']]
+        enemies_in_house = [p for p in occ_planets if not p['is_friend']]
+
+        if friends_in_house: state = "shubha"
+        elif enemies_in_house: state = "paapa"
+        else: state = "neutral"
+
+        bhava_data = DETAILED_BHAVA_MEANINGS[house_num]
+        interpretation = bhava_data.get(state, bhava_data["neutral"])
+        special_note = ""
+
+        if house_num == 4:
+            sun_p = [p for p in occ_planets if "సూర్యుడు" in p['name']]
+            if sun_p:
+                if sun_p[0]['is_friend']: special_note += "సూర్యుడు 4వ రాశిలో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును. "
+                else: special_note += "సూర్యుడు శత్రుగ్రహమై 4వ రాశిలో ఉన్నందున గృహ సుఖములు లోపించును. "
+        
+        if house_num == 8 and enemies_in_house:
+            for p in enemies_in_house:
+                if "రాహు" in p['name']: special_note += "పాముకాటు లేదా విషాహారం వలన ప్రమాదం. "
+                elif "కుజుడు" in p['name']: special_note += "ఆయుధాల చేత లేదా రక్తసిక్త ప్రమాదము. "
+        
+        if house_num == 7:
+            for p in occ_planets:
+                if "శుక్రుడు" in p['name']:
+                    if p['is_friend']: special_note += "అందమైన, అనుకూలమైన భార్య/భర్త లభించును. "
+                    else: special_note += "కళత్రము వలన కష్టములు, మనఃశ్శాంతి లోపించును. "
+
+        bhava_report.append({
+            "number": house_num, "title": bhava_data["title"], "rasi": house_rasi,
+            "meaning": bhava_data["meaning"], "interpretation": interpretation,
+            "special_note": special_note, "state": state, "planets": occ_planets
+        })
+
+    return {
+        "results": results_data,
+        "bhava_report": bhava_report,
+        "native_party": native_party,
+        "name": birth_info.get('name', ''),
+        "dob": birth_info.get('dob', ''),
+        "tob": birth_info.get('tob', ''),
+        "place": birth_info.get('place', '')
+    }
+
+@app.route("/results", methods=["GET", "POST"])
+def results():
+    """Calculate and display results based on planet own-house rules and party logic"""
+    if 'results_authorized' not in session:
+        submitted_password = request.form.get('password')
+        if submitted_password:
+            if submitted_password == 'Ravan@963':
+                session['results_authorized'] = True
+            else:
+                return render_template("results_password.html", error=True)
+        else:
+            return render_template("results_password.html", error=False)
+
+    birth_info = session.get('birth_info', {})
+    if not birth_info:
+        return redirect(url_for('index'))
+    
+    analysis = analyze_kundali_results(birth_info)
+    return render_template("results.html", **analysis)
+
+@app.route("/compare_results_analysis", methods=["POST"])
+def compare_results_analysis():
+    """Password protected comparative results analysis"""
+    password = request.form.get("password")
+    if password != "Reddy@963":
+        return "❌ Invalid password for comparative analysis. Use 'Reddy@963'."
+
+    # Load data from form (P1)
+    p1_info = {
+        'name': request.form.get("p1_name"),
+        'dob': request.form.get("p1_dob"),
+        'tob': request.form.get("p1_tob"),
+        'place': request.form.get("p1_place"),
+        'lat': float(request.form.get("p1_lat")),
+        'lon': float(request.form.get("p1_lon"))
+    }
+    # Load data from form (P2)
+    p2_info = {
+        'name': request.form.get("p2_name"),
+        'dob': request.form.get("p2_dob"),
+        'tob': request.form.get("p2_tob"),
+        'place': request.form.get("p2_place"),
+        'lat': float(request.form.get("p2_lat")),
+        'lon': float(request.form.get("p2_lon"))
+    }
+
+    # Generate full data for both
+    data1 = get_kundali_data(p1_info['name'], p1_info['dob'], p1_info['tob'], p1_info['place'], p1_info['lat'], p1_info['lon'])
+    data2 = get_kundali_data(p2_info['name'], p2_info['dob'], p2_info['tob'], p2_info['place'], p2_info['lat'], p2_info['lon'])
+
+    analysis1 = analyze_kundali_results(data1)
+    analysis2 = analyze_kundali_results(data2)
+
+    return render_template("compare_results_analysis.html", a1=analysis1, a2=analysis2)
+
+@app.route("/compare_kundali")
+def compare_kundali():
+    """Render the Kundali comparison form"""
+    return render_template("compare_form.html")
+
+@app.route("/compare_results", methods=["POST"])
+def compare_results():
+    """Process comparison form and display side-by-side charts"""
+    p1 = {k: request.form.get(f"{k}1") for k in ["name", "dob", "tob", "place", "lat", "lon"]}
+    p2 = {k: request.form.get(f"{k}2") for k in ["name", "dob", "tob", "place", "lat", "lon"]}
+    
+    if not all([p1['lat'], p1['lon'], p2['lat'], p2['lon']]):
+        return "❌ Missing coordinate data"
+
+    data1 = get_kundali_data(p1['name'], p1['dob'], p1['tob'], p1['place'], float(p1['lat']), float(p1['lon']))
+    data2 = get_kundali_data(p2['name'], p2['dob'], p2['tob'], p2['place'], float(p2['lat']), float(p2['lon']))
+    
+    return render_template("compare_results.html", p1=data1, p2=data2)
+
+# ---------------- Detailed Bhava Meanings ----------------
+DETAILED_BHAVA_MEANINGS = {
+    1: {
+        "title": "లగ్నము (తనుస్థానము)",
+        "meaning": "దేహపు రంగు, రూపము, జ్ఞానము, సుఖదుఃఖములు.",
+        "shubha": "నీతిమంతుడు, వివేకవంతుడు, కార్యదక్షుడు, ధైర్యవంతుడు, శుభములు కలుగును.",
+        "paapa": "అవమానాలు, దయాహీనత, కోప స్వభావం, అనారోగ్యము కల్గును.",
+        "neutral": "సాధారణ తెలివితేటలు, మధ్యరకపు దేహ బలము కల్గును."
+    },
+    2: {
+        "title": "ద్వితీయము (ధనస్థానము)",
+        "meaning": "ధనము, విద్య, కుటుంబము, నేత్రము, వాక్కు.",
+        "shubha": "ధన లాభము, కుటుంబ వృద్ధి, విద్యా వివేకములు, శాంత స్వభావం, మధురమైన మాటలు కల్గును.",
+        "paapa": "కుటుంబ కలహాలు, ధన నష్టము, కంటి జబ్బులు, పరుషమైన మాటలు కల్గును.",
+        "neutral": "ఆదాయము ఖర్చు సమానంగా ఉండును."
+    },
+    3: {
+        "title": "తృతీయము (భాతృస్థానము)",
+        "meaning": "సోదరులు, ధైర్యము, వాహనములు, ప్రయాణములు, ఉత్సాహం.",
+        "shubha": "సోదర సుఖము, కార్యజయం, మంచి ఆలోచనలు, వాహన సౌఖ్యం, ఉత్సాహం కల్గును.",
+ "paapa": "సోదర వర్గం వలన బాధలు, వివాహం ఆలస్యం, దాయాదులతో ఇబ్బందులు, ఉత్సాహం లేని నీచ జీవనం, సేవక వృత్తి.",
             "neutral": "సాధారణ ఫలితాలు ఉండును."
         },
         4: {
@@ -2262,7 +2265,7 @@ def daily_panchangam():
             speed = swe.calc_ut(jd_val, pid, PLANET_FLAGS)[0][3]
             return speed < 0
 
-        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, find_exit, max_days=800):
+        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, find_exit, max_days=10950):
             """Binary search to find when planet enters/exits current rasi.
                find_exit=True  -> look for next rasi change (exit)
                find_exit=False -> look for previous rasi change (entry)
@@ -2322,7 +2325,7 @@ def daily_panchangam():
         ALL_PLANETS_TRANSIT = [
             ("సూర్యుడు", swe.SUN), ("చంద్రుడు", swe.MOON), ("కుజుడు", swe.MARS),
             ("బుధుడు", swe.MERCURY), ("గురు", swe.JUPITER), ("శుక్రుడు", swe.VENUS),
-            ("శని", swe.SATURN), ("రాహు", swe.MEAN_NODE),
+            ("శని", swe.SATURN), ("రాహు", swe.TRUE_NODE),
             ("కేతు", None), ("భూమి", None), ("చిత్ర", None), ("మిత్ర", None)
         ]
 
@@ -2336,10 +2339,9 @@ def daily_panchangam():
             jd_bound1 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=True)
             jd_bound2 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=False)
 
-            # Sort chronologically: smaller JD = past = entry, larger JD = future = exit
-            bounds = sorted([b for b in [jd_bound1, jd_bound2] if b is not None])
-            jd_entry = bounds[0] if len(bounds) >= 1 else None
-            jd_exit  = bounds[1] if len(bounds) >= 2 else None
+            # jd_bound2 is past search (Entry) | jd_bound1 is future search (Exit)
+            jd_entry = jd_bound2
+            jd_exit  = jd_bound1
 
             entry_str = jd_to_date_str(jd_entry) if jd_entry else "—"
             exit_str  = jd_to_date_str(jd_exit)  if jd_exit  else "—"

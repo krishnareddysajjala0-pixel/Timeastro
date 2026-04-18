@@ -1,6 +1,6 @@
 {
-  "name": "YugAstro",
-  "short_name": "YugAstro",
+  "name": "Time Astro",
+  "short_name": "Time Astro",
   "description": "Telugu Astrology Chart, Panchangam, and Calendar",
   "start_url": "/",
   "display": "standalone",

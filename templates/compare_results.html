@@ -1220,6 +1220,57 @@
       }
     }
     body { padding-bottom: 80px; }
+
+    /* Match Compare Kundali button style */
+    .btn-show {
+      background: linear-gradient(135deg, #ffd700, #ff8c00);
+      color: #111;
+      font-size: 18px;
+      padding: 16px 36px;
+      border-radius: 50px;
+      border: 3px solid #ffeb3b;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      animation: pulse-glow 2s infinite;
+      z-index: 1;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-show::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: all 0.5s ease;
+      z-index: -1;
+    }
+
+    .btn-show:hover::before {
+      left: 100%;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7), 0 10px 20px rgba(0, 0, 0, 0.3); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0), 0 10px 20px rgba(0, 0, 0, 0.3); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0), 0 10px 20px rgba(0, 0, 0, 0.3); }
+    }
+
+    .btn-show:hover {
+      transform: translateY(-2px);
+    }
 </style>
 </head>
 <body>
@@ -1598,8 +1649,11 @@
 
   </div>
 
-  <div class="bottom-content-btns text-center print-hide" style="text-align: center; margin-top: 20px; margin-bottom: 80px;">
-    <button onclick="goToCompareDasha()" class="btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; padding: 12px 25px; border-radius: 8px; border: none; font-size: 18px; cursor: pointer; box-shadow: 0 4px 15px rgba(139,92,246,0.4);"><i class="fas fa-project-diagram"></i> దశాచార పోలిక</button>
+  <div class="bottom-content-btns text-center print-hide" style="text-align: center; margin-top: 30px; margin-bottom: 100px; display: flex; justify-content: center;">
+    <button onclick="goToCompareDasha()" class="btn btn-show">
+      <span style="font-size: 20px;">⚖️</span> 
+      దశాచార పోలిక
+    </button>
   </div>  <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item nav-home">
           <i class="fas fa-home"></i>

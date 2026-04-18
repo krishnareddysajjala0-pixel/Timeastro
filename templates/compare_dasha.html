@@ -263,7 +263,7 @@
         .nav-item.active { color: #ffd700; }
         .nav-item i { font-size: 20px; }
         
-        .nav-home i, .nav-panch i, .nav-cal i { animation: rainbow-glow 3s infinite linear; }
+        .nav-home i, .nav-panch i, .nav-cal i, .nav-compare i { animation: rainbow-glow 3s infinite linear; }
 
         @media print {
             .print-hide, .theme-switcher, .fixed-bottom-bar-nav, .top-nav { display: none !important; }
@@ -388,19 +388,19 @@
     </div>
 
     <div class="fixed-bottom-bar-nav print-hide">
-        <a href="/" class="nav-item">
+        <a href="/" class="nav-item nav-home">
             <i class="fas fa-home"></i>
             <span>హోమ్</span>
         </a>
-        <a href="/compare_kundali" class="nav-item active">
+        <a href="/compare_kundali" class="nav-item active nav-compare">
             <i class="fas fa-balance-scale"></i>
             <span>పోలిక</span>
         </a>
-        <a href="/daily_panchangam" class="nav-item">
+        <a href="/daily_panchangam" class="nav-item nav-panch">
             <i class="fas fa-om"></i>
             <span>దిన పంచాంగం</span>
         </a>
-        <a href="/calendar_view" class="nav-item">
+        <a href="/calendar_view" class="nav-item nav-cal">
             <i class="fas fa-calendar-alt"></i>
             <span>క్యాలెండర్</span>
         </a>

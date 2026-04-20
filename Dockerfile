@@ -1,6 +1,6 @@
 # Use an official Python runtime as a parent image (Force Rebuild: 2026-03-14)
 # Build Buster: 1533
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # Set the working directory in the container
 WORKDIR /app

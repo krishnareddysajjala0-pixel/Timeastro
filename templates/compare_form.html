@@ -726,7 +726,7 @@
   <!-- Fixed Bottom Bar -->
   <div id="loading-overlay">
       <div class="loader-astro"></div>
-      <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
+      <p id="typing-text" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
   </div>
   <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item nav-home">
@@ -842,14 +842,53 @@
     document.getElementById('dob2').value = dateStr;
     document.getElementById('tob2').value = timeStr;
 
+    function startTyping() {
+        const text = "జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.";
+        const element = document.getElementById("typing-text");
+        if (!element) return;
+        const words = text.split(" ");
+        let i = 0;
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTick() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function type() {
+            if (i < words.length) {
+                element.innerHTML += (i === 0 ? "" : " ") + words[i];
+                try { playTick(); } catch(e) {}
+                i++;
+                setTimeout(type, 250);
+            }
+        }
+        element.innerHTML = "";
+        type();
+    }
+
     // Navigation auto-loader
     function showLoader() {
         document.getElementById('loading-overlay').style.display = 'flex';
+        startTyping();
     }
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             if(!this.href.includes('#')) showLoader();
         });
+    });
+    
+    document.getElementById("mainForm").addEventListener("submit", (e) => {
+        let valid = true;
+        if (!document.getElementById("lat1").value || !document.getElementById("lat2").value) {
+            valid = false;
+        }
+        if (valid) showLoader();
     });
   </script>
 </body>

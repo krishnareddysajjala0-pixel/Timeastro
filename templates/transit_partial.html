@@ -84,8 +84,12 @@
         <table style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
           <tr>
             <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
-            <td style="color: {{ '#22c55e' if lagna in positive_lagnas else '#ef4444' }}; font-weight: bold;">
-              {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
+            <td style="font-weight: bold;">
+              {% if lagna in positive_lagnas %}
+                <span class="rainbow-text">గురు పార్టీ</span>
+              {% else %}
+                <span class="rainbow-text">శని పార్టీ</span>
+              {% endif %}
             </td>
           </tr>
           <tr>

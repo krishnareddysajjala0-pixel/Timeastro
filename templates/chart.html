@@ -835,6 +835,18 @@
       }
 
 
+
+    @keyframes rainbow-text-animation {
+      0%   { color: #ff4444; text-shadow: 0 0 5px rgba(255, 68, 68, 0.5); }
+      20%  { color: #ff9900; text-shadow: 0 0 5px rgba(255, 153, 0, 0.5); }
+      40%  { color: #ffff00; text-shadow: 0 0 5px rgba(255, 255, 0, 0.5); }
+      60%  { color: #44ff44; text-shadow: 0 0 5px rgba(68, 255, 68, 0.5); }
+      80%  { color: #4488ff; text-shadow: 0 0 5px rgba(68, 136, 255, 0.5); }
+      100% { color: #ff4444; text-shadow: 0 0 5px rgba(255, 68, 68, 0.5); }
+    }
+    .rainbow-text {
+      animation: rainbow-text-animation 3s linear infinite !important;
+      font-weight: bold;
     }
 
     @page {
@@ -1305,11 +1317,7 @@
     <div class="om-title">
       🕉️ ఓం శ్రీ గురవే నమః 🕉️
     </div>
-    <div class="page-title"><img src="/static/images/emblem.png" class="title-emblem"
-        style="width: 30px; height: 30px; vertical-align: middle; margin: 0 8px; filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));"
-        alt="Emblem"> జాఫతకము <img src="/static/images/emblem.png" class="title-emblem"
-        style="width: 30px; height: 30px; vertical-align: middle; margin: 0 8px; filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));"
-        alt="Emblem"></div>
+    <div class="page-title"> జాఫతకము </div>
 
     {# ===== VARIABLES ===== #}
     {% set positive_lagnas = positive_lagnas if positive_lagnas is defined else
@@ -1418,8 +1426,12 @@
               style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
               <tr>
                 <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
-                <td style="color: {{ '#22c55e' if lagna in positive_lagnas else '#ef4444' }}; font-weight: bold;">
-                  {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
+                <td style="font-weight: bold;">
+                  {% if lagna in positive_lagnas %}
+                    <span class="rainbow-text">గురు పార్టీ</span>
+                  {% else %}
+                    <span class="rainbow-text">శని పార్టీ</span>
+                  {% endif %}
                 </td>
               </tr>
               <tr>
@@ -1501,10 +1513,7 @@
         onclick="window.location.href='/go-to-dasha-chart'">
         <i class="fas fa-calendar-alt"></i> దశాచారము
       </button>
-      <button class="float-btn" style="background: linear-gradient(135deg, #ec4899, #be185d);"
-        onclick="window.location.href='/results'">
-        <i class="fas fa-chart-line"></i> ఫలితాలు
-      </button>
+
       <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
         onclick="window.location.href='/chart3'">
         <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
@@ -1759,11 +1768,7 @@
         {% endif %}
       </form>
     </div>
-  <div class="scrolling-footer">
-    <div class="scrolling-footer-text">
-        ఏవైనా సలహాలు మరియు మార్పుల కోసం 9700836368 ని సంప్రదించండి.
-    </div>
-  </div>
+
 </body>
 
 </html>

@@ -1021,14 +1021,20 @@
         color: #000 !important;
         padding: 0 !important;
         margin: 0 !important;
+        width: 100% !important;
       }
 
       .container {
-        width: 1000px !important; /* Force desktop width in print */
-        min-width: 1000px !important;
-        transform: scale(0.65); /* Shrink for PDF */
-        transform-origin: top center;
+        width: 100% !important;
+        max-width: 100% !important;
         margin: 0 auto !important;
+        zoom: 0.8 !important;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          zoom: 0.65 !important;
+        }
       }
 
       .card-container, .planet-card, .info-box {

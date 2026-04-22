@@ -811,8 +811,7 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                width: 1024px !important; /* Force desktop rendering context for mobile PDF */
-                min-width: 1024px !important;
+                width: 100% !important;
                 height: auto !important;
                 overflow: visible !important;
                 font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
@@ -899,13 +898,18 @@
                CORE FIX: TWO Mahadasa cards per A4 page
             ─────────────────────────────────────────────*/
             .dasa-section {
-                width: 1024px !important; /* Force desktop width in print */
-                min-width: 1024px !important;
-                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
                 padding: 0 !important;
-                /* Using transform for better iPhone compatibility than zoom */
-                transform: scale(0.7);
-                transform-origin: top center;
+                zoom: 0.85 !important;
+            }
+            
+            /* Extra scaling only for very narrow print viewports (Mobile PDF) */
+            @media (max-width: 600px) {
+                .dasa-section {
+                    zoom: 0.7 !important;
+                }
             }
 
             .maha-dasa-card {

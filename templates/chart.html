@@ -677,18 +677,22 @@
         padding: 0 !important;
         margin: 0 !important;
         height: auto !important;
-        width: 1024px !important; /* Force desktop rendering context for mobile PDF */
-        min-width: 1024px !important;
+        width: 100% !important;
         overflow: visible !important;
       }
 
       .container {
-        width: 1024px !important;
-        min-width: 1024px !important;
-        transform: scale(0.7); /* Scale desktop width to fit A4 paper */
-        transform-origin: top center;
-        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        zoom: 0.82 !important; /* Perfect for Desktop */
+        margin: 0 auto !important;
         padding: 0 !important;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          zoom: 0.7 !important; /* Scale down more for Mobile PDF */
+        }
       }
 
       .header {

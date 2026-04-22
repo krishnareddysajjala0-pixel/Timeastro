@@ -915,16 +915,28 @@
                 break-inside: auto !important;
             }
 
-            /* .dasa-section children: child-1 = section-title, child-2 = 1st card, child-3 = 2nd card …
-               Cards at even positions (2,4,6…) = 1st,3rd,5th cards → start a new page.
-               Cards at odd positions  (3,5,7…) = 2nd,4th,6th cards → share the page above. */
+            /* Pack exactly 2 cards per page.
+               Since .section-title is child 1:
+               Card 1 = child 2
+               Card 2 = child 3
+               Card 3 = child 4
+               Card 4 = child 5
+               We want to break on Card 3 (child 4), Card 5 (child 6), etc. -> even children!
+               But NOT Card 1 (child 2)! */
+            
+            .dasa-section .maha-dasa-card {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
             .dasa-section .maha-dasa-card:nth-child(even) {
                 page-break-before: always !important;
                 break-before: page !important;
             }
 
-            /* Odd children (2nd,4th,6th cards) share the page — no forced break */
-            .dasa-section .maha-dasa-card:nth-child(odd) {
+            .dasa-section .maha-dasa-card:nth-child(2) {
                 page-break-before: avoid !important;
                 break-before: avoid !important;
             }

@@ -677,13 +677,13 @@
         padding: 0 !important;
         margin: 0 !important;
         height: auto !important;
+        width: 100% !important;
       }
 
       .container {
-        width: 100% !important;
-        max-width: 100% !important;
-        /* Using transform for better iPhone compatibility than zoom */
-        transform: scale(0.8);
+        width: 900px !important; /* Force desktop width in print */
+        min-width: 900px !important;
+        transform: scale(0.72); /* Aggressively scale down to fit on one page */
         transform-origin: top center;
         margin: 0 auto !important;
         padding: 0 !important;
@@ -693,7 +693,7 @@
         color: #000 !important;
         margin-top: 0 !important;
         padding-top: 0 !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 2px !important;
         width: 100% !important;
         text-align: center !important;
         border: none !important;
@@ -1502,7 +1502,7 @@
         <i class="fas fa-home"></i> హోమ్
       </button>
 
-      <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
+      <button class="float-btn" style="background: linear-gradient(135deg, #059669, #047857);"
         onclick="window.location.href='/go-to-dasha-chart'">
         <i class="fas fa-calendar-alt"></i> దశాచారము
       </button>

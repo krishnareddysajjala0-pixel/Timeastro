@@ -897,11 +897,12 @@
                CORE FIX: TWO Mahadasa cards per A4 page
             ─────────────────────────────────────────────*/
             .dasa-section {
-                width: 100% !important;
-                margin: 0 !important;
+                width: 950px !important; /* Force desktop width in print */
+                min-width: 950px !important;
+                margin: 0 auto !important;
                 padding: 0 !important;
                 /* Using transform for better iPhone compatibility than zoom */
-                transform: scale(0.85);
+                transform: scale(0.82);
                 transform-origin: top center;
             }
 

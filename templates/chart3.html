@@ -1016,9 +1016,19 @@
 
       * { text-shadow: none !important; }
       
-      body {
+       body {
         background: #fff !important;
         color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .container {
+        width: 1000px !important; /* Force desktop width in print */
+        min-width: 1000px !important;
+        transform: scale(0.65); /* Shrink for PDF */
+        transform-origin: top center;
+        margin: 0 auto !important;
       }
 
       .card-container, .planet-card, .info-box {
@@ -1461,7 +1471,7 @@
             onclick="goToBirthChart()">
             <i class="fas fa-arrow-left"></i> కుండలికి
         </button>
-        <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
+        <button class="float-btn" style="background: linear-gradient(135deg, #059669, #047857);"
             onclick="goToDashaChart()">
             <i class="fas fa-chart-pie"></i> దశాచారము
         </button>

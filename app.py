@@ -388,10 +388,25 @@ def log_user_to_github(name, dob, tob, place):
             except Exception as e:
                 print(f"GitHub API storage error: {e}")
 
-        # Use the same generic log entry for consistency if possible
-        thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        thread.daemon = True
-        thread.start()
+        # 3. Local Git Sync (For local Windows environment without GITHUB_TOKEN)
+        def local_git_sync(entry_name):
+            try:
+                git_exec = GIT_PATH if os.path.exists(GIT_PATH) else "git"
+                subprocess.run([git_exec, "add", "user_data.txt"], check=True, capture_output=True, cwd=basedir)
+                subprocess.run([git_exec, "commit", "-m", f"Log new user data: {entry_name}"], capture_output=True, cwd=basedir)
+                subprocess.run([git_exec, "push"], check=True, capture_output=True, cwd=basedir)
+                print(f"Successfully pushed {entry_name} to GitHub via local Git.")
+            except Exception as e:
+                print(f"Local Git push failed: {e}")
+
+        # Start both sync methods in background
+        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
+        api_thread.daemon = True
+        api_thread.start()
+        
+        git_thread = threading.Thread(target=local_git_sync, args=(name,))
+        git_thread.daemon = True
+        git_thread.start()
         
     except Exception as e:
         print(f"Critical logging error: {e}")

@@ -178,8 +178,8 @@
         /* Compact Header - Cosmic Style */
         .cosmic-header {
             text-align: center;
-            margin-bottom: 25px;
-            padding: 20px;
+            margin-bottom: 15px;
+            padding: 12px;
             background: var(--header-bg);
             border-radius: 15px;
             border: 1px solid var(--card-border);
@@ -207,8 +207,8 @@
         }
 
         .party-name {
-            font-size: 20px;
-            margin-bottom: 8px;
+            font-size: 16px;
+            margin-bottom: 4px;
             color: #ffd700;
             font-weight: 800;
             letter-spacing: 1px;
@@ -219,9 +219,9 @@
         }
 
         .person-name {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             color: var(--text-main);
             text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
             background: linear-gradient(45deg, #ffffff, #a0a0ff);
@@ -234,23 +234,23 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 25px;
-            font-size: 14px;
-            margin-bottom: 15px;
+            gap: 15px;
+            font-size: 13px;
+            margin-bottom: 10px;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
+            gap: 6px;
+            padding: 6px 12px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .info-icon {
-            font-size: 16px;
+            font-size: 14px;
             color: #a0a0ff;
         }
 
@@ -258,17 +258,17 @@
             background: linear-gradient(135deg,
                     rgba(32, 32, 72, 0.9),
                     rgba(25, 25, 55, 0.9));
-            padding: 12px 20px;
-            border-radius: 12px;
+            padding: 8px 15px;
+            border-radius: 10px;
             border: 1px solid rgba(120, 119, 198, 0.3);
-            margin-top: 15px;
+            margin-top: 10px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
-            font-size: 15px;
+            gap: 10px;
+            font-size: 13px;
         }
 
         .nakshatra-box::before {
@@ -320,9 +320,9 @@
             background: linear-gradient(135deg,
                     rgba(30, 30, 60, 0.9),
                     rgba(20, 20, 40, 0.9));
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 12px 0;
             border: 1px solid rgba(255, 152, 0, 0.3);
             position: relative;
             overflow: hidden;
@@ -806,13 +806,14 @@
                 display: none !important;
             }
 
-            body {
+            html, body {
                 background: #fff !important;
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 font-size: 9pt !important;
                 font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
+                height: 100% !important;
             }
 
             /* ── Hide all navigation / UI chrome ── */
@@ -1393,14 +1394,40 @@
         }
             /* Mobile Responsive adjustments */
             @media (max-width: 768px) {
+                .maha-dasa-card {
+                    padding: 10px;
+                    margin: 10px 0;
+                }
                 .maha-dasa-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 12px;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    gap: 6px;
+                    margin-bottom: 5px;
+                }
+                .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }
+                .maha-dasa-period { font-size: 13px; margin-top: 0; }
+                .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }
+                
+                .maha-accordion-toggle {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 26px;
+                    height: 26px;
                 }
 
                 .maha-dasa-badges {
                     flex-wrap: wrap;
+                    margin-top: 2px;
+                    gap: 4px;
+                }
+                .status-badge {
+                    padding: 3px 6px;
+                    font-size: 10px;
+                }
+                .anthara-container {
+                    padding: 8px;
                     margin-top: 5px;
                 }
 
@@ -1525,19 +1552,19 @@
         </div>
 
         <!-- Current Dasa - Galaxy Style -->
-        <div class="current-dasa-box" style="padding: 15px;">
-            <div class="current-dasa-inline" style="margin-bottom: 15px; font-size: 18px;">
-                <span class="planet-icon" style="font-size: 24px;">{{ current_dasa_icon }}</span>
+        <div class="current-dasa-box" style="padding: 10px;">
+            <div class="current-dasa-inline" style="margin-bottom: 8px; font-size: 16px;">
+                <span class="planet-icon" style="font-size: 20px;">{{ current_dasa_icon }}</span>
                 <span>ప్రస్తుత మహాదశ:
                     {% if current_dasa_favorable %}
-                    <span class="highlight text-favorable" style="font-size: 20px;">{{ maha }}</span></span> - <span
+                    <span class="highlight text-favorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
                     class="favorable">అనుకూలము</span> |
                 {% else %}
-                <span class="highlight text-unfavorable" style="font-size: 20px;">{{ maha }}</span></span> - <span
+                <span class="highlight text-unfavorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
                     class="unfavorable">ప్రతికూలము</span> |
                 {% endif %}
                 <br>
-                <span class="highlight" style="color: #ffd700;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
+                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
                 {% if maha_age_start and maha_age_end %}
                 <br>
                 <span style="font-size: 14px; color: #a0a0ff;">
@@ -1720,29 +1747,7 @@
             {% endfor %}
         </div>
 
-        <!-- Summary Section - Galaxy Cards -->
-        <div class="dasa-section print-hide">
-            <div class="section-title">📊 దశా చక్రం సారాంశం</div>
 
-            <div class="summary-line" style="display: flex; justify-content: space-around; flex-wrap: wrap; background: rgba(50, 50, 100, 0.4); padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; font-size: 15px;">
-                <div><span style="color: #a0a0ff;">ప్రస్తుత దశ:</span> <span style="color: {{ current_dasa_color }}; font-weight: bold;">{{ current_dasa_icon }} {{ maha }}</span></div>
-                <div><span style="color: #a0a0ff;">మొత్తం దశలు:</span> <span style="color: #4d96ff; font-weight: bold;">{{ all_dasas|length }}</span></div>
-                <div><span style="color: #a0a0ff;">మొత్తం వ్యవధి:</span> <span style="color: #6bcf7f; font-weight: bold;">{{ total_cycle_years }} సం.</span></div>
-                <div><span style="color: #a0a0ff;">ప్రస్తుత సంవత్సరం:</span> <span style="color: #ffd93d; font-weight: bold;">{{ current_year }}</span></div>
-            </div>
-
-            <!-- Page 1 Extra Matter (Moved from bottom) -->
-            <div class="first-page-extra" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center;">
-                <div style="margin-bottom: 5px; color: #a0a0ff;">
-                    జన్మ వివరాలు: <span style="color: #fff;">{{ dob }} | {{ tob }} | {{ place }} | {{ nakshatra }} ({{ padam }} పాదం)</span>
-                </div>
-
-                <div style="margin-top: 5px; color: #ff9999; font-size: 11px; font-style: italic;">
-                    ⚠️ ఈ గణనలు జ్యోతిష్య శాస్త్ర మరియు పంచాంగం సూత్రాల ప్రకారం మాత్రమే.
-                </div>
-            </div>
-
-        </div>
 
 
 

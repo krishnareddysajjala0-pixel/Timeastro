@@ -1441,23 +1441,33 @@
     </div>
 
     <!-- Floating Bottom Action Bar -->
+    <style>
+        @keyframes rainbow-glow {
+            0% { box-shadow: 0 0 5px #ff0000; }
+            20% { box-shadow: 0 0 5px #ff7f00; }
+            40% { box-shadow: 0 0 5px #ffff00; }
+            60% { box-shadow: 0 0 5px #00ff00; }
+            80% { box-shadow: 0 0 5px #0000ff; }
+            100% { box-shadow: 0 0 5px #ff0000; }
+        }
+        .rainbow-animate { animation: rainbow-glow 3s infinite alternate; }
+    </style>
     <div class="fixed-bottom-bar" id="action-bar">
-        <button class="nav-item nav-home float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
+        <button class="nav-item nav-home float-btn rainbow-animate" style="background: linear-gradient(135deg, #FFD700, #DAA520); color: #000;"
             onclick="window.location.href='/'">
-            హో
+            <i class="fas fa-home"></i> హోమ్
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
             onclick="goToBirthChart()">
-            కు
+            <i class="fas fa-arrow-left"></i> కుండలికి
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
             onclick="goToDashaChart()">
-            ద
+            <i class="fas fa-chart-pie"></i> దశాచారము
         </button>
-
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
-            ప్రి
+            <i class="fas fa-file-pdf"></i> PDF
         </button>
     </div>
 

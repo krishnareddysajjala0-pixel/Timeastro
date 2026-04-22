@@ -1517,8 +1517,31 @@
         onclick="window.print()">
         <i class="fas fa-file-pdf"></i> ప్రింట్
       </button>
-
     </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="loader-astro"></div>
+        <p id="typing-text" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
+    </div>
+
+    <style>
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 30, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100000; color: #ffd700;
+        }
+        .loader-astro {
+            width: 60px; height: 60px;
+            border: 5px solid rgba(255,215,0,0.2);
+            border-top: 5px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 
     <script>
       // Theme Management

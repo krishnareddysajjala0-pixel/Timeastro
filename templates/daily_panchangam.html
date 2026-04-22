@@ -396,20 +396,52 @@
 <body>
     <div id="loading-overlay">
         <div class="loader-astro"></div>
-        <p style="font-size: 20px; font-weight: bold;">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</p>
+        <p id="typing-text" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
     </div>
-<style>
-.loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,41,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; backdrop-filter: blur(5px); }
-.spinner { width: 50px; height: 50px; border: 5px solid rgba(255, 215, 0, 0.3); border-top-color: #ffd700; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-</style>
-<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.</div></div>
-<script>
-function showLoading() { document.getElementById('loading').style.display = 'flex'; }
-function hideLoading() { document.getElementById('loading').style.display = 'none'; }
-window.addEventListener('pageshow', function (e) { hideLoading(); });
-</script>
+    <script>
+    function startTyping() {
+        const text1 = "జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా";
+        const text2 = "ఏది జరగాలో అదే జరిగి తీరుతుంది.";
+        const element = document.getElementById("typing-text");
+        if (!element) return;
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTick() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        const words1 = text1.split(" ");
+        const words2 = text2.split(" ");
+        let i = 0, j = 0;
+        element.innerHTML = '<div id="line1"></div><div id="line2" style="margin-top: 10px;"></div>';
+        const l1 = document.getElementById("line1"), l2 = document.getElementById("line2");
+        function typeLine1() {
+            if (i < words1.length) {
+                l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
+                try { playTick(); } catch(e) {}
+                i++; setTimeout(typeLine1, 250);
+            } else { setTimeout(typeLine2, 100); }
+        }
+        function typeLine2() {
+            if (j < words2.length) {
+                l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
+                try { playTick(); } catch(e) {}
+                j++; setTimeout(typeLine2, 250);
+            }
+        }
+        typeLine1();
+    }
+    function showLoader() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+        startTyping();
+    }
+    </script>
 
     <div class="container">
         <div class="card">
@@ -417,7 +449,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
                 <h2><i class="fas fa-calendar-alt"></i> దిన పంచాంగం</h2>
             </div>
             
-            <form id="panch-form" action="/daily_panchangam" method="POST" onsubmit="showLoading()">
+            <form id="panch-form" action="/daily_panchangam" method="POST" onsubmit="showLoader()">
                 <div class="form-grid">
                     <div>
                         <label><i class="fas fa-calendar"></i> తేది (Date)</label>
@@ -684,6 +716,7 @@ window.addEventListener('pageshow', function (e) { hideLoading(); });
     <script>
         function showLoader() {
             document.getElementById('loading-overlay').style.display = 'flex';
+            startTyping();
         }
         
         // Navigation auto-loader

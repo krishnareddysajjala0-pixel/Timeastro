@@ -680,8 +680,16 @@
         flex-direction: column !important;
         justify-content: flex-start !important;
         align-items: center !important;
-        height: 100% !important;
+        height: auto !important;
         min-height: 100vh !important;
+      }
+
+      .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        zoom: 0.82 !important; /* Scale down everything to fit on one page */
+        padding: 0 !important;
+        margin: 0 !important;
       }
 
       .header {

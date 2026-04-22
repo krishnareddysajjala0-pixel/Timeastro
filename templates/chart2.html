@@ -10,6 +10,15 @@
     <meta name="theme-color" content="#1A1A1D">
     <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
     <script>
+        window.onbeforeprint = function() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-print-force');
+            }
+        };
+        window.onafterprint = function() {
+            document.body.classList.remove('mobile-print-force');
+        };
+
         (function () {
             const savedTheme = localStorage.getItem('preferred-theme') || 'default';
             if (savedTheme !== 'default') {
@@ -907,11 +916,18 @@
                 break-before: page !important;
             }
             
-            /* Extra scaling only for very narrow print viewports (Mobile PDF) */
-            @media (max-width: 600px) {
-                .dasa-section {
-                    zoom: 0.7 !important;
-                }
+            /* Force Desktop Layout only when printing from Mobile */
+            body.mobile-print-force {
+                width: 1024px !important;
+                min-width: 1024px !important;
+            }
+            body.mobile-print-force .container, 
+            body.mobile-print-force .dasa-section {
+                width: 1024px !important;
+                min-width: 1024px !important;
+                transform: scale(0.7);
+                transform-origin: top center;
+                zoom: 1 !important;
             }
 
             .maha-dasa-card {

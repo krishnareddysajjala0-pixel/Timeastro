@@ -676,20 +676,17 @@
         color: #000 !important;
         padding: 0 !important;
         margin: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
         height: auto !important;
-        min-height: 100vh !important;
       }
 
       .container {
         width: 100% !important;
         max-width: 100% !important;
-        zoom: 0.82 !important; /* Scale down everything to fit on one page */
+        /* Using transform for better iPhone compatibility than zoom */
+        transform: scale(0.8);
+        transform-origin: top center;
+        margin: 0 auto !important;
         padding: 0 !important;
-        margin: 0 !important;
       }
 
       .header {

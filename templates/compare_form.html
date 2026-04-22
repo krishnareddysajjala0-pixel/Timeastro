@@ -848,14 +848,16 @@
         const element = document.getElementById("typing-text");
         if (!element) return;
         
-        // Telugu Voice Synthesis
-        try {
-            window.speechSynthesis.cancel(); // Stop any current speech
-            const utterance = new SpeechSynthesisUtterance(text1 + " " + text2);
-            utterance.lang = 'te-IN';
-            utterance.rate = 0.8;
-            window.speechSynthesis.speak(utterance);
-        } catch(e) { console.error("Voice failed", e); }
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTick() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
 
         const words1 = text1.split(" ");
         const words2 = text2.split(" ");
@@ -869,6 +871,7 @@
         function typeLine1() {
             if (i < words1.length) {
                 l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
+                try { playTick(); } catch(e) {}
                 i++;
                 setTimeout(typeLine1, 250);
             } else {
@@ -878,6 +881,7 @@
         function typeLine2() {
             if (j < words2.length) {
                 l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
+                try { playTick(); } catch(e) {}
                 j++;
                 setTimeout(typeLine2, 250);
             }

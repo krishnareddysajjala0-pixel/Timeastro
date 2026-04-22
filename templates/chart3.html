@@ -1021,28 +1021,20 @@
         color: #000 !important;
         padding: 0 !important;
         margin: 0 !important;
-        width: 100% !important;
+        width: 1024px !important; /* Unified width for same PDF quality on Mobile and Web */
+        min-width: 1024px !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact;
       }
 
       .container {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
+        width: 1024px !important;
+        min-width: 1024px !important;
+        margin: 0 !important;
         zoom: 0.8 !important;
       }
 
-      /* Force Desktop Layout only when printing from Mobile */
-      body.mobile-print-force {
-        width: 1024px !important;
-        min-width: 1024px !important;
-      }
-      body.mobile-print-force .container {
-        width: 1024px !important;
-        min-width: 1024px !important;
-        transform: scale(0.7);
-        transform-origin: top center;
-        zoom: 1 !important;
-      }
+      /* Removed mobile-specific overrides as 1024px is now global for print */
 
       .card-container, .planet-card, .info-box {
         background: #fff !important;
@@ -1533,12 +1525,10 @@
 
         // Navigation functions
       window.onbeforeprint = function() {
-        if (window.innerWidth < 768) {
-            document.body.classList.add('mobile-print-force');
-        }
+        // Standard print adjustments
       };
       window.onafterprint = function() {
-        document.body.classList.remove('mobile-print-force');
+        // Standard cleanup
       };
 
       function goToBirthChart() {

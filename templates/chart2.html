@@ -820,10 +820,20 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                width: 100% !important;
+                width: 1024px !important; /* Force same desktop width for BOTH Mobile and Web PDF */
+                min-width: 1024px !important;
                 height: auto !important;
                 overflow: visible !important;
                 font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            .container {
+                width: 1024px !important;
+                min-width: 1024px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                zoom: 0.8 !important;
             }
 
             /* ── Hide all navigation / UI chrome ── */
@@ -907,27 +917,13 @@
                CORE FIX: TWO Mahadasa cards per A4 page
             ─────────────────────────────────────────────*/
             .dasa-section {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 auto !important;
+                width: 1024px !important;
+                min-width: 1024px !important;
+                margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.85 !important;
-                page-break-before: always !important; /* Start cards on a fresh page for consistency */
+                zoom: 1 !important; /* Inherit from container */
+                page-break-before: always !important;
                 break-before: page !important;
-            }
-            
-            /* Force Desktop Layout only when printing from Mobile */
-            body.mobile-print-force {
-                width: 1024px !important;
-                min-width: 1024px !important;
-            }
-            body.mobile-print-force .container, 
-            body.mobile-print-force .dasa-section {
-                width: 1024px !important;
-                min-width: 1024px !important;
-                transform: scale(0.7);
-                transform-origin: top center;
-                zoom: 1 !important;
             }
 
             .maha-dasa-card {

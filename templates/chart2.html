@@ -1898,6 +1898,7 @@
         });
 
         function goToChart() {
+            showLoader();
             // Create a form dynamically to submit to /chart route
             const form = document.createElement('form');
             form.method = 'POST';
@@ -1928,6 +1929,7 @@
 
 
         function goToPlanetDetails() {
+            showLoader();
             // Direct navigation to chart3
             window.location.href = '/chart3';
         }
@@ -2068,11 +2070,9 @@
             startTyping();
         }
 
-        document.querySelectorAll('.float-btn, .nav-item').forEach(item => {
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {
-                const onclickAttr = this.getAttribute('onclick') || "";
-                const href = onclickAttr.match(/window\.location\.href\s*=\s*'([^']+)'/)?.[1] || this.getAttribute('href');
-                if(href && href !== '#' && !this.classList.contains('print-hide')) {
+                if(this.href && !this.href.includes('#')) {
                     showLoader();
                 }
             });

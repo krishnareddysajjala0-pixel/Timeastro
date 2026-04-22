@@ -1556,10 +1556,12 @@
       };
 
       function goToBirthChart() {
+            showLoader();
             window.location.href = '/go-to-birth-chart';
         }
 
         function goToDashaChart() {
+            showLoader();
             window.location.href = '/go-to-dasha-chart';
         }
 
@@ -1643,7 +1645,6 @@
                 document.body.style.opacity = '1';
             }, 100);
         });
-        });
 
         function startTyping() {
             const text1 = "జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా";
@@ -1689,11 +1690,9 @@
             startTyping();
         }
 
-        document.querySelectorAll('.float-btn, .nav-item').forEach(item => {
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {
-                const onclickAttr = this.getAttribute('onclick') || "";
-                const href = onclickAttr.match(/window\.location\.href\s*=\s*'([^']+)'/)?.[1] || this.getAttribute('href');
-                if(href && href !== '#' && !this.classList.contains('print-hide')) {
+                if(this.href && !this.href.includes('#')) {
                     showLoader();
                 }
             });

@@ -1463,33 +1463,46 @@
   </div>
   <script>
       function startTyping(targetId) {
-          const text = "జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా ఏది జరగాలో అదే జరిగి తీరుతుంది.";
+          const text1 = "జరగబోయేది నీవు తెలుసుకున్న తెలుసుకోకున్నా";
+          const text2 = "ఏది జరగాలో అదే జరిగి తీరుతుంది.";
           const element = document.getElementById(targetId);
           if (!element) return;
-          const words = text.split(" ");
-          let i = 0;
           
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          function playTick() {
-              const osc = audioCtx.createOscillator();
-              const gain = audioCtx.createGain();
-              osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-              gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-              gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-              osc.connect(gain); gain.connect(audioCtx.destination);
-              osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-          }
+          // Telugu Voice Synthesis
+          try {
+              window.speechSynthesis.cancel();
+              const utterance = new SpeechSynthesisUtterance(text1 + " " + text2);
+              utterance.lang = 'te-IN';
+              utterance.rate = 0.8;
+              window.speechSynthesis.speak(utterance);
+          } catch(e) { console.error("Voice failed", e); }
 
-          function type() {
-              if (i < words.length) {
-                  element.innerHTML += (i === 0 ? "" : " ") + words[i];
-                  try { playTick(); } catch(e) {}
+          const words1 = text1.split(" ");
+          const words2 = text2.split(" ");
+          let i = 0;
+          let j = 0;
+          
+          element.innerHTML = '<div id="line1-idx"></div><div id="line2-idx" style="margin-top: 10px;"></div>';
+          const l1 = document.getElementById("line1-idx");
+          const l2 = document.getElementById("line2-idx");
+
+          function typeLine1() {
+              if (i < words1.length) {
+                  l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
                   i++;
-                  setTimeout(type, 250);
+                  setTimeout(typeLine1, 250);
+              } else {
+                  setTimeout(typeLine2, 100);
               }
           }
-          element.innerHTML = "";
-          type();
+          function typeLine2() {
+              if (j < words2.length) {
+                  l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
+                  j++;
+                  setTimeout(typeLine2, 250);
+              }
+          }
+          typeLine1();
       }
 
       function showLoader() {

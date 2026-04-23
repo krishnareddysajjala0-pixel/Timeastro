@@ -517,3 +517,5 @@
 516. [23-Apr-2026 08:57:26] Name: redddy, DOB: 2026-04-23, TOB: 08:57, Place: Guntur, Andhra Pradesh, India
 517. [23-Apr-2026 09:02:32] Name: Test, DOB: 1990-01-01, TOB: 12:00, Place: Hyderabad
 518. [23-Apr-2026 09:02:32] Name: Test, DOB: 1990-01-01, TOB: 12:00, Place: Hyderabad
+519. [23-Apr-2026 09:02:38] Name: A (Compare 1), DOB: 1990-01-01, TOB: 12:00, Place: Hyd
+520. [23-Apr-2026 09:02:38] Name: B (Compare 2), DOB: 1990-01-01, TOB: 12:00, Place: Hyd

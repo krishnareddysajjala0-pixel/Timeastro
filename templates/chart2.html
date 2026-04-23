@@ -819,19 +819,20 @@
                 background: #fff !important;
                 color: #000 !important;
                 padding: 0 !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 width: 1024px !important; /* Force same desktop width for BOTH Mobile and Web PDF */
                 min-width: 1024px !important;
                 height: auto !important;
                 overflow: visible !important;
                 font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
                 -webkit-print-color-adjust: exact;
+                opacity: 1 !important;
             }
 
             .container {
                 width: 1024px !important;
                 min-width: 1024px !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 padding: 0 !important;
                 zoom: 0.8 !important;
             }
@@ -840,7 +841,8 @@
             .print-button, .nav-buttons, .scrolling-footer,
             .theme-switcher, .fixed-bottom-bar, #action-bar,
             .float-btn, .print-hide, .maha-accordion-toggle,
-            #transit-btn, #transit-loading, .dasa-section .section-title {
+            #transit-btn, #transit-loading, .dasa-section .section-title,
+            #loading-overlay {
                 display: none !important;
             }
 

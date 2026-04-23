@@ -707,15 +707,18 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 font-size: 9pt !important;
+                opacity: 1 !important; /* Ensure visibility if JS-based opacity hasn't finished */
             }
 
             body::before { display: none !important; }
 
             .container {
                 max-width: 100% !important;
-                width: 100% !important;
+                width: 1024px !important;
+                min-width: 1024px !important;
                 margin: 0 auto !important;
                 padding: 0 !important;
+                zoom: 0.8 !important;
             }
 
             .header {
@@ -784,6 +787,7 @@
                 border: 1px solid #000 !important;
                 line-height: 1.1 !important;
                 word-break: break-word !important;
+                color: #000 !important;
             }
 
             .data-table th:first-child, 
@@ -796,6 +800,18 @@
                 font-size: 9pt !important;
             }
 
+            /* Fix color visibility in print */
+            .planet-name-cell, .planet-name-cell div, .planet-name {
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .category-cell, .direction-cell, .day-cell, .gender-cell, .caste-cell, .gemstone-cell, .detail-label, .detail-value {
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
             .disease-list {
                 background: none !important;
                 border: none !important;
@@ -805,6 +821,7 @@
             .disease-list li {
                 font-size: 6.5pt !important;
                 padding: 0 !important;
+                color: #000 !important;
             }
 
             .footer {
@@ -819,9 +836,10 @@
                 margin-top: 2px !important;
                 background: #fff !important;
                 border: 1px solid #ddd !important;
+                color: #000 !important;
             }
 
-            .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide {
+            .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar {
                 display: none !important;
             }
         }
@@ -1007,58 +1025,7 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
-    @media print {
-      .scrolling-footer,
-      .fixed-bottom-bar-nav,
-      .theme-switcher,
-      .fixed-bottom-bar,
-      #action-bar,
-      .float-btn,
-      .print-hide { display: none !important; }
 
-      * { text-shadow: none !important; }
-      
-       body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 1024px !important; /* Unified width for same PDF quality on Mobile and Web */
-        min-width: 1024px !important;
-        overflow: visible !important;
-        -webkit-print-color-adjust: exact;
-      }
-
-      .container {
-        width: 1024px !important;
-        min-width: 1024px !important;
-        margin: 0 auto !important;
-        zoom: 0.8 !important;
-      }
-
-      /* Removed mobile-specific overrides as 1024px is now global for print */
-
-      .card-container, .planet-card, .info-box {
-        background: #fff !important;
-        border: 1px solid #000 !important;
-        box-shadow: none !important;
-      }
-
-      .planet-name, .om-title, .page-title {
-        color: #d2691e !important;
-        -webkit-text-fill-color: #d2691e !important;
-      }
-
-      .party-badge {
-        color: #000080 !important;
-        border: 1px solid #000080 !important;
-        background: transparent !important;
-      }
-
-      .detail-value { color: #b22222 !important; }
-      .detail-label, th { color: #000080 !important; }
-      td, .status-badge { color: #000 !important; }
-    }
   </style>
 </head>
 

@@ -22,7 +22,7 @@ swe.set_sid_mode(swe.SIDM_LAHIRI)
 
 PLANET_FLAGS = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED
 
-RASI_TELUGU = [
+LAGNA_NAMES_TELUGU = [
     "మేషం","వృషభం","మిథునం","కర్కాటకం",
     "సింహం","కన్య","తులా","వృశ్చికం",
     "ధనస్సు","మకరం","కుంభం","మీనం"
@@ -520,27 +520,27 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600
     )
 
-    chart_data_temp = {r:[] for r in RASI_TELUGU}
+    chart_data_temp = {r:[] for r in LAGNA_NAMES_TELUGU}
     base_pos = {}
 
     # Planets
     for name_p, pid in PLANETS.items():
         lonp = swe.calc_ut(jd, pid, PLANET_FLAGS)[0][0]
         base_pos[name_p] = lonp
-        rasi = RASI_TELUGU[int(lonp/30)]
+        lagna = LAGNA_NAMES_TELUGU[int(lonp/30)]
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
         short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
         html_str = f"<b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
-        chart_data_temp[rasi].append((deg, html_str))
+        chart_data_temp[lagna].append((deg, html_str))
 
     # Ketu
     rahu = base_pos["రాహు"]
     ketu = (rahu + 180) % 360
     base_pos["కేతు"] = ketu
 
-    r = RASI_TELUGU[int(ketu/30)]
+    r = LAGNA_NAMES_TELUGU[int(ketu/30)]
     deg_k = ketu % 30
     d = int(deg_k)
     m = int((deg_k-d)*60)
@@ -557,7 +557,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
 
     for n, lonp in derived.items():
         base_pos[n] = lonp
-        r = RASI_TELUGU[int(lonp/30)]
+        r = LAGNA_NAMES_TELUGU[int(lonp/30)]
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
@@ -590,7 +590,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         angles = [180] + SPECIAL_HANDS.get(n,[])
         for a in angles:
             hl = (base + a) % 360
-            r = RASI_TELUGU[int(hl/30)]
+            r = LAGNA_NAMES_TELUGU[int(hl/30)]
             deg = hl % 30
             d = int(deg)
             m = int((deg-d)*60)
@@ -604,7 +604,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     ayan = swe.get_ayanamsa_ut(jd)
     lagna_lon = (asc_tropical - ayan) % 360
 
-    lagna = RASI_TELUGU[int(lagna_lon/30)]
+    lagna = LAGNA_NAMES_TELUGU[int(lagna_lon/30)]
     
     # Calculate Lagna degree
     lagna_deg = int(lagna_lon % 30)
@@ -619,7 +619,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     
     # Sort elements per house by degree
     chart_data = {}
-    for r in RASI_TELUGU:
+    for r in LAGNA_NAMES_TELUGU:
         chart_data_temp[r].sort(key=lambda x: x[0])
         if chart_data_temp[r]:
             chart_data[r] = "<br>".join(item[1] for item in chart_data_temp[r]) + "<br>"
@@ -643,9 +643,9 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
 
     # House numbers
     houses_map = {}
-    idx = RASI_TELUGU.index(lagna)
+    idx = LAGNA_NAMES_TELUGU.index(lagna)
     for i in range(12):
-        houses_map[RASI_TELUGU[(idx+i)%12]] = i+1
+        houses_map[LAGNA_NAMES_TELUGU[(idx+i)%12]] = i+1
 
     # Calculate Panchangam components (Tithi, Yoga, Karana)
     sun_lon = base_pos["సూర్యుడు"]
@@ -765,8 +765,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     
     # Calculate exact month name mapping based on the Amavasya's Solar intersection
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
-    rasi_idx = int((amavasya_sun_lon % 360) / 30)
-    masam_index = (rasi_idx + 1) % 12
+    lagna_idx = int((amavasya_sun_lon % 360) / 30)
+    masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
     EN_TO_TELUGU_MONTHS = {
@@ -818,7 +818,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     # 7. Extract Planetary Positions
     planet_positions = []
     for n, longt in base_pos.items():
-        r = RASI_TELUGU[int(longt/30)]
+        r = LAGNA_NAMES_TELUGU[int(longt/30)]
         d = int(longt % 30)
         m = int(((longt % 30) - d) * 60)
         
@@ -844,7 +844,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         
         planet_positions.append({
             "name": n,
-            "rasi": r,
+            "lagna": r,
             "degree": f"{d}°{m:02d}′",
             "nakshatra": p_nak_name,
             "padam": p_padam,
@@ -857,7 +857,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         angles = [180] + SPECIAL_HANDS.get(n, [])
         for a in angles:
             hl = (longt + a) % 360
-            hr = RASI_TELUGU[int(hl/30)]
+            hr = LAGNA_NAMES_TELUGU[int(hl/30)]
             hd = int(hl % 30)
             hm = int(((hl % 30) - hd) * 60)
             
@@ -870,7 +870,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
 
             planet_positions.append({
                 "name": n,
-                "rasi": hr,
+                "lagna": hr,
                 "degree": f"{hd}°{hm:02d}′",
                 "nakshatra": h_nak_name,
                 "padam": h_padam,
@@ -1001,25 +1001,25 @@ def transit_chart():
         utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600
     )
 
-    chart_data_temp = {r:[] for r in RASI_TELUGU}
+    chart_data_temp = {r:[] for r in LAGNA_NAMES_TELUGU}
     base_pos = {}
 
     for name_p, pid in PLANETS.items():
         lonp = swe.calc_ut(jd, pid, PLANET_FLAGS)[0][0]
         base_pos[name_p] = lonp
-        rasi = RASI_TELUGU[int(lonp/30)]
+        lagna = LAGNA_NAMES_TELUGU[int(lonp/30)]
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
         short_name = SHORT_PLANETS_TELUGU.get(name_p, name_p[0])
         html_str = f"<b class='full-name'>{name_p}</b><b class='short-name'>{short_name}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
-        chart_data_temp[rasi].append((deg, html_str))
+        chart_data_temp[lagna].append((deg, html_str))
 
     rahu = base_pos["రాహు"]
     ketu = (rahu + 180) % 360
     base_pos["కేతు"] = ketu
 
-    r = RASI_TELUGU[int(ketu/30)]
+    r = LAGNA_NAMES_TELUGU[int(ketu/30)]
     deg_k = ketu % 30
     d = int(deg_k)
     m = int((deg_k-d)*60)
@@ -1035,7 +1035,7 @@ def transit_chart():
 
     for n, lonp in derived.items():
         base_pos[n] = lonp
-        r = RASI_TELUGU[int(lonp/30)]
+        r = LAGNA_NAMES_TELUGU[int(lonp/30)]
         deg = lonp % 30
         d = int(deg)
         m = int((deg-d)*60)
@@ -1047,7 +1047,7 @@ def transit_chart():
         angles = [180] + SPECIAL_HANDS.get(n,[])
         for a in angles:
             hl = (base + a) % 360
-            r = RASI_TELUGU[int(hl/30)]
+            r = LAGNA_NAMES_TELUGU[int(hl/30)]
             deg = hl % 30
             d = int(deg)
             m = int((deg-d)*60)
@@ -1060,7 +1060,7 @@ def transit_chart():
     ayan = swe.get_ayanamsa_ut(jd)
     lagna_lon = (asc_tropical - ayan) % 360
 
-    lagna = RASI_TELUGU[int(lagna_lon/30)]
+    lagna = LAGNA_NAMES_TELUGU[int(lagna_lon/30)]
     
     lagna_deg = int(lagna_lon % 30)
     lagna_min = int(((lagna_lon % 30) - lagna_deg) * 60)
@@ -1072,7 +1072,7 @@ def transit_chart():
     chart_data_temp[lagna].append((lagna_lon % 30, html_str))
     
     chart_data = {}
-    for r in RASI_TELUGU:
+    for r in LAGNA_NAMES_TELUGU:
         chart_data_temp[r].sort(key=lambda x: x[0])
         if chart_data_temp[r]:
             chart_data[r] = "<br>".join(item[1] for item in chart_data_temp[r]) + "<br>"
@@ -1080,9 +1080,9 @@ def transit_chart():
             chart_data[r] = ""
 
     houses_map = {}
-    idx = RASI_TELUGU.index(lagna)
+    idx = LAGNA_NAMES_TELUGU.index(lagna)
     for i in range(12):
-        houses_map[RASI_TELUGU[(idx+i)%12]] = i+1
+        houses_map[LAGNA_NAMES_TELUGU[(idx+i)%12]] = i+1
 
     return render_template(
         "transit_partial.html",
@@ -1415,7 +1415,7 @@ def results():
     lagna = birth_info.get('lagna', '')
     
     # Rasi ordering to find Bhava distances
-    RASI_ORDER = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
+    LAGNA_ORDER = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తులా", "వృశ్చికం", "ధనస్సు", "మకరం", "కుంభం", "మీనం"]
     
     # Party Mapping
     GURU_PARTY_LAGNAS = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
@@ -1561,7 +1561,7 @@ def results():
     }
 
     try:
-        lagna_idx = RASI_ORDER.index(lagna)
+        lagna_idx = LAGNA_ORDER.index(lagna)
     except ValueError:
         lagna_idx = 0
 
@@ -1569,7 +1569,7 @@ def results():
     results_data = []
     for p in planet_positions:
         p_name = p['name']
-        p_rasi = p['rasi']
+        p_lagna = p['lagna']
         
         # is_friend?
         is_green = any(gp in p_name for gp in GURU_PARTY_PLANETS)
@@ -1581,7 +1581,7 @@ def results():
         for rule_name, rule_house in OWN_HOUSE_RULES.items():
             if rule_name in p_name:
                 own_house = rule_house
-                is_own_house = (p_rasi == rule_house)
+                is_own_house = (p_lagna == rule_house)
                 break
         
         # bitter_enemy?
@@ -1600,7 +1600,7 @@ def results():
 
         results_data.append({
             "name": p_name,
-            "current_rasi": p_rasi,
+            "current_lagna": p_lagna,
             "own_house": own_house,
             "is_own_house": is_own_house,
             "is_friend": is_friend,
@@ -1622,9 +1622,9 @@ def results():
     bhava_report = []
     for i in range(12):
         house_num = i + 1
-        house_rasi = RASI_ORDER[(lagna_idx + i) % 12]
+        house_lagna = LAGNA_ORDER[(lagna_idx + i) % 12]
         # Planets in this house
-        occ_planets = [p for p in results_data if p['current_rasi'] == house_rasi]
+        occ_planets = [p for p in results_data if p['current_lagna'] == house_lagna]
         p_info = [{
             "name": p['name'], 
             "degree": p['degree'], 
@@ -1660,9 +1660,9 @@ def results():
             if sun_p:
                 p = sun_p[0]
                 if p['is_friend']:
-                    special_note += "సూర్యుడు 4వ రాశిలో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును. ఒకవేళ పేదవారైనా ఆ ఇంటిలో నివాసము కల్గునట్లు చేయును. "
+                    special_note += "సూర్యుడు 4వ లగ్నములో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును. ఒకవేళ పేదవారైనా ఆ ఇంటిలో నివాసము కల్గునట్లు చేయును. "
                 else:
-                    special_note += "సూర్యుడు శత్రుగ్రహమై 4వ రాశిలో ఉన్నందున గృహ సుఖములు లోపించును. ఉన్న పెద్ద ఇల్లును కూడా అమ్మి చిన్న ఇల్లును కొందామనుకొనును. "
+                    special_note += "సూర్యుడు శత్రుగ్రహమై 4వ లగ్నములో ఉన్నందున గృహ సుఖములు లోపించును. ఉన్న పెద్ద ఇల్లును కూడా అమ్మి చిన్న ఇల్లును కొందామనుకొనును. "
 
         # 8th House: Mars and others
         if house_num == 8 and enemies_in_house:
@@ -1820,7 +1820,7 @@ def results():
         bhava_report.append({
             "number": house_num,
             "title": bhava_data["title"],
-            "rasi": house_rasi,
+            "lagna": house_lagna,
             "meaning": bhava_data["meaning"],
             "planets": p_info,
             "interpretation": interpretation,
@@ -1958,16 +1958,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     karana2_end_str = tithi_end_str # 2nd Karana ends with Tithi
     
     # Rasi
-    surya_rasi = RASI_TELUGU[int(sun_lon / 30)]
-    chandra_rasi = RASI_TELUGU[int(moon_lon / 30)]
+    surya_lagna = LAGNA_NAMES_TELUGU[int(sun_lon / 30)]
+    chandra_lagna = LAGNA_NAMES_TELUGU[int(moon_lon / 30)]
     
     # Ayanam & Rutuvu
     ayanam = "ఉత్తరాయణం" if (sun_lon >= 270 or sun_lon < 90) else "దక్షిణాయణం"
     rutuvu = TELUGU_RUTUVULU[int((sun_lon % 360) / 60)]
     
     # Masam & Year
-    rasi_idx = int((sun_lon % 360) / 30)
-    masam_index = (rasi_idx + 1) % 12
+    lagna_idx = int((sun_lon % 360) / 30)
+    masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
     # Calculate exact month name mapping based on Amavasya boundaries
@@ -2105,8 +2105,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         "thraitha_sakamu": thraitha_sakamu,
         "paksha": tithi_paksha,
         "vara": vara_name,
-        "surya_rasi": surya_rasi,
-        "chandra_rasi": chandra_rasi,
+        "surya_lagna": surya_lagna,
+        "chandra_lagna": chandra_lagna,
         "sunrise": suryodayam,
         "sunset": suryastamayam,
         "moonrise": moonrise_str,
@@ -2166,13 +2166,13 @@ def daily_panchangam():
     panch_data = get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True)
     
     chart_data = {}
-    rasi_houses = {}
+    lagna_houses = {}
     lagna = ""
     
     try:
         # Re-implementing the planetary positions calculation for the daily chart
         # to avoid circular imports and ensure consistent data structure
-        chart_data_temp = {r:[] for r in RASI_TELUGU}
+        chart_data_temp = {r:[] for r in LAGNA_NAMES_TELUGU}
         base_pos = {}
         
         # Use a list of visible planets for the daily chart (Matching Kundali rules)
@@ -2194,14 +2194,14 @@ def daily_panchangam():
             res = swe.calc_ut(jd, pid, PLANET_FLAGS)
             lonp = res[0][0]
             base_pos[name_p] = lonp
-            r = RASI_TELUGU[int(lonp / 30)]
+            r = LAGNA_NAMES_TELUGU[int(lonp / 30)]
             chart_data_temp[r].append((lonp % 30, get_p_info(name_p, lonp)))
             
         # 9. Ketu (180 deg from Rahu)
         rahu_lon = base_pos.get("రాహు", 0)
         ketu_lon = (rahu_lon + 180) % 360
         base_pos["కేతు"] = ketu_lon
-        r_k = RASI_TELUGU[int(ketu_lon / 30)]
+        r_k = LAGNA_NAMES_TELUGU[int(ketu_lon / 30)]
         chart_data_temp[r_k].append((ketu_lon % 30, get_p_info("కేతు", ketu_lon)))
 
         # Derived planets (Dasacharam Logic - Verified)
@@ -2212,7 +2212,7 @@ def daily_panchangam():
         }
         for n, lonp in derived.items():
             base_pos[n] = lonp
-            r = RASI_TELUGU[int(lonp / 30)]
+            r = LAGNA_NAMES_TELUGU[int(lonp / 30)]
             chart_data_temp[r].append((lonp % 30, get_p_info(n, lonp)))
 
         # Calculate Lagna
@@ -2220,7 +2220,7 @@ def daily_panchangam():
         # ascmc[0] is tropical ascendant. We need sidereal.
         ayanamsa = swe.get_ayanamsa_ut(jd)
         lagna_lon = (ascmc[0] - ayanamsa) % 360
-        lagna = RASI_TELUGU[int(lagna_lon / 30)]
+        lagna = LAGNA_NAMES_TELUGU[int(lagna_lon / 30)]
         chart_data_temp[lagna].append((lagna_lon % 30, get_p_info("లగ్నం", lagna_lon)))
         
         lagna_deg = int(lagna_lon % 30)
@@ -2228,11 +2228,11 @@ def daily_panchangam():
         panch_data['lagna_full'] = f"{lagna} ({lagna_deg}°{lagna_min:02d}′ వద్ద)"
         
         chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
-        rsi_idx = RASI_TELUGU.index(lagna)
-        rasi_houses = {RASI_TELUGU[(rsi_idx + i) % 12]: i+1 for i in range(12)}
+        rsi_idx = LAGNA_NAMES_TELUGU.index(lagna)
+        lagna_houses = {LAGNA_NAMES_TELUGU[(rsi_idx + i) % 12]: i+1 for i in range(12)}
         
         panch_data['chart'] = chart_data
-        panch_data['houses'] = rasi_houses
+        panch_data['houses'] = lagna_houses
         panch_data['lagna'] = lagna
     except Exception as e:
         print("Error computing chart for daily panchangam:", e)
@@ -2277,7 +2277,7 @@ def daily_panchangam():
             speed = swe.calc_ut(jd_val, pid, PLANET_FLAGS)[0][3]
             return speed < 0
 
-        def find_rasi_boundary(jd_start, name, pid, current_rasi_idx, find_exit, max_days=10950):
+        def find_lagna_boundary(jd_start, name, pid, current_lagna_idx, find_exit, max_days=10950):
             """Binary search to find when planet enters/exits current rasi.
                find_exit=True  -> look for next rasi change (exit)
                find_exit=False -> look for previous rasi change (entry)
@@ -2298,16 +2298,16 @@ def daily_panchangam():
             for _ in range(int(max_days / step) + 2):
                 jd_b = jd_a + direction * step
                 lon_b = get_any_planet_lon(jd_b, name, pid)
-                rasi_b = int(lon_b / 30) % 12
-                if rasi_b != current_rasi_idx:
+                lagna_b = int(lon_b / 30) % 12
+                if lagna_b != current_lagna_idx:
                     # Boundary is between jd_a and jd_b — binary search
                     lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
                     for _ in range(35):  # ~35 iterations => sub-minute precision
                         mid = (lo + hi) / 2
                         lon_mid = get_any_planet_lon(mid, name, pid)
-                        rasi_mid = int(lon_mid / 30) % 12
+                        lagna_mid = int(lon_mid / 30) % 12
                         # The boundary: lo side is same rasi, hi side differs
-                        if rasi_mid == current_rasi_idx:
+                        if lagna_mid == current_lagna_idx:
                             if direction > 0:
                                 lo = mid
                             else:
@@ -2344,12 +2344,12 @@ def daily_panchangam():
         transit_table = []
         for p_name, p_id in ALL_PLANETS_TRANSIT:
             lon_now = get_any_planet_lon(jd, p_name, p_id)
-            rasi_idx = int(lon_now / 30) % 12
-            rasi_name = RASI_TELUGU[rasi_idx]
+            lagna_idx = int(lon_now / 30) % 12
+            lagna_name = LAGNA_NAMES_TELUGU[lagna_idx]
 
             # Find both rasi boundaries (one in each temporal direction)
-            jd_bound1 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=True)
-            jd_bound2 = find_rasi_boundary(jd, p_name, p_id, rasi_idx, find_exit=False)
+            jd_bound1 = find_lagna_boundary(jd, p_name, p_id, lagna_idx, find_exit=True)
+            jd_bound2 = find_lagna_boundary(jd, p_name, p_id, lagna_idx, find_exit=False)
 
             # jd_bound2 is past search (Entry) | jd_bound1 is future search (Exit)
             jd_entry = jd_bound2
@@ -2360,7 +2360,7 @@ def daily_panchangam():
 
             transit_table.append({
                 "name": p_name,
-                "rasi": rasi_name,
+                "lagna": lagna_name,
                 "entry": entry_str,
                 "exit": exit_str
             })
@@ -2453,8 +2453,8 @@ def calendar_view():
     krishna_range = f"{krishna_start_dt.day} {EN_MONTHS_TELUGU[krishna_start_dt.month-1]} - {end_dt.day} {EN_MONTHS_TELUGU[end_dt.month-1]}"
 
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
-    rasi_idx = int((amavasya_sun_lon % 360) / 30)
-    masam_index = (rasi_idx + 1) % 12
+    lagna_idx = int((amavasya_sun_lon % 360) / 30)
+    masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
     
     # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival

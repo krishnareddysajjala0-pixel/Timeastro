@@ -373,7 +373,7 @@
       padding: 0;
     }
 
-    .rasi-name {
+    .lagna-name {
       position: absolute;
       bottom: 8px;
       right: 10px;
@@ -738,7 +738,7 @@
         font-size: 9px !important;
       }
       
-      .rasi-name {
+      .lagna-name {
         background: transparent !important;
         color: #000080 !important;
         border: none !important;
@@ -972,7 +972,7 @@
       padding: 1px 2px;
       }
 
-      .rasi-name {
+      .lagna-name {
         font-size: 8px !important;
         padding: 2px 5px !important;
         bottom: 2px !important;
@@ -1369,13 +1369,13 @@
     {% endmacro %}
 
     {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
-    {% macro box(rasi) %}
-    {% set hno = houses[rasi] %}
-    {% set lines = chart[rasi].split('<br>') %}
+    {% macro box(box_lagna) %}
+    {% set hno = houses[box_lagna] %}
+    {% set lines = chart[box_lagna].split('<br>') %}
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
-    <div class="box {{ house_bg_class(hno) }} {% if lagna==rasi %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class(hno) }} {% if lagna==box_lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
       <span class="house-no">{{ hno }}</span>
 
       
@@ -1390,7 +1390,7 @@
 
 
       {# Display all content from chart data #}
-      {% for line in chart[rasi].split('<br>') %}
+      {% for line in chart[box_lagna].split('<br>') %}
       {% if "లగ్నం" in line %}
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
@@ -1398,13 +1398,13 @@
       </div>
       {% elif line.strip() %}
       {# Other planets #}
-      <span class="{{ get_color(line, lagna) }}">
+      <span class="{{ get_color(line, box_lagna) }}">
         {{ line | safe }}
       </span><br>
       {% endif %}
       {% endfor %}
 
-      <span class="rasi-name">{{ rasi }}</span>
+      <span class="lagna-name">{{ box_lagna }}</span>
     </div>
     {% endmacro %}
 

@@ -291,7 +291,7 @@
             color: rgba(255, 215, 0, 0.7); 
             font-weight: bold; 
         }
-        .rasi-name-c { 
+        .lagna-name-c { 
             position: absolute; 
             bottom: 2px; 
             right: 4px; 
@@ -358,7 +358,7 @@
                 line-height: 1.3; 
                 border-width: 1px;
             }
-            .rasi-name-c { font-size: 9px; right: 2px; bottom: 2px; }
+            .lagna-name-c { font-size: 9px; right: 2px; bottom: 2px; }
             .house-no-c { font-size: 9px; left: 2px; top: 2px; }
             .section-title { font-size: 18px; margin-bottom: 10px; }
             .rainbow-text-glow { font-size: 16px; margin-left: 5px; }
@@ -370,7 +370,7 @@
         @media (max-width: 400px) {
             .box-c { min-height: 50px; font-size: 9px; }
             .center-c { font-size: 11px; }
-            .rasi-name-c { font-size: 8px; right: 2px; bottom: 1px; }
+            .lagna-name-c { font-size: 8px; right: 2px; bottom: 1px; }
             .house-no-c { font-size: 8px; left: 2px; top: 1px; }
             .btn-container { flex-direction: column; }
             .btn, .btn-locate { width: 100%; justify-content: center; }
@@ -391,6 +391,11 @@
         .theme-switcher.expanded .theme-options { opacity: 1; pointer-events: auto; }
         .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
         .theme-btn:hover { opacity: 1; transform: scale(1.1); }
+        @media print {
+            .fixed-bottom-bar-nav, .theme-switcher, .btn-container, .print-hide { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .card { background: #fff !important; border: 1px solid #000 !important; box-shadow: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -483,9 +488,7 @@
             </form>
 
             {% if panch %}
-            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--card-border);">
-                <button type="button" id="toggleMoreBtn" class="btn" style="padding: 6px 15px; font-size: 14px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid #ffd700;"><i class="fas fa-plus-circle"></i> More</button>
-            </div>
+            <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--card-border);"></div>
             <div class="panchangam-result" style="margin-top: 10px; padding-top: 0; border-top: none;">
                 <!-- Header Block centered -->
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15; flex-direction: column; text-align: center; gap: 10px;">
@@ -555,38 +558,21 @@
                     </div>
                 </div>
 
-                <!-- Yoga -->
-                <div class="result-item more-data" style="display: none;">
-                    <div class="result-icon"><i class="fas fa-praying-hands" style="color: #34d399;"></i></div>
-                    <div>
-                        <div class="result-label">యోగాలు (Yoga)</div>
-                        <div class="result-value">{{ panch.yoga }}</div>
-                    </div>
-                </div>
 
-                <!-- Karana -->
-                <div class="result-item more-data" style="display: none;">
-                    <div class="result-icon"><i class="fas fa-yin-yang" style="color: #a78bfa;"></i></div>
-                    <div>
-                        <div class="result-label">కరణములు (Karana)</div>
-                        <div class="result-value" style="font-size: 13px;">1. {{ panch.karana1 }} ({{ panch.karana1_end }} వరకు)</div>
-                        <div class="result-value" style="font-size: 13px;">2. {{ panch.karana2 }} ({{ panch.karana2_end }} వరకు)</div>
-                    </div>
-                </div>
 
-                <!-- Rasis -->
+                <!-- Lagnams -->
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-sun" style="color: #f59e0b;"></i></div>
                     <div>
-                        <div class="result-label">సూర్య రాశి</div>
-                        <div class="result-value">{{ panch.surya_rasi }}</div>
+                        <div class="result-label">సూర్య లగ్నం</div>
+                        <div class="result-value">{{ panch.surya_lagna }}</div>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-moon" style="color: #9ca3af;"></i></div>
                     <div>
-                        <div class="result-label">చంద్ర రాశి</div>
-                        <div class="result-value">{{ panch.chandra_rasi }}</div>
+                        <div class="result-label">చంద్ర లగ్నం</div>
+                        <div class="result-value">{{ panch.chandra_lagna }}</div>
                     </div>
                 </div>
 
@@ -599,42 +585,16 @@
                     </div>
                 </div>
 
-                <!-- Inauspicious Timings -->
-                <div class="result-item more-data" style="display: none; grid-column: 1 / -1; border-color: #ef4444; background: rgba(239, 68, 68, 0.05);">
-                    <div class="result-icon"><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i></div>
-                    <div>
-                        <div class="result-label" style="color: #fca5a5;">అశుభ సమయాలు</div>
-                        <table style="width: 100%; font-size: 13px; margin-top: 5px; color: #fff;">
-                            <tr><td style="padding: 2px 0;">రాహు కాలం:</td><td>{{ panch.rahu }}</td></tr>
-                            <tr><td style="padding: 2px 0;">గుళిక కాలం:</td><td>{{ panch.gulika }}</td></tr>
-                            <tr><td style="padding: 2px 0;">యమగండము:</td><td>{{ panch.yama }}</td></tr>
-                            {% for dur in panch.durmuhurtams %}
-                            <tr><td style="padding: 2px 0;">దుర్ముహుర్తములు:</td><td>{{ dur }}</td></tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
 
-                <!-- Auspicious Timings -->
-                <div class="result-item more-data" style="display: none; grid-column: 1 / -1; border-color: #10b981; background: rgba(16, 185, 129, 0.05);">
-                    <div class="result-icon"><i class="fas fa-check-circle" style="color: #10b981;"></i></div>
-                    <div>
-                        <div class="result-label" style="color: #6ee7b7;">శుభ సమయాలు</div>
-                        <table style="width: 100%; font-size: 13px; margin-top: 5px; color: #fff;">
-                            <tr><td style="padding: 2px 0;">అభిజిత్ ముహుర్తం:</td><td>{{ panch.abhijit }}</td></tr>
-                            <tr><td style="padding: 2px 0;">అమృతకాలము:</td><td>(నక్షత్ర ఆధారితం)</td></tr>
-                        </table>
-                    </div>
-                </div>
                 {% if panch.chart %}
                 <div class="chart-container-c">
                     <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> లగ్న కుండలి</h2>
-                    {% macro full_box(rasi, panch) %}
-                        {% set hno = panch.houses.get(rasi, "") if panch.houses else "" %}
-                        <div class="box-c {% if panch.lagna==rasi %}lagna-c{% endif %}">
+                    {% macro full_box(lagna, panch) %}
+                        {% set hno = panch.houses.get(lagna, "") if panch.houses else "" %}
+                        <div class="box-c {% if panch.lagna==lagna %}lagna-c{% endif %}">
                             {% if hno %}<span class="house-no-c">{{ hno }}</span>{% endif %}
-                            <div style="text-align: center; line-height: 1.4;">{{ panch.chart[rasi] | safe }}</div>
-                            <span class="rasi-name-c">{{ rasi }}</span>
+                            <div style="text-align: center; line-height: 1.4;">{{ panch.chart[lagna] | safe }}</div>
+                            <span class="lagna-name-c">{{ lagna }}</span>
                         </div>
                     {% endmacro %}
                     <div class="chart-c">
@@ -649,14 +609,14 @@
                 {% if panch.transit_table %}
                 <!-- Planet Transit Table -->
                 <div style="grid-column: 1 / -1; margin-top: 30px; min-width: 0;">
-                    <h2 class="section-title"><i class="fas fa-exchange-alt section-icon"></i> ద్వాదశ గ్రహముల రాశి సంచారం</h2>
+                    <h2 class="section-title"><i class="fas fa-exchange-alt section-icon"></i> ద్వాదశ గ్రహముల లగ్న సంచారం</h2>
                     <div style="overflow-x: auto; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
                         <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 500px;">
                             <thead>
                                 <tr style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05));">
                                     <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">క్ర.సం</th>
                                     <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">గ్రహము</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">లగ్నం (రాశి)</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">లగ్నం</th>
                                     <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">ప్రవేశ తేది & సమయం</th>
                                     <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">నిష్క్రమణ తేది & సమయం</th>
                                 </tr>
@@ -666,7 +626,7 @@
                                 <tr style="background: {% if loop.index is odd %}rgba(255,255,255,0.03){% else %}rgba(0,0,0,0.15){% endif %}; transition: background 0.3s;">
                                     <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #94a3b8; font-weight: 600;">{{ loop.index }}</td>
                                     <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700;">{{ p.name }}</td>
-                                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #facc15; font-weight: 700;">{{ p.rasi }}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #facc15; font-weight: 700;">{{ p.lagna }}</td>
                                     <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #34d399; font-weight: 600;">{{ p.entry }}</td>
                                     <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fca5a5; font-weight: 600;">{{ p.exit }}</td>
                                 </tr>
@@ -726,26 +686,6 @@
             });
         });
 
-        // Toggle More button
-        const toggleMoreBtn = document.getElementById('toggleMoreBtn');
-        if(toggleMoreBtn) {
-            toggleMoreBtn.addEventListener('click', function() {
-                const moreItems = document.querySelectorAll('.more-data');
-                let isHidden = true;
-                
-                if(moreItems.length > 0) {
-                    isHidden = moreItems[0].style.display === 'none';
-                }
-
-                if (isHidden) {
-                    moreItems.forEach(item => item.style.display = 'flex');
-                    this.innerHTML = '<i class="fas fa-minus-circle"></i> Less';
-                } else {
-                    moreItems.forEach(item => item.style.display = 'none');
-                    this.innerHTML = '<i class="fas fa-plus-circle"></i> More';
-                }
-            });
-        }
 
         // Form submission loader
         const showForm = document.querySelector('form');

@@ -29,13 +29,13 @@
   {% endif %}
 {% endmacro %}
 
-{% macro box(rasi) %}
-  {% set hno = houses[rasi] %}
-  {% set lines = chart[rasi].split('<br>') %}
+{% macro box(box_lagna) %}
+  {% set hno = houses[box_lagna] %}
+  {% set lines = chart[box_lagna].split('<br>') %}
   {% set items_count = namespace(count=0) %}
   {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
   
-  <div class="box {{ house_bg_class(hno) }} {% if lagna==rasi %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+  <div class="box {{ house_bg_class(hno) }} {% if lagna==box_lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
     <span class="house-no">{{ hno }}</span>
     
     {% if hno in [1,5,9] %}
@@ -46,18 +46,18 @@
       <div class="karma-label">పుణ్యం + పాపం</div>
     {% endif %}
 
-    {% for line in chart[rasi].split('<br>') %}
+    {% for line in chart[box_lagna].split('<br>') %}
       {% if "లగ్నం" in line %}
         <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
           {{ line | safe }}
         </div>
       {% elif line.strip() %}
-        <span class="{{ get_color(line, lagna) }}">
+        <span class="{{ get_color(line, box_lagna) }}">
           {{ line | safe }}
         </span><br>
       {% endif %}
     {% endfor %}
-    <span class="rasi-name">{{ rasi }}</span>
+    <span class="lagna-name">{{ box_lagna }}</span>
   </div>
 {% endmacro %}
 

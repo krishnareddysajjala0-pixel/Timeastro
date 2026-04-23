@@ -12,7 +12,7 @@ html = html.replace('<h2 class="section-title"><i class="fas fa-th-large section
 
 chart_block = """
                 {% if panch.chart %}
-                <h2 class="section-title" style="margin-top: 20px;"><i class="fas fa-th-large section-icon"></i> రాశి చక్రం</h2>
+                <h2 class="section-title" style="margin-top: 20px;"><i class="fas fa-th-large section-icon"></i> లగ్న చక్రం</h2>
                 {% macro full_box(rasi, panch) %}
                     {% set hno = panch.houses.get(rasi, "") if panch.houses else "" %}
                     <div class="box-c {% if panch.lagna==rasi %}lagna-c{% endif %}">

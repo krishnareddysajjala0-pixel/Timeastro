@@ -211,6 +211,7 @@
     }
     @media print {
       .scrolling-footer,
+      .fixed-bottom-bar-nav,
       .theme-switcher,
       .fixed-bottom-bar,
       #action-bar,
@@ -432,7 +433,7 @@
             color: #ffd700;
         }
 
-        .bhava-rasi-tag {
+        .bhava-lagna-tag {
             background: rgba(255, 255, 255, 0.1);
             padding: 4px 12px;
             border-radius: 20px;
@@ -732,7 +733,7 @@
             .bhava-card.paapa-card { border-left-color: #ef4444 !important; }
             .bhava-card.neutral-card { border-left-color: #64748b !important; }
             .bhava-title-main { color: #333 !important; }
-            .bhava-rasi-tag { background: #eee !important; color: #555 !important; }
+            .bhava-lagna-tag { background: #eee !important; color: #555 !important; }
             .bhava-section-label { color: #666 !important; }
             .interpretation-content {
                 background: #fff !important;
@@ -867,7 +868,7 @@
                     <div class="info-body">
                         <div class="info-row">
                             <span class="label">ప్రస్తుత స్థానము:</span>
-                            <span class="val">{{ r.current_rasi }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
                         </div>
                         <div class="info-row">
                             <span class="label">స్వంత ఇల్లు:</span>
@@ -884,7 +885,7 @@
                             {% if r.is_own_house %}
                             <i class="fas fa-check-circle"></i> స్వంత ఇంట్లో ఉన్నది.
                             {% else %}
-                            <i class="fas fa-info-circle"></i> ఇతర రాశిలో ఉన్నది.
+                            <i class="fas fa-info-circle"></i> ఇతర లగ్నములో ఉన్నది.
                             {% endif %}
                         </div>
                         {% if r.bitter_enemy %}
@@ -916,7 +917,7 @@
                     <div class="info-body">
                         <div class="info-row">
                             <span class="label">ప్రస్తుత స్థానము:</span>
-                            <span class="val">{{ r.current_rasi }}</span>
+                            <span class="val">{{ r.current_lagna }}</span>
                         </div>
                         <div class="info-row">
                             <span class="label">స్వంత ఇల్లు:</span>
@@ -933,7 +934,7 @@
                             {% if r.is_own_house %}
                             <i class="fas fa-check-circle"></i> స్వంత ఇంట్లో ఉన్నది.
                             {% else %}
-                            <i class="fas fa-info-circle"></i> ఇతర రాశిలో ఉన్నది.
+                            <i class="fas fa-info-circle"></i> ఇతర లగ్నములో ఉన్నది.
                             {% endif %}
                         </div>
                         {% if r.bitter_enemy %}
@@ -955,7 +956,7 @@
 
                     <div class="bhava-header">
                         <div class="bhava-title-main">{{ b.title }}</div>
-                        <div class="bhava-rasi-tag">{{ b.rasi }} రాశి</div>
+                        <div class="bhava-lagna-tag">{{ b.lagna }} లగ్నం</div>
                     </div>
 
                     <div class="bhava-section-label">కార్యములు / విషయములు</div>

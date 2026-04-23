@@ -41,13 +41,13 @@ def get_lunar_month_dates(jd_current, sun_lon, moon_lon):
     
     # Calculate exact month name mapping based on the Amavasya's Solar intersection
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
-    rasi_idx = int((amavasya_sun_lon % 360) / 30)
+    lagna_idx = int((amavasya_sun_lon % 360) / 30)
     
     TELUGU_MASALU = [
         "చైత్ర", "వైశాఖ", "జ్యేష్ఠ", "ఆషాఢ", "శ్రావణ", "భాద్రపద", 
         "ఆశ్వయుజ", "కార్తీక", "మార్గశిర", "పుష్య", "మాఘ", "ఫాల్గుణ"
     ]
-    masam_index = (rasi_idx + 1) % 12
+    masam_index = (lagna_idx + 1) % 12
     month_name = TELUGU_MASALU[masam_index]
     
     return f"{month_name} మాసం ({start_str} nunchi {end_str} varaku)"

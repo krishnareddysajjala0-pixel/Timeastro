@@ -125,8 +125,8 @@ class Program
         // Ayanamsa (used to convert tropical -> sidereal)
         double ayan = SwissEphemerisPInvoke.swe_get_ayanamsa_ut(jd);
 
-        // Telugu Rasi names
-        string[] RASI_TELUGU = new string[] {
+        // Telugu Lagna names
+        string[] LAGNA_TELUGU = new string[] {
             "మేషం","వృషభం","మిథునం","కర్కాటకం",
             "సింహం","కన్య","తులా","వృశ్చికం",
             "ధనస్సు","మకరం"," కుంభం","మీనం"
@@ -145,7 +145,7 @@ class Program
         };
 
         var chart_data = new System.Collections.Generic.Dictionary<string, string>();
-        foreach (var r in RASI_TELUGU) chart_data[r] = "";
+        foreach (var r in LAGNA_TELUGU) chart_data[r] = "";
         var base_pos = new System.Collections.Generic.Dictionary<string,double>();
 
         double[] xx = new double[6];
@@ -165,10 +165,10 @@ class Program
             double lon_sidereal = (lon_tropical - ayan) % 360.0;
             if (lon_sidereal < 0) lon_sidereal += 360.0;
             base_pos[kv.Key] = lon_sidereal;
-            int rasiIndex = (int)(lon_sidereal / 30.0);
+            int lagnaIndex = (int)(lon_sidereal / 30.0);
             int d = (int)(lon_sidereal % 30);
             int m = (int)(((lon_sidereal % 30) - d) * 60);
-            chart_data[RASI_TELUGU[rasiIndex]] += $"{kv.Key} {d}°{m:00}′\n";
+            chart_data[LAGNA_TELUGU[lagnaIndex]] += $"{kv.Key} {d}°{m:00}′\n";
         }
 
         // Ketu
@@ -176,7 +176,7 @@ class Program
         double ketu = (rahu + 180.0) % 360.0;
         base_pos["కేతు"] = ketu;
         int rIdx = (int)(ketu / 30.0);
-        chart_data[RASI_TELUGU[rIdx]] += $"కేతు {(int)(ketu%30)}°{(int)((((ketu%30)-(int)(ketu%30))*60)):00}′\n";
+        chart_data[LAGNA_TELUGU[rIdx]] += $"కేతు {(int)(ketu%30)}°{(int)((((ketu%30)-(int)(ketu%30))*60)):00}′\n";
 
         // Derived planets
         base_pos["భూమి"] = (base_pos["సూర్యుడు"] + 180.0) % 360.0;
@@ -207,7 +207,7 @@ class Program
                 int ri = (int)(hl / 30.0);
                 int d = (int)(hl % 30);
                 int m = (int)(((hl % 30) - d) * 60);
-                chart_data[RASI_TELUGU[ri]] += $"{n} hand {d}°{m:00}′\n";
+                chart_data[LAGNA_TELUGU[ri]] += $"{n} hand {d}°{m:00}′\n";
             }
         }
 
@@ -218,7 +218,7 @@ class Program
         double asc_tropical = ascmc[0];
         double lagna_lon = (asc_tropical - ayan) % 360.0;
         if (lagna_lon < 0) lagna_lon += 360.0;
-        string lagna = RASI_TELUGU[(int)(lagna_lon/30.0)];
+        string lagnaName = LAGNA_TELUGU[(int)(lagna_lon/30.0)];
         int lagna_deg = (int)(lagna_lon % 30.0);
         int lagna_min = (int)(((lagna_lon % 30.0) - lagna_deg) * 60.0);
         string lagna_str = $"{lagna_deg}°{lagna_min:00}′";
@@ -254,11 +254,11 @@ class Program
 
         // Output simple chart
         Console.WriteLine("\n--- Chart Data ---");
-        foreach (var r in RASI_TELUGU)
+        foreach (var r in LAGNA_TELUGU)
         {
             Console.WriteLine($"{r}:\n{chart_data[r]}");
         }
-        Console.WriteLine($"Lagna: {lagna} ({lagna_str})");
+        Console.WriteLine($"Lagna: {lagnaName} ({lagna_str})");
         Console.WriteLine($"Nakshatra: {nakshatra} padam {padam}");
 
         // ---- Dasa cycle computation (port of chart2 logic) ----

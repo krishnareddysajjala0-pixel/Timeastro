@@ -17,8 +17,8 @@ def fmt(jd_val):
     return f'{dt.day} {months[dt.month-1]} {dt.year} {dt.strftime("%H:%M")} IST'
 
 r_lon = get_rahu_lon(jd_now)
-rasi_idx = int(r_lon / 30) % 12
-print(f'Rahu lon: {r_lon:.4f} -> rasi index {rasi_idx} (Kumbha=10)')
+lagna_idx = int(r_lon / 30) % 12
+print(f'Rahu lon: {r_lon:.4f} -> lagna index {lagna_idx} (Kumbha=10)')
 
 step = 15
 
@@ -28,11 +28,11 @@ bound1 = None
 for _ in range(120):
     jd_b = jd_a + (-1) * step
     lon_b = get_rahu_lon(jd_b)
-    if int(lon_b / 30) % 12 != rasi_idx:
+    if int(lon_b / 30) % 12 != lagna_idx:
         lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
         for _ in range(35):
             mid = (lo + hi) / 2
-            if int(get_rahu_lon(mid) / 30) % 12 == rasi_idx:
+            if int(get_rahu_lon(mid) / 30) % 12 == lagna_idx:
                 hi = mid  # direction=-1, keep the side closer to jd_a (higher JD)
             else:
                 lo = mid
@@ -46,11 +46,11 @@ bound2 = None
 for _ in range(120):
     jd_b = jd_a + (+1) * step
     lon_b = get_rahu_lon(jd_b)
-    if int(lon_b / 30) % 12 != rasi_idx:
+    if int(lon_b / 30) % 12 != lagna_idx:
         lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
         for _ in range(35):
             mid = (lo + hi) / 2
-            if int(get_rahu_lon(mid) / 30) % 12 == rasi_idx:
+            if int(get_rahu_lon(mid) / 30) % 12 == lagna_idx:
                 lo = mid  # direction=+1, keep the side closer to jd_a (lower JD)
             else:
                 hi = mid

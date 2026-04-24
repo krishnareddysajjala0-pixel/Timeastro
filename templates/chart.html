@@ -1398,7 +1398,7 @@
       </div>
       {% elif line.strip() %}
       {# Other planets #}
-      <span class="{{ get_color(line, box_lagna) }}">
+      <span class="{{ get_color(line, lagna) }}">
         {{ line | safe }}
       </span><br>
       {% endif %}

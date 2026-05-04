@@ -267,64 +267,7 @@
             color: #a0a0ff;
         }
 
-        .nakshatra-box {
-            background: linear-gradient(135deg,
-                    rgba(32, 32, 72, 0.9),
-                    rgba(25, 25, 55, 0.9));
-            padding: 8px 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(120, 119, 198, 0.3);
-            margin-top: 10px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-size: 13px;
-        }
 
-        .nakshatra-box::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(120, 119, 198, 0.5),
-                    transparent);
-        }
-
-        .nakshatra-name {
-            font-weight: bold;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .nakshatra-name span {
-            color: #ffd700;
-        }
-
-        .time-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .time-label {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-
-        .time-value {
-            font-weight: bold;
-            color: #ffd700;
-        }
 
         /* Current Dasa - Galaxy Style */
         .current-dasa-box {
@@ -1587,21 +1530,13 @@
                     <span class="info-icon">📍</span>
                     <span>{{ place }}</span>
                 </div>
+                <div class="info-item">
+                    <span class="info-icon">✦</span>
+                    <span>{{ nakshatra }} ({{ padam }} పాదం)</span>
+                </div>
             </div>
 
-            <div class="nakshatra-box">
-                <div class="nakshatra-name">
-                    <span>✦</span> నక్షత్రం: {{ nakshatra }} ({{ padam }} పాదం) <span>✦</span>
-                </div>
-                <div class="time-item">
-                    <span class="time-label">గడిచిన సమయం:</span>
-                    <span class="time-value">{{ nak_elapsed }}</span>
-                </div>
-                <div class="time-item">
-                    <span class="time-label">మిగిలిన సమయం:</span>
-                    <span class="time-value">{{ nak_remaining }}</span>
-                </div>
-            </div>
+
         </div>
 
         <!-- Current Dasa - Galaxy Style -->

@@ -95,6 +95,12 @@ TELUGU_YEARS = [
     "పింగళ", "కాళయుక్తి", "సిద్ధార్థి", "రౌద్రి", "దుర్మతి", "దుందుభి", "రుధిరోద్గారి", "రక్తాక్షి", "క్రోధన", "అక్షయ"
 ]
 
+def get_am_pm_str(dt):
+    """Formats a datetime object into a Telugu AM/PM string (ఉ:/సా:)"""
+    time_str = dt.strftime("%I:%M")
+    ampm = "ఉ: " if dt.hour < 12 else "సా: "
+    return f"{ampm}{time_str}"
+
 # ---------------- Panchangam Data ----------------
 TITHIS_TELUGU = [
     "పాడ్యమి", "విదియ", "తదియ", "చవితి", "పంచమి", "షష్ఠి", "సప్తమి",
@@ -293,6 +299,92 @@ def add_months(dt, months):
 def nak_minutes(h, m):
     """Convert hours and minutes to total minutes"""
     return h * 60 + m
+
+def get_exact_nakshatra_times(jd, nak_index):
+    """
+    Calculate the exact start and end Julian days for the given Nakshatra index.
+    Iteratively tracks the Moon's longitude backwards and forwards using actual planetary speed.
+    """
+    NAKSHATRA_SIZE = 13 + 20/60
+    target_start_deg = nak_index * NAKSHATRA_SIZE
+    target_end_deg = (nak_index + 1) * NAKSHATRA_SIZE
+    
+    # Backward track for exact start time
+    jd_start = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_start, swe.MOON, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        speed = m_info[0][3] if len(m_info[0]) > 3 and m_info[0][3] > 0 else 13.176
+        
+        diff = (moon_lon - target_start_deg) % 360
+        if diff > 180: diff -= 360
+        
+        jd_start -= diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    # Forward track for exact end time
+    jd_end = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_end, swe.MOON, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        speed = m_info[0][3] if len(m_info[0]) > 3 and m_info[0][3] > 0 else 13.176
+        
+        diff = (target_end_deg - moon_lon) % 360
+        if diff > 180: diff -= 360
+        
+        jd_end += diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    return jd_start, jd_end
+
+def get_exact_tithi_times(jd, tithi_index):
+    """
+    Calculate the exact start and end Julian days for the given Tithi index.
+    Iteratively tracks the Sun-Moon elongation difference using relative velocity.
+    """
+    target_start_deg = tithi_index * 12
+    target_end_deg = (tithi_index + 1) * 12
+    
+    # Backward track for exact start time
+    jd_start = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_start, swe.MOON, PLANET_FLAGS)
+        s_info = swe.calc_ut(jd_start, swe.SUN, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        sun_lon = s_info[0][0]
+        elongation = (moon_lon - sun_lon) % 360
+        
+        # Relative speed approx 12.19 deg/day
+        speed = m_info[0][3] - s_info[0][3]
+        
+        diff = (elongation - target_start_deg) % 360
+        if diff > 180: diff -= 360
+        
+        jd_start -= diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    # Forward track for exact end time
+    jd_end = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_end, swe.MOON, PLANET_FLAGS)
+        s_info = swe.calc_ut(jd_end, swe.SUN, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        sun_lon = s_info[0][0]
+        elongation = (moon_lon - sun_lon) % 360
+        
+        speed = m_info[0][3] - s_info[0][3]
+        
+        diff = (target_end_deg - elongation) % 360
+        if diff > 180: diff -= 360
+        
+        jd_end += diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    return jd_start, jd_end
 
 def is_date_within_range(check_date, start_date_str, end_date_str):
     """Check if a date falls within a date range"""
@@ -498,6 +590,9 @@ def index():
     return render_template("index.html")
 
 def get_kundali_data(name, dob, tob, place, lat, lon):
+    # Ensure standard Lahiri Ayanamsa is used for all calculations
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    
     # Day name
     day_eng = datetime.datetime.strptime(dob, "%Y-%m-%d").strftime("%A")
     day_name = DAY_TELUGU.get(day_eng, day_eng)
@@ -638,12 +733,36 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     nak_offset = moon_lon - (nak_index * NAKSHATRA_SIZE)
     padam = int(nak_offset / PADAM_SIZE) + 1
 
-    elapsed_h = int((nak_offset / NAKSHATRA_SIZE) * 24)
-    elapsed_m = int((((nak_offset / NAKSHATRA_SIZE) * 24) % 1) * 60)
+    # Use exact forward/backward tracking for more accurate Nakshatra times
+    jd_start, jd_end = get_exact_nakshatra_times(jd, nak_index)
+    
+    elapsed_days = jd - jd_start
+    elapsed_h = int(elapsed_days * 24)
+    elapsed_m = int(((elapsed_days * 24) % 1) * 60)
+    
+    remain_days = jd_end - jd
+    remain_h = int(remain_days * 24)
+    remain_m = int(((remain_days * 24) % 1) * 60)
 
-    rem = NAKSHATRA_SIZE - nak_offset
-    remain_h = int((rem / NAKSHATRA_SIZE) * 24)
-    remain_m = int((((rem / NAKSHATRA_SIZE) * 24) % 1) * 60)
+    # Calculate nak_start and nak_end strings
+    ye_k, me_k, de_k, he_k = swe.revjul(jd_end)
+    target_nak_e = pytz.utc.localize(datetime.datetime(*(int(ye_k), int(me_k), int(de_k), int(he_k)), int((he_k%1)*60))).astimezone(local_tz)
+    nak_end_str = get_am_pm_str(target_nak_e)
+    
+    ys_k, ms_k, ds_k, hs_k = swe.revjul(jd_start)
+    target_nak_s = pytz.utc.localize(datetime.datetime(*(int(ys_k), int(ms_k), int(ds_k), int(hs_k)), int((hs_k%1)*60))).astimezone(local_tz)
+    nak_start_str = get_am_pm_str(target_nak_s)
+    
+    calc_date = local_dt.date()
+    if target_nak_s.date() < calc_date:
+        nak_start_str = f"నిన్న {nak_start_str}"
+    elif target_nak_s.date() > calc_date:
+        nak_start_str = f"రేపు {nak_start_str}"
+        
+    if target_nak_e.date() > calc_date:
+        nak_end_str = f"రేపు {nak_end_str}"
+    elif target_nak_e.date() < calc_date:
+        nak_end_str = f"నిన్న {nak_end_str}"
 
     # House numbers
     houses_map = {}
@@ -896,9 +1015,10 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'day_name': day_name,
         'nakshatra': nakshatra,
         'padam': padam,
+        'nak_start': nak_start_str,
+        'nak_end': nak_end_str,
         'nak_elapsed': f"{elapsed_h}గం {elapsed_m}ని",
         'nak_remaining': f"{remain_h}గం {remain_m}ని",
-        'nak_index': nak_index,
         'elapsed_h': elapsed_h,
         'elapsed_m': elapsed_m,
         'lagna_deg': lagna_degree_str,
@@ -939,9 +1059,6 @@ def chart():
     lat = float(lat)
     lon = float(lon)
     
-    # Log User query to GitHub
-    log_user_to_github(name, dob, tob, place)
-
     # Log User query to GitHub
     log_user_to_github(name, dob, tob, place)
 
@@ -1458,7 +1575,7 @@ def results():
     # Detailed Planetary Rulerships (ఆధీనములో ఉన్నవి)
     PLANET_RULERSHIPS = {
         "సూర్యుడు": "పిత, ఆత్మ, తనువు, రాజ్యము, ప్రభావము, ధైర్యము, అధికారము, నేత్రము, పిత్తము, శూరత్వము, శక్తి, విదేశ పర్యటన, జ్ఞాన తేజము, పరాక్రమము, ఉష్ణము, అగ్ని, ధర్మ ధ్యాస, కడుపు, కన్ను, పాలనాశక్తి, ప్రభుత్వ భూములు, కోర్టు వ్యవహారములు, బంజరు భూములు, గుండ్రని ఆకారముండు పొలములు, రారాజు యోచన, గ్రామాధీన జాగాలు, ఎర్రచందనము, ముద్రాధికారము, తెల్ల జిల్లేడు, తూర్పు, ఆంగ్ల విద్య, ఆదివారము, చైత్రమాసము, రాజభవనములు, వేడిని పుట్టించు నీలి వెలుగులు, పై అంతస్థులు గల భవనములు. (జాతి: క్షత్రియ, రంగు: గోధుమరంగు)",
-        "చంద్రుడు": "బుద్ధి, నీరు, స్త్రీలు, మనస్సు, సౌందర్యము, జల సౌఖ్యము, బలము, పంటలు, వెండి, యాత్రలు, గుర్రపుస్వారీ, నిద్ర, వేగము, సుగంధములు, మాతృ ప్రీతి, కోనేర్లు, బావులు, కీర్తి, స్త్రీ సుఖము, తెల్లని మెత్తని గుడ్డలు, సముద్రములు, పుష్ఠి, పూలు, నదులు, యాత్రలు, తెలుపురంగు, చెరువులు, శ్వాస, కడుపు, ముత్యములు, ముఖ అలంకరణ, గర్భము, మృదుత్వము, సుఖభోజనము, పాలు, మనోజపము, విమానయానము, విమానములు, నావలు, అంతస్తుల భవనములు, చౌడు భూములు, లాడ్జీలు, వర్షము, ముద్రణాధికారము, రాజ చిహ్నము, సన్మానము, ధాన్యములో వడ్లు, వెన్నెల, శయన గృహములు, సంతోషము, వీర్యబలము, అశ్వ వాహనము, జ్ఞాపకశక్తి, దూరాలోచన, శిరో ఆరోగ్యము, మెదడు బలము, గ్రాహితశక్తి, ఈతలో నైపుణ్యము, నదీస్నానము, నీటి ప్రదేశములు, చౌడు, జలచరములు, ఇంగ్లీషు భాష, విలాస వస్తువులు, వాయువ్యదిశ, సోమవారము, తెల్లని పూలు, మల్లె తోటలు. (జాతి: బ్రాహ్మణ, రంగు: తెల్లనిరంగు)",
+        "చంద్రుడు": "బుద్ధి, నీరు, స్త్రీలు, మనస్సు, సౌందర్యము, జల సౌఖ్యము, బలము, పంటలు, వెండి, యాత్రలు, గుర్రపుస్వారీ, నిద్ర, వేగము, సుగంధములు, మాతృ ప్రీతి, కోనేర్లు, బావులు, కీర్తి, స్త్రీ సుఖము, తెల్లని మెత్తని గుడ్డలు, సముద్రములు, పుష్ఠి, పూలు, నదులు, యాత్రలు, తెలుపురంగు, చెరువులు, శ్వాస, కడుపు, ముత్యములు, ముఖ అలంకరణ, గర్భము, మృదుత్వము, సుఖభోజనము, పాలు, మనోజపము, విమానము, విమానయానము, విమానములు, నావలు, అంతస్తుల భవనములు, చౌడు భూములు, లాడ్జీలు, వర్షము, ముద్రణాధికారము, రాజ చిహ్నము, సన్మానము, ధాన్యములో వడ్లు, వెన్నెల, శయన గృహములు, సంతోషము, వీర్యబలము, అశ్వ వాహనము, జ్ఞాపకశక్తి, దూరాలోచన, శిరో ఆరోగ్యము, మెదడు బలము, గ్రాహితశక్తి, ఈతలో నైపుణ్యము, నదీస్నానము, నీటి ప్రదేశములు, చౌడు, జలచరములు, ఇంగ్లీషు భాష, విలాస వస్తువులు, వాయువ్యదిశ, సోమవారము, తెల్లని పూలు, మల్లె తోటలు. (జాతి: బ్రాహ్మణ, రంగు: తెల్లనిరంగు)",
         "కుజుడు": "పరాక్రమము, కోపము, సేనాధిపత్యము, సాహసము, విస్ఫోటనము, బాంబులు, తుపాకులు, మారణాయుధములు, కోతులు, కుక్కలు, కోరలు గల కూరజంతువులు, కొమ్ములుగల ఎద్దులు, శస్త్రవిద్య, తర్కశాస్త్రము, శత్రువృద్ధి, ఉష్ణము, ఎర్రభూమి, రాళ్ళభూమి, కొండలు, బండలు, ఎరుపు రంగు, రక్తము, యవ్వనము, యువకులు, యుక్తవయస్సు స్త్రీల పరిచయము, మెట్టభూమి, పట్టుదల, ప్రభుభక్తి, లక్ష్యమును ఛేదించుట, జయము, దక్షిణ దిక్కు అరణ్యములు, అరణ్య సంచారము, సండ్రచెట్టు, వేట జరుపుట, యువరాజు, కట్టెలు, ప్రవాహము, మరణశిక్ష, కోటలు, బురుజులు, సోదరబలము, చెల్లెండ్రు, వెంట్రుకలు, మీసము, కూరమైన ముఖవర్చస్సు, దీర్ఘబాహువులు, అంగరక్షకులు, పోలీసు, మిలటరీ, కందులు, సన్మానములు, సైన్య బలము, రాతి గుహలు, రచ్చబండలు, మంగమాణ్యములు, కుమ్మర మాణ్యములు, కుమ్మరాములు, వ్రణ వైద్యము, పిందెలు, కాయలు, మంగళవారము, నక్సలైట్లు. (జాతి: నాయిబ్రాహ్మణ, రంగు: ఎరుపురంగు)",
         "బుధుడు": "జ్యోతిష్యము, గణితశాస్త్రము, మంత్రములు, యంత్రములు, వ్యాపారము, తల్లివైపు బంధువులు, మామగారు, యుక్తి, శిల్పవిద్య, మంత్ర తంత్రవిద్యలు, వేద విచారణ, హాస్యము, వైద్యము, జ్ఞానము, లిపి, పైత్యము, దృష్టిబలము, ఆకుపచ్చరంగు, శిల్పకళ, చిత్రలేఖనము, శివభక్తి, దాస దాసీ జన అభివృద్ధి, సంధిచేయుట, చాకచక్యముగా మాట్లాడుట, పొట్టితనము, విచిత్ర రచనలు, యుక్తియుక్త జ్ఞానము, చమత్కారము, సైంటిస్టు, ఉత్తరము దిక్కు బుధవారము, స్మశానభూములు, గోరీలు, దిబ్బలు, దింపుడు కల్లములు, దయ్యాల ఇండ్లు, బలి ఇచ్చుస్థానములు, దయ్యాలు, పాడుపడిన స్థలములు, వ్యాపార స్థలములు, అంగళ్ళు, శూన్యములు, సూక్ష్మములు, భూతవైద్యము, ఉత్తరేణి చెట్టు, పెసలు ధాన్యము. (జాతి: వైశ్య, రంగు: ఆకుపచ్చ రంగు)",
         "గురు": "భూమిమీదున్న ప్రపంచ ధనము, వేదవిద్య, ప్రపంచ విద్య, పుత్రులు, జ్యోతిష్యము, గురువుగా ఉండుట, సత్కర్మ చేయుట, శబ్దశాస్త్రము, బ్రాహ్మణత్వము, యజ్ఞాది క్రతువులు, బంగారు, గృహము, అశ్వము, గజము, ఆచారము, సుజనత్వము, శాంతము, మంత్రిత్వము, ఐశ్వర్యము, బంధువృద్ధి, సత్యము, పురాణములు, పౌరాణికము, పుత్రపౌత్ర వృద్ధి, మంచి సంతతి, పూజనీయత, అధికార గౌరవములు, గ్రామాధికారము, పసుపు రంగు, మాట చమత్కారము, మేథావి, తీర్థయాత్ర దేవతా దర్శనములు, గ్రంథ పఠనము, అగ్రస్థానము, తియ్యని ఆహారము, సంస్కృతి, పాండిత్యములో ప్రతిభ, బంధుబలము, సంస్కృత భాష, గ్రంథరచన, ముక్తి సాధన, పౌరోహిత్యము, యజుర్వేదము, సమయస్ఫూర్తి, మత సిద్ధాంతము, దేవాలయ నిర్మాణము, చవుటి భూములు, కళ్యాణ మందిరములు, భజన మందిరములు నిర్మించుట, బోధనావృత్తి. (జాతి: బ్రాహ్మణ, రంగు: పసుపు రంగు)",
@@ -1876,7 +1993,10 @@ def check_birth_data():
     })
 
 
-def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=False):
+def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):
+    # Ensure standard Lahiri Ayanamsa is used for all calculations
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    
     from astral import LocationInfo
     from astral.sun import sun
     try:
@@ -1889,11 +2009,6 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     sun_lon = swe.calc_ut(jd, swe.SUN, PLANET_FLAGS)[0][0]
     moon_lon = swe.calc_ut(jd, swe.MOON, PLANET_FLAGS)[0][0]
     
-    def get_am_pm_str(dt):
-        time_str = dt.strftime("%I:%M")
-        ampm = "ఉ: " if dt.hour < 12 else "సా: "
-        return f"{ampm}{time_str}"
-        
     diff = (moon_lon - sun_lon) % 360
     tithi_index = int(diff / 12)
     tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
@@ -1903,49 +2018,86 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     else:
         tt_name = TITHIS_KRISHNA_TELUGU[tithi_index - 15]
         
-    tithi_offset = diff - (tithi_index * 12)
-    t_elapsed_h = int((tithi_offset / 12) * 24)
-    t_elapsed_m = int((((tithi_offset / 12) * 24) % 1) * 60)
-    t_rem = 12 - tithi_offset
-    t_remain_h = int((t_rem / 12) * 24)
-    t_remain_m = int((((t_rem / 12) * 24) % 1) * 60)
+    # Tithi exact tracking
+    t_jd_start, t_jd_end = get_exact_tithi_times(jd, tithi_index)
+    
+    t_elapsed_days = jd - t_jd_start
+    t_elapsed_h = int(t_elapsed_days * 24)
+    t_elapsed_m = int(((t_elapsed_days * 24) % 1) * 60)
+    
+    t_remain_days = t_jd_end - jd
+    t_remain_h = int(t_remain_days * 24)
+    t_remain_m = int(((t_remain_days * 24) % 1) * 60)
+    
     tithi_elapsed_str = f"గడిచిన సమయం: {t_elapsed_h}గం {t_elapsed_m}ని"
     tithi_remaining_str = f"మిగిలిన సమయం: {t_remain_h}గం {t_remain_m}ని"
-        
-    tithi_end_str = ""
-    nak_end_str = ""
-    
-    # Accurate End times mapping approximation
-    rem_deg = ((tithi_index + 1) * 12) - diff
-    if rem_deg < 0: rem_deg += 360
-    hours_rem = rem_deg / 0.5079
-    
-    nak_index = int(moon_lon / NAKSHATRA_SIZE)
-    nakshatra = NAKSHATRAS_TELUGU[nak_index]
-    
-    nak_offset = moon_lon - (nak_index * NAKSHATRA_SIZE)
-    padam = int(nak_offset / PADAM_SIZE) + 1
-    
-    nak_elapsed_h = int((nak_offset / NAKSHATRA_SIZE) * 24)
-    nak_elapsed_m = int((((nak_offset / NAKSHATRA_SIZE) * 24) % 1) * 60)
-    nak_rem = NAKSHATRA_SIZE - nak_offset
-    nak_remain_h = int((nak_rem / NAKSHATRA_SIZE) * 24)
-    nak_remain_m = int((((nak_rem / NAKSHATRA_SIZE) * 24) % 1) * 60)
-    nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
-    nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
-    
-    nak_rem_deg = ((int(moon_lon / NAKSHATRA_SIZE) + 1) * NAKSHATRA_SIZE) - moon_lon
-    if nak_rem_deg < 0: nak_rem_deg += 360
-    nak_hours_rem = nak_rem_deg / 0.549
     
     y, m, d, h = swe.revjul(jd)
     jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
+    calc_date = jd_dt.date()
+
+    # Calculate Tithi Start string
+    y_start_t, m_start_t, d_start_t, h_start_t = swe.revjul(t_jd_start)
+    target_tithi_start = pytz.utc.localize(datetime.datetime(*(int(y_start_t), int(m_start_t), int(d_start_t), int(h_start_t)), int((h_start_t%1)*60))).astimezone(local_tz)
+    tithi_start_str = get_am_pm_str(target_tithi_start)
     
-    target_tithi = jd_dt + datetime.timedelta(hours=int(hours_rem), minutes=int((hours_rem%1)*60))
-    tithi_end_str = get_am_pm_str(target_tithi)
-    calendar_tithi_end = f"{'ఉ: ' if target_tithi.hour < 12 else 'సా: '}{target_tithi.strftime('%I:%M')}"
-    target_nak = jd_dt + datetime.timedelta(hours=int(nak_hours_rem), minutes=int((nak_hours_rem%1)*60))
+    # Calculate Tithi End string
+    y_end_t, m_end_t, d_end_t, h_end_t = swe.revjul(t_jd_end)
+    target_tithi_end = pytz.utc.localize(datetime.datetime(*(int(y_end_t), int(m_end_t), int(d_end_t), int(h_end_t)), int((h_end_t%1)*60))).astimezone(local_tz)
+    tithi_end_str = get_am_pm_str(target_tithi_end)
+    
+    if target_tithi_start.date() < calc_date:
+        tithi_start_str = f"నిన్న {tithi_start_str}"
+    elif target_tithi_start.date() > calc_date:
+        tithi_start_str = f"రేపు {tithi_start_str}"
+        
+    if target_tithi_end.date() > calc_date:
+        tithi_end_str = f"రేపు {tithi_end_str}"
+    elif target_tithi_end.date() < calc_date:
+        tithi_end_str = f"నిన్న {tithi_end_str}"
+        
+    calendar_tithi_end = f"{'ఉ: ' if target_tithi_end.hour < 12 else 'సా: '}{target_tithi_end.strftime('%I:%M')}"
+    
+    # Nakshatra exact tracking
+    nak_index = int(moon_lon / NAKSHATRA_SIZE)
+    nakshatra = NAKSHATRAS_TELUGU[nak_index]
+    nak_offset = moon_lon - (nak_index * NAKSHATRA_SIZE)
+    padam = int(nak_offset / PADAM_SIZE) + 1
+    
+    jd_start, jd_end = get_exact_nakshatra_times(jd, nak_index)
+    
+    elapsed_days = jd - jd_start
+    nak_elapsed_h = int(elapsed_days * 24)
+    nak_elapsed_m = int(((elapsed_days * 24) % 1) * 60)
+    
+    remain_days = jd_end - jd
+    nak_remain_h = int(remain_days * 24)
+    nak_remain_m = int(((remain_days * 24) % 1) * 60)
+    nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
+    nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
+    
+    # Calculate nak_end directly from exact jd_end
+    ye, me, de, he = swe.revjul(jd_end)
+    target_nak = pytz.utc.localize(datetime.datetime(*(int(ye), int(me), int(de), int(he)), int((he%1)*60))).astimezone(local_tz)
     nak_end_str = get_am_pm_str(target_nak)
+    
+    # Calculate nak_start directly from exact jd_start
+    ys, ms, ds, hs = swe.revjul(jd_start)
+    target_nak_start = pytz.utc.localize(datetime.datetime(*(int(ys), int(ms), int(ds), int(hs)), int((hs%1)*60))).astimezone(local_tz)
+    nak_start_str = get_am_pm_str(target_nak_start)
+
+    # Add Ninna (Yesterday) / Repu (Tomorrow) indicators
+    calc_date = jd_dt.date()
+    if target_nak_start.date() < calc_date:
+        nak_start_str = f"నిన్న {nak_start_str}"
+    elif target_nak_start.date() > calc_date:
+        nak_start_str = f"రేపు {nak_start_str}"
+        
+    if target_nak.date() > calc_date:
+        nak_end_str = f"రేపు {nak_end_str}"
+    elif target_nak.date() < calc_date:
+        nak_end_str = f"నిన్న {nak_end_str}"
+
     calendar_nak_end = f"{'ఉ: ' if target_nak.hour < 12 else 'సా: '}{target_nak.strftime('%I:%M')}"
     
     # Yoga
@@ -2094,12 +2246,14 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     return {
         "tithi_num": f"{(tithi_index%15) + 1}వ తిథి",
         "tithi_full": tt_name,
+        "tithi_start": tithi_start_str,
         "tithi_end": tithi_end_str,
         "tithi_elapsed_str": tithi_elapsed_str,
         "tithi_remaining_str": tithi_remaining_str,
         "nakshatra": nakshatra,
         "nak_padam": f"{padam}వ పాదం",
         "nak_end": nak_end_str,
+        "nak_start": nak_start_str,
         "nak_elapsed_str": nak_elapsed_str,
         "nak_remaining_str": nak_remaining_str,
         "calendar_tithi_end": calendar_tithi_end,

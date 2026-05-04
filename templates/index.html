@@ -923,6 +923,7 @@
             filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
           }
         </style>
+        <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem" style="width: 80px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
         <h2> జాఫతకము </h2>
         <div class="subtitle">ప్రారబ్దకర్మ పత్రము</div>
         <div style="font-size: 12px; font-weight: 700; margin-top: 6px; animation: rainbow-text 7s linear infinite; text-shadow: 0 0 8px rgba(255,255,255,0.2);">
@@ -1466,51 +1467,41 @@
   </div>
   <script>
       function startTyping(targetId) {
-          const text1 = "గణన చేస్తోంది...";
-          const text2 = "వేచి ఉండండి...";
           const element = document.getElementById(targetId);
           if (!element) return;
           
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          function playTick() {
-              const osc = audioCtx.createOscillator();
-              const gain = audioCtx.createGain();
-              osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-              gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-              gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-              osc.connect(gain); gain.connect(audioCtx.destination);
-              osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-          }
-
-          const words1 = text1.split(" ");
-          const words2 = text2.split(" ");
-          let i = 0;
-          let j = 0;
-          
-          element.innerHTML = '<div id="line1-idx"></div><div id="line2-idx" style="margin-top: 10px;"></div>';
-          const l1 = document.getElementById("line1-idx");
-          const l2 = document.getElementById("line2-idx");
-
-          function typeLine1() {
-              if (i < words1.length) {
-                  l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
-                  try { playTick(); } catch(e) {}
-                  i++;
-                  setTimeout(typeLine1, 250);
-              } else {
-                  setTimeout(typeLine2, 100);
-              }
-          }
-          function typeLine2() {
-              if (j < words2.length) {
-                  l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
-                  try { playTick(); } catch(e) {}
-                  j++;
-                  setTimeout(typeLine2, 250);
-              }
-          }
-          typeLine1();
+          element.innerHTML = '<div class="rainbow-scroller">6-3=6</div>';
       }
+
+      /* Rainbow Scroller Styles */
+      const styleIdx = document.createElement('style');
+      styleIdx.textContent = `
+          .rainbow-scroller {
+              font-size: 42px;
+              font-weight: 900;
+              white-space: nowrap;
+              display: inline-block;
+              animation: rainbow-scroll-left-right 4s linear infinite;
+              text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+              position: absolute;
+              left: 0;
+          }
+          @keyframes rainbow-scroll-left-right {
+              0% { color: #ff0000; left: -100px; }
+              15% { color: #ff7f00; }
+              30% { color: #ffff00; }
+              45% { color: #00ff00; }
+              60% { color: #0000ff; }
+              75% { color: #4b0082; }
+              90% { color: #8b00ff; }
+              100% { color: #ff0000; left: 100%; }
+          }
+          #loading, #loading-overlay {
+              overflow: hidden;
+              position: relative;
+          }
+      `;
+      document.head.appendChild(styleIdx);
 
       function playLoadingSound() {
           try {

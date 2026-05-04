@@ -949,19 +949,17 @@
                 bottom: 35px !important;
             }
             .float-btn {
-                padding: 8px 12px !important;
+                padding: 8px 16px !important;
                 font-size: 15px !important;
                 min-width: 45px !important;
                 width: auto !important;
                 height: auto !important;
                 justify-content: center !important;
-                max-width: 55px !important;
                 border-radius: 12px !important;
-                overflow: hidden !important;
                 white-space: nowrap !important;
             }
             .float-btn i {
-                margin: 0 !important;
+                margin-right: 5px !important;
                 font-size: 16px !important;
             }
         }
@@ -1130,6 +1128,7 @@
 
         <!-- Header -->
         <div class="header">
+            <img src="/static/images/brand_logo.png" alt="Logo" style="width: 60px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
             <h1 style="font-size: 24px; margin-bottom: 8px;">ద్వాదశ గ్రహముల ఫలితాలు</h1>
             <div class="header-subtitle">
                 గ్రహాల సంపూర్ణ లక్షణాలు మరియు ప్రభావాలు
@@ -1654,43 +1653,41 @@
         });
 
         function startTyping() {
-            const text1 = "గణన చేస్తోంది...";
-            const text2 = "వేచి ఉండండి...";
             const element = document.getElementById("typing-text");
             if (!element) return;
             
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            function playTick() {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-            }
-
-            const words1 = text1.split(" ");
-            const words2 = text2.split(" ");
-            let i = 0, j = 0;
-            element.innerHTML = '<div id="line1"></div><div id="line2" style="margin-top: 10px;"></div>';
-            const l1 = document.getElementById("line1"), l2 = document.getElementById("line2");
-            function typeLine1() {
-                if (i < words1.length) {
-                    l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
-                    try { playTick(); } catch(e) {}
-                    i++; setTimeout(typeLine1, 250);
-                } else { setTimeout(typeLine2, 100); }
-            }
-            function typeLine2() {
-                if (j < words2.length) {
-                    l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
-                    try { playTick(); } catch(e) {}
-                    j++; setTimeout(typeLine2, 250);
-                }
-            }
-            typeLine1();
+            element.innerHTML = '<div class="rainbow-scroller">6-3=6</div>';
         }
+
+        /* Rainbow Scroller Styles */
+        const style = document.createElement('style');
+        style.textContent = `
+            .rainbow-scroller {
+                font-size: 42px;
+                font-weight: 900;
+                white-space: nowrap;
+                display: inline-block;
+                animation: rainbow-scroll-left-right 4s linear infinite;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                position: absolute;
+                left: 0;
+            }
+            @keyframes rainbow-scroll-left-right {
+                0% { color: #ff0000; left: -100px; }
+                15% { color: #ff7f00; }
+                30% { color: #ffff00; }
+                45% { color: #00ff00; }
+                60% { color: #0000ff; }
+                75% { color: #4b0082; }
+                90% { color: #8b00ff; }
+                100% { color: #ff0000; left: 100%; }
+            }
+            #loading-overlay {
+                overflow: hidden;
+                position: relative;
+            }
+        `;
+        document.head.appendChild(style);
 
         function playLoadingSound() {
             try {

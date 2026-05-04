@@ -32,7 +32,6 @@
         }
 
     :root {
-    :root {
       --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
       --text-main: #0f172a;
       --text-muted: #334155;
@@ -608,18 +607,18 @@
             white-space: nowrap;
             position: sticky !important;
             left: 0 !important;
-            background: #1e293b !important;
+            background: var(--card-bg) !important;
             z-index: 20 !important;
-            border-right: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-right: 2px solid var(--card-border) !important;
             text-align: left;
             font-size: 15px;
             font-weight: bold;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.5);
+            box-shadow: 4px 0 10px var(--shadow-color);
         }
 
         .data-table thead th:first-child {
             z-index: 30 !important;
-            background: #1e1b4b !important;
+            background: var(--card-bg) !important;
         }
 
         .disease-cell {

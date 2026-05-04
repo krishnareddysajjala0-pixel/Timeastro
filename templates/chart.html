@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     (function () {
-      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      const savedTheme = localStorage.getItem('preferred-theme') || 'light';
       if (savedTheme !== 'default') {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
@@ -43,18 +43,30 @@
       --box-border-hover: rgba(255, 255, 255, 0.4);
       --header-bg: linear-gradient(45deg, gold, #ffd700);
       --shadow-color: rgba(0, 0, 0, 0.4);
+      --color-pos: #22c55e;
+      --color-neg: #ef4444;
+      --label-bg: rgba(0, 0, 0, 0.4);
+      --label-text: rgba(255, 255, 255, 0.9);
+      --house-no-bg: rgba(0, 0, 0, 0.3);
+      --house-no-text: #ffffff;
     }
 
     [data-theme="light"] {
       --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      --text-main: #1e293b;
+      --text-main: #0f172a;
       --text-muted: #475569;
-      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-bg: rgba(255, 255, 255, 0.9);
       --card-border: rgba(0, 0, 0, 0.1);
       --box-border: rgba(0, 0, 0, 0.15);
       --box-border-hover: rgba(0, 0, 0, 0.3);
       --header-bg: linear-gradient(45deg, #b45309, #d97706);
       --shadow-color: rgba(0, 0, 0, 0.1);
+      --color-pos: #15803d;
+      --color-neg: #b91c1c;
+      --label-bg: rgba(0, 0, 0, 0.05);
+      --label-text: #1e293b;
+      --house-no-bg: rgba(0, 0, 0, 0.1);
+      --house-no-text: #1e293b;
     }
 
     [data-theme="dark"] {
@@ -360,15 +372,15 @@
       right: 10px;
       font-size: 14px;
       font-weight: bold;
-      background: rgba(0, 0, 0, 0.3);
+      background: var(--house-no-bg);
       width: 26px;
       height: 26px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--house-no-text);
+      border: 1px solid var(--box-border);
       line-height: 1;
       padding: 0;
     }
@@ -379,11 +391,11 @@
       right: 10px;
       font-size: 13px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-      background: rgba(0, 0, 0, 0.4);
+      color: var(--label-text);
+      background: var(--label-bg);
       padding: 4px 10px;
       border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--box-border);
     }
 
     .karma-label {
@@ -395,13 +407,13 @@
       text-orientation: mixed;
       font-size: 6.5px; /* 50% of 13px */
       line-height: 1;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--label-text);
       font-weight: 800;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--label-bg);
       padding: 4px 2px;
       border-radius: 4px;
       letter-spacing: 0px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--box-border);
       z-index: 5;
       white-space: nowrap;
       pointer-events: none;
@@ -518,12 +530,12 @@
 
     /* ===== PLANET COLORS ===== */
     .pos {
-      color: #22c55e;
+      color: var(--color-pos);
       font-weight: 600;
     }
-
+    
     .neg {
-      color: #ef4444;
+      color: var(--color-neg);
       font-weight: 600;
     }
 
@@ -1563,7 +1575,7 @@
       }
 
       // Load saved theme state into buttons immediately
-      const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'default';
+      const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'light';
       document.querySelectorAll('.theme-btn').forEach(btn => {
         if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
           btn.classList.add('active');
@@ -1819,7 +1831,29 @@
           typeLine1();
       }
 
+      function playLoadingSound() {
+          try {
+              const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              let time = audioCtx.currentTime;
+              for(let i = 0; i < 6; i++) {
+                  const osc = audioCtx.createOscillator();
+                  const gain = audioCtx.createGain();
+                  osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                  osc.frequency.setValueAtTime(440 + (i * 80), time);
+                  gain.gain.setValueAtTime(0, time);
+                  gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                  osc.connect(gain);
+                  gain.connect(audioCtx.destination);
+                  osc.start(time);
+                  osc.stop(time + 0.4);
+                  time += 0.25;
+              }
+          } catch (e) {}
+      }
+
       function showLoader() {
+          playLoadingSound();
           document.getElementById('loading-overlay').style.display = 'flex';
           startTyping();
       }

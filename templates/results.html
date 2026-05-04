@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         (function () {
-            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const savedTheme = localStorage.getItem('preferred-theme') || 'light';
             if (savedTheme !== 'default') {
                 document.documentElement.setAttribute('data-theme', savedTheme);
             }
@@ -38,18 +38,22 @@
             --shadow-color: rgba(0, 0, 0, 0.3);
             --badge-bg: rgba(255, 255, 255, 0.05);
             --own-house-glow: rgba(34, 197, 94, 0.4);
+            --name-gradient: linear-gradient(45deg, #ffffff, #a0a0ff);
+            --title-color: #ffd700;
         }
 
         [data-theme="light"] {
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #475569;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.95);
             --card-border: rgba(0, 0, 0, 0.1);
-            --header-bg: linear-gradient(135deg, rgba(230, 240, 255, 0.9) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(255, 255, 255, 0.9) 100%);
+            --header-bg: linear-gradient(135deg, #e0e7ff, #f8fafc);
             --shadow-color: rgba(0, 0, 0, 0.1);
             --badge-bg: rgba(0, 0, 0, 0.05);
             --own-house-glow: rgba(34, 197, 94, 0.2);
+            --name-gradient: linear-gradient(45deg, #1e293b, #334155);
+            --title-color: #b45309;
         }
 
         [data-theme="dark"] {
@@ -149,7 +153,7 @@
 
         .title {
             font-size: 26px;
-            color: #ffd700;
+            color: var(--title-color);
             margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
@@ -159,7 +163,7 @@
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 20px;
-            background: linear-gradient(45deg, #ffffff, #a0a0ff);
+            background: var(--name-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -821,7 +825,7 @@
 
         // Initialize theme
         (function () {
-            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const savedTheme = localStorage.getItem('preferred-theme') || 'light';
             setTheme(savedTheme);
         })();
     </script>
@@ -1014,7 +1018,14 @@
             onclick="window.location.href='/go-to-dasha-chart'">
             <i class="fas fa-calendar-alt"></i> దశాచారము
         </button>
-        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="width:50px; height:50px; border:5px solid rgba(255,255,255,0.1); border-top:5px solid #ffd700; border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+        <div style="margin-top:20px; color:#ffd700; font-weight:bold; font-size:18px;">గణన చేస్తోంది...</div>
+    </div>
 
     <script>
         function setTheme(themeName) {
@@ -1034,12 +1045,49 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            const savedTheme = localStorage.getItem('preferred-theme') || 'light';
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 if (btn.getAttribute('data-theme-btn') === savedTheme) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
+                }
+            });
+        });
+
+        function playLoadingSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                for(let i = 0; i < 6; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(440 + (i * 80), time);
+                    gain.gain.setValueAtTime(0, time);
+                    gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.4);
+                    time += 0.25;
+                }
+            } catch (e) {}
+        }
+
+        function showLoader() {
+            playLoadingSound();
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+
+        document.querySelectorAll('.float-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const href = this.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+                if(href && href !== '#' && !href.startsWith('javascript:')) {
+                    e.preventDefault();
+                    showLoader();
+                    window.location.href = href;
                 }
             });
         });

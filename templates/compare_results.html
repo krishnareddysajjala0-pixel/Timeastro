@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     (function () {
-      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      const savedTheme = localStorage.getItem('preferred-theme') || 'light';
       if (savedTheme !== 'default') {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
@@ -43,11 +43,15 @@
       --box-border-hover: rgba(255, 255, 255, 0.4);
       --header-bg: linear-gradient(45deg, gold, #ffd700);
       --shadow-color: rgba(0, 0, 0, 0.4);
+      --color-pos: #22c55e;
+      --color-neg: #ef4444;
+      --label-bg: rgba(0, 0, 0, 0.4);
+      --label-text: rgba(255, 255, 255, 0.9);
     }
 
     [data-theme="light"] {
       --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      --text-main: #1e293b;
+      --text-main: #0f172a;
       --text-muted: #475569;
       --card-bg: rgba(255, 255, 255, 0.85);
       --card-border: rgba(0, 0, 0, 0.1);
@@ -55,6 +59,10 @@
       --box-border-hover: rgba(0, 0, 0, 0.3);
       --header-bg: linear-gradient(45deg, #b45309, #d97706);
       --shadow-color: rgba(0, 0, 0, 0.1);
+      --color-pos: #15803d;
+      --color-neg: #b91c1c;
+      --label-bg: rgba(0, 0, 0, 0.05);
+      --label-text: #1e293b;
     }
 
     [data-theme="dark"] {
@@ -487,12 +495,12 @@
 
     /* ===== PLANET COLORS ===== */
     .pos {
-      color: #22c55e;
+      color: var(--color-pos);
       font-weight: 600;
     }
 
     .neg {
-      color: #ef4444;
+      color: var(--color-neg);
       font-weight: 600;
     }
 
@@ -1787,8 +1795,31 @@
           typeLine1();
       }
 
+      function playLoadingSound() {
+          try {
+              const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              let time = audioCtx.currentTime;
+              for(let i = 0; i < 6; i++) {
+                  const osc = audioCtx.createOscillator();
+                  const gain = audioCtx.createGain();
+                  osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                  osc.frequency.setValueAtTime(440 + (i * 80), time);
+                  gain.gain.setValueAtTime(0, time);
+                  gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                  osc.connect(gain);
+                  gain.connect(audioCtx.destination);
+                  osc.start(time);
+                  osc.stop(time + 0.4);
+                  time += 0.25;
+              }
+          } catch (e) {}
+      }
+
       function showLoader() {
-          document.getElementById('loading-overlay').style.display = 'flex';
+          playLoadingSound();
+          const overlay = document.getElementById('loading-overlay');
+          if (overlay) overlay.style.display = 'flex';
           startTyping();
       }
       document.querySelectorAll('.nav-item, .btn-show').forEach(item => {
@@ -1820,7 +1851,7 @@
 
       // Initialize theme
       (function () {
-          const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+          const savedTheme = localStorage.getItem('preferred-theme') || 'light';
           setTheme(savedTheme);
       })();
   </script>

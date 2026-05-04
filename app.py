@@ -400,13 +400,13 @@ def log_user_to_github(name, dob, tob, place):
                 print(f"Local Git push failed: {e}")
 
         # Start both sync methods in background
-        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        api_thread.daemon = True
-        api_thread.start()
+        # api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
+        # api_thread.daemon = True
+        # api_thread.start()
         
-        git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        git_thread.daemon = True
-        git_thread.start()
+        # git_thread = threading.Thread(target=local_git_sync, args=(name,))
+        # git_thread.daemon = True
+        # git_thread.start()
         
     except Exception as e:
         print(f"Critical logging error: {e}")
@@ -439,6 +439,10 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_d
                     age_end_y = age_end_days // 365
                     age_end_m = (age_end_days % 365) // 30
                     age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
+
+            if birth_dt and anthara_end < birth_dt:
+                anthara_start = anthara_end
+                continue
 
             antharas.append({
                 "anthara": planet,
@@ -1143,7 +1147,7 @@ def get_dasha_info(birth_info):
     birth_dasa_end = add_years(birth_dasa_start, birth_dasa_years)
     
     # 4. Get today's date for current dasa detection
-    today = datetime.datetime.now()
+    today = datetime.datetime.now(local_tz)
     today_str = today.strftime("%d-%m-%Y")
     
     # 5. Calculate ALL 12 Mahadashas in sequence (120 years)
@@ -1184,6 +1188,15 @@ def get_dasha_info(birth_info):
         # Add color and icon to dasa
         dasa_color = "#22c55e" if is_maha_favorable else "#ef4444"
         dasa_icon = PLANET_ICONS.get(dasa_name, "•")
+
+        # Determine Status (Stiti)
+        stiti = ""
+        if is_current_today:
+            stiti = "ప్రస్తుతం"
+        elif end_date < today:
+            stiti = "గతం"
+        else:
+            stiti = "భవిష్యత్తు"
         
         
         # Calculate Age
@@ -1215,7 +1228,8 @@ def get_dasha_info(birth_info):
             "icon": dasa_icon,
             "is_favorable": is_maha_favorable,
             "age_start": age_start_str,
-            "age_end": age_end_str
+            "age_end": age_end_str,
+            "stiti": stiti
         })
         
         # If this is current dasa, store its info
@@ -1252,8 +1266,8 @@ def get_dasha_info(birth_info):
         current_dasa_favorable = is_dasa_favorable(lagna, current_maha_name)
     
     # 7. Calculate elapsed/remaining for CURRENT dasa
-    current_start_dt = datetime.datetime.strptime(current_maha_start, "%d-%m-%Y")
-    current_end_dt = datetime.datetime.strptime(current_maha_end, "%d-%m-%Y")
+    current_start_dt = local_tz.localize(datetime.datetime.strptime(current_maha_start, "%d-%m-%Y"))
+    current_end_dt = local_tz.localize(datetime.datetime.strptime(current_maha_end, "%d-%m-%Y"))
     
     # Calculate elapsed days in current dasa
     total_days_current = (current_end_dt - current_start_dt).days
@@ -1290,6 +1304,7 @@ def get_dasha_info(birth_info):
         "current_dasa_favorable": current_dasa_favorable,
         "all_dasas": all_dasas,
         "total_cycle_years": total_years_covered,
+        "now_date": today_str,
     }
 
 @app.route("/chart2", methods=["GET", "POST"])

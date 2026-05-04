@@ -51,17 +51,21 @@
             --shadow-color: rgba(0, 0, 0, 0.3);
             --header-bg: linear-gradient(135deg, rgba(41, 39, 92, 0.9) 0%, rgba(30, 29, 70, 0.9) 50%, rgba(20, 19, 50, 0.9) 100%);
             --dasa-card-bg: linear-gradient(135deg, rgba(40, 40, 80, 0.9), rgba(30, 30, 60, 0.9));
+            --color-pos: #22c55e;
+            --color-neg: #ef4444;
         }
 
         [data-theme="light"] {
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #475569;
             --card-bg: rgba(255, 255, 255, 0.92);
             --card-border: rgba(0, 0, 0, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.1);
             --header-bg: linear-gradient(135deg, rgba(230, 240, 255, 0.9) 0%, rgba(240, 245, 255, 0.9) 50%, rgba(255, 255, 255, 0.9) 100%);
             --dasa-card-bg: rgba(255, 255, 255, 0.9);
+            --color-pos: #15803d;
+            --color-neg: #b91c1c;
         }
 
         [data-theme="dark"] {
@@ -313,7 +317,7 @@
         }
 
         .time-label {
-            color: #a0a0ff;
+            color: var(--text-muted);
             font-size: 13px;
         }
 
@@ -365,7 +369,7 @@
 
         .dasa-dates {
             font-size: 18px;
-            color: #b0b0ff;
+            color: var(--text-muted);
             margin-bottom: 20px;
             font-weight: 600;
         }
@@ -648,7 +652,7 @@
         }
 
         .favorable {
-            color: #4CAF50;
+            color: var(--color-pos);
             font-weight: 700;
             font-size: 11px;
             margin-left: 8px;
@@ -656,7 +660,7 @@
         }
 
         .unfavorable {
-            color: #ff6b6b;
+            color: var(--color-neg);
             font-weight: 700;
             font-size: 11px;
             margin-left: 8px;
@@ -664,11 +668,21 @@
         }
 
         .text-favorable {
-            color: #4CAF50 !important;
+            color: var(--color-pos);
         }
 
         .text-unfavorable {
-            color: #ff6b6b !important;
+            color: var(--color-neg);
+        }
+        
+        .table-icon.pos {
+            background: var(--color-pos) !important;
+            color: white;
+        }
+        
+        .table-icon.neg {
+            background: var(--color-neg) !important;
+            color: white;
         }
 
         /* Accordion Styles */
@@ -1690,9 +1704,9 @@
                         </div>
                     </div>
                     <div class="maha-dasa-badges">
-                        {% if dasa.is_current %}
-                        <span class="status-badge current-badge animate-pulse">ప్రస్తుతం</span>
-                        {% endif %}
+                        <span class="status-badge {% if dasa.stiti == 'ప్రస్తుతం' %}current-badge animate-pulse{% elif dasa.stiti == 'గతం' %}past-badge{% else %}future-badge{% endif %}">
+                            {{ dasa.stiti }}
+                        </span>
                         {% if dasa.is_birth_dasa %}
                         <span class="status-badge birth-badge">జన్మ దశ</span>
                         {% endif %}
@@ -1741,7 +1755,7 @@
                                         class="{% if badge_class == 'current-badge' %}current{% endif %}">
                                         <td>
                                             <div class="planet-cell">
-                                                <div class="table-icon" style="background: {{ a.color }};">
+                                                <div class="table-icon {{ 'pos' if a.is_favorable else 'neg' }}">
                                                     {{ a.icon }}
                                                 </div>
                                                 {% if a.is_favorable %}
@@ -1757,12 +1771,12 @@
                                         </td>
                                         <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
                                             {{ a.start }}
-                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                            <div style="font-size: 11px; color: var(--text-muted); font-weight: normal;">వయసు: {{
                                                 a.age_start }}</div>
                                         </td>
                                         <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
                                             {{ a.end }}
-                                            <div style="font-size: 11px; color: #a0a0ff; font-weight: normal;">వయసు: {{
+                                            <div style="font-size: 11px; color: var(--text-muted); font-weight: normal;">వయసు: {{
                                                 a.age_end }}</div>
                                         </td>
                                         <td>
@@ -1849,7 +1863,7 @@
         }
 
         // Load saved theme state into buttons immediately
-        const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'default';
+        const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'light';
         document.querySelectorAll('.theme-btn').forEach(btn => {
             if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
                 btn.classList.add('active');
@@ -2068,7 +2082,29 @@
             typeLine1();
         }
 
+        function playLoadingSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                for(let i = 0; i < 6; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(440 + (i * 80), time);
+                    gain.gain.setValueAtTime(0, time);
+                    gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.4);
+                    time += 0.25;
+                }
+            } catch (e) {}
+        }
+
         function showLoader() {
+            playLoadingSound();
             document.getElementById('loading-overlay').style.display = 'flex';
             startTyping();
         }

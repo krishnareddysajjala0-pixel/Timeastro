@@ -274,7 +274,7 @@
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #d0d0ff;
+      color: var(--text-muted);
       letter-spacing: 0.3px;
     }
 
@@ -287,7 +287,7 @@
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
-      color: #a0a0ff;
+      color: var(--text-muted);
       font-size: 16px;
       z-index: 1;
     }
@@ -468,8 +468,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .form-section h3 {
-      color: #a0a0ff;
+      color: var(--text-muted);
       font-size: 16px;
       margin-bottom: 16px;
       text-align: center;
@@ -887,7 +886,7 @@
 
     // Initialize theme
     (function () {
-        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        const savedTheme = localStorage.getItem('preferred-theme') || 'light';
         setTheme(savedTheme);
     })();
   </script>
@@ -1033,7 +1032,7 @@
     }
 
     // Load saved theme immediately to prevent flashing
-    const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+    const savedTheme = localStorage.getItem('preferred-theme') || 'light';
     setTheme(savedTheme);
 
     // PWA Service Worker Registration
@@ -1397,7 +1396,7 @@
     }
     .nav-item {
         display: flex; flex-direction: column; align-items: center;
-        color: #a0a0ff; text-decoration: none; font-size: 12px; gap: 5px;
+        color: var(--text-muted); text-decoration: none; font-size: 12px; gap: 5px;
         transition: all 0.3s ease;
     }
     .nav-item.active { color: #ffd700; transition: all 0.3s ease; }
@@ -1509,9 +1508,32 @@
           typeLine1();
       }
 
+      function playLoadingSound() {
+          try {
+              const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              let time = audioCtx.currentTime;
+              for(let i = 0; i < 6; i++) {
+                  const osc = audioCtx.createOscillator();
+                  const gain = audioCtx.createGain();
+                  osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                  osc.frequency.setValueAtTime(440 + (i * 80), time);
+                  gain.gain.setValueAtTime(0, time);
+                  gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                  osc.connect(gain);
+                  gain.connect(audioCtx.destination);
+                  osc.start(time);
+                  osc.stop(time + 0.4);
+                  time += 0.25;
+              }
+          } catch (e) {}
+      }
+
       function showLoader() {
           const overlay = document.getElementById('loading-overlay');
           const mainLoading = document.getElementById('loading');
+          
+          playLoadingSound();
           
           if (overlay) {
             overlay.style.display = 'flex';

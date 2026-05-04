@@ -13,15 +13,19 @@
             --card-bg: rgba(25, 25, 35, 0.7);
             --card-border: rgba(255, 255, 255, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.4);
+            --color-pos: #22c55e;
+            --color-neg: #ef4444;
         }
 
         [data-theme="light"] {
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #475569;
             --card-bg: rgba(255, 255, 255, 0.85);
             --card-border: rgba(0, 0, 0, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.1);
+            --color-pos: #15803d;
+            --color-neg: #b91c1c;
         }
 
         [data-theme="dark"] {
@@ -151,7 +155,7 @@
 
         .section-title {
             font-size: 14px;
-            color: #a0a0ff;
+            color: var(--text-muted);
             text-align: center;
             font-weight: 600;
             margin-bottom: 10px;
@@ -189,7 +193,14 @@
         .maha-info { flex: 1; }
         .maha-name { font-size: 18px; font-weight: bold; }
         .maha-period { font-size: 14px; color: #ffd700; margin-top: 3px; }
-        .maha-age { font-size: 12px; color: #a0a0ff; }
+        .maha-age { font-size: 12px; color: var(--text-muted); }
+
+        .maha-icon.pos { color: var(--color-pos); }
+        .maha-icon.neg { color: var(--color-neg); }
+        .maha-name.pos { color: var(--color-pos); }
+        .maha-name.neg { color: var(--color-neg); }
+        .anthara-name.pos { color: var(--color-pos); }
+        .anthara-name.neg { color: var(--color-neg); }
 
         .status-badge {
             padding: 4px 10px;
@@ -200,6 +211,8 @@
         }
         .current-badge { background: #4CAF50; color: white; }
         .birth-badge { background: #FF9800; color: white; }
+        .past-badge { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); border: 1px solid var(--card-border); }
+        .future-badge { background: rgba(255, 255, 255, 0.05); color: #ffd700; border: 1px dashed #ffd700; }
 
         .antharas-table {
             width: 100%;
@@ -215,7 +228,7 @@
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .antharas-table th { color: #a0a0ff; font-weight: 600; font-size: 11px; }
+        .antharas-table th { color: var(--text-muted); font-weight: 600; font-size: 11px; }
         .anthara-current { background: rgba(76, 175, 80, 0.1); }
 
         /* Navigation */
@@ -312,14 +325,16 @@
                 {% for dasa in dasha1.all_dasas %}
                 <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %}" onclick="this.classList.toggle('expanded')">
                     <div class="maha-header">
-                        <div class="maha-icon" style="color: {{ dasa.color }}">{{ dasa.icon }}</div>
+                        <div class="maha-icon {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.icon }}</div>
                         <div class="maha-info">
-                            <div class="maha-name" style="color: {{ dasa.color }}">{{ dasa.maha }} మహాదశ</div>
+                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.maha }} మహాదశ</div>
                             <div class="maha-period">{{ dasa.start }} నుండి {{ dasa.end }}</div>
                             <div class="maha-age">వయసు: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
                         </div>
                         <div class="maha-badges">
-                            {% if dasa.is_current %}<span class="status-badge current-badge">ప్రస్తుతం</span>{% endif %}
+                            <span class="status-badge {% if dasa.stiti == 'ప్రస్తుతం' %}current-badge{% elif dasa.stiti == 'గతం' %}past-badge{% else %}future-badge{% endif %}">
+                                {{ dasa.stiti }}
+                            </span>
                             {% if dasa.is_birth_dasa %}<span class="status-badge birth-badge">జన్మ దశ</span>{% endif %}
                         </div>
                     </div>
@@ -356,9 +371,9 @@
                 {% for dasa in dasha2.all_dasas %}
                 <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %}" onclick="this.classList.toggle('expanded')">
                     <div class="maha-header">
-                        <div class="maha-icon" style="color: {{ dasa.color }}">{{ dasa.icon }}</div>
+                        <div class="maha-icon {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.icon }}</div>
                         <div class="maha-info">
-                            <div class="maha-name" style="color: {{ dasa.color }}">{{ dasa.maha }} మహాదశ</div>
+                            <div class="maha-name {{ 'pos' if dasa.is_favorable else 'neg' }}">{{ dasa.maha }} మహాదశ</div>
                             <div class="maha-period">{{ dasa.start }} నుండి {{ dasa.end }}</div>
                             <div class="maha-age">వయసు: {{ dasa.age_start }} - {{ dasa.age_end }}</div>
                         </div>
@@ -412,6 +427,12 @@
         </a>
     </div>
 
+    <div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="width:50px; height:50px; border:5px solid rgba(255,255,255,0.1); border-top:5px solid #ffd700; border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+        <div style="margin-top:20px; color:#ffd700; font-weight:bold; font-size:18px;">గణన చేస్తోంది...</div>
+    </div>
+
     <script>
         function setTheme(theme) {
             if (theme === 'default') {
@@ -423,8 +444,42 @@
         }
 
         // Initialize theme
-        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        const savedTheme = localStorage.getItem('preferred-theme') || 'light';
         setTheme(savedTheme);
+
+        function playLoadingSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                for(let i = 0; i < 6; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(440 + (i * 80), time);
+                    gain.gain.setValueAtTime(0, time);
+                    gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.4);
+                    time += 0.25;
+                }
+            } catch (e) {}
+        }
+
+        function showLoader() {
+            playLoadingSound();
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href && !this.href.includes('#')) {
+                    showLoader();
+                }
+            });
+        });
     </script>
 </body>
 </html>

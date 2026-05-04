@@ -11,7 +11,7 @@ import json
 
 
 # Git path for Windows environment stability
-GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.6\resources\app\git\cmd\git.exe'
+GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.8\resources\app\git\cmd\git.exe'
 
 app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
@@ -36,7 +36,7 @@ PLANETS = {
     "గురు": swe.JUPITER,
     "శుక్రుడు": swe.VENUS,
     "శని": swe.SATURN,
-    "రాహు": swe.MEAN_NODE
+    "రాహు": swe.TRUE_NODE
 };
 
 SPECIAL_HANDS = {
@@ -2349,7 +2349,7 @@ def daily_panchangam():
         DAILY_PLANETS = {
             "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
             "బుధుడు": swe.MERCURY, "గురు": swe.JUPITER, "శుక్రుడు": swe.VENUS, 
-            "శని": swe.SATURN, "రాహు": swe.MEAN_NODE
+            "శని": swe.SATURN, "రాహు": swe.TRUE_NODE
         }
         
         def get_p_info(name, lon):
@@ -2415,16 +2415,16 @@ def daily_panchangam():
         def get_derived_lon(jd_val, ptype):
             """Get longitude for derived planets"""
             if ptype == "కేతు":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 return (rahu + 180) % 360
             elif ptype == "భూమి":
                 sun = get_planet_lon(jd_val, swe.SUN)
                 return (sun + 180) % 360
             elif ptype == "చిత్ర":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 return (rahu + 3.3333) % 360
             elif ptype == "మిత్ర":
-                rahu = get_planet_lon(jd_val, swe.MEAN_NODE)
+                rahu = get_planet_lon(jd_val, swe.TRUE_NODE)
                 ketu = (rahu + 180) % 360
                 return (ketu + 3.3333) % 360
 
@@ -2516,7 +2516,7 @@ def daily_panchangam():
         ALL_PLANETS_TRANSIT = [
             ("సూర్యుడు", swe.SUN), ("చంద్రుడు", swe.MOON), ("కుజుడు", swe.MARS),
             ("బుధుడు", swe.MERCURY), ("గురు", swe.JUPITER), ("శుక్రుడు", swe.VENUS),
-            ("శని", swe.SATURN), ("రాహు", swe.MEAN_NODE),
+            ("శని", swe.SATURN), ("రాహు", swe.TRUE_NODE),
             ("కేతు", None), ("భూమి", None), ("చిత్ర", None), ("మిత్ర", None)
         ]
 

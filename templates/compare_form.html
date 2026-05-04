@@ -822,26 +822,21 @@
 
     document.getElementById("mainForm").addEventListener("submit", (e) => {
         let valid = true;
-        if (!document.getElementById("lat1").value) {
-            document.getElementById("place1").style.borderColor = "#ff6b6b";
+        if (!document.getElementById("lat1").value || !document.getElementById("lat2").value) {
             valid = false;
         }
-        if (!document.getElementById("lat2").value) {
-            document.getElementById("place2").style.borderColor = "#ff6b6b";
-            valid = false;
-        }
-        if (!valid) {
+        if (valid) {
+            showLoader();
+        } else {
             e.preventDefault();
             alert("దయచేసి రెండు స్థానాలను జాబితా నుండి ఎంచుకోండి.");
-            return;
         }
-        document.getElementById("loading-overlay").style.display = 'flex';
     });
-    
+
     // Set default Date and Time
     const now = new Date();
-    const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-    const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0].substring(0, 5);
     
     document.getElementById('dob1').value = dateStr;
     document.getElementById('tob1').value = timeStr;
@@ -883,13 +878,12 @@
         );
     }
 
-    // Auto-detect on load
     detectLocation();
 
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
-        element.innerHTML = \'గణన చేస్తోంది...\';
+        element.innerHTML = 'గణన చేస్తోంది';
     }
 
     function playLoadingSound() {
@@ -925,22 +919,70 @@
             if(!this.href.includes('#')) showLoader();
         });
     });
-    
-    document.getElementById("mainForm").addEventListener("submit", (e) => {
-        let valid = true;
-        if (!document.getElementById("lat1").value || !document.getElementById("lat2").value) {
-            valid = false;
-        }
-        if (valid) {
-            showLoader();
-        } else {
-            e.preventDefault();
-            alert("దయచేసి రెండు స్థానాలను జాబితా నుండి ఎంచుకోండి.");
-        }
-    });
-
-    
-    })();
   </script>
+
+    <!-- Universal Loading Interceptor -->
+    <script>
+    (function() {
+        function playLoadingSound() {
+            try {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523, 659, 784, 1047];
+                notes.forEach(function(freq, i) {
+                    var osc = audioCtx.createOscillator();
+                    var gain = audioCtx.createGain();
+                    var t = audioCtx.currentTime + i * 0.12;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t);
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.3);
+                });
+            } catch(e) {}
+        }
+
+        function showGananaLoader() {
+            var overlay = document.getElementById('loading-overlay');
+            if (!overlay) return;
+            playLoadingSound();
+            overlay.style.display = 'flex';
+            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
+            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.float-btn').forEach(function(btn) {
+                var oc = btn.getAttribute('onclick') || '';
+                if (oc.indexOf('print()') !== -1) return;
+                btn.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            document.querySelectorAll('a.nav-item').forEach(function(link) {
+                var href = link.getAttribute('href') || '';
+                if (!href || href === '#') return;
+                link.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    showGananaLoader();
+                });
+            });
+        });
+
+        window.addEventListener('pageshow', function() {
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.style.display = 'none';
+        });
+    })();
+    </script>
 </body>
 </html>

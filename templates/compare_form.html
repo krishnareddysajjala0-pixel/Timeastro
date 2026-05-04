@@ -889,7 +889,7 @@
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
-        element.innerHTML = '<div class="rainbow-scroller">6-3=6</div>';
+        element.innerHTML = \'గణన చేస్తోంది...\';
     }
 
     function playLoadingSound() {
@@ -939,36 +939,7 @@
         }
     });
 
-    // Inject Rainbow Scroller Styles
-    (function() {
-        const styleScroller = document.createElement('style');
-        styleScroller.textContent = `
-            .rainbow-scroller {
-                font-size: 42px;
-                font-weight: 900;
-                white-space: nowrap;
-                display: inline-block;
-                animation: rainbow-scroll-left-right 4s linear infinite;
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-                position: absolute;
-                left: 0;
-            }
-            @keyframes rainbow-scroll-left-right {
-                0% { color: #ff0000; left: -100px; }
-                15% { color: #ff7f00; }
-                30% { color: #ffff00; }
-                45% { color: #00ff00; }
-                60% { color: #0000ff; }
-                75% { color: #4b0082; }
-                90% { color: #8b00ff; }
-                100% { color: #ff0000; left: 100%; }
-            }
-            #loading-overlay, #loading {
-                overflow: hidden !important;
-                position: relative !important;
-            }
-        `;
-        document.head.appendChild(styleScroller);
+    
     })();
   </script>
 </body>

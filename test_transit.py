@@ -26,29 +26,39 @@ def is_retro(jd_val, name, pid):
     if pid is None: return False
     return swe.calc_ut(jd_val, pid, PLANET_FLAGS)[0][3] < 0
 
-def find_boundary(jd_start, name, pid, lagna_idx, find_exit):
-    # FIXED LOGIC: Entry is past (-1), Exit is future (+1)
+def find_lagna_boundary(jd_start, name, pid, current_lagna_idx, find_exit, max_days=10950):
     direction = 1 if find_exit else -1
     
+    # Determine expected previous/next lagna to filter out retrograde re-entries
+    is_retro_planet = is_retro(jd_start, name, pid)
+    if not find_exit:
+        expected_lagna_b = (current_lagna_idx - 1) % 12 if not is_retro_planet else (current_lagna_idx + 1) % 12
+    else:
+        expected_lagna_b = (current_lagna_idx + 1) % 12 if not is_retro_planet else (current_lagna_idx - 1) % 12
+
     step_map = {'Chandra': 0.5, 'Surya': 3, 'Bhoomi': 3, 'Budha': 2,
                 'Sukra': 3, 'Kuja': 5, 'Guru': 15, 'Sani': 30,
                 'Rahu': 15, 'Ketu': 15, 'Chitra': 15, 'Mitra': 15}
     step = step_map.get(name, 10)
     jd_a = jd_start
-    for _ in range(int(3600/step)+2): # Look up to 10 years for slow planets
+    for _ in range(int(max_days/step) + 2):
         jd_b = jd_a + direction * step
         lon_b = get_lon(jd_b, name, pid)
-        if int(lon_b/30)%12 != lagna_idx:
-            lo, hi = min(jd_a,jd_b), max(jd_a,jd_b)
-            for _ in range(35):
-                mid = (lo+hi)/2
-                if int(get_lon(mid,name,pid)/30)%12 == lagna_idx:
-                    if direction > 0: lo = mid
-                    else: hi = mid
-                else:
-                    if direction > 0: hi = mid
-                    else: lo = mid
-            return hi if direction > 0 else lo
+        lagna_b = int(lon_b / 30) % 12
+        if lagna_b != current_lagna_idx:
+            if lagna_b == expected_lagna_b:
+                lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
+                for _ in range(35):
+                    mid = (lo + hi) / 2
+                    lon_mid = get_lon(mid, name, pid)
+                    lagna_mid = int(lon_mid / 30) % 12
+                    if lagna_mid == current_lagna_idx:
+                        if direction > 0: lo = mid
+                        else: hi = mid
+                    else:
+                        if direction > 0: hi = mid
+                        else: lo = mid
+                return hi if direction > 0 else lo
         jd_a = jd_b
     return None
 

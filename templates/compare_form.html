@@ -38,8 +38,8 @@
     /* Cosmic Mode (Original Dark) */
     [data-theme="cosmic"] {
       --bg-primary: radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      --text-main: #f8fafc;
-      --text-muted: #a0a0ff;
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
       --card-bg: rgba(25, 25, 35, 0.9);
       --card-border: rgba(255, 255, 255, 0.15);
       --input-bg: rgba(15, 12, 41, 0.6);
@@ -56,12 +56,13 @@
         /* Redundant but kept for compatibility */
     }
 
+    /* Deep Dark Mode */
     [data-theme="dark"] {
-      --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --card-bg: rgba(15, 23, 42, 0.85);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --bg-primary: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --card-border: rgba(255, 255, 255, 0.15);
       --input-bg: rgba(30, 41, 59, 0.6);
       --input-border: rgba(255, 255, 255, 0.2);
       --input-focus-border: #a855f7;
@@ -73,49 +74,49 @@
     }
 
     [data-theme="sunset"] {
-      --bg-primary: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
-      --text-main: #fff0f5;
-      --text-muted: #ffe4e1;
-      --card-bg: rgba(43, 11, 23, 0.85);
+      --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(69, 10, 10, 0.9);
       --card-border: rgba(255, 255, 255, 0.2);
-      --input-bg: rgba(43, 11, 23, 0.6);
+      --input-bg: rgba(69, 10, 10, 0.6);
       --input-border: rgba(255, 255, 255, 0.3);
       --input-focus-border: #FFEFBA;
       --input-focus-shadow: 0 0 15px rgba(255, 239, 186, 0.5);
       --btn-show-bg: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
-      --btn-show-text: #2b0b17;
+      --btn-show-text: #ffffff;
       --shadow-color: rgba(0, 0, 0, 0.6);
       --header-bg: linear-gradient(135deg, #FFEFBA 0%, #FFFFFF 100%);
     }
 
     [data-theme="ocean"] {
-      --bg-primary: linear-gradient(to top, #09203f 0%, #537895 100%);
-      --text-main: #f0fdfa;
-      --text-muted: #ccfbf1;
-      --card-bg: rgba(9, 32, 63, 0.85);
+      --bg-primary: linear-gradient(to top, #0c4a6e 0%, #075985 50%, #0ea5e9 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(12, 74, 110, 0.9);
       --card-border: rgba(255, 255, 255, 0.2);
-      --input-bg: rgba(9, 32, 63, 0.6);
+      --input-bg: rgba(12, 74, 110, 0.6);
       --input-border: rgba(255, 255, 255, 0.3);
       --input-focus-border: #00f2fe;
       --input-focus-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
       --btn-show-bg: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      --btn-show-text: #09203f;
+      --btn-show-text: #ffffff;
       --shadow-color: rgba(0, 0, 0, 0.6);
       --header-bg: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
     }
 
     [data-theme="forest"] {
-      --bg-primary: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
-      --text-main: #f0fdf4;
-      --text-muted: #dcfce7;
-      --card-bg: rgba(11, 56, 36, 0.85);
+      --bg-primary: linear-gradient(to top, #064e3b 0%, #065f46 50%, #10b981 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(6, 78, 59, 0.9);
       --card-border: rgba(255, 255, 255, 0.2);
-      --input-bg: rgba(11, 56, 36, 0.6);
+      --input-bg: rgba(6, 78, 59, 0.6);
       --input-border: rgba(255, 255, 255, 0.3);
       --input-focus-border: #96e6a1;
       --input-focus-shadow: 0 0 15px rgba(150, 230, 161, 0.5);
       --btn-show-bg: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-      --btn-show-text: #0b3824;
+      --btn-show-text: #ffffff;
       --shadow-color: rgba(0, 0, 0, 0.6);
       --header-bg: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
     }
@@ -744,7 +745,7 @@
       </a>
       <a href="/daily_panchangam" class="nav-item nav-panch">
           <i class="fas fa-om"></i>
-          <span>దిన పంచాంగం</span>
+          <span>పంచాంగం</span>
       </a>
       <a href="/calendar_view" class="nav-item nav-cal">
           <i class="fas fa-calendar-alt"></i>
@@ -847,102 +848,50 @@
     document.getElementById('dob2').value = dateStr;
     document.getElementById('tob2').value = timeStr;
 
+    function reverseGeocode(lat, lon, callback) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
+        fetch(url, { headers: { 'Accept-Language': 'en' } })
+            .then(r => r.json())
+            .then(data => {
+                const a = data.address || {};
+                const city    = a.city || a.town || a.village || a.county || '';
+                const state   = a.state || '';
+                const country = a.country || '';
+                const place   = [city, state, country].filter(Boolean).join(', ');
+                callback(place || 'Current Location');
+            })
+            .catch(() => callback('Current Location'));
+    }
+
+    function detectLocation() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                document.getElementById('lat1').value = lat;
+                document.getElementById('lon1').value = lon;
+                document.getElementById('lat2').value = lat;
+                document.getElementById('lon2').value = lon;
+                reverseGeocode(lat, lon, function(placeName) {
+                    document.getElementById('place1').value = placeName;
+                    document.getElementById('place2').value = placeName;
+                });
+            },
+            function(err) {},
+            { timeout: 10000, maximumAge: 60000 }
+        );
+    }
+
+    // Auto-detect on load
+    detectLocation();
+
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
         element.innerHTML = '<div class="rainbow-scroller">6-3=6</div>';
     }
-    /* Rainbow Scroller Styles */
-    const styleScroller = document.createElement('style');
-    styleScroller.textContent = `
-        .rainbow-scroller {
-            font-size: 42px;
-            font-weight: 900;
-            white-space: nowrap;
-            display: inline-block;
-            animation: rainbow-scroll-left-right 4s linear infinite;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            position: absolute;
-            left: 0;
-        }
-        @keyframes rainbow-scroll-left-right {
-            0% { color: #ff0000; left: -100px; }
-            15% { color: #ff7f00; }
-            30% { color: #ffff00; }
-            45% { color: #00ff00; }
-            60% { color: #0000ff; }
-            75% { color: #4b0082; }
-            90% { color: #8b00ff; }
-            100% { color: #ff0000; left: 100%; }
-        }
-        #loading-overlay, #loading {
-            overflow: hidden !important;
-            position: relative !important;
-        }
-    `;
-    document.head.appendChild(styleScroller);
 
-    /* Rainbow Scroller Styles */
-    const styleScroller = document.createElement('style');
-    styleScroller.textContent = `
-        .rainbow-scroller {
-            font-size: 42px;
-            font-weight: 900;
-            white-space: nowrap;
-            display: inline-block;
-            animation: rainbow-scroll-left-right 4s linear infinite;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            position: absolute;
-            left: 0;
-        }
-        @keyframes rainbow-scroll-left-right {
-            0% { color: #ff0000; left: -100px; }
-            15% { color: #ff7f00; }
-            30% { color: #ffff00; }
-            45% { color: #00ff00; }
-            60% { color: #0000ff; }
-            75% { color: #4b0082; }
-            90% { color: #8b00ff; }
-            100% { color: #ff0000; left: 100%; }
-        }
-        #loading-overlay, #loading {
-            overflow: hidden !important;
-            position: relative !important;
-        }
-    `;
-    document.head.appendChild(styleScroller);
-
-        const words1 = text1.split(" ");
-        const words2 = text2.split(" ");
-        let i = 0;
-        let j = 0;
-        
-        element.innerHTML = '<div id="line1"></div><div id="line2" style="margin-top: 10px;"></div>';
-        const l1 = document.getElementById("line1");
-        const l2 = document.getElementById("line2");
-
-        function typeLine1() {
-            if (i < words1.length) {
-                l1.innerHTML += (i === 0 ? "" : " ") + words1[i];
-                try { playTick(); } catch(e) {}
-                i++;
-                setTimeout(typeLine1, 250);
-            } else {
-                setTimeout(typeLine2, 100);
-            }
-        }
-        function typeLine2() {
-            if (j < words2.length) {
-                l2.innerHTML += (j === 0 ? "" : " ") + words2[j];
-                try { playTick(); } catch(e) {}
-                j++;
-                setTimeout(typeLine2, 250);
-            }
-        }
-        typeLine1();
-    }
-
-    // Navigation auto-loader
     function playLoadingSound() {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -970,6 +919,7 @@
         if (overlay) overlay.style.display = 'flex';
         startTyping();
     }
+
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             if(!this.href.includes('#')) showLoader();
@@ -981,8 +931,45 @@
         if (!document.getElementById("lat1").value || !document.getElementById("lat2").value) {
             valid = false;
         }
-        if (valid) showLoader();
+        if (valid) {
+            showLoader();
+        } else {
+            e.preventDefault();
+            alert("దయచేసి రెండు స్థానాలను జాబితా నుండి ఎంచుకోండి.");
+        }
     });
+
+    // Inject Rainbow Scroller Styles
+    (function() {
+        const styleScroller = document.createElement('style');
+        styleScroller.textContent = `
+            .rainbow-scroller {
+                font-size: 42px;
+                font-weight: 900;
+                white-space: nowrap;
+                display: inline-block;
+                animation: rainbow-scroll-left-right 4s linear infinite;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                position: absolute;
+                left: 0;
+            }
+            @keyframes rainbow-scroll-left-right {
+                0% { color: #ff0000; left: -100px; }
+                15% { color: #ff7f00; }
+                30% { color: #ffff00; }
+                45% { color: #00ff00; }
+                60% { color: #0000ff; }
+                75% { color: #4b0082; }
+                90% { color: #8b00ff; }
+                100% { color: #ff0000; left: 100%; }
+            }
+            #loading-overlay, #loading {
+                overflow: hidden !important;
+                position: relative !important;
+            }
+        `;
+        document.head.appendChild(styleScroller);
+    })();
   </script>
 </body>
 </html>

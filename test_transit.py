@@ -62,7 +62,7 @@ def fmt(jd_val):
 PLANETS_12 = [
     ('Surya',  swe.SUN),   ('Chandra', swe.MOON),   ('Kuja',  swe.MARS),
     ('Budha',  swe.MERCURY),('Guru',   swe.JUPITER), ('Sukra', swe.VENUS),
-    ('Sani',   swe.SATURN), ('Rahu',   swe.TRUE_NODE),
+    ('Sani',   swe.SATURN), ('Rahu',   swe.MEAN_NODE),
     ('Ketu',   None),       ('Bhoomi', None),         ('Chitra', None), ('Mitra', None)
 ]
 

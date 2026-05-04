@@ -31,37 +31,42 @@
             background-color: #0c0c0c;
         }
 
-        :root {
-            --bg-primary: radial-gradient(circle at 10% 20%, rgba(20, 25, 45, 1) 0%, rgba(10, 15, 30, 1) 90%);
-            --text-main: #f8fafc;
-            --text-muted: #cbd5e1;
-            --card-bg: rgba(25, 30, 45, 0.75);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --shadow-color: rgba(0, 0, 0, 0.5);
-            --header-bg: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
-            --title-bg: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-            --table-header-bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-            --table-row-bg: rgba(255, 255, 255, 0.04);
-            --table-row-alt-bg: rgba(255, 255, 255, 0.02);
-            --table-hover-bg: rgba(255, 255, 255, 0.1);
-            --accent-glow: 0 0 15px rgba(255, 255, 255, 0.2);
-        }
+    :root {
+      --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-border: rgba(0, 0, 0, 0.15);
+      --shadow-color: rgba(0, 0, 0, 0.15);
+      --header-bg: linear-gradient(135deg, #ea580c 0%, #ca8a04 100%);
+      --title-bg: linear-gradient(135deg, #0284c7 0%, #16a34a 100%);
+      --table-header-bg: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+      --table-row-bg: rgba(0, 0, 0, 0.02);
+      --table-row-alt-bg: rgba(255, 255, 255, 0.9);
+      --table-hover-bg: rgba(14, 165, 233, 0.15);
+      --accent-glow: 0 0 15px rgba(14, 165, 233, 0.3);
+    }
 
-        [data-theme="light"] {
-            --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --text-main: #1f2937;
-            --text-muted: #4b5563;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --card-border: rgba(0, 0, 0, 0.15);
-            --shadow-color: rgba(0, 0, 0, 0.15);
-            --header-bg: linear-gradient(135deg, #ea580c 0%, #ca8a04 100%);
-            --title-bg: linear-gradient(135deg, #0284c7 0%, #16a34a 100%);
-            --table-header-bg: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
-            --table-row-bg: rgba(0, 0, 0, 0.02);
-            --table-row-alt-bg: rgba(255, 255, 255, 0.9);
-            --table-hover-bg: rgba(14, 165, 233, 0.15);
-            --accent-glow: 0 0 15px rgba(14, 165, 233, 0.3);
-        }
+    /* Cosmic Mode (Original Dark) */
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 10% 20%, rgba(20, 25, 45, 1) 0%, rgba(10, 15, 30, 1) 90%);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --card-bg: rgba(25, 30, 45, 0.75);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --header-bg: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
+      --title-bg: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+      --table-header-bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+      --table-row-bg: rgba(255, 255, 255, 0.04);
+      --table-row-alt-bg: rgba(255, 255, 255, 0.02);
+      --table-hover-bg: rgba(255, 255, 255, 0.1);
+      --accent-glow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    [data-theme="light"] {
+        /* Redundant but kept for compatibility */
+    }
 
         [data-theme="dark"] {
             --bg-primary: radial-gradient(circle at center, #1e1366 0%, #0a0a0a 100%);
@@ -141,7 +146,29 @@
             transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
         }
 
-        /* Starry background removed as per request for only text */
+        /* Rainbow numbers background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            z-index: -1;
+            animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
+        }
+
+        @keyframes float-up {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
+
+        @keyframes rainbow-scroll {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
 
         .container {
             max-width: 1400px;

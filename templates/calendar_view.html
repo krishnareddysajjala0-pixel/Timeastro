@@ -20,17 +20,22 @@
         }
 
         :root {
-            --bg-primary: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            --text-main: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --header-bg-top: linear-gradient(135deg, #0f172a, #020617);
-        }
-
-        [data-theme="light"] {
             --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             --text-main: #1e293b;
             --card-bg: rgba(0, 0, 0, 0.05);
             --header-bg-top: linear-gradient(135deg, #1e293b, #334155);
+        }
+
+        /* Cosmic Mode (Original Dark) */
+        [data-theme="cosmic"] {
+            --bg-primary: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --text-main: #ffffff;
+            --card-bg: rgba(25, 25, 35, 0.9);
+            --header-bg-top: linear-gradient(135deg, #0f172a, #020617);
+        }
+
+        [data-theme="light"] {
+            /* Redundant but kept for compatibility */
         }
 
         [data-theme="dark"] {
@@ -487,12 +492,12 @@
             <i class="fas fa-palette"></i>
         </button>
         <div class="theme-options">
-            <button class="theme-btn" onclick="setTheme('default')" title="Default"><i class="fas fa-moon"></i></button>
-            <button class="theme-btn" onclick="setTheme('light')" title="Light"><i class="fas fa-sun"></i></button>
-            <button class="theme-btn" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
-            <button class="theme-btn" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
-            <button class="theme-btn" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
-            <button class="theme-btn" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
+            <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i></button>
+            <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
+            <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+            <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
+            <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
         </div>
     </div>
 
@@ -607,9 +612,11 @@
         }
 
         // Initialize theme
-        (function() {
-            const savedTheme = localStorage.getItem('preferred-theme') || 'light';
-            setTheme(savedTheme);
+        (function () {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            if (savedTheme !== 'default') {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
         })();
     </script>
 </body>

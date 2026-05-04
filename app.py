@@ -2451,9 +2451,14 @@ def daily_panchangam():
                find_exit=True  -> look for next rasi change (exit)
                find_exit=False -> look for previous rasi change (entry)
             """
-            # Entry is always in the past (direction = -1)
-            # Exit is always in the future (direction = 1)
             direction = 1 if find_exit else -1
+            
+            # Determine expected previous/next lagna to filter out retrograde re-entries
+            is_retro_planet = name in ALWAYS_RETROGRADE
+            if not find_exit:
+                expected_lagna_b = (current_lagna_idx - 1) % 12 if not is_retro_planet else (current_lagna_idx + 1) % 12
+            else:
+                expected_lagna_b = (current_lagna_idx + 1) % 12 if not is_retro_planet else (current_lagna_idx - 1) % 12
 
             step_days = {
                 "చంద్రుడు": 0.5, "సూర్యుడు": 3, "భూమి": 3,
@@ -2468,26 +2473,31 @@ def daily_panchangam():
                 jd_b = jd_a + direction * step
                 lon_b = get_any_planet_lon(jd_b, name, pid)
                 lagna_b = int(lon_b / 30) % 12
+                
+                # Check if we hit a boundary AND it's the expected primary boundary
                 if lagna_b != current_lagna_idx:
-                    # Boundary is between jd_a and jd_b — binary search
-                    lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
-                    for _ in range(35):  # ~35 iterations => sub-minute precision
-                        mid = (lo + hi) / 2
-                        lon_mid = get_any_planet_lon(mid, name, pid)
-                        lagna_mid = int(lon_mid / 30) % 12
-                        # The boundary: lo side is same rasi, hi side differs
-                        if lagna_mid == current_lagna_idx:
-                            if direction > 0:
-                                lo = mid
+                    if lagna_b == expected_lagna_b:
+                        # Boundary is between jd_a and jd_b — binary search
+                        lo, hi = min(jd_a, jd_b), max(jd_a, jd_b)
+                        for _ in range(35):  # ~35 iterations => sub-minute precision
+                            mid = (lo + hi) / 2
+                            lon_mid = get_any_planet_lon(mid, name, pid)
+                            lagna_mid = int(lon_mid / 30) % 12
+                            
+                            # The boundary: lo side is same rasi, hi side differs
+                            if lagna_mid == current_lagna_idx:
+                                if direction > 0:
+                                    lo = mid
+                                else:
+                                    hi = mid
                             else:
-                                hi = mid
-                        else:
-                            if direction > 0:
-                                hi = mid
-                            else:
-                                lo = mid
-                    # Return the point just at the boundary transition
-                    return hi if direction > 0 else lo
+                                if direction > 0:
+                                    hi = mid
+                                else:
+                                    lo = mid
+                        # Return the point just at the boundary transition
+                        return hi if direction > 0 else lo
+                    # If lagna_b is unexpected (e.g. retrograde dip), keep searching
                 jd_a = jd_b
             return None  # Couldn't find boundary within max_days
 

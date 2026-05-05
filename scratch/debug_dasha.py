@@ -6,7 +6,7 @@ import datetime
 import pytz
 
 # Add the project directory to sys.path
-sys.path.append(r'c:\Users\gnana\OneDrive\Documents\GitHub\Timeastro')
+sys.path.append(r'C:\Users\gnana\.gemini\antigravity\scratch\Timeastro')
 
 from app import app, get_kundali_data, get_dasha_info
 

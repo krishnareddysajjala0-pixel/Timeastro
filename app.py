@@ -339,6 +339,44 @@ def get_exact_nakshatra_times(jd, nak_index):
             
     return jd_start, jd_end
 
+def get_exact_rasi_times(jd, rasi_index):
+    """
+    Calculate the exact start and end Julian days for the given Rasi index (30 deg segments).
+    Iteratively tracks the Moon's longitude backwards and forwards using actual planetary speed.
+    """
+    target_start_deg = rasi_index * 30
+    target_end_deg = (rasi_index + 1) * 30
+    
+    # Backward track for exact start time
+    jd_start = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_start, swe.MOON, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        speed = m_info[0][3] if len(m_info[0]) > 3 and m_info[0][3] > 0 else 13.176
+        
+        diff = (moon_lon - target_start_deg) % 360
+        if diff > 180: diff -= 360
+        
+        jd_start -= diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    # Forward track for exact end time
+    jd_end = jd
+    for _ in range(15):
+        m_info = swe.calc_ut(jd_end, swe.MOON, PLANET_FLAGS)
+        moon_lon = m_info[0][0]
+        speed = m_info[0][3] if len(m_info[0]) > 3 and m_info[0][3] > 0 else 13.176
+        
+        diff = (target_end_deg - moon_lon) % 360
+        if diff > 180: diff -= 360
+        
+        jd_end += diff / speed
+        if abs(diff) < 0.0001:
+            break
+            
+    return jd_start, jd_end
+
 def get_exact_tithi_times(jd, tithi_index):
     """
     Calculate the exact start and end Julian days for the given Tithi index.
@@ -1040,7 +1078,8 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'planet_positions': planet_positions,
         'chart': chart_data,
         'houses': houses_map,
-        'all_nakshatras': NAKSHATRAS_TELUGU
+        'all_nakshatras': NAKSHATRAS_TELUGU,
+        'nak_index': nak_index
     }
 
 @app.route("/chart", methods=["POST"])
@@ -1246,15 +1285,32 @@ def get_dasha_info(birth_info):
     # 1. Calculate birth Mahadasha
     birth_dasa, dasa_index = get_running_dasa(nak_index, padam)
     
-    # 2. Calculate elapsed time in birth dasa (Based on Rasi-based 30-degree movement)
-    moon_lon = birth_info.get('moon_lon')
-    if moon_lon is None:
-        # Fallback to manual timing if longitude not stored
-        elapsed_minutes = nak_minutes(elapsed_h, elapsed_m)
-        fraction = elapsed_minutes / TOTAL_NAK_MINUTES if TOTAL_NAK_MINUTES > 0 else 0
-    else:
-        # According to the text, each Dasa is 30 degrees (9 padas/1 Rasi)
-        fraction = (moon_lon % 30) / 30
+    # 2. Precise time-based method (Rasi-based)
+    # Get Julian Day for the birth time
+    utc_dt = birth_dt.astimezone(pytz.utc)
+    jd_birth = swe.julday(
+        utc_dt.year, utc_dt.month, utc_dt.day,
+        utc_dt.hour + utc_dt.minute/60 + utc_dt.second/3600
+    )
+    
+    # Calculate exact start and end times for this 30-degree segment (Dasha segment)
+    jd_s, jd_e = get_exact_rasi_times(jd_birth, dasa_index)
+    
+    total_duration_days = jd_e - jd_s
+    elapsed_duration_days = jd_birth - jd_s
+    
+    # Precise fraction
+    fraction = elapsed_duration_days / total_duration_days if total_duration_days > 0 else 0
+    
+    # Calculate elapsed and remaining time in birth rasi (Dasha segment) for display
+    dasa_elapsed_h = int(elapsed_duration_days * 24)
+    dasa_elapsed_m = int(((elapsed_duration_days * 24) % 1) * 60)
+    dasa_elapsed_str = f"{dasa_elapsed_h}గం {dasa_elapsed_m}ని"
+    
+    dasa_remain_days = jd_e - jd_birth
+    dasa_remain_h = int(dasa_remain_days * 24)
+    dasa_remain_m = int(((dasa_remain_days * 24) % 1) * 60)
+    dasa_remain_str = f"{dasa_remain_h}గం {dasa_remain_m}ని"
     
     birth_dasa_years = DASA_YEARS.get(birth_dasa, 10)
     elapsed_years_in_birth_dasa = birth_dasa_years * fraction
@@ -1422,6 +1478,8 @@ def get_dasha_info(birth_info):
         "all_dasas": all_dasas,
         "total_cycle_years": total_years_covered,
         "now_date": today_str,
+        "dasa_elapsed": dasa_elapsed_str,
+        "dasa_remaining": dasa_remain_str
     }
 
 @app.route("/chart2", methods=["GET", "POST"])

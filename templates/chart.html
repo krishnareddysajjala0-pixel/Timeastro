@@ -1,0 +1,1957 @@
+﻿<!DOCTYPE html>
+<html lang="te">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>జాఫతకము</title>
+  <!-- PWA settings -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1A1A1D">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      if (savedTheme !== 'default') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #0c0c0c;
+    }
+
+    .short-name, .short-deg {
+      display: none;
+    }
+
+    :root {
+      --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --card-bg: rgba(255, 255, 255, 0.98);
+      --card-border: rgba(15, 23, 42, 0.1);
+      --box-border: rgba(15, 23, 42, 0.15);
+      --box-border-hover: rgba(15, 23, 42, 0.4);
+      --header-bg: linear-gradient(45deg, #b45309, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --color-pos: #059669;
+      --color-neg: #dc2626;
+      --label-bg: rgba(15, 23, 42, 0.05);
+      --label-text: #0f172a;
+      --house-no-bg: rgba(15, 23, 42, 0.1);
+      --house-no-text: #0f172a;
+    }
+
+    /* Cosmic Mode (Premium Dark) */
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 60%), linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(99, 102, 241, 0.2);
+      --box-border: rgba(255, 255, 255, 0.25);
+      --box-border-hover: rgba(255, 255, 255, 0.5);
+      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(0, 0, 0, 0.5);
+      --label-text: #ffffff;
+      --house-no-bg: rgba(255, 255, 255, 0.1);
+      --house-no-text: #ffffff;
+    }
+
+    [data-theme="light"] {
+        /* Redundant but kept for compatibility */
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(30, 41, 59, 0.8);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --box-border: rgba(255, 255, 255, 0.2);
+      --box-border-hover: rgba(255, 255, 255, 0.45);
+      --header-bg: linear-gradient(45deg, #f59e0b, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+    }
+
+    [data-theme="sunset"] {
+      --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(69, 10, 10, 0.85);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: rgba(255, 255, 255, 0.5);
+      --header-bg: linear-gradient(45deg, #fbbf24, #f97316);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+    }
+
+    [data-theme="ocean"] {
+      --bg-primary: linear-gradient(to top, #0c4a6e 0%, #075985 50%, #0ea5e9 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(12, 74, 110, 0.85);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: rgba(255, 255, 255, 0.5);
+      --header-bg: linear-gradient(45deg, #38bdf8, #0ea5e9);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+    }
+
+    [data-theme="forest"] {
+      --bg-primary: linear-gradient(to top, #064e3b 0%, #065f46 50%, #10b981 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(6, 78, 59, 0.85);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: rgba(255, 255, 255, 0.5);
+      --header-bg: linear-gradient(45deg, #34d399, #10b981);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+    }
+
+    body {
+      background-color: #0c0c0c;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Segoe UI', 'Noto Serif Telugu', serif;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 110px;
+      /* space for fixed bottom bar and footer */
+    }
+
+    /* Rainbow numbers background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      z-index: -1;
+      animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
+    }
+
+    @keyframes float-up {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200px); }
+    }
+
+    @keyframes rainbow-scroll {
+      from { filter: hue-rotate(0deg); }
+      to { filter: hue-rotate(360deg); }
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, gold, transparent);
+      border-radius: 3px;
+    }
+
+    .om-title {
+      font-size: 28px;
+      background: var(--header-bg);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    /* Force white text for mantra in dark modes */
+    [data-theme="cosmic"] .om-title,
+    [data-theme="dark"] .om-title,
+    [data-theme="sunset"] .om-title,
+    [data-theme="ocean"] .om-title,
+    [data-theme="forest"] .om-title {
+      -webkit-text-fill-color: #ffffff;
+    }
+
+    .page-title {
+      font-size: 36px;
+      color: var(--text-main);
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+      margin-bottom: 1.5em;
+    }
+
+    /* Action buttons */
+    .action-buttons {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .action-btn {
+      padding: 12px 24px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Segoe UI', 'Noto Serif Telugu', serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .print-btn {
+      background: linear-gradient(135deg, #8b0000, #660000);
+      color: white;
+    }
+
+    .print-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
+    }
+
+    /* Navigation Buttons */
+    .fixed-bottom-bar {
+      position: fixed !important;
+      bottom: 45px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      margin: 0 !important;
+      background: rgba(20, 19, 50, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(120, 119, 198, 0.3);
+      border-radius: 30px;
+      padding: 10px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      z-index: 9999;
+      max-width: 95vw;
+    }
+
+    .fixed-bottom-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .float-btn {
+      flex: 0 0 auto;
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .float-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+    }
+
+    .float-btn:active {
+      transform: translateY(0);
+    }
+
+    .nav-btn-home {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .nav-btn-dasa {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .nav-btn-planets {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+
+    .chart-container {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 40px var(--shadow-color);
+    }
+
+    .chart {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 8px;
+      margin: auto;
+    }
+
+    /* ===== HOUSE BOX ===== */
+    .box {
+      position: relative;
+      border: 2px solid var(--box-border);
+      min-height: 130px;
+      padding: 12px;
+      font-size: 13px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .box:hover {
+      transform: translateY(-3px);
+      border-color: var(--box-border-hover);
+      box-shadow: 0 10px 20px var(--shadow-color);
+    }
+
+    /* ===== HOUSE BACKGROUND COLORS ===== */
+    .house-green {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0.15));
+      border-left: 4px solid rgba(34, 197, 94, 0.6);
+    }
+
+    .house-red {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(239, 68, 68, 0.15));
+      border-left: 4px solid rgba(239, 68, 68, 0.6);
+    }
+
+    .house-mixed {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(239, 68, 68, 0.15));
+      border-left: 4px solid rgba(148, 163, 184, 0.6);
+    }
+
+    /* ===== LAGNA ===== */
+    .lagna {
+      border: 3px solid gold;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      position: relative;
+    }
+
+
+    /* ===== TEXT ===== */
+    .house-no {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      background: var(--house-no-bg);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--house-no-text);
+      border: 1px solid var(--box-border);
+      line-height: 1;
+      padding: 0;
+    }
+
+    .lagna-name {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--label-text);
+      background: var(--label-bg);
+      padding: 4px 10px;
+      border-radius: 15px;
+      border: 1px solid var(--box-border);
+    }
+
+    .karma-label {
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 6.5px; /* 50% of 13px */
+      line-height: 1;
+      color: var(--label-text);
+      font-weight: 800;
+      background: var(--label-bg);
+      padding: 4px 2px;
+      border-radius: 4px;
+      letter-spacing: 0px;
+      border: 1px solid var(--box-border);
+      z-index: 5;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+
+
+    /* ===== CENTER ===== */
+    .center {
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 2px solid var(--box-border);
+      border-radius: 15px;
+      font-size: 15px;
+      background: var(--card-bg);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .center::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.05) 100%);
+    }
+
+    .center-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .party-badge {
+      display: inline-block;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .person-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 10px 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .info-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 6px 0;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .info-line i {
+      color: #ffd700;
+      width: 16px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      margin: 12px auto;
+      width: 80%;
+    }
+
+    .nakshatra-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nakshatra-title {
+      font-weight: bold;
+      color: #ffd700;
+      margin-bottom: 5px;
+    }
+
+    .time-info {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 8px;
+    }
+
+    .time-item {
+      text-align: center;
+    }
+
+    .time-value {
+      font-weight: bold;
+      color: white;
+      font-size: 14px;
+    }
+
+    .time-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ===== PLANET COLORS ===== */
+    .pos {
+      color: var(--color-pos);
+      font-weight: 600;
+    }
+    
+    .neg {
+      color: var(--color-neg);
+      font-weight: 600;
+    }
+
+    .hand {
+      display: inline-block;
+      padding: 3px 10px;
+      margin: 3px 2px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .hand:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* ===== FORM STYLE ===== */
+    .form-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 25px;
+      background: rgba(25, 25, 35, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .form-btn {
+      padding: 16px 35px;
+      background: linear-gradient(135deg, #8b0000, #660000);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Noto Serif Telugu', serif;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 280px;
+      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.3);
+    }
+
+    .form-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(139, 0, 0, 0.4);
+      background: linear-gradient(135deg, #660000, #8b0000);
+    }
+
+    .form-btn:active {
+      transform: translateY(0);
+    }
+
+    .form-btn-alt {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+    }
+
+    .form-btn-alt:hover {
+      background: linear-gradient(135deg, #f57c00, #ff9800);
+      box-shadow: 0 10px 25px rgba(255, 152, 0, 0.4);
+    }
+
+    .btn-icon {
+      font-size: 18px;
+    }
+
+    /* Quick actions */
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .quick-action-btn {
+      padding: 12px 25px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-family: 'Noto Serif Telugu', serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+      min-width: 200px;
+    }
+
+    .quick-action-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #8b0000, #660000);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #660000, #8b0000);
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        animation: none !important;
+        backdrop-filter: none !important;
+      }
+      
+      body::before, body::after, .background-overlay, .cosmic-bg {
+        display: none !important;
+      }
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        width: 1024px !important; /* Unified width for same PDF quality on Mobile and Web */
+        min-width: 1024px !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .container {
+        width: 1024px !important;
+        min-width: 1024px !important;
+        zoom: 0.8 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .header {
+        color: #000 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        margin-bottom: 2px !important;
+        width: 100% !important;
+        text-align: center !important;
+        border: none !important;
+      }
+
+
+      
+      .center {
+        border: 2px solid #000 !important;
+        background: #fff !important;
+      }
+      
+      .center::before { display: none !important; }
+
+      .om-title {
+        -webkit-text-fill-color: #d2691e !important;
+        color: #d2691e !important;
+      }
+
+      .page-title {
+        color: #d2691e !important;
+        font-size: 15px !important;
+        margin-bottom: 2px !important;
+      }
+      
+      .person-name {
+        -webkit-text-fill-color: #000080 !important;
+        color: #000080 !important;
+        background: none !important;
+      }
+      
+      .house-no {
+        background: transparent !important;
+        color: #b22222 !important;
+        border: 1px solid #b22222 !important;
+        top: 2px !important;
+        right: 2px !important;
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 9px !important;
+      }
+      
+      .lagna-name {
+        background: transparent !important;
+        color: #000080 !important;
+        border: none !important;
+        bottom: 2px !important;
+        right: 2px !important;
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+      }
+      
+      table td {
+        color: #000000 !important;
+      }
+      
+      table td i {
+        color: #b22222 !important;
+      }
+      
+      .time-value { color: #d2691e !important; }
+      .time-label { color: #000080 !important; }
+      
+      .party-badge {
+        background: #fff !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+      }
+
+      .action-buttons,
+      .nav-buttons,
+      .back-btn,
+      .no-print,
+      .form-container,
+      .scrolling-footer,
+      .quick-actions,
+      .theme-switcher,
+      .fixed-bottom-bar,
+      #action-bar,
+      .float-btn,
+      .print-hide,
+      #transit-btn,
+      #transit-loading,
+      .toggle-container {
+        display: none !important;
+      }
+
+      .chart-container, #transit-container {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        padding: 0 !important;
+        margin: 0 auto 5px auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      .chart {
+        gap: 1px !important;
+        width: 100% !important;
+      }
+
+      .box {
+        background: #ffffff !important;
+        border: 1px solid #000 !important;
+        padding: 1px !important;
+        min-height: 65px !important;
+        font-size: 10.5px !important;
+        line-height: 1.1 !important;
+      }
+
+      .center {
+        padding: 6px !important;
+        font-size: 12px !important;
+        border: 1px solid #000 !important;
+      }
+      
+      .center table {
+        font-size: 10.5px !important;
+      }
+
+
+      .pos {
+        color: #006400 !important;
+      }
+
+      .neg {
+        color: #8b0000 !important;
+      }
+
+      .lagna {
+        border: 3px solid #000 !important;
+        box-shadow: none !important;
+      }
+      
+      .karma-label {
+        color: #000 !important;
+        font-size: 6.5px !important;
+        background: none !important;
+        border: 1px solid #ccc !important;
+        right: 2px !important;
+        padding: 4px 2px !important;
+      }
+
+
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 5mm;
+    }
+
+    /* Scrolling Footer */
+    .scrolling-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        color: #ffd700;
+        padding: 8px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    }
+    .scrolling-footer-text {
+        display: inline-block;
+        animation: scrollLeft 20s linear infinite;
+        font-size: 15px;
+        font-weight: bold;
+        padding-left: 100%;
+    }
+    @keyframes scrollLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .chart {
+        gap: 5px;
+      }
+
+      .box {
+        min-height: 35px;
+        padding: 3px;
+        font-size: 8.5px !important;
+        line-height: 1;
+        text-align: left !important;
+      }
+      
+      .house-no {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+      }
+
+      .full-name, .full-deg {
+        display: none !important;
+      }
+      
+      .short-name, .short-deg {
+        display: inline !important;
+      }
+
+      .chart-container {
+        padding: 5px;
+        margin-bottom: 20px;
+        max-height: none;
+        overflow: visible;
+        display: block;
+      }
+
+      .header {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+      }
+
+      .om-title {
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+
+      .page-title {
+        font-size: 24px;
+        margin-bottom: 0.5em;
+      }
+
+      .person-name {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+
+      .party-badge {
+        padding: 2px 8px;
+        font-size: 10px;
+        margin-bottom: 5px;
+      }
+
+      .box span {
+        display: inline-block;
+        max-width: 85%; /* Prevents overlap with house number on right */
+        word-break: break-word;
+      }
+
+      .box-condensed {
+        font-size: 9px !important;
+      }
+
+      .box-condensed span {
+        line-height: 1;
+      }
+
+      .house-no {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        top: 4px;
+        right: 4px;
+      }
+
+      .karma-label {
+      font-size: 4.25px; /* 50% of 8.5px */
+      margin-bottom: 2px;
+      padding: 1px 2px;
+      }
+
+      .lagna-name {
+        font-size: 8px !important;
+        padding: 2px 5px !important;
+        bottom: 2px !important;
+        right: 2px !important;
+      }
+
+      .center {
+        padding: 2px;
+        font-size: 8.5px !important;
+      }
+
+      .person-name {
+        font-size: 8.5px !important;
+        margin: 0 !important;
+      }
+
+      .center table {
+        border-spacing: 0 1px !important;
+        font-size: 8.5px !important;
+      }
+
+      .nakshatra-info {
+        display: none !important;
+      }
+
+      .form-btn {
+        min-width: 100%;
+        padding: 14px;
+      }
+
+      .form-buttons {
+        flex-direction: column;
+      }
+
+      .hand {
+        padding: 2px 5px !important;
+        font-size: 9px !important;
+        margin: 1px 0 !important;
+        white-space: nowrap !important;
+        border-radius: 8px !important;
+      }
+
+      .box b, .box small {
+        font-size: 9px !important;
+      }
+
+      .nav-buttons {
+        bottom: 15px;
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        width: 95%;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+      }
+
+      .quick-action-btn {
+        min-width: 100%;
+      }
+    }
+
+    /* Theme Switcher */
+    .theme-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 6px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 15px var(--shadow-color);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      transition: max-width 0.3s ease;
+      overflow: hidden;
+      max-width: 45px;
+    }
+
+    .theme-switcher.expanded {
+      max-width: 300px;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+    }
+
+    .theme-options {
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .theme-switcher.expanded .theme-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+
+    .theme-btn:hover {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+
+    .theme-btn.active {
+      opacity: 1;
+      background: rgba(120, 120, 120, 0.2);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Scrolling Footer */
+    .scrolling-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      color: #ffd700;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      backdrop-filter: blur(5px);
+    }
+    .scrolling-footer-text {
+      display: inline-block;
+      animation: scrollLeft 20s linear infinite;
+      font-size: 15px;
+      font-weight: bold;
+      padding-left: 100%;
+    }
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    @media print {
+      .scrolling-footer { display: none !important; }
+    }
+
+    /* Rainbow glow animation */
+    @keyframes nav-rainbow {
+      0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+      20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+      40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+      60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+      80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+      100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+    }
+
+    /* Apply rainbow glow to requested buttons */
+    .nav-home i, .theme-toggle-btn, .header-toggle-btn {
+      animation: nav-rainbow 3s linear infinite !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Right Side Controls (Vertical Stack) -->
+  <div id="top-button-stack" class="top-button-stack">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher print-hide">
+      <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')">
+        <i class="fas fa-palette"></i>
+      </button>
+      <div class="theme-options">
+        <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i></button>
+        <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i></button>
+        <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
+        <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+        <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
+        <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
+      </div>
+    </div>
+
+
+    <!-- Chart Toggle Buttons -->
+    <div class="toggle-container" id="chart-toggles">
+      <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
+      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">కర్మ</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleThemeMenu() {
+      document.getElementById('themeSwitcher').classList.toggle('expanded');
+    }
+    
+    function toggleKarma() {
+      document.body.classList.toggle('hide-karma');
+      const btn = document.getElementById('karmaBtn');
+      if (document.body.classList.contains('hide-karma')) {
+        btn.style.opacity = '0.5';
+      } else {
+        btn.style.opacity = '1';
+      }
+    }
+
+    function toggleAspects() {
+      document.body.classList.toggle('hide-hands');
+      const btn = document.getElementById('chupuluBtn');
+      if (document.body.classList.contains('hide-hands')) {
+        btn.style.opacity = '0.5';
+      } else {
+        btn.style.opacity = '1';
+      }
+    }
+  </script>
+
+  <style>
+    .hide-hands .hand {
+      display: none !important;
+    }
+    .hide-karma .karma-label {
+      display: none !important;
+    }
+    .top-button-stack {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 15px;
+      z-index: 10000;
+    }
+    .theme-switcher {
+      position: static;
+      margin-bottom: 0;
+    }
+    .toggle-container {
+      display: flex;
+      gap: 10px;
+    }
+    #chupuluBtn {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    #karmaBtn {
+      width: 50px;
+      height: 40px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .header-toggle-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      color: gold;
+      outline: none;
+    }
+    .header-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    @media screen and (max-width: 768px) {
+      .top-button-stack {
+        top: 10px !important;
+        right: 10px !important;
+        gap: 8px !important;
+      }
+      .header-toggle-btn {
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 12px !important;
+      }
+      #chupuluBtn {
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 12px !important;
+      }
+      #karmaBtn {
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        right: auto !important;
+        width: 35px !important;
+        height: 25px !important;
+        font-size: 9px !important;
+        border-radius: 12px !important;
+      }
+      #chart-toggles {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .theme-switcher {
+        max-width: 35px !important;
+        transition: max-width 0.3s ease !important;
+      }
+      .theme-switcher.expanded {
+        max-width: 300px !important;
+      }
+      .theme-toggle-btn {
+        font-size: 16px !important;
+        min-width: 25px !important;
+      }
+    }
+  </style>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="om-title">
+      🕉️ ఓం శ్రీ గురవే నమః 🕉️
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
+      <h1 class="page-title" style="margin-bottom: 0; font-size: 32px;">జాఫతకము</h1>
+      <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
+    </div>
+
+    {# ===== VARIABLES ===== #}
+    {% set positive_lagnas = positive_lagnas if positive_lagnas is defined else
+    ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
+    {% set green_planets = green_planets if green_planets is defined else
+    ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
+    {% set red_planets = red_planets if red_planets is defined else ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
+
+    {# ===== HELPER FUNCTION TO EXTRACT DEGREES ===== #}
+    {% macro extract_degrees(line) %}
+    {% set line_str = line | striptags %}
+    {% if "°" in line_str %}
+    {% set parts = line_str.split('°') %}
+    {% if parts|length > 0 %}
+    {% set degree_part = parts[0] %}
+    {% set degree_num = degree_part.split()[-1] | int %}
+    {{ degree_num }}
+    {% else %}
+    0
+    {% endif %}
+    {% else %}
+    0
+    {% endif %}
+    {% endmacro %}
+
+    {# ===== COLOR LOGIC ===== #}
+    {% macro get_color(line, lagna) %}
+    {% set clean = line | striptags %}
+    {% set ns = namespace(is_green=false) %}
+    {% for p in green_planets %}
+    {% if p in clean %}
+    {% set ns.is_green = true %}
+    {% endif %}
+    {% endfor %}
+    {% if lagna in positive_lagnas %}
+    {{ "pos" if ns.is_green else "neg" }}
+    {% else %}
+    {{ "neg" if ns.is_green else "pos" }}
+    {% endif %}
+    {% endmacro %}
+
+    {% macro house_bg_class(hno) %}
+    {% if hno in [1,5,9] %}
+    house-green
+    {% elif hno in [3,7,11] %}
+    house-red
+    {% else %}
+    house-mixed
+    {% endif %}
+    {% endmacro %}
+
+    {# ===== BOX MACRO WITH LAGNA DEGREE DISPLAY ===== #}
+    {% macro box(box_lagna) %}
+    {% set hno = houses[box_lagna] %}
+    {% set lines = chart[box_lagna].split('<br>') %}
+    {% set items_count = namespace(count=0) %}
+    {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
+    
+    <div class="box {{ house_bg_class(hno) }} {% if lagna==box_lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+      <span class="house-no">{{ hno }}</span>
+
+      
+      {% if hno in [1,5,9] %}
+        <div class="karma-label">పుణ్యం</div>
+      {% elif hno in [3,7,11] %}
+        <div class="karma-label">పాపం</div>
+      {% else %}
+        <div class="karma-label">పుణ్యం + పాపం</div>
+      {% endif %}
+
+
+
+      {# Display all content from chart data #}
+      {% for line in chart[box_lagna].split('<br>') %}
+      {% if "లగ్నం" in line %}
+      {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
+      <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
+        {{ line | safe }}
+      </div>
+      {% elif line.strip() %}
+      {# Other planets #}
+      <span class="{{ get_color(line, lagna) }}">
+        {{ line | safe }}
+      </span><br>
+      {% endif %}
+      {% endfor %}
+
+      <span class="lagna-name">{{ box_lagna }}</span>
+    </div>
+    {% endmacro %}
+
+    <!-- Chart Container -->
+    <div class="chart-container">
+      <div class="chart">
+        {{ box("మీనం") }}
+        {{ box("మేషం") }}
+        {{ box("వృషభం") }}
+        {{ box("మిథునం") }}
+
+        {{ box("కుంభం") }}
+
+        <!-- CENTER -->
+        <div class="center">
+          <div class="center-content">
+            <table
+              style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
+              <tr>
+                <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
+                <td style="font-weight: bold; animation: nav-rainbow 3s linear infinite !important;">
+                  {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
+                </td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">పేరు:</td>
+                <td style="color: var(--text-main);">{{ name }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> తేదీ:</td>
+                <td style="color: var(--text-main);">{{ dob }} ({{ day_name }})</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;"><i class="fas fa-clock"></i> సమయం:</td>
+                <td style="color: var(--text-main);">{{ tob }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> స్థలం:</td>
+                <td style="color: var(--text-main);">{{ place.split(',')[0] if ',' in place else place }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;"><i class="fas fa-compass"></i> లగ్నం:</td>
+                <td style="color: var(--text-main);">
+                  {{ lagna }} 
+                  {% if lagna_deg is defined and lagna_deg %}
+                    (<span class="full-deg">{{ lagna_deg }}</span><span class="short-deg">{{ lagna_deg.split('°')[0] }}°</span>)
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> నక్షత్రం:</td>
+                <td style="color: var(--text-main);">
+                  {{ nakshatra }} ({{ padam }} పాదం)
+                </td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">మొదలు:</td>
+                <td style="color: #34d399; font-weight: bold;">{{ nak_start }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">ముగింపు:</td>
+                <td style="color: #fca5a5; font-weight: bold;">{{ nak_end }} వరకు</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">గడిచిన సమయం:</td>
+                <td style="color: var(--text-main);">{{ nak_elapsed }}</td>
+              </tr>
+              <tr>
+                <td style="color: #ffd700;">మిగిలిన సమయం:</td>
+                <td style="color: var(--text-main);">{{ nak_remaining }}</td>
+              </tr>
+            </table>
+
+
+          </div>
+        </div>
+
+        {{ box("కర్కాటకం") }}
+
+        {{ box("మకరం") }}
+        {{ box("సింహం") }}
+        {{ box("ధనస్సు") }}
+        {{ box("వృశ్చికం") }}
+        {{ box("తులా") }}
+        {{ box("కన్య") }}
+      </div>
+    </div>
+
+    <!-- Transit Button and Container -->
+    <div style="text-align: center; margin: 20px 0;">
+      <button onclick="fetchTransitChart()" id="transit-btn" style="background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4); display: inline-flex; align-items: center; gap: 8px;">
+        <i class="fas fa-satellite" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i> ఈ రోజు గ్రహ స్థితి
+      </button>
+      <div id="transit-loading" style="display: none; color: #ffd700; margin-top: 15px; font-size: 14px;">
+        <i class="fas fa-spinner fa-spin"></i> జనరేట్ చేస్తోంది...
+      </div>
+    </div>
+    
+    <div id="transit-container"></div>
+
+    <!-- Floating Bottom Action Bar -->
+    <div class="fixed-bottom-bar" id="action-bar">
+      <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
+        onclick="window.location.href='/'">
+        <i class="fas fa-home"></i> హోమ్
+      </button>
+
+      <button class="float-btn" style="background: linear-gradient(135deg, #059669, #047857);"
+        onclick="window.location.href='/go-to-dasha-chart'">
+        <i class="fas fa-calendar-alt"></i> దశాచారము
+      </button>
+      <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
+        onclick="window.location.href='/chart3'">
+        <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
+      </button>
+
+      <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+        onclick="window.print()">
+        <i class="fas fa-file-pdf"></i> ప్రింట్
+      </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="loader-astro"></div>
+        <p id="typing-text" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
+    </div>
+
+    <style>
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 30, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100000; color: #ffd700;
+        }
+        .loader-astro {
+            width: 60px; height: 60px;
+            border: 5px solid rgba(255,215,0,0.2);
+            border-top: 5px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+      // Theme Management
+      function setTheme(themeName) {
+        if (themeName === 'default') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', themeName);
+        }
+        localStorage.setItem('preferred-theme', themeName);
+
+        // Update UI buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-theme-btn') === themeName) {
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      // Load saved theme state into buttons immediately
+      const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'light';
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // Add animation to boxes on page load
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach((box, index) => {
+          box.style.animationDelay = `${index * 0.1}s`;
+          box.style.animation = 'fadeIn 0.5s ease-out';
+        });
+
+        // Add hover effect to planets
+        const planets = document.querySelectorAll('.hand');
+        planets.forEach(planet => {
+          planet.addEventListener('mouseenter', function () {
+            this.style.transform = 'scale(1.05)';
+          });
+          planet.addEventListener('mouseleave', function () {
+            this.style.transform = 'scale(1)';
+          });
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .nav-btn-home i, .float-btn i[class*="home"] {
+      animation: nav-rainbow 3s linear infinite !important;
+    }
+
+    @keyframes nav-rainbow {
+        0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+        40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+        60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+        80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+        100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+    }
+    
+    .box {
+      animation-fill-mode: both;
+    }
+  `;
+        document.head.appendChild(style);
+
+        // Debug: Check if variables are available
+        console.log('Chart loaded successfully');
+        console.log('lagna:', '{{ lagna }}');
+        console.log('name:', '{{ name }}');
+      });
+
+      // Navigation functions
+      function goToDasaChart() {
+        // Create a form to POST to chart2 with all necessary data
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/chart2';
+        form.style.display = 'none';
+
+        // Add all necessary fields
+        const fields = {
+          'dob': '{{ dob }}',
+          'tob': '{{ tob }}',
+          'nakshatra': '{{ nakshatra }}',
+          'padam': '{{ padam }}',
+          'nak_elapsed': '{{ nak_elapsed }}',
+          'nak_remaining': '{{ nak_remaining }}',
+          'nak_index': '{{ nak_index }}',
+          'elapsed_h': '{{ elapsed_h }}',
+          'elapsed_m': '{{ elapsed_m }}'
+        };
+
+        {% if lagna_deg is defined and lagna_deg %}
+        fields['lagna_deg'] = '{{ lagna_deg }}';
+        {% endif %}
+
+        for (const [key, value] of Object.entries(fields)) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = value;
+          form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+      };
+
+
+
+
+      function goToPlanetDetails() {
+        window.location.href = '/chart3';
+      }
+
+      function fetchTransitChart() {
+        showLoader();
+        const btn = document.getElementById('transit-btn');
+        const loading = document.getElementById('transit-loading');
+        const container = document.getElementById('transit-container');
+        
+        if (btn) btn.style.display = 'none';
+        if (loading) loading.style.display = 'block';
+
+        let lat = '{{ session.get("birth_info", {}).get("lat", "17.3850") }}';
+        let lon = '{{ session.get("birth_info", {}).get("lon", "78.4867") }}';
+        let timezone = '{{ session.get("birth_info", {}).get("timezone_str", "Asia/Kolkata") }}';
+        let place = '{{ session.get("birth_info", {}).get("place", "Hyderabad") }}';
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function(position) {
+              lat = position.coords.latitude;
+              lon = position.coords.longitude;
+              sendTransitRequest(lat, lon, timezone, place);
+            },
+            function(error) {
+              console.log('Geolocation error or denied, using birth location.', error);
+              sendTransitRequest(lat, lon, timezone, place);
+            }
+          );
+        } else {
+          sendTransitRequest(lat, lon, timezone, place);
+        }
+
+        function sendTransitRequest(lat, lon, timezone, place) {
+          const formData = new FormData();
+          formData.append('lat', lat);
+          formData.append('lon', lon);
+          formData.append('timezone', timezone);
+          formData.append('place', place);
+
+          fetch('/transit_chart', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.text())
+          .then(html => {
+            loading.style.display = 'none';
+            const globalOverlay = document.getElementById('loading-overlay');
+            if (globalOverlay) globalOverlay.style.display = 'none';
+            container.innerHTML = html;
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          })
+          .catch(error => {
+            console.error('Error fetching transit chart:', error);
+            loading.style.display = 'none';
+            const globalOverlay = document.getElementById('loading-overlay');
+            if (globalOverlay) globalOverlay.style.display = 'none';
+            if (btn) btn.style.display = 'inline-flex';
+            alert('గ్రహ స్థితిని తీసుకురావడంలో లోపం ఏర్పడింది.');
+          });
+        }
+      }
+
+      // Print optimization
+      window.onbeforeprint = function () {
+        document.querySelectorAll('.box').forEach(box => {
+          box.style.boxShadow = 'none';
+          box.style.transform = 'none';
+        });
+
+        document.querySelectorAll('.hand').forEach(hand => {
+          hand.style.border = '1px solid #666';
+        });
+      };
+
+      window.onafterprint = function() {
+        // No special action needed
+      };
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function (e) {
+        // Home key to go to home
+        if (e.key === 'Home') {
+          window.location.href = '/';
+        }
+
+        // Ctrl + D for dasha chart
+        if (e.ctrlKey && e.key === 'd') {
+          e.preventDefault();
+          goToDasaChart();
+        }
+
+        // Ctrl + P for print
+        if (e.ctrlKey && e.key === 'p') {
+          e.preventDefault();
+          window.print();
+        }
+
+        // Ctrl + G for planet details
+        if (e.ctrlKey && e.key === 'g') {
+          e.preventDefault();
+          goToPlanetDetails();
+        }
+      });
+
+      function goToDasaChart() {
+          showLoader();
+          document.getElementById('dasaForm').submit();
+      }
+      function goToPlanetDetails() {
+          showLoader();
+          window.location.href = '/chart3';
+      }
+
+      function startTyping() {
+          const element = document.getElementById("typing-text");
+          if (!element) return;
+          
+          element.innerHTML = 'గణన చేస్తోంది';
+      }
+
+      
+
+      function playLoadingSound() {
+          try {
+              const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              let time = audioCtx.currentTime;
+              for(let i = 0; i < 6; i++) {
+                  const osc = audioCtx.createOscillator();
+                  const gain = audioCtx.createGain();
+                  osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                  osc.frequency.setValueAtTime(440 + (i * 80), time);
+                  gain.gain.setValueAtTime(0, time);
+                  gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                  osc.connect(gain);
+                  gain.connect(audioCtx.destination);
+                  osc.start(time);
+                  osc.stop(time + 0.4);
+                  time += 0.25;
+              }
+          } catch (e) {}
+      }
+
+      function showLoader() {
+          playLoadingSound();
+          document.getElementById('loading-overlay').style.display = 'flex';
+          startTyping();
+      }
+    </script>
+
+    <!-- Hidden form for backup navigation if needed -->
+    <div style="display: none;">
+      <form id="dasaForm" method="post" action="/chart2">
+        <input type="hidden" name="dob" value="{{ dob }}">
+        <input type="hidden" name="tob" value="{{ tob }}">
+        <input type="hidden" name="nakshatra" value="{{ nakshatra }}">
+        <input type="hidden" name="padam" value="{{ padam }}">
+        <input type="hidden" name="nak_elapsed" value="{{ nak_elapsed }}">
+        <input type="hidden" name="nak_remaining" value="{{ nak_remaining }}">
+        <input type="hidden" name="nak_index" value="{{ nak_index }}">
+        <input type="hidden" name="elapsed_h" value="{{ elapsed_h }}">
+        <input type="hidden" name="elapsed_m" value="{{ elapsed_m }}">
+        {% if lagna_deg is defined and lagna_deg %}
+        <input type="hidden" name="lagna_deg" value="{{ lagna_deg }}">
+        {% endif %}
+      </form>
+    </div>
+
+
+    <!-- Universal Loading Interceptor -->
+    <script>
+    (function() {
+        function playLoadingSound() {
+            try {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523, 659, 784, 1047];
+                notes.forEach(function(freq, i) {
+                    var osc = audioCtx.createOscillator();
+                    var gain = audioCtx.createGain();
+                    var t = audioCtx.currentTime + i * 0.12;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t);
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.3);
+                });
+            } catch(e) {}
+        }
+
+        function showGananaLoader() {
+            var overlay = document.getElementById('loading-overlay');
+            if (!overlay) return;
+            playLoadingSound();
+            overlay.style.display = 'flex';
+            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
+            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+        }
+
+        // Attach ONLY to navigation float-btn buttons (skip print)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.float-btn').forEach(function(btn) {
+                var oc = btn.getAttribute('onclick') || '';
+                if (oc.indexOf('print()') !== -1) return;
+                if (oc.indexOf('fetch') !== -1) return;
+                btn.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to nav-item <a> links
+            document.querySelectorAll('a.nav-item').forEach(function(link) {
+                var href = link.getAttribute('href') || '';
+                if (!href || href === '#') return;
+                link.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to main form submit
+            document.querySelectorAll('form:not([id="dasaForm"])').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    showGananaLoader();
+                });
+            });
+        });
+
+        // Hide loader on back/forward cache
+        window.addEventListener('pageshow', function() {
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.style.display = 'none';
+        });
+    })();
+    </script>
+</body>
+
+</html>

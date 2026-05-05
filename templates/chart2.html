@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="te">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>దశా వివరాలు - {{ name }}</title>
+    <!-- PWA settings -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#1A1A1D">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+    <script>
+        window.onbeforeprint = function() {
+            if (window.innerWidth < 768) {
+                document.body.classList.add('mobile-print-force');
+            }
+        };
+        window.onafterprint = function() {
+            document.body.classList.remove('mobile-print-force');
+        };
+
+        (function () {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            if (savedTheme !== 'default') {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+        })();
+    </script>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: #0c0c0c;
+        }
+
+        :root {
+            --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --card-border: rgba(15, 23, 42, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --header-bg: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            --dasa-card-bg: #ffffff;
+            --color-pos: #059669;
+            --color-neg: #dc2626;
+        }
+
+        /* Cosmic Mode (Premium Dark) */
+        [data-theme="cosmic"] {
+            --bg-primary: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 60%), linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+            --text-main: #ffffff;
+            --text-muted: #c7d2fe;
+            --card-bg: rgba(15, 23, 42, 0.9);
+            --card-border: rgba(99, 102, 241, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --header-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            --dasa-card-bg: rgba(30, 41, 59, 0.8);
+            --color-pos: #10b981;
+            --color-neg: #f43f5e;
+        }
+
+        [data-theme="light"] {
+            /* Redundant but kept for compatibility */
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            --text-main: #ffffff;
+            --text-muted: #c7d2fe;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --shadow-color: rgba(0, 0, 0, 0.7);
+            --header-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --dasa-card-bg: rgba(15, 23, 42, 0.9);
+        }
+
+        [data-theme="sunset"] {
+            --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
+            --text-main: #ffffff;
+            --text-muted: #c7d2fe;
+            --card-bg: rgba(69, 10, 10, 0.9);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --shadow-color: rgba(0, 0, 0, 0.7);
+            --header-bg: linear-gradient(135deg, #991b1b 0%, #450a0a 100%);
+            --dasa-card-bg: rgba(45, 10, 10, 0.95);
+        }
+
+        [data-theme="ocean"] {
+            --bg-primary: linear-gradient(to top, #0c4a6e 0%, #075985 50%, #0ea5e9 100%);
+            --text-main: #ffffff;
+            --text-muted: #c7d2fe;
+            --card-bg: rgba(12, 74, 110, 0.9);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --shadow-color: rgba(0, 0, 0, 0.7);
+            --header-bg: linear-gradient(135deg, #075985 0%, #0c4a6e 100%);
+            --dasa-card-bg: rgba(8, 51, 68, 0.95);
+        }
+
+        [data-theme="forest"] {
+            --bg-primary: linear-gradient(to top, #064e3b 0%, #065f46 50%, #10b981 100%);
+            --text-main: #ffffff;
+            --text-muted: #c7d2fe;
+            --card-bg: rgba(6, 78, 59, 0.9);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --shadow-color: rgba(0, 0, 0, 0.7);
+            --header-bg: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
+            --dasa-card-bg: rgba(2, 44, 34, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            line-height: 1.6;
+            font-size: 13px;
+            color: var(--text-main);
+            background-color: #0c0c0c;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px;
+            padding-bottom: 110px;
+            /* Space for fixed bottom bar and footer */
+            position: relative;
+        }
+
+        /* Rainbow numbers background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Etext%7Bfont-family:'Segoe UI',sans-serif;font-size:14px;font-weight:bold;opacity:0.6%7D%3C/style%3E%3Ctext x='20' y='40' fill='%23FF0000'%3E9%3C/text%3E%3Ctext x='150' y='30' fill='%23FF7F00'%3E6%3C/text%3E%3Ctext x='80' y='160' fill='%23FFFF00'%3E3%3C/text%3E%3Ctext x='120' y='80' fill='%2300FF00'%3E9%3C/text%3E%3Ctext x='40' y='120' fill='%230000FF'%3E6%3C/text%3E%3Ctext x='170' y='140' fill='%238B00FF'%3E3%3C/text%3E%3Ctext x='90' y='20' fill='%23FF0000'%3E6%3C/text%3E%3Ctext x='10' y='180' fill='%23FF7F00'%3E3%3C/text%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            z-index: -1;
+            animation: float-up 20s linear infinite, rainbow-scroll 10s linear infinite;
+        }
+
+        @keyframes float-up {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
+
+        @keyframes rainbow-scroll {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+
+
+        /* Glowing Container */
+        .glow-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 8px 32px var(--shadow-color),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .float-btn i[class*="home"], .theme-toggle-btn i { animation: nav-rainbow 3s linear infinite !important; }
+
+        @keyframes nav-rainbow {
+            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        }
+
+        .glow-container:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* Compact Header - Cosmic Style */
+        .cosmic-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--header-bg);
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 8px 32px var(--shadow-color),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cosmic-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                    #ff6b6b,
+                    #ffd93d,
+                    #6bcf7f,
+                    #4d96ff,
+                    #9d4edd);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .party-name {
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #ffd700;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
+                0 0 20px rgba(255, 140, 0, 0.6),
+                0 0 30px rgba(255, 69, 0, 0.4);
+        }
+
+        .person-name {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #ffffff, #a0a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-icon {
+            font-size: 14px;
+            color: #a0a0ff;
+        }
+
+
+
+        /* Current Dasa - Galaxy Style */
+        .current-dasa-box {
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg,
+                    rgba(30, 30, 60, 0.9),
+                    rgba(20, 20, 40, 0.9));
+            border-radius: 12px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-dasa-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%,
+                    rgba(255, 152, 0, 0.1) 0%,
+                    transparent 50%);
+            pointer-events: none;
+        }
+
+        .current-dasa-title {
+            font-size: 22px;
+            color: #ff9800;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        .current-dasa-title .planet-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .dasa-dates {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Progress Bar - Cosmic */
+        .progress-container {
+            margin: 20px auto;
+            max-width: 550px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.05),
+                    transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg,
+                    #4CAF50,
+                    #8BC34A,
+                    #CDDC39);
+            border-radius: 5px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #b0b0ff;
+        }
+
+        .progress-stats span {
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dasa Section */
+        .dasa-section {
+            width: 100%;
+            margin: 25px 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: var(--text-main);
+            background: linear-gradient(90deg,
+                    rgba(102, 126, 234, 0.3),
+                    rgba(118, 75, 162, 0.3));
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Maha Dasa Cards */
+        .maha-dasa-card {
+            background: var(--dasa-card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .maha-dasa-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .maha-dasa-card.current {
+            border: 2px solid #4CAF50;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .maha-dasa-card.birth {
+            border: 2px solid #2196F3;
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .maha-dasa-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .maha-dasa-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .maha-dasa-info {
+            flex: 1;
+        }
+
+        .maha-dasa-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .maha-dasa-period {
+            font-size: 16px;
+            color: #ffd700;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .maha-dasa-badges {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .current-badge {
+            background: linear-gradient(45deg, #4CAF50, #2E7D32);
+            color: white;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .past-badge {
+            background: linear-gradient(45deg, #757575, #424242);
+            color: white;
+        }
+
+        .future-badge {
+            background: linear-gradient(45deg, #2196F3, #0D47A1);
+            color: white;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .birth-badge {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        /* Anthara Table - Modern */
+        .anthara-container {
+            background: rgba(30, 30, 50, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Table Styles for Anthara */
+        .anthara-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+            background: rgba(40, 40, 70, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .anthara-table th,
+        .anthara-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .anthara-table th {
+            background: rgba(30, 30, 50, 0.8);
+            color: #a0a0ff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .anthara-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .anthara-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .anthara-table tr.current {
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .anthara-table .planet-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .table-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 14px;
+        }
+
+        .favorable {
+            color: var(--color-pos);
+            font-weight: 700;
+            font-size: 11px;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .unfavorable {
+            color: var(--color-neg);
+            font-weight: 700;
+            font-size: 11px;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-favorable {
+            color: var(--color-pos);
+        }
+
+        .text-unfavorable {
+            color: var(--color-neg);
+        }
+        
+        .table-icon.pos {
+            background: var(--color-pos) !important;
+            color: white;
+        }
+        
+        .table-icon.neg {
+            background: var(--color-neg) !important;
+            color: white;
+        }
+
+        /* Accordion Styles */
+        .maha-dasa-card {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .maha-accordion-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: transform 0.3s ease;
+            margin-left: auto;
+        }
+
+        .maha-dasa-card.expanded .maha-accordion-toggle {
+            transform: rotate(180deg);
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .anthara-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .maha-dasa-card.expanded .anthara-wrapper {
+            max-height: 2000px;
+            /* Large enough to hold contents */
+            opacity: 1;
+            margin-top: 15px;
+        }
+
+        /* Summary Section - Galaxy Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg,
+                    rgba(50, 50, 100, 0.8),
+                    rgba(30, 30, 70, 0.8));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                    #ff6b6b,
+                    #ffd93d,
+                    #6bcf7f);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #a0a0ff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11px;
+            color: #8888cc;
+            width: 100%;
+        }
+
+        .disclaimer {
+            background: linear-gradient(135deg,
+                    rgba(198, 40, 40, 0.2),
+                    rgba(244, 67, 54, 0.2));
+            color: #ff9999;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 11px;
+            border-left: 4px solid #f44336;
+        }
+
+        /* ===== PRINT / PDF OPTIMIZATIONS ===== */
+        /* Single unified @media print block — ensures each Mahadasa
+           (header + all Antharadasa rows) occupies exactly one A4 page */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm 10mm 8mm 10mm;
+            }
+
+            /* Reset all decorative effects */
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+                backdrop-filter: none !important;
+                filter: none !important;
+                animation: none !important;
+                transition: none !important;
+            }
+
+            /* Remove animated pseudo-elements */
+            body::before, body::after,
+            .progress-bar::before, .progress-fill::after,
+            .cosmic-header::before, .nakshatra-box::before,
+            .current-dasa-box::before {
+                display: none !important;
+            }
+
+            html, body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                width: 1024px !important; /* Force same desktop width for BOTH Mobile and Web PDF */
+                min-width: 1024px !important;
+                height: auto !important;
+                overflow: visible !important;
+                font-family: 'Noto Sans Telugu', Arial, sans-serif !important;
+                -webkit-print-color-adjust: exact;
+                opacity: 1 !important;
+            }
+
+            .container {
+                width: 1024px !important;
+                min-width: 1024px !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                zoom: 0.8 !important;
+            }
+
+            /* ── Hide all navigation / UI chrome ── */
+            .print-button, .nav-buttons, .scrolling-footer,
+            .theme-switcher, .fixed-bottom-bar, #action-bar,
+            .float-btn, .print-hide, .maha-accordion-toggle,
+            #transit-btn, #transit-loading, .dasa-section .section-title,
+            #loading-overlay {
+                display: none !important;
+            }
+
+            /* ── Glow container: remove decorative chrome ── */
+            .glow-container {
+                background: #fff !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+
+            /* ── Cosmic header (name / birth details) ── */
+            .cosmic-header {
+                background: #f5f5f5 !important;
+                border: 1px solid #333 !important;
+                border-radius: 4px !important;
+                padding: 10px 12px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .cosmic-header * { color: #000 !important; }
+            .party-name { color: #8B0000 !important; font-weight: bold !important; font-size: 11pt !important; }
+            .person-name { font-size: 14pt !important; font-weight: bold !important; color: #000080 !important; }
+            .info-row { display: flex; flex-wrap: wrap; gap: 6px; font-size: 9pt !important; }
+
+            /* ── Nakshatra box ── */
+            .nakshatra-box {
+                background: #f9f9f9 !important;
+                border: 1px solid #333 !important;
+                padding: 6px 10px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .nakshatra-box * { color: #000 !important; }
+            .nakshatra-name { font-size: 10pt !important; }
+            .time-label { color: #555 !important; }
+            .time-value { color: #b22222 !important; font-weight: bold !important; }
+
+            /* ── Current Dasa box ── */
+            .current-dasa-box {
+                background: #f9f9f9 !important;
+                border: 2px solid #333 !important;
+                padding: 8px 10px !important;
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                font-size: 10pt !important;
+            }
+            .current-dasa-box * { color: #000 !important; }
+            .current-dasa-title { color: #d2691e !important; }
+            .highlight.text-favorable { color: #006400 !important; }
+            .highlight.text-unfavorable { color: #b22222 !important; }
+            .progress-container { display: none !important; }
+
+            /* ── Print Summary Table (show it, keep on page 1 — no forced break) ── */
+            .print-summary-section {
+                display: block !important;
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+                margin-top: 20px !important;
+            }
+            .print-summary-section table { font-size: 8.5pt !important; width: 100% !important; }
+            .print-summary-section th, .print-summary-section td {
+                border: 1px solid #333 !important;
+                padding: 5px 8px !important;
+                color: #000 !important;
+            }
+            .print-summary-section div[style*="font-size: 20px"] {
+                font-size: 11.5pt !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* ────────────────────────────────────────────
+               CORE FIX: TWO Mahadasa cards per A4 page
+            ─────────────────────────────────────────────*/
+            .dasa-section {
+                width: 1024px !important;
+                min-width: 1024px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                zoom: 1 !important; /* Inherit from container */
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+            }
+
+            .maha-dasa-card {
+                background: #fff !important;
+                border: 1.5px solid #333 !important;
+                border-radius: 3px !important;
+                padding: 3px 5px !important;
+                margin: 0 0 3px 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                /* Allow the card to split so 2nd card can always follow 1st on same page */
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+            }
+
+            /* Pack exactly 2 cards per page.
+               Since .section-title is child 1:
+               Card 1 = child 2
+               Card 2 = child 3
+               Card 3 = child 4
+               Card 4 = child 5
+               We want to break on Card 3 (child 4), Card 5 (child 6), etc. -> even children!
+               But NOT Card 1 (child 2)! */
+            
+            .dasa-section .maha-dasa-card {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            .dasa-section .maha-dasa-card:nth-child(3n) {
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+
+            .dasa-section .maha-dasa-card:nth-child(2) {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
+            }
+
+            /* Mahadasa header row */
+            .maha-dasa-header {
+                display: flex !important;
+                align-items: flex-start !important;
+                gap: 6px !important;
+                margin-bottom: 3px !important;
+                flex-wrap: wrap !important;
+            }
+
+            .maha-dasa-number {
+                background: transparent !important;
+                border: 1px solid #333 !important;
+                color: #000080 !important;
+                padding: 2px 5px !important;
+                border-radius: 8px !important;
+                font-size: 8pt !important;
+                font-weight: bold !important;
+                min-width: 20px !important;
+            }
+
+            .maha-dasa-name {
+                font-size: 10pt !important;
+                font-weight: bold !important;
+                color: #000 !important;
+                margin-bottom: 1px !important;
+            }
+
+            .maha-dasa-period {
+                font-size: 8.5pt !important;
+                color: #8B4513 !important;
+                font-weight: 600 !important;
+            }
+
+            .maha-dasa-period br { display: none !important; }
+            .maha-dasa-period span { display: none !important; }
+
+            .maha-dasa-badges {
+                display: flex !important;
+                gap: 3px !important;
+                margin-top: 1px !important;
+            }
+
+            .status-badge {
+                font-size: 7.5pt !important;
+                padding: 1px 4px !important;
+                border-radius: 6px !important;
+            }
+            .current-badge { border: 1px solid #006400 !important; color: #006400 !important; background: transparent !important; }
+            .past-badge    { border: 1px solid #555 !important;    color: #555 !important;    background: transparent !important; }
+            .future-badge  { border: 1px solid #000080 !important; color: #000080 !important; background: transparent !important; }
+            .birth-badge   { border: 1px solid #8B4513 !important; color: #8B4513 !important; background: transparent !important; }
+
+            .text-favorable   { color: #006400 !important; }
+            .text-unfavorable { color: #b22222 !important; }
+            .favorable   { color: #006400 !important; font-size: 6.5pt !important; }
+            .unfavorable { color: #b22222 !important; font-size: 6.5pt !important; }
+
+            /* ── Anthara wrapper: show collapsed drawers ── */
+            .anthara-wrapper {
+                display: block !important;
+                max-height: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                margin-top: 4px !important;
+            }
+
+            /* ── Anthara container & table ── */
+            .anthara-container {
+                background: #fafafa !important;
+                border: 1px solid #ccc !important;
+                border-radius: 3px !important;
+                padding: 2px 4px !important;
+            }
+
+            .anthara-container > div:first-child {
+                font-size: 7.5pt !important;
+                margin-bottom: 2px !important;
+            }
+
+            .anthara-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 8.5pt !important;
+                background: #fff !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+            }
+
+            .anthara-table th {
+                background: #e8e8e8 !important;
+                color: #000 !important;
+                border: 1px solid #999 !important;
+                padding: 2px 4px !important;
+                font-size: 7.5pt !important;
+                text-align: left !important;
+            }
+
+            .anthara-table td {
+                color: #000 !important;
+                border: 1px solid #ccc !important;
+                padding: 1.5px 3px !important;
+                vertical-align: middle !important;
+            }
+
+            .anthara-table tr.current td {
+                background: #e6ffe6 !important;
+            }
+
+            .anthara-table .planet-cell {
+                display: flex !important;
+                align-items: center !important;
+                gap: 3px !important;
+                color: #8B0000 !important;
+                font-weight: bold !important;
+                font-size: 8.5pt !important;
+            }
+
+            .table-icon {
+                width: 14px !important;
+                height: 14px !important;
+                font-size: 11px !important;
+                border-radius: 50% !important;
+                border: 1px solid #555 !important;
+                background: transparent !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            /* Date cells in anthara table */
+            .anthara-table td:nth-child(2),
+            .anthara-table td:nth-child(3) {
+                color: #8B4513 !important;
+                font-size: 7pt !important;
+                font-weight: bold !important;
+                white-space: nowrap;
+            }
+
+            /* Antharadasa age sub-line — show compactly */
+            .anthara-table td div {
+                display: block !important;
+                font-size: 6pt !important;
+                color: #555 !important;
+                font-weight: normal !important;
+                line-height: 1.2 !important;
+                margin-top: 1px !important;
+            }
+        }
+
+        /* Scrolling Footer */
+        .scrolling-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            color: #ffd700;
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+        .scrolling-footer-text {
+            display: inline-block;
+            animation: scrollLeft 20s linear infinite;
+            font-size: 15px;
+            font-weight: bold;
+            padding-left: 100%;
+        }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        /* Chart Form Styling - FIXED */
+        .chart-form {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(30, 30, 50, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-form-title {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .chart-form-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .chart-form-btn {
+            padding: 14px 30px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            min-width: 250px;
+            justify-content: center;
+        }
+
+        .chart-form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .chart-form-btn:active {
+            transform: translateY(0);
+        }
+
+
+
+        /* Floating Bottom Action Bar */
+        /* Floating Bottom Action Bar */
+        .fixed-bottom-bar {
+            position: fixed !important;
+            bottom: 45px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            margin: 0 !important;
+            background: rgba(20, 19, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(120, 119, 198, 0.3);
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            z-index: 9999;
+            max-width: 95vw;
+        }
+
+        .fixed-bottom-bar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari */
+        }
+
+        .float-btn {
+            flex: 0 0 auto;
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .float-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 6px;
+            border-radius: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: max-width 0.3s ease;
+            overflow: hidden;
+            max-width: 45px;
+        }
+
+        .theme-switcher.expanded {
+            max-width: 300px;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            padding: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .theme-switcher.expanded .theme-options {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .theme-btn:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+
+        .theme-btn.active {
+            opacity: 1;
+            background: rgba(120, 120, 120, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scrolling Footer */
+        .scrolling-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            color: #ffd700;
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+        .scrolling-footer-text {
+            display: inline-block;
+            animation: scrollLeft 20s linear infinite;
+            font-size: 15px;
+            font-weight: bold;
+            padding-left: 100%;
+        }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Rainbow glow animation */
+        @keyframes nav-rainbow {
+            0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+            20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+            40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+            60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+            80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+            100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+        }
+
+        /* Apply rainbow glow */
+        .theme-toggle-btn, .nav-home i {
+            animation: nav-rainbow 3s linear infinite !important;
+        }
+        /* NOTE: All @media print and @page rules are now consolidated
+           in the single block above (around line 756). */
+        @page {
+            size: A4 portrait;
+            margin: 8mm 10mm 8mm 10mm;
+        }
+            /* Mobile Responsive adjustments */
+            @media screen and (max-width: 768px) {
+                .maha-dasa-card {
+                    padding: 10px;
+                    margin: 10px 0;
+                }
+                .maha-dasa-header {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    gap: 6px;
+                    margin-bottom: 5px;
+                }
+                .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }
+                .maha-dasa-period { font-size: 13px; margin-top: 0; }
+                .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }
+                
+                .maha-accordion-toggle {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 26px;
+                    height: 26px;
+                }
+
+                .maha-dasa-badges {
+                    flex-wrap: wrap;
+                    margin-top: 2px;
+                    gap: 4px;
+                }
+                .status-badge {
+                    padding: 3px 6px;
+                    font-size: 10px;
+                }
+                .anthara-container {
+                    padding: 8px;
+                    margin-top: 5px;
+                }
+
+                .info-row {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .anthara-table {
+                    font-size: 11px;
+                }
+
+                .anthara-table th,
+                .anthara-table td {
+                    padding: 6px 4px;
+                }
+
+                .table-icon {
+                    width: 18px;
+                    height: 18px;
+                    font-size: 12px;
+                }
+
+                .person-name {
+                    font-size: 20px;
+                }
+
+                .summary-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .chart-form-buttons {
+                    flex-direction: column;
+                }
+
+                .chart-form-btn {
+                    width: 100%;
+                    min-width: 100%;
+                }
+            }
+    </style>
+</head>
+
+<body>
+<!-- APP GLOW BORDER -->
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher print-hide">
+        <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options">
+            <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i></button>
+            <button class="theme-btn" data-theme-btn="dark" onclick="setTheme('dark')" title="Deep Space"><i class="fas fa-user-astronaut"></i></button>
+            <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i></button>
+            <button class="theme-btn" data-theme-btn="ocean" onclick="setTheme('ocean')" title="Ocean"><i class="fas fa-water"></i></button>
+            <button class="theme-btn" data-theme-btn="forest" onclick="setTheme('forest')" title="Forest"><i class="fas fa-tree"></i></button>
+        </div>
+    </div>
+    <script>
+        function setTheme(theme) {
+            if (theme === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('preferred-theme', theme);
+
+            // Update UI buttons
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-theme-btn') === theme) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize theme
+        (function () {
+            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+            setTheme(savedTheme);
+        })();
+    </script>
+
+
+    <div class="glow-container animate-fade">
+
+        <!-- Cosmic Header Section -->
+        <div class="cosmic-header">
+            <div class="party-name" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
+                దశకంఠుని దశాచార పద్దతి ప్రకారం దశ ఆచార వివరములు
+                <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
+            </div>
+            <div class="person-name">{{ name }}</div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-icon">📅</span>
+                    <span>{{ dob }} {% if day_name %}({{ day_name }}){% endif %}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">⏰</span>
+                    <span>{{ tob }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <span>{{ place }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✦</span>
+                    <span>{{ nakshatra }} ({{ padam }} పాదం)</span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Current Dasa - Galaxy Style -->
+        <div class="current-dasa-box" style="padding: 10px;">
+            <div class="current-dasa-inline" style="margin-bottom: 8px; font-size: 16px;">
+                <span class="planet-icon" style="font-size: 20px;">{{ current_dasa_icon }}</span>
+                <span>ప్రస్తుత మహాదశ:
+                    {% if current_dasa_favorable %}
+                    <span class="highlight text-favorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
+                    class="favorable">అనుకూలము</span> |
+                {% else %}
+                <span class="highlight text-unfavorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
+                    class="unfavorable">ప్రతికూలము</span> |
+                {% endif %}
+                <br>
+                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
+                {% if maha_age_start and maha_age_end %}
+                <br>
+                <span style="font-size: 14px; color: #a0a0ff;">
+                    (వయసు: {{ maha_age_start }} నుండి {{ maha_age_end }} వరకు)
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="progress-container" style="margin: 0px auto; max-width: 800px;">
+                <div class="progress-bar" style="height: 12px; margin-bottom: 8px;">
+                    <div class="progress-fill" id="progressFill"
+                        style="width: {{ ((completed_years / total_years * 100) if total_years > 0 else 0)|round(1) }}%">
+                    </div>
+                </div>
+                <div class="progress-stats" style="font-size: 14px; justify-content: space-around;">
+                    <span>గతమైనది: {{ "%.2f"|format(completed_years) }} సం.</span>
+                    <span>మిగిలినది: {{ "%.2f"|format(remaining_years) }} సం.</span>
+                    <span style="color: #4CAF50; font-weight: bold;">{{ ((completed_years / total_years * 100) if
+                        total_years > 0 else 0)|round(1) }}% పూర్తైంది</span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- PRINT ONLY: Maha Dasa Summary -->
+        <div class="print-summary-section" style="display: none;">
+            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #000; padding: 10px;">క్ర.సం</th>
+                        <th style="border: 1px solid #000; padding: 10px;">మహాదశ</th>
+                        <th style="border: 1px solid #000; padding: 10px;">సంవత్సరాలు</th>
+                        <th style="border: 1px solid #000; padding: 10px;">ప్రారంభం</th>
+                        <th style="border: 1px solid #000; padding: 10px;">ముగింపు</th>
+                        <th style="border: 1px solid #000; padding: 10px;">వయసు</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dasa in all_dasas %}
+                    <tr>
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold;">{{ loop.index }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.icon }} {{ dasa.maha }}</td>
+                        <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ dasa.years }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.start }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.end }}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{ dasa.age_start }} - {{ dasa.age_end }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Complete Dasa Details -->
+        <div class="dasa-section">
+            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+
+            {% for dasa in all_dasas %}
+            <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
+                onclick="toggleAnthara(this)">
+                <div class="maha-dasa-header">
+                    <div class="maha-dasa-number"
+                        style="background: linear-gradient(45deg, {{ dasa.color }}, {{ dasa.color }}80);">
+                        {{ loop.index }}
+                    </div>
+                    <div class="maha-dasa-info">
+                        <div class="maha-dasa-name">
+                            <span style="color: {{ dasa.color }}; margin-right: 8px;">{{ dasa.icon }}</span>
+                            {% if dasa.is_favorable %}
+                            <span class="text-favorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
+                            <span class="favorable">అనుకూలము</span>
+                            {% else %}
+                            <span class="text-unfavorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
+                            <span class="unfavorable">ప్రతికూలము</span>
+                            {% endif %}
+                        </div>
+                        <div class="maha-dasa-period">
+                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
+                            <br>
+                            <span style="font-size: 13px; color: #a0a0ff;">
+                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="maha-dasa-badges">
+                        <span class="status-badge {% if dasa.stiti == 'ప్రస్తుతం' %}current-badge animate-pulse{% elif dasa.stiti == 'గతం' %}past-badge{% else %}future-badge{% endif %}">
+                            {{ dasa.stiti }}
+                        </span>
+                        {% if dasa.is_birth_dasa %}
+                        <span class="status-badge birth-badge">జన్మ దశ</span>
+                        {% endif %}
+                    </div>
+                    <div class="maha-accordion-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="anthara-wrapper">
+                    {% if dasa.antharas|length > 0 %}
+                    <div class="anthara-container">
+                        <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
+                            అంతర్దశలు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
+                        </div>
+
+                        <table class="anthara-table">
+                            <thead>
+                                <tr>
+                                    <th>అంతర్దశ</th>
+                                    <th>ప్రారంభం</th>
+                                    <th>ముగింపు</th>
+                                    <th>స్థితి</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in dasa.antharas %}
+                                {% set dob_parts = dob.split('-') if dob else ['2000','01','01'] %}
+                                {% set dob_num = (dob_parts[0] ~ dob_parts[1] ~ dob_parts[2])|int %}
+
+                                {% set now_parts = now_date.split('-') if now_date else ['01','01','2000'] %}
+                                {% set start_parts = a.start.split('-') if a.start else ['01','01','2000'] %}
+                                {% set end_parts = a.end.split('-') if a.end else ['01','01','2000'] %}
+
+                                {% set now_num = (now_parts[2] ~ now_parts[1] ~ now_parts[0])|int %}
+                                {% set start_num = (start_parts[2] ~ start_parts[1] ~ start_parts[0])|int %}
+                                {% set end_num = (end_parts[2] ~ end_parts[1] ~ end_parts[0])|int %}
+
+                                {% set is_janma = (dob_num >= start_num and dob_num <= end_num) %} {% set
+                                    is_present=(now_num>= start_num and now_num <= end_num) %} {% set status='' %} {%
+                                        set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
+                                        badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
+                                        set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
+                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
+                                        status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
+                                        class="{% if badge_class == 'current-badge' %}current{% endif %}">
+                                        <td>
+                                            <div class="planet-cell">
+                                                <div class="table-icon {{ 'pos' if a.is_favorable else 'neg' }}">
+                                                    {{ a.icon }}
+                                                </div>
+                                                {% if a.is_favorable %}
+                                                <span class="anthara-name text-favorable"
+                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
+                                                <span class="favorable">అనుకూలము</span>
+                                                {% else %}
+                                                <span class="anthara-name text-unfavorable"
+                                                    data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
+                                                <span class="unfavorable">ప్రతికూలము</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.start }}
+                                            <div style="font-size: 11px; color: var(--text-muted); font-weight: normal;">వయసు: {{
+                                                a.age_start }}</div>
+                                        </td>
+                                        <td style="color: #ffd700; font-size: 16px; font-weight: bold;">
+                                            {{ a.end }}
+                                            <div style="font-size: 11px; color: var(--text-muted); font-weight: normal;">వయసు: {{
+                                                a.age_end }}</div>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge {{ badge_class }}">
+                                                {{ status }}
+                                            </span>
+                                        </td>
+                                        </tr>
+                                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div style="text-align: center; padding: 15px; color: #8888cc; font-style: italic; 
+                            background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 10px;">
+                        ఈ మహాదశకు అంతర్దశల వివరాలు అందుబాటులో లేవు
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+        <!-- Footer items moved to top -->
+
+    </div>
+
+    <!-- Floating Bottom Action Bar -->
+    <!-- Floating Bottom Action Bar -->
+    <!-- Floating Bottom Action Bar -->
+    <style>
+        @keyframes rainbow-glow {
+            0% { box-shadow: 0 0 5px #ff0000; }
+            20% { box-shadow: 0 0 5px #ff7f00; }
+            40% { box-shadow: 0 0 5px #ffff00; }
+            60% { box-shadow: 0 0 5px #00ff00; }
+            80% { box-shadow: 0 0 5px #0000ff; }
+            100% { box-shadow: 0 0 5px #ff0000; }
+        }
+        .rainbow-animate { animation: rainbow-glow 3s infinite alternate; }
+    </style>
+    <div class="fixed-bottom-bar" id="action-bar">
+        <button class="nav-item nav-home float-btn rainbow-animate" style="background: linear-gradient(135deg, #FFD700, #DAA520); color: #000;"
+            onclick="window.location.href='/'">
+            <i class="fas fa-home"></i> హోమ్
+        </button>
+        <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
+            onclick="window.location.href='/go-to-birth-chart'">
+            <i class="fas fa-arrow-left"></i> కుండలికి
+        </button>
+
+        <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
+            onclick="window.location.href='/chart3'">
+            <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
+        </button>
+        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+            onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> PDF
+        </button>
+
+    </div>
+
+    <script>
+        // Theme Management
+        function setTheme(themeName) {
+            if (themeName === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', themeName);
+            }
+            localStorage.setItem('preferred-theme', themeName);
+
+            // Update UI buttons
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-theme-btn') === themeName) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Load saved theme state into buttons immediately
+        const savedThemeGlobal = localStorage.getItem('preferred-theme') || 'light';
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            if (btn.getAttribute('data-theme-btn') === savedThemeGlobal) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate progress bar on load
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                const finalWidth = progressFill.style.width;
+                progressFill.style.width = '0%';
+                setTimeout(() => {
+                    progressFill.style.width = finalWidth;
+                    progressFill.style.transition = 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 300);
+            }
+
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.maha-dasa-card, .anthara-card, .summary-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add scroll animation
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.maha-dasa-card, .anthara-card').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        function goToChart() {
+            showLoader();
+            // Create a form dynamically to submit to /chart route
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/chart';
+            form.style.display = 'none';
+
+            // Add all necessary fields
+            const fields = {
+                'dob': '{{ dob|default("2000-01-01") }}',
+                'tob': '{{ tob|default("12:00") }}',
+                'name': '{{ name|default("User") }}',
+                'place': '{{ place|default("India") }}',
+                'lat': '17.3850', // placeholder if missing
+                'lon': '78.4867'  // placeholder if missing
+            };
+
+            for (const [key, value] of Object.entries(fields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        };
+
+
+        function goToPlanetDetails() {
+            showLoader();
+            // Direct navigation to chart3
+            window.location.href = '/chart3';
+        }
+
+        // ===== ADDITIONAL UTILITY FUNCTIONS =====
+
+        function saveAsPDF() {
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF తయారు చేస్తోంది...';
+            btn.disabled = true;
+
+            // In a real app, this would call your backend PDF generation
+            setTimeout(() => {
+                alert('PDF డౌన్‌లోడ్ చేయడానికి ప్రింట్ ఎంపికను ఉపయోగించండి.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+
+
+
+        function showReminders() {
+            alert('రిమైండర్లు: ఈ దశ చివరి తేదీ: {{ maha_end }}');
+        }
+
+        // Accordion Toggle
+        function toggleAnthara(element) {
+            // Toggle the clicked element
+            element.classList.toggle('expanded');
+
+            // Optional: Close others (accordion style)
+            // document.querySelectorAll('.maha-dasa-card').forEach(card => {
+            //     if(card !== element) card.classList.remove('expanded');
+            // });
+        }
+
+
+
+        // Initialize tooltips
+        function initializeTooltips() {
+            const tooltips = {
+                'సూర్య': 'సూర్యుడు - జీవిత శక్తి, ప్రతిష్ట',
+                'చంద్ర': 'చంద్రుడు - మనస్సు, భావోద్వేగాలు',
+                'కుజ': 'కుజుడు - శక్తి, సాహసం',
+                'గురు': 'గురువు - జ్ఞానం, అదృష్టం',
+                'శుక్ర': 'శుక్రుడు - ప్రేమ, సౌందర్యం',
+                'శని': 'శని - కర్మ, పరిశ్రమ',
+                'బుధ': 'బుధుడు - బుద్ధి, వాణిజ్యం',
+                'రాహు': 'రాహువు - కామనా, అస్పష్టత',
+                'కేతు': 'కేతువు - ఆధ్యాత్మికత, విముక్తి',
+                'భూమి': 'భూమి - స్థిరత్వం, ప్రాథమిక అవసరాలు',
+                'మిత్ర': 'మిత్ర - స్నేహం, సహకారం',
+                'చిత్ర': 'చిత్ర - సృజనాత్మకత, కళ'
+            };
+
+            // Add tooltips to planet names
+            document.querySelectorAll('.anthara-name, .maha-dasa-name').forEach(el => {
+                const planetName = el.textContent.replace(/[✦☉☽♂☿♃♀♄☊☋♁☆]/g, '').trim();
+                const words = planetName.split(' ');
+                const mainPlanet = words[0];
+
+                if (tooltips[mainPlanet]) {
+                    el.title = tooltips[mainPlanet];
+                    el.style.cursor = 'help';
+                }
+            });
+        }
+
+        // Call tooltip initialization
+        initializeTooltips();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl + 1 for chart
+            if (e.ctrlKey && e.key === '1') {
+                goToChart();
+            }
+
+            // Ctrl + 2 for correction
+            if (e.ctrlKey && e.key === '2') {
+                goToCorrection();
+            }
+
+            // Ctrl + 3 for planet details
+            if (e.ctrlKey && e.key === '3') {
+                goToPlanetDetails();
+            }
+
+            // Ctrl + P for print
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+
+        function startTyping() {
+            const element = document.getElementById("typing-text");
+            if (!element) return;
+            
+            element.innerHTML = 'గణన చేస్తోంది';
+        }
+
+        
+
+        function playLoadingSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                for(let i = 0; i < 6; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(440 + (i * 80), time);
+                    gain.gain.setValueAtTime(0, time);
+                    gain.gain.linearRampToValueAtTime(0.04, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.4);
+                    time += 0.25;
+                }
+            } catch (e) {}
+        }
+
+        function showLoader() {
+            playLoadingSound();
+            document.getElementById('loading-overlay').style.display = 'flex';
+            startTyping();
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href && !this.href.includes('#')) {
+                    showLoader();
+                }
+            });
+        });
+    </script>
+
+
+  <!-- Scrolling footer moved to top area for PDF consistency -->
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,10,30,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:100000;">
+        <div style="width:60px; height:60px; border:5px solid rgba(255,215,0,0.2); border-top:5px solid #ffd700; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:20px;"></div>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+        <p id="typing-text-chart2" style="font-size:20px; font-weight:bold; color:#ffd700;">గణన చేస్తోంది</p>
+    </div>
+
+    <!-- Universal Loading Interceptor -->
+    <script>
+    (function() {
+        function playLoadingSound() {
+            try {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523, 659, 784, 1047];
+                notes.forEach(function(freq, i) {
+                    var osc = audioCtx.createOscillator();
+                    var gain = audioCtx.createGain();
+                    var t = audioCtx.currentTime + i * 0.12;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t);
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.3);
+                });
+            } catch(e) {}
+        }
+
+        function showGananaLoader() {
+            var overlay = document.getElementById('loading-overlay');
+            if (!overlay) return;
+            playLoadingSound();
+            overlay.style.display = 'flex';
+            var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
+            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+        }
+
+        // Attach ONLY to navigation float-btn buttons (skip print)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.float-btn').forEach(function(btn) {
+                var oc = btn.getAttribute('onclick') || '';
+                if (oc.indexOf('print()') !== -1) return;
+                if (oc.indexOf('fetch') !== -1) return;
+                btn.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to nav-item <a> links
+            document.querySelectorAll('a.nav-item').forEach(function(link) {
+                var href = link.getAttribute('href') || '';
+                if (!href || href === '#') return;
+                link.addEventListener('click', function() {
+                    showGananaLoader();
+                });
+            });
+
+            // Attach to main form submit
+            document.querySelectorAll('form:not([id="dasaForm"])').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    showGananaLoader();
+                });
+            });
+        });
+
+        // Hide loader on back/forward cache
+        window.addEventListener('pageshow', function() {
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.style.display = 'none';
+        });
+    })();
+    </script>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 
 <head>
@@ -605,6 +605,41 @@
             filter: brightness(1.2);
         }
 
+        @keyframes rainbow {
+            0% { color: #ff3e3e; }
+            15% { color: #ff9d3e; }
+            30% { color: #fff33e; }
+            45% { color: #3eff5e; }
+            60% { color: #3e9dff; }
+            75% { color: #b03eff; }
+            90% { color: #ff3ec9; }
+            100% { color: #ff3e3e; }
+        }
+
+        .rainbow-planet {
+            animation: rainbow 4s linear infinite;
+            font-weight: 800;
+            text-decoration: underline;
+        }
+
+        .bhava-interpretation-box {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .interpretation-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .disclaimer-box {
             background: rgba(255, 107, 107, 0.1);
             border: 1px solid rgba(255, 107, 107, 0.3);
@@ -1023,13 +1058,18 @@
                             {% else %}
                             <i class="fas fa-dot-circle"></i>
                             {% endif %}
-                            {{ b.interpretation }}
+                            {{ b.interpretation | safe }}
                         </div>
                     </div>
 
-                    {% if b.special_note %}
-                    <div class="special-note-box">
-                        <i class="fas fa-star"></i> <strong>ప్రశ్నకు జవాబు / విశేషం:</strong> {{ b.special_note }}
+                    {% if b.special_notes %}
+                    <div class="special-note-box" style="display: block;">
+                        {% for note in b.special_notes %}
+                        <div style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fas fa-star" style="margin-top: 3px;"></i>
+                            <span>{{ note | safe }}</span>
+                        </div>
+                        {% endfor %}
                     </div>
                     {% endif %}
                 </div>

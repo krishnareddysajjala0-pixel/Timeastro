@@ -540,16 +540,57 @@ def log_user_to_github(name, dob, tob, place):
                 print(f"Local Git push failed: {e}")
 
         # Start both sync methods in background
-        # api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        # api_thread.daemon = True
-        # api_thread.start()
+        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
+        api_thread.daemon = True
+        api_thread.start()
         
-        # git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        # git_thread.daemon = True
-        # git_thread.start()
+        git_thread = threading.Thread(target=local_git_sync, args=(name,))
+        git_thread.daemon = True
+        git_thread.start()
+        
+        # 4. Telegram Notification
+        send_telegram_notification(name, dob, tob, place)
         
     except Exception as e:
         print(f"Critical logging error: {e}")
+
+
+def send_telegram_notification(name, dob, tob, place):
+    """Send user details to Telegram Bot channel/chat."""
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        print("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured. Skipping notification.")
+        return
+
+    try:
+        message = (
+            f"🌟 *New User Query on YugAstro!*\n\n"
+            f"👤 *Name:* {name}\n"
+            f"📅 *DOB:* {dob}\n"
+            f"⏰ *TOB:* {tob}\n"
+            f"📍 *Place:* {place}"
+        )
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = {
+            "chat_id": chat_id,
+            "text": message,
+            "parse_mode": "Markdown"
+        }
+        
+        def send_thread():
+            try:
+                res = requests.post(url, json=payload, timeout=10)
+                if res.status_code == 200:
+                    print("Telegram notification sent successfully!")
+                else:
+                    print(f"Telegram notification failed: {res.text}")
+            except Exception as thread_e:
+                print(f"Telegram API thread error: {thread_e}")
+                
+        threading.Thread(target=send_thread, daemon=True).start()
+    except Exception as e:
+        print(f"Failed to start Telegram notification thread: {e}")
 
 
 def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):

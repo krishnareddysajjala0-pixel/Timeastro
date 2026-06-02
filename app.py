@@ -565,7 +565,7 @@ def send_telegram_notification(name, dob, tob, place):
 
     try:
         message = (
-            f"🌟 *New User Query on YugAstro!*\n\n"
+            f"🌟 *New User Query on Timeastro!*\n\n"
             f"👤 *Name:* {name}\n"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"

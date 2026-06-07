@@ -1,53 +1,21 @@
-
-1. [02-Jun-2026 03:35:12] Name: reddy, DOB: 2026-06-02, TOB: 09:05, Place: Nellore, Andhra Pradesh, India
-2. [02-Jun-2026 03:51:58] Name: 963, DOB: 2026-06-02, TOB: 09:21, Place: Nellore, Andhra Pradesh, India
-3. [02-Jun-2026 03:55:20] Name: skr, DOB: 2026-06-02, TOB: 09:23, Place: Nellore, Andhra Pradesh, India
-4. [02-Jun-2026 03:59:31] Name: usha, DOB: 2026-06-02, TOB: 09:29, Place: Warangal, Telangana, India
-5. [02-Jun-2026 04:45:44] Name: 223, DOB: 2026-06-02, TOB: 10:15, Place: Tirupati, Andhra Pradesh, India
-6. [02-Jun-2026 04:47:21] Name: Uij, DOB: 2026-06-02, TOB: 10:17, Place: Warangal, Telangana, India
-7. [02-Jun-2026 07:46:56] Name: Kkk, DOB: 2026-06-02, TOB: 13:16, Place: Nellore, Andhra Pradesh, India
-8. [07-Jun-2026 11:24:29] Name: reddy, DOB: 2026-06-07, TOB: 11:24, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-9. [07-Jun-2026 11:28:40] Name: skr, DOB: 2026-06-07, TOB: 11:28, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-10. [07-Jun-2026 11:29:16] Name: dfg, DOB: 2026-06-07, TOB: 11:29, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-11. [07-Jun-2026 11:31:35] Name: edf, DOB: 2026-06-07, TOB: 11:31, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-12. [07-Jun-2026 11:34:18] Name: reddd, DOB: 2026-06-07, TOB: 11:34, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-13. [07-Jun-2026 11:36:51] Name: skr, DOB: 2026-06-07, TOB: 11:36, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-14. [07-Jun-2026 11:39:34] Name: eree, DOB: 2026-06-07, TOB: 11:39, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-15. [07-Jun-2026 11:42:16] Name: df (Compare 1), DOB: 2026-06-07, TOB: 11:42, Place: Kandukur, Andhra Pradesh, India
-16. [07-Jun-2026 11:42:16] Name: gh (Compare 2), DOB: 2026-06-07, TOB: 11:42, Place: Kandukur, Andhra Pradesh, India
-17. [07-Jun-2026 11:43:02] Name: rfg, DOB: 2026-06-07, TOB: 11:42, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-18. [07-Jun-2026 11:44:15] Name: df, DOB: 2026-06-07, TOB: 11:44, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-19. [07-Jun-2026 11:46:03] Name: dfgg, DOB: 2026-06-07, TOB: 11:45, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-20. [07-Jun-2026 11:46:47] Name: sd, DOB: 2026-06-07, TOB: 11:46, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-21. [07-Jun-2026 11:50:10] Name: Test Person, DOB: 1995-05-15, TOB: 08:30, Place: Hyderabad, Telangana, India
-22. [07-Jun-2026 11:51:34] Name: sdf, DOB: 2026-06-07, TOB: 11:51, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-23. [07-Jun-2026 11:54:01] Name: dff, DOB: 2026-06-07, TOB: 11:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-24. [07-Jun-2026 12:17:07] Name: sdf, DOB: 2026-06-07, TOB: 12:16, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-25. [07-Jun-2026 12:31:57] Name: reddy, DOB: 2026-06-07, TOB: 12:31, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-26. [07-Jun-2026 12:33:04] Name: df (Compare 1), DOB: 2026-06-07, TOB: 12:32, Place: Kandukur, Andhra Pradesh, India
-27. [07-Jun-2026 12:33:04] Name: dfff (Compare 2), DOB: 2026-06-07, TOB: 12:32, Place: Kandukur, Andhra Pradesh, India
-28. [07-Jun-2026 12:33:29] Name: dff (Compare 1), DOB: 2026-06-07, TOB: 12:33, Place: Kandukur, Andhra Pradesh, India
-29. [07-Jun-2026 12:33:29] Name: fff (Compare 2), DOB: 2026-06-07, TOB: 12:33, Place: Kandukur, Andhra Pradesh, India
-30. [07-Jun-2026 12:39:53] Name: edf, DOB: 2026-06-07, TOB: 12:39, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-31. [07-Jun-2026 07:20:18] Name: reddy, DOB: 2026-06-07, TOB: 12:50, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-32. [07-Jun-2026 07:21:19] Name: dfg, DOB: 2026-06-07, TOB: 12:51, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-33. [07-Jun-2026 08:24:20] Name: Kyros, DOB: 2025-07-24, TOB: 17:55, Place: సంగారెడ్డి, Telangana, India
-34. [07-Jun-2026 08:27:41] Name: Kyros, DOB: 2025-07-24, TOB: 17:55, Place: సంగారెడ్డి, Telangana, India
-35. [07-Jun-2026 08:29:21] Name: Kyros, DOB: 2025-07-24, TOB: 17:55, Place: సంగారెడ్డి, Telangana, India
-36. [07-Jun-2026 08:34:46] Name: Kyros, DOB: 2025-07-24, TOB: 17:55, Place: సంగారెడ్డి, Telangana, India
-37. [07-Jun-2026 15:55:25] Name: sdf, DOB: 2026-06-07, TOB: 15:55, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-38. [07-Jun-2026 10:30:01] Name: 123, DOB: 2026-06-07, TOB: 15:59, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-39. [07-Jun-2026 10:30:42] Name: reddy, DOB: 2026-06-07, TOB: 15:59, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-40. [07-Jun-2026 16:06:17] Name: df, DOB: 2026-06-07, TOB: 16:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-41. [07-Jun-2026 10:39:00] Name: Hju, DOB: 2026-06-07, TOB: 16:08, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-42. [07-Jun-2026 10:40:44] Name: lki, DOB: 2026-06-07, TOB: 16:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-43. [07-Jun-2026 10:43:00] Name: Kkk, DOB: 2026-06-07, TOB: 16:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-44. [07-Jun-2026 10:51:06] Name: Qwe, DOB: 2026-06-07, TOB: 16:21, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-45. [07-Jun-2026 16:27:41] Name: tg, DOB: 2026-06-07, TOB: 16:27, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-46. [07-Jun-2026 16:28:46] Name: tg, DOB: 2026-06-07, TOB: 16:27, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-47. [07-Jun-2026 16:28:51] Name: tg, DOB: 2026-06-07, TOB: 16:27, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-48. [07-Jun-2026 16:40:12] Name: dfg, DOB: 2026-06-07, TOB: 16:40, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-49. [07-Jun-2026 11:17:51] Name: red, DOB: 2026-06-07, TOB: 16:47, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-50. [07-Jun-2026 11:20:19] Name: red, DOB: 2026-06-07, TOB: 16:47, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-51. [07-Jun-2026 11:48:24] Name: reddy, DOB: 2026-06-07, TOB: 17:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-52. [07-Jun-2026 12:42:57] Name: yh, DOB: 2026-06-07, TOB: 18:12, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+1. [02-Jun-2026 08:34:36] Name: RealLocalUser, DOB: 1995-05-15, TOB: 08:30, Place: Hyderabad, Telangana, India
+2. [02-Jun-2026 03:10:44] Name: skr, DOB: 2026-06-02, TOB: 08:40, Place: Nellore, Andhra Pradesh, India
+3. [02-Jun-2026 03:29:30] Name: reddy, DOB: 2026-06-02, TOB: 08:59, Place: Nellore, Andhra Pradesh, India
+4. [07-Jun-2026 05:11:11] Name: reddy, DOB: 2026-06-07, TOB: 10:40, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+5. [07-Jun-2026 10:53:32] Name: red, DOB: 2026-06-07, TOB: 10:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+6. [07-Jun-2026 10:55:57] Name: red, DOB: 2026-06-07, TOB: 10:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+<<<<<<< Updated upstream
+7. [07-Jun-2026 10:57:46] Name: red, DOB: 2026-06-07, TOB: 10:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+8. [07-Jun-2026 11:01:15] Name: red, DOB: 2026-06-07, TOB: 11:01, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+9. [07-Jun-2026 11:03:03] Name: red, DOB: 2026-06-07, TOB: 11:02, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+10. [07-Jun-2026 11:11:12] Name: rfg, DOB: 2026-06-07, TOB: 11:11, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+=======
+>>>>>>> Stashed changes
+1. [07-Jun-2026 11:12:14] Name: sd, DOB: 2026-06-07, TOB: 11:12, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+2. [07-Jun-2026 05:43:56] Name: red, DOB: 2026-06-07, TOB: 11:13, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+3. [07-Jun-2026 11:15:03] Name: ed, DOB: 2026-06-07, TOB: 11:14, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+4. [07-Jun-2026 17:34:24] Name: red, DOB: 2026-06-07, TOB: 17:34, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+5. [07-Jun-2026 17:46:36] Name: dg, DOB: 2026-06-07, TOB: 17:46, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+6. [07-Jun-2026 18:02:31] Name: sdf, DOB: 2026-06-07, TOB: 18:02, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+7. [07-Jun-2026 18:07:04] Name: okl, DOB: 2026-06-07, TOB: 18:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+8. [07-Jun-2026 18:10:33] Name: yg, DOB: 2026-06-07, TOB: 18:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 
 <head>
@@ -715,9 +715,23 @@
         /* ===== PRINT ===== */
         /* ===== PRINT OPTIMIZATIONS ===== */
         @media print {
+            /* ===== Override ALL theme CSS variables to print-safe values =====
+               Without this, dark/cosmic themes keep --text-main:#ffffff which
+               makes cell text invisible (white-on-white) in the PDF. */
+            :root, [data-theme] {
+                --bg-primary: #ffffff !important;
+                --text-main: #000000 !important;
+                --text-muted: #333333 !important;
+                --card-bg: #ffffff !important;
+                --card-border: #000000 !important;
+                --table-row-bg: #ffffff !important;
+                --table-row-alt-bg: #f8fafc !important;
+                --table-header-bg: #f1f5f9 !important;
+            }
+
             @page {
                 size: A4 portrait;
-                margin: 4mm;
+                margin: 4mm 3mm;
             }
             
             * {
@@ -733,31 +747,31 @@
                 color: #000 !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-size: 9pt !important;
-                opacity: 1 !important; /* Ensure visibility if JS-based opacity hasn't finished */
+                font-size: 15.2pt !important;
+                opacity: 1 !important;
             }
 
             body::before { display: none !important; }
 
             .container {
                 max-width: 100% !important;
-                width: 1024px !important;
-                min-width: 1024px !important;
-                margin: 0 auto !important;
+                width: 100% !important;
+                min-width: unset !important;
+                margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.8 !important;
+                zoom: 0.58 !important; /* Scale container to fit everything perfectly on a single A4 page */
             }
 
             .header {
-                padding: 3px 8px !important;
-                margin-bottom: 3px !important;
+                padding: 4px 8px !important;
+                margin-bottom: 4px !important;
                 background: #f8f9fa !important;
                 border: 1px solid #ddd !important;
                 border-radius: 6px !important;
             }
 
             .header h1 {
-                font-size: 16pt !important;
+                font-size: 22.8pt !important;
                 margin-bottom: 0 !important;
                 background: none !important;
                 -webkit-text-fill-color: #000 !important;
@@ -765,15 +779,40 @@
             }
 
             .header-subtitle {
-                font-size: 10.5pt !important;
+                font-size: 15.2pt !important;
                 color: #555 !important;
             }
 
+            .party-info-box {
+                margin-bottom: 4px !important;
+                padding: 4px 10px !important;
+                border-radius: 6px !important;
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                text-align: center !important;
+            }
+
+            .party-info-box p {
+                font-size: 15.2pt !important;
+                line-height: 1.25 !important;
+                margin: 0 !important;
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .party-info-box strong {
+                font-size: 15.2pt !important;
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+
             .section-header {
-                margin: 3px 0 1px !important;
-                padding: 2px 6px !important;
-                background: #eee !important;
-                border: 1px solid #ccc !important;
+                margin: 4px 0 2px !important;
+                padding: 2px 4px !important;
+                background: #f1f5f9 !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 4px !important;
                 page-break-inside: avoid;
             }
             
@@ -782,100 +821,221 @@
             }
 
             .section-title {
-                font-size: 13pt !important;
+                font-size: 19.1pt !important;
                 margin-bottom: 0 !important;
                 background: none !important;
-                -webkit-text-fill-color: #000 !important;
-                color: #000 !important;
+                -webkit-text-fill-color: #0f172a !important;
+                color: #0f172a !important;
             }
 
             .section-subtitle {
-                font-size: 9pt !important;
-                color: #666 !important;
+                font-size: 15.2pt !important;
+                color: #475569 !important;
             }
 
             .table-container {
                 padding: 0 !important;
-                margin-bottom: 3px !important;
+                margin-bottom: 4px !important;
                 border: none !important;
                 background: transparent !important;
                 box-shadow: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow: visible !important;
             }
 
             .data-table {
-                font-size: 8.5pt !important;
+                font-size: 15.2pt !important;
                 width: 100% !important;
-                border: 1px solid #000 !important;
-                table-layout: auto !important;
+                border: 2px solid #000000 !important;
+                border-collapse: collapse !important;
+                table-layout: fixed !important;
+                color: #000000 !important; /* Force black — overrides white from dark themes */
             }
 
-            .data-table th, .data-table td {
-                padding: 1px 2px !important;
-                border: 1px solid #000 !important;
-                line-height: 1.1 !important;
+            .data-table th {
+                background-color: #f1f5f9 !important;
+                color: #000000 !important;
+                font-weight: 700 !important;
+                border: 1.5px solid #000000 !important;
+                font-size: 15.2pt !important; /* th — 15.2pt */
+                padding: 4px 2px !important;
+                text-align: center !important;
+                vertical-align: middle !important;
+                width: 15% !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .data-table td {
+                padding: 3px 2px !important;
+                border: 1.5px solid #000000 !important;
+                line-height: 1.25 !important;
+                vertical-align: middle !important;
+                width: 15% !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
                 word-break: break-word !important;
-                color: #000 !important;
+                text-align: center !important;
+                color: #000000 !important; /* Force black — overrides white from dark themes */
             }
 
-            .data-table th:first-child, 
+            .data-table tbody tr:nth-child(even) td {
+                background-color: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .data-table tbody tr:nth-child(odd) td {
+                background-color: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .data-table th:first-child,
             .data-table td:first-child {
                 position: static !important;
-                background: #f0f0f0 !important;
-                width: 1% !important;
+                background: #f1f5f9 !important;
+                width: 10% !important;
                 white-space: nowrap !important;
                 font-weight: bold !important;
-                font-size: 9pt !important;
+                color: #000000 !important;
+                text-align: left !important;
+                padding-left: 4px !important;
+                border-right: 2px solid #000000 !important;
+                box-shadow: none !important;
             }
 
-            /* Fix color visibility in print */
-            .planet-name-cell, .planet-name-cell div, .planet-name {
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-                text-shadow: none !important;
+            /* Planet-specific bold colors in print */
+            .guru-planet {
+                color: #b45309 !important;
+                border-left: 3px solid #eab308 !important;
+                font-weight: bold !important;
+            }
+            .surya-planet {
+                color: #c2410c !important;
+                border-left: 3px solid #ea580c !important;
+                font-weight: bold !important;
+            }
+            .chandra-planet {
+                color: #475569 !important;
+                border-left: 3px solid #64748b !important;
+                font-weight: bold !important;
+            }
+            .kuja-planet {
+                color: #b91c1c !important;
+                border-left: 3px solid #ef4444 !important;
+                font-weight: bold !important;
+            }
+            .ketu-planet {
+                color: #6d28d9 !important;
+                border-left: 3px solid #8b5cf6 !important;
+                font-weight: bold !important;
+            }
+            .bhoomi-planet {
+                color: #0369a1 !important;
+                border-left: 3px solid #0284c7 !important;
+                font-weight: bold !important;
+            }
+            .shani-planet {
+                color: #1e293b !important;
+                border-left: 3px solid #334155 !important;
+                font-weight: bold !important;
+            }
+            .mitra-planet {
+                color: #713f12 !important;
+                border-left: 3px solid #a16207 !important;
+                font-weight: bold !important;
+            }
+            .chitra-planet {
+                color: #db2777 !important;
+                border-left: 3px solid #f472b6 !important;
+                font-weight: bold !important;
+            }
+            .budha-planet {
+                color: #047857 !important;
+                border-left: 3px solid #10b981 !important;
+                font-weight: bold !important;
+            }
+            .shukra-planet {
+                color: #be185d !important;
+                border-left: 3px solid #ec4899 !important;
+                font-weight: bold !important;
+            }
+            .rahu-planet {
+                color: #334155 !important;
+                border-left: 3px solid #475569 !important;
+                font-weight: bold !important;
             }
 
-            .category-cell, .direction-cell, .day-cell, .gender-cell, .caste-cell, .gemstone-cell, .detail-label, .detail-value {
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
+            /* Gender Specific bold colors in print */
+            .gender-cell.male {
+                color: #0284c7 !important;
+                font-weight: bold !important;
+            }
+            .gender-cell.female {
+                color: #db2777 !important;
+                font-weight: bold !important;
+            }
+            .gender-cell.neutral {
+                color: #7c3aed !important;
+                font-weight: bold !important;
+            }
+
+            /* Direction Colors in print */
+            .direction-cell {
+                color: #0369a1 !important;
+                font-weight: bold !important;
+            }
+
+            /* Gemstones in print */
+            .gemstone-cell {
+                color: #15803d !important;
+                font-weight: bold !important;
+            }
+
+            /* Diseases Cell layout */
+            .disease-cell {
+                width: 15% !important;
+                white-space: normal !important;
+                text-align: left !important;
+                vertical-align: top !important;
             }
 
             .disease-list {
                 background: none !important;
                 border: none !important;
                 padding: 0 !important;
+                margin: 0 !important;
             }
 
             .disease-list li {
-                font-size: 6.5pt !important;
-                padding: 0 !important;
-                color: #000 !important;
+                font-size: 15.2pt !important; /* disease list — 15.2pt */
+                padding: 1px 0 !important;
+                color: #991b1b !important;
+                list-style-type: none !important;
+                word-wrap: break-word !important;
+                word-break: break-word !important;
+                white-space: normal !important;
             }
 
+            /* Footer & Disclaimer */
             .footer {
                 margin-top: 4px !important;
-                padding: 2px !important;
+                padding: 0 !important;
                 page-break-inside: avoid;
             }
 
             .disclaimer {
-                font-size: 6.5pt !important;
-                padding: 3px !important;
+                font-size: 15.2pt !important; /* disclaimer — 15.2pt */
+                padding: 4px !important;
                 margin-top: 2px !important;
-                background: #fff !important;
-                border: 1px solid #ddd !important;
-                color: #000 !important;
-            }
-
-            .party-info-box {
-                background: #f8f9fa !important;
-                border: 1px solid #000 !important;
-                color: #000 !important;
-                box-shadow: none !important;
-            }
-
-            .party-info-box p, .party-info-box strong {
-                color: #000 !important;
-                text-shadow: none !important;
+                background: #fef2f2 !important;
+                border: 1px solid #fee2e2 !important;
+                border-left: 3px solid #ef4444 !important;
+                color: #991b1b !important;
             }
 
             .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {

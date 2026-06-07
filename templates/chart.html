@@ -1126,14 +1126,15 @@
         background: #ffffff !important;
         border: 1px solid #000 !important;
         padding: 1px !important;
-        min-height: 65px !important;
-        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
+        height: 80px !important; /* Fixed height so all boxes in both charts are identical in size */
+        font-size: 17px !important; 
         line-height: 1.1 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        align-items: center !important; /* Center alignment */
+        align-items: center !important; 
         text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .box br {
@@ -1165,12 +1166,13 @@
 
       .hand {
         font-size: 17px !important; /* Same size as planet names (17px) */
-        padding: 0 !important;
+        padding: 2px 8px !important;
         margin: 3px 2px !important;
-        border: none !important;
-        border-radius: 0 !important;
+        border: 1px solid #000 !important;
+        border-radius: 12px !important;
         background: transparent !important;
         box-shadow: none !important;
+        display: inline-block !important;
       }
 
       .pos {
@@ -1832,20 +1834,10 @@
         });
 
         window.onbeforeprint = function() {
-          if (viewportMeta) {
-            viewportMeta.setAttribute('content', 'width=1024');
-          }
           document.body.classList.add('printing');
-          document.querySelectorAll('.box').forEach(box => {
-            box.style.boxShadow = 'none';
-            box.style.transform = 'none';
-          });
         };
 
         window.onafterprint = function() {
-          if (viewportMeta && originalViewport) {
-            viewportMeta.setAttribute('content', originalViewport);
-          }
           document.body.classList.remove('printing');
         };
       })();

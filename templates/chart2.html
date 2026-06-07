@@ -2064,19 +2064,11 @@
             });
 
             window.onbeforeprint = function() {
-                if (viewportMeta) {
-                    viewportMeta.setAttribute('content', 'width=1024');
-                }
-                if (window.innerWidth < 768) {
-                    document.body.classList.add('mobile-print-force');
-                }
+                document.body.classList.add('printing');
             };
 
             window.onafterprint = function() {
-                if (viewportMeta && originalViewport) {
-                    viewportMeta.setAttribute('content', originalViewport);
-                }
-                document.body.classList.remove('mobile-print-force');
+                document.body.classList.remove('printing');
             };
         })();
     </script>

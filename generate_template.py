@@ -194,16 +194,10 @@ new_html = f"""<!DOCTYPE html>
           }}
 
           window.onbeforeprint = function() {{
-              if (viewportMeta) {{
-                  viewportMeta.setAttribute('content', 'width=1024');
-              }}
               document.body.classList.add('printing');
           }};
 
           window.onafterprint = function() {{
-              if (viewportMeta && originalViewport) {{
-                  viewportMeta.setAttribute('content', originalViewport);
-              }}
               document.body.classList.remove('printing');
           }};
       }})();

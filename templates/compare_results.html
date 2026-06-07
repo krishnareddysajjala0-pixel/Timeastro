@@ -1241,13 +1241,14 @@
       }
 
       .hand {
-        padding: 0 !important;
+        padding: 2px 8px !important;
         font-size: 15px !important; /* Same size as planet names (15px) */
-        margin: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
+        margin: 3px 2px !important;
+        border: 1px solid #000 !important;
+        border-radius: 12px !important;
         background: transparent !important;
         box-shadow: none !important;
+        display: inline-block !important;
       }
 
       .box b {
@@ -1906,16 +1907,10 @@
             });
 
             window.onbeforeprint = function() {
-                if (viewportMeta) {
-                    viewportMeta.setAttribute('content', 'width=1024');
-                }
                 document.body.classList.add('printing');
             };
 
             window.onafterprint = function() {
-                if (viewportMeta && originalViewport) {
-                    viewportMeta.setAttribute('content', originalViewport);
-                }
                 document.body.classList.remove('printing');
             };
         })();

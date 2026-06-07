@@ -52,7 +52,7 @@ if "planet_positions, chart_data, lagna_houses" not in app_content:
             hl = (base + 180)%360
             r = LAGNA_NAMES_TELUGU[int(hl/30)]
             d = int(hl%30); min_val = int(((hl%30)-d)*60)
-            chart_data_temp[r].append((hl%30, f"<span class='hand'><span style='font-size: 0.7em;'>👉</span> {n} <small>{d}°{min_val:02d}′</small></span>"))
+            chart_data_temp[r].append((hl%30, f"<span class='hand'><i class='fa-regular fa-hand-point-right' style='font-size: 0.8em; margin-right: 2px;'></i> {n} <small>{d}°{min_val:02d}′</small></span>"))
             
         hus, ascmc = swe.houses(jd, lat, lon)
         lagna_lon = (ascmc[0] - swe.get_ayanamsa_ut(jd)) % 360

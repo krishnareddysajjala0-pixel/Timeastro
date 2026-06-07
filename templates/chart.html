@@ -1221,11 +1221,12 @@
 
       .hand {
         font-size: 17px !important; /* Same size as planet names (17px) */
-        padding: 3px 10px !important;
+        padding: 0 !important;
         margin: 3px 2px !important;
-        border: 1px solid rgba(0, 0, 0, 0.3) !important;
-        border-radius: 12px !important;
+        border: none !important;
+        border-radius: 0 !important;
         background: transparent !important;
+        box-shadow: none !important;
       }
 
       .pos {
@@ -1879,10 +1880,6 @@
         document.querySelectorAll('.box').forEach(box => {
           box.style.boxShadow = 'none';
           box.style.transform = 'none';
-        });
-
-        document.querySelectorAll('.hand').forEach(hand => {
-          hand.style.border = '1px solid #666';
         });
       };
 

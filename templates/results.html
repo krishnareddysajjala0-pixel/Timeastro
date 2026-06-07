@@ -1039,7 +1039,7 @@
                         {% if b.planets %}
                         {% for p in b.planets %}
                         <span class="p-tag" style="color: {{ p.color }}; border-color: {{ p.color }}44;">
-                            {% if p.is_hand %}👉{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% బలము
+                            {% if p.is_hand %}<i class="fa-regular fa-hand-point-right" style="font-size: 0.85em; margin-right: 3px;"></i>{% endif %} {{ p.name }} ({{ p.degree }}) - {{ p.strength }}% బలము
                         </span>
                         {% endfor %}
                         {% else %}

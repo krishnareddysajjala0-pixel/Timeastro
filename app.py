@@ -780,7 +780,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
             d = int(deg)
             m = int((deg-d)*60)
             short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <i class='fa-regular fa-hand-point-right' style='font-size: 0.8em; margin-left: 2px;'></i></span>"
+            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
             chart_data_temp[r].append((deg, html_str))
 
     # Lagna
@@ -1260,7 +1260,7 @@ def transit_chart():
             d = int(deg)
             m = int((deg-d)*60)
             short_n = SHORT_PLANETS_TELUGU.get(n, n[0])
-            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <i class='fa-regular fa-hand-point-right' style='font-size: 0.8em; margin-left: 2px;'></i></span>"
+            html_str = f"<span class='hand'><span class='full-name'>{n}</span><span class='short-name'>{short_n}</span> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small> <span style='font-size: 0.7em;'>👉</span></span>"
             chart_data_temp[r].append((deg, html_str))
 
     houses, ascmc = swe.houses(jd, lat, lon)

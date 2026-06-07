@@ -46,17 +46,19 @@
       <div class="karma-label">పుణ్యం + పాపం</div>
     {% endif %}
 
-    {% for line in chart[box_lagna].split('<br>') %}
-      {% if "లగ్నం" in line %}
-        <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
-          {{ line | safe }}
-        </div>
-      {% elif line.strip() %}
-        <span class="{{ get_color(line, lagna) }}">
-          {{ line | safe }}
-        </span><br>
-      {% endif %}
-    {% endfor %}
+    <div class="planets-content">
+      {% for line in chart[box_lagna].split('<br>') %}
+        {% if "లగ్నం" in line %}
+          <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
+            {{ line | safe }}
+          </div>
+        {% elif line.strip() %}
+          <span class="{{ get_color(line, lagna) }}">
+            {{ line | safe }}
+          </span><br>
+        {% endif %}
+      {% endfor %}
+    </div>
     <span class="lagna-name">{{ box_lagna }}</span>
   </div>
 {% endmacro %}

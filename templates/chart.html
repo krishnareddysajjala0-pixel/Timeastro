@@ -691,259 +691,7 @@
       background: linear-gradient(45deg, #660000, #8b0000);
     }
 
-    /* Removed print styles from here, moved to the bottom of the style tag to ensure they override mobile styles on mobile printing. */
-
-
-    /* Scrolling Footer */
-    .scrolling-footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        color: #ffd700;
-        padding: 8px 0;
-        overflow: hidden;
-        white-space: nowrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-        z-index: 10000;
-        backdrop-filter: blur(5px);
-    }
-    .scrolling-footer-text {
-        display: inline-block;
-        animation: scrollLeft 20s linear infinite;
-        font-size: 15px;
-        font-weight: bold;
-        padding-left: 100%;
-    }
-    @keyframes scrollLeft {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
-    }
-
-    /* Responsive Design */
-    @media screen and (max-width: 768px) {body:not(.printing) .chart {
-        gap: 5px;
-      }body:not(.printing) .box {
-        min-height: 35px;
-        padding: 3px;
-        font-size: 8.5px !important;
-        line-height: 1;
-        text-align: left !important;
-      }body:not(.printing) .house-no {
-        width: 18px !important;
-        height: 18px !important;
-        font-size: 10px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        line-height: 0 !important;
-        padding: 0 !important;
-      }body:not(.printing) .full-name, body:not(.printing) .full-deg {
-        display: none !important;
-      }body:not(.printing) .short-name, body:not(.printing) .short-deg {
-        display: inline !important;
-      }body:not(.printing) .chart-container {
-        padding: 5px;
-        margin-bottom: 20px;
-        max-height: none;
-        overflow: visible;
-        display: block;
-      }body:not(.printing) .header {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-      }body:not(.printing) .om-title {
-        font-size: 18px;
-        margin-bottom: 2px;
-      }body:not(.printing) .page-title {
-        font-size: 24px;
-        margin-bottom: 0.5em;
-      }body:not(.printing) .person-name {
-        font-size: 16px;
-        margin: 5px 0;
-      }body:not(.printing) .party-badge {
-        padding: 2px 8px;
-        font-size: 10px;
-        margin-bottom: 5px;
-      }body:not(.printing) .box span {
-        display: inline-block;
-        max-width: 85%; 
-        word-break: break-word;
-      }body:not(.printing) .box-condensed {
-        font-size: 9px !important;
-      }body:not(.printing) .box-condensed span {
-        line-height: 1;
-      }body:not(.printing) .house-no {
-        width: 20px;
-        height: 20px;
-        font-size: 10px;
-        top: 4px;
-        right: 4px;
-      }body:not(.printing) .karma-label {
-      font-size: 4.25px; 
-      margin-bottom: 2px;
-      padding: 1px 2px;
-      }body:not(.printing) .lagna-name {
-        font-size: 8px !important;
-        padding: 2px 5px !important;
-        bottom: 2px !important;
-        right: 2px !important;
-      }body:not(.printing) .center {
-        padding: 2px;
-        font-size: 8.5px !important;
-      }body:not(.printing) .person-name {
-        font-size: 8.5px !important;
-        margin: 0 !important;
-      }body:not(.printing) .center table {
-        border-spacing: 0 1px !important;
-        font-size: 8.5px !important;
-      }body:not(.printing) .nakshatra-info {
-        display: none !important;
-      }body:not(.printing) .form-btn {
-        min-width: 100%;
-        padding: 14px;
-      }body:not(.printing) .form-buttons {
-        flex-direction: column;
-      }body:not(.printing) .hand {
-        padding: 2px 5px !important;
-        font-size: 9px !important;
-        margin: 1px 0 !important;
-        white-space: nowrap !important;
-        border-radius: 8px !important;
-      }body:not(.printing) .box b, body:not(.printing) .box small {
-        font-size: 9px !important;
-      }body:not(.printing) .nav-buttons {
-        bottom: 15px;
-        padding: 10px 15px;
-        flex-wrap: wrap;
-        width: 95%;
-        justify-content: center;
-      }body:not(.printing) .nav-btn {
-        padding: 8px 15px;
-        font-size: 12px;
-      }body:not(.printing) .quick-action-btn {
-        min-width: 100%;
-      }}
-
-    /* Theme Switcher */
-    .theme-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 8px;
-      background: var(--card-bg);
-      padding: 6px;
-      border-radius: 30px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 4px 15px var(--shadow-color);
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      transition: max-width 0.3s ease;
-      overflow: hidden;
-      max-width: 45px;
-    }
-
-    .theme-switcher.expanded {
-      max-width: 300px;
-    }
-
-    .theme-toggle-btn {
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      padding: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 30px;
-    }
-
-    .theme-options {
-      display: flex;
-      gap: 8px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .theme-switcher.expanded .theme-options {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .theme-btn {
-      background: transparent;
-      border: none;
-      font-size: 16px;
-      padding: 8px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      opacity: 0.5;
-    }
-
-    .theme-btn:hover {
-      opacity: 0.8;
-      transform: scale(1.1);
-    }
-
-    .theme-btn.active {
-      opacity: 1;
-      background: rgba(120, 120, 120, 0.2);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Scrolling Footer */
-    .scrolling-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      color: #ffd700;
-      padding: 8px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-      z-index: 10000;
-      backdrop-filter: blur(5px);
-    }
-    .scrolling-footer-text {
-      display: inline-block;
-      animation: scrollLeft 20s linear infinite;
-      font-size: 15px;
-      font-weight: bold;
-      padding-left: 100%;
-    }
-    @keyframes scrollLeft {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-    @media print {
-      .scrolling-footer { display: none !important; }
-    }
-
-    /* Rainbow glow animation */
-    @keyframes nav-rainbow {
-      0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-      20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
-      40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
-      60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
-      80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
-      100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
-    }
-
-    /* Apply rainbow glow to requested buttons */
-    .nav-home i, .theme-toggle-btn, .header-toggle-btn {
-      animation: nav-rainbow 3s linear infinite !important;
-    }
-
-    /* ===== PRINT OVERRIDES (Placed at the bottom to ensure they take precedence over responsive mobile styles) ===== */
+    /* ===== PRINT ===== */
     @media print {
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -986,6 +734,8 @@
         text-align: center !important;
         border: none !important;
       }
+
+
       
       .center {
         border: 2px solid #000 !important;
@@ -1126,15 +876,14 @@
         background: #ffffff !important;
         border: 1px solid #000 !important;
         padding: 1px !important;
-        height: 92px !important; /* Fixed height so all boxes in both charts are identical in size */
-        font-size: 16.5px !important; 
-        line-height: 1.25 !important;
+        min-height: 65px !important;
+        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
+        line-height: 1.1 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        align-items: center !important; 
+        align-items: center !important; /* Center alignment */
         text-align: center !important;
-        box-sizing: border-box !important;
       }
 
       .box br {
@@ -1165,15 +914,7 @@
       }
 
       .hand {
-        font-size: inherit !important; /* Inherit font size of box or box-condensed */
-        padding: 1px 4px !important; /* Reduced vertical padding to prevent overlap */
-        margin: 1px 0 !important;
-        border: 1px solid #000 !important;
-        border-radius: 12px !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        display: inline-block !important;
-        line-height: 1 !important;
+        font-size: 17px !important; /* Same size as planet names (17px) */
       }
 
       .pos {
@@ -1198,35 +939,317 @@
         padding: 4px 2px !important;
       }
 
-      /* ── Overrides for Mobile screen styles bleed in print ── */
-      .full-name, .full-deg, .box .full-name, .box .full-deg, .hand .full-name {
-        display: inline !important;
-      }
-      .short-name, .short-deg, .box .short-name, .box .short-deg, .hand .short-name {
-        display: none !important;
-      }
-      .nakshatra-info {
-        display: block !important;
-      }
-      .box span {
-        display: inline !important;
-        max-width: none !important;
-        word-break: normal !important;
-      }
-      .box-condensed {
-        font-size: 13.5px !important; /* Smaller font for boxes with many planets to fit height */
-      }
-      .box-condensed span {
-        line-height: 1.15 !important;
-      }
-      .box b, .box small {
-        font-size: inherit !important;
-      }
+
     }
 
     @page {
       size: A4 portrait;
       margin: 2mm !important;
+    }
+
+    /* Scrolling Footer */
+    .scrolling-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        color: #ffd700;
+        padding: 8px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    }
+    .scrolling-footer-text {
+        display: inline-block;
+        animation: scrollLeft 20s linear infinite;
+        font-size: 15px;
+        font-weight: bold;
+        padding-left: 100%;
+    }
+    @keyframes scrollLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .chart {
+        gap: 5px;
+      }
+
+      .box {
+        min-height: 35px;
+        padding: 3px;
+        font-size: 8.5px !important;
+        line-height: 1;
+        text-align: left !important;
+      }
+      
+      .house-no {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+      }
+
+      .full-name, .full-deg {
+        display: none !important;
+      }
+      
+      .short-name, .short-deg {
+        display: inline !important;
+      }
+
+      .chart-container {
+        padding: 5px;
+        margin-bottom: 20px;
+        max-height: none;
+        overflow: visible;
+        display: block;
+      }
+
+      .header {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+      }
+
+      .om-title {
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+
+      .page-title {
+        font-size: 24px;
+        margin-bottom: 0.5em;
+      }
+
+      .person-name {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+
+      .party-badge {
+        padding: 2px 8px;
+        font-size: 10px;
+        margin-bottom: 5px;
+      }
+
+      .box span {
+        display: inline-block;
+        max-width: 85%; /* Prevents overlap with house number on right */
+        word-break: break-word;
+      }
+
+      .box-condensed {
+        font-size: 9px !important;
+      }
+
+      .box-condensed span {
+        line-height: 1;
+      }
+
+      .house-no {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        top: 4px;
+        right: 4px;
+      }
+
+      .karma-label {
+      font-size: 4.25px; /* 50% of 8.5px */
+      margin-bottom: 2px;
+      padding: 1px 2px;
+      }
+
+      .lagna-name {
+        font-size: 8px !important;
+        padding: 2px 5px !important;
+        bottom: 2px !important;
+        right: 2px !important;
+      }
+
+      .center {
+        padding: 2px;
+        font-size: 8.5px !important;
+      }
+
+      .person-name {
+        font-size: 8.5px !important;
+        margin: 0 !important;
+      }
+
+      .center table {
+        border-spacing: 0 1px !important;
+        font-size: 8.5px !important;
+      }
+
+      .nakshatra-info {
+        display: none !important;
+      }
+
+      .form-btn {
+        min-width: 100%;
+        padding: 14px;
+      }
+
+      .form-buttons {
+        flex-direction: column;
+      }
+
+      .hand {
+        padding: 2px 5px !important;
+        font-size: 9px !important;
+        margin: 1px 0 !important;
+        white-space: nowrap !important;
+        border-radius: 8px !important;
+      }
+
+      .box b, .box small {
+        font-size: 9px !important;
+      }
+
+      .nav-buttons {
+        bottom: 15px;
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        width: 95%;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+      }
+
+      .quick-action-btn {
+        min-width: 100%;
+      }
+    }
+
+    /* Theme Switcher */
+    .theme-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 6px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 15px var(--shadow-color);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      transition: max-width 0.3s ease;
+      overflow: hidden;
+      max-width: 45px;
+    }
+
+    .theme-switcher.expanded {
+      max-width: 300px;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+    }
+
+    .theme-options {
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .theme-switcher.expanded .theme-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+
+    .theme-btn:hover {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+
+    .theme-btn.active {
+      opacity: 1;
+      background: rgba(120, 120, 120, 0.2);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Scrolling Footer */
+    .scrolling-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      color: #ffd700;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      backdrop-filter: blur(5px);
+    }
+    .scrolling-footer-text {
+      display: inline-block;
+      animation: scrollLeft 20s linear infinite;
+      font-size: 15px;
+      font-weight: bold;
+      padding-left: 100%;
+    }
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    @media print {
+      .scrolling-footer { display: none !important; }
+    }
+
+    /* Rainbow glow animation */
+    @keyframes nav-rainbow {
+      0%   { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+      20%  { color: #ff9900; text-shadow: 0 0 8px rgba(255,153,0,0.6); }
+      40%  { color: #ffff00; text-shadow: 0 0 8px rgba(255,255,0,0.6); }
+      60%  { color: #44ff44; text-shadow: 0 0 8px rgba(68,255,68,0.6); }
+      80%  { color: #4488ff; text-shadow: 0 0 8px rgba(68,136,255,0.6); }
+      100% { color: #ff4444; text-shadow: 0 0 8px rgba(255,68,68,0.6); }
+    }
+
+    /* Apply rainbow glow to requested buttons */
+    .nav-home i, .theme-toggle-btn, .header-toggle-btn {
+      animation: nav-rainbow 3s linear infinite !important;
     }
   </style>
 </head>
@@ -1339,19 +1362,23 @@
       background: rgba(255, 255, 255, 0.2);
       transform: scale(1.1);
     }
-    @media screen and (max-width: 768px) {body:not(.printing) .top-button-stack {
+    @media screen and (max-width: 768px) {
+      .top-button-stack {
         top: 10px !important;
         right: 10px !important;
         gap: 8px !important;
-      }body:not(.printing) .header-toggle-btn {
+      }
+      .header-toggle-btn {
         width: 25px !important;
         height: 25px !important;
         font-size: 12px !important;
-      }body:not(.printing) #chupuluBtn {
+      }
+      #chupuluBtn {
         width: 25px !important;
         height: 25px !important;
         font-size: 12px !important;
-      }body:not(.printing) #karmaBtn {
+      }
+      #karmaBtn {
         position: fixed !important;
         top: 10px !important;
         left: 10px !important;
@@ -1360,18 +1387,23 @@
         height: 25px !important;
         font-size: 9px !important;
         border-radius: 12px !important;
-      }body:not(.printing) #chart-toggles {
+      }
+      #chart-toggles {
         flex-direction: column !important;
         gap: 8px !important;
-      }body:not(.printing) .theme-switcher {
+      }
+      .theme-switcher {
         max-width: 35px !important;
         transition: max-width 0.3s ease !important;
-      }body:not(.printing) .theme-switcher.expanded {
+      }
+      .theme-switcher.expanded {
         max-width: 300px !important;
-      }body:not(.printing) .theme-toggle-btn {
+      }
+      .theme-toggle-btn {
         font-size: 16px !important;
         min-width: 25px !important;
-      }}
+      }
+    }
   </style>
 
   <div id="print-wrapper">
@@ -1590,7 +1622,8 @@
         <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
       </button>
 
-      <button id="print-btn" type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
+      <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+        onclick="window.print()">
         <i class="fas fa-file-pdf"></i> ప్రింట్
       </button>
     </div>
@@ -1812,36 +1845,21 @@
         }
       }
 
-      // Print optimization and mobile print view handler
-      (function() {
-        const printButtons = document.querySelectorAll('#print-btn, button.print-hide, .float-btn.print-hide');
-        const viewportMeta = document.querySelector('meta[name="viewport"]');
-        const originalViewport = viewportMeta ? viewportMeta.getAttribute('content') : '';
-        let isPrinting = false;
-
-        const triggerPrint = function(e) {
-          e.preventDefault();
-          if (isPrinting) return;
-          isPrinting = true;
-          window.print();
-          setTimeout(function() {
-            isPrinting = false;
-          }, 2000);
-        };
-
-        printButtons.forEach(function(btn) {
-          btn.removeAttribute('onclick');
-          btn.addEventListener('click', triggerPrint);
+      // Print optimization
+      window.onbeforeprint = function () {
+        document.querySelectorAll('.box').forEach(box => {
+          box.style.boxShadow = 'none';
+          box.style.transform = 'none';
         });
 
-        window.onbeforeprint = function() {
-          document.body.classList.add('printing');
-        };
+        document.querySelectorAll('.hand').forEach(hand => {
+          hand.style.border = '1px solid #666';
+        });
+      };
 
-        window.onafterprint = function() {
-          document.body.classList.remove('printing');
-        };
-      })();
+      window.onafterprint = function() {
+        // No special action needed
+      };
 
       // Keyboard shortcuts
       document.addEventListener('keydown', function (e) {
@@ -1856,7 +1874,11 @@
           goToDasaChart();
         }
 
-        // Ctrl + P for print (handled natively by the browser to avoid security/pop-up blocks)
+        // Ctrl + P for print
+        if (e.ctrlKey && e.key === 'p') {
+          e.preventDefault();
+          window.print();
+        }
 
         // Ctrl + G for planet details
         if (e.ctrlKey && e.key === 'g') {
@@ -1966,7 +1988,6 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
-                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

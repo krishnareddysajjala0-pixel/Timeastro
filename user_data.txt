@@ -24,3 +24,5 @@
 23. [07-Jun-2026 11:54:01] Name: dff, DOB: 2026-06-07, TOB: 11:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 24. [07-Jun-2026 12:17:07] Name: sdf, DOB: 2026-06-07, TOB: 12:16, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 25. [07-Jun-2026 12:31:57] Name: reddy, DOB: 2026-06-07, TOB: 12:31, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+26. [07-Jun-2026 12:33:04] Name: df (Compare 1), DOB: 2026-06-07, TOB: 12:32, Place: Kandukur, Andhra Pradesh, India
+27. [07-Jun-2026 12:33:04] Name: dfff (Compare 2), DOB: 2026-06-07, TOB: 12:32, Place: Kandukur, Andhra Pradesh, India

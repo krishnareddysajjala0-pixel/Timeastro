@@ -1126,9 +1126,9 @@
         background: #ffffff !important;
         border: 1px solid #000 !important;
         padding: 1px !important;
-        height: 80px !important; /* Fixed height so all boxes in both charts are identical in size */
-        font-size: 17px !important; 
-        line-height: 1.1 !important;
+        height: 92px !important; /* Fixed height so all boxes in both charts are identical in size */
+        font-size: 16.5px !important; 
+        line-height: 1.25 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
@@ -1165,14 +1165,15 @@
       }
 
       .hand {
-        font-size: 17px !important; /* Same size as planet names (17px) */
-        padding: 2px 8px !important;
-        margin: 3px 2px !important;
+        font-size: inherit !important; /* Inherit font size of box or box-condensed */
+        padding: 1px 4px !important; /* Reduced vertical padding to prevent overlap */
+        margin: 1px 0 !important;
         border: 1px solid #000 !important;
         border-radius: 12px !important;
         background: transparent !important;
         box-shadow: none !important;
         display: inline-block !important;
+        line-height: 1 !important;
       }
 
       .pos {
@@ -1213,10 +1214,10 @@
         word-break: normal !important;
       }
       .box-condensed {
-        font-size: 17px !important;
+        font-size: 13.5px !important; /* Smaller font for boxes with many planets to fit height */
       }
       .box-condensed span {
-        line-height: 1.1 !important;
+        line-height: 1.15 !important;
       }
       .box b, .box small {
         font-size: inherit !important;

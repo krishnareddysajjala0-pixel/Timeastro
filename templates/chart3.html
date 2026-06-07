@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 
 <head>
@@ -712,176 +712,8 @@
             animation: nav-rainbow 3s linear infinite !important;
         }
 
-        /* ===== PRINT ===== */
-        /* ===== PRINT OPTIMIZATIONS ===== */
-        @media print {
-            @page {
-                size: A4 portrait;
-                margin: 4mm;
-            }
-            
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                text-shadow: none !important;
-                box-shadow: none !important;
-                animation: none !important;
-            }
+        /* Removed print styles from here, moved to the bottom of the style tag to ensure they override mobile styles on mobile printing. */
 
-            body {
-                background: #fff !important;
-                color: #000 !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                font-size: 9pt !important;
-                opacity: 1 !important; /* Ensure visibility if JS-based opacity hasn't finished */
-            }
-
-            body::before { display: none !important; }
-
-            .container {
-                max-width: 100% !important;
-                width: 1024px !important;
-                min-width: 1024px !important;
-                margin: 0 auto !important;
-                padding: 0 !important;
-                zoom: 0.8 !important;
-            }
-
-            .header {
-                padding: 3px 8px !important;
-                margin-bottom: 3px !important;
-                background: #f8f9fa !important;
-                border: 1px solid #ddd !important;
-                border-radius: 6px !important;
-            }
-
-            .header h1 {
-                font-size: 16pt !important;
-                margin-bottom: 0 !important;
-                background: none !important;
-                -webkit-text-fill-color: #000 !important;
-                color: #000 !important;
-            }
-
-            .header-subtitle {
-                font-size: 10.5pt !important;
-                color: #555 !important;
-            }
-
-            .section-header {
-                margin: 3px 0 1px !important;
-                padding: 2px 6px !important;
-                background: #eee !important;
-                border: 1px solid #ccc !important;
-                page-break-inside: avoid;
-            }
-            
-            #shani-section {
-                margin-top: 6px !important;
-            }
-
-            .section-title {
-                font-size: 13pt !important;
-                margin-bottom: 0 !important;
-                background: none !important;
-                -webkit-text-fill-color: #000 !important;
-                color: #000 !important;
-            }
-
-            .section-subtitle {
-                font-size: 9pt !important;
-                color: #666 !important;
-            }
-
-            .table-container {
-                padding: 0 !important;
-                margin-bottom: 3px !important;
-                border: none !important;
-                background: transparent !important;
-                box-shadow: none !important;
-            }
-
-            .data-table {
-                font-size: 8.5pt !important;
-                width: 100% !important;
-                border: 1px solid #000 !important;
-                table-layout: auto !important;
-            }
-
-            .data-table th, .data-table td {
-                padding: 1px 2px !important;
-                border: 1px solid #000 !important;
-                line-height: 1.1 !important;
-                word-break: break-word !important;
-                color: #000 !important;
-            }
-
-            .data-table th:first-child, 
-            .data-table td:first-child {
-                position: static !important;
-                background: #f0f0f0 !important;
-                width: 1% !important;
-                white-space: nowrap !important;
-                font-weight: bold !important;
-                font-size: 9pt !important;
-            }
-
-            /* Fix color visibility in print */
-            .planet-name-cell, .planet-name-cell div, .planet-name {
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-                text-shadow: none !important;
-            }
-
-            .category-cell, .direction-cell, .day-cell, .gender-cell, .caste-cell, .gemstone-cell, .detail-label, .detail-value {
-                color: #000 !important;
-                -webkit-text-fill-color: #000 !important;
-            }
-
-            .disease-list {
-                background: none !important;
-                border: none !important;
-                padding: 0 !important;
-            }
-
-            .disease-list li {
-                font-size: 6.5pt !important;
-                padding: 0 !important;
-                color: #000 !important;
-            }
-
-            .footer {
-                margin-top: 4px !important;
-                padding: 2px !important;
-                page-break-inside: avoid;
-            }
-
-            .disclaimer {
-                font-size: 6.5pt !important;
-                padding: 3px !important;
-                margin-top: 2px !important;
-                background: #fff !important;
-                border: 1px solid #ddd !important;
-                color: #000 !important;
-            }
-
-            .party-info-box {
-                background: #f8f9fa !important;
-                border: 1px solid #000 !important;
-                color: #000 !important;
-                box-shadow: none !important;
-            }
-
-            .party-info-box p, .party-info-box strong {
-                color: #000 !important;
-                text-shadow: none !important;
-            }
-
-            .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
-                display: none !important;
-            }
-        }
 
 
         /* Responsive Design */
@@ -1120,6 +952,176 @@
         .shani-table .planet-name-cell div {
             color: var(--shani-color) !important;
             text-shadow: 0 0 5px var(--shani-color);
+        }
+
+        /* ===== PRINT OVERRIDES (Placed at the bottom to ensure they take precedence over responsive mobile styles) ===== */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 4mm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                text-shadow: none !important;
+                box-shadow: none !important;
+                animation: none !important;
+            }
+
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 9pt !important;
+                opacity: 1 !important; /* Ensure visibility if JS-based opacity hasn't finished */
+            }
+
+            body::before { display: none !important; }
+
+            .container {
+                max-width: 100% !important;
+                width: 1024px !important;
+                min-width: 1024px !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                zoom: 0.8 !important;
+            }
+
+            .header {
+                padding: 3px 8px !important;
+                margin-bottom: 3px !important;
+                background: #f8f9fa !important;
+                border: 1px solid #ddd !important;
+                border-radius: 6px !important;
+            }
+
+            .header h1 {
+                font-size: 16pt !important;
+                margin-bottom: 0 !important;
+                background: none !important;
+                -webkit-text-fill-color: #000 !important;
+                color: #000 !important;
+            }
+
+            .header-subtitle {
+                font-size: 10.5pt !important;
+                color: #555 !important;
+            }
+
+            .section-header {
+                margin: 3px 0 1px !important;
+                padding: 2px 6px !important;
+                background: #eee !important;
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid;
+            }
+            
+            #shani-section {
+                margin-top: 6px !important;
+            }
+
+            .section-title {
+                font-size: 13pt !important;
+                margin-bottom: 0 !important;
+                background: none !important;
+                -webkit-text-fill-color: #000 !important;
+                color: #000 !important;
+            }
+
+            .section-subtitle {
+                font-size: 9pt !important;
+                color: #666 !important;
+            }
+
+            .table-container {
+                padding: 0 !important;
+                margin-bottom: 3px !important;
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            .data-table {
+                font-size: 8.5pt !important;
+                width: 100% !important;
+                border: 1px solid #000 !important;
+                table-layout: auto !important;
+            }
+
+            .data-table th, .data-table td {
+                padding: 1px 2px !important;
+                border: 1px solid #000 !important;
+                line-height: 1.1 !important;
+                word-break: break-word !important;
+                color: #000 !important;
+            }
+
+            .data-table th:first-child, 
+            .data-table td:first-child {
+                position: static !important;
+                background: #f0f0f0 !important;
+                width: 1% !important;
+                white-space: nowrap !important;
+                font-weight: bold !important;
+                font-size: 9pt !important;
+            }
+
+            /* Fix color visibility in print */
+            .planet-name-cell, .planet-name-cell div, .planet-name {
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .category-cell, .direction-cell, .day-cell, .gender-cell, .caste-cell, .gemstone-cell, .detail-label, .detail-value {
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+            .disease-list {
+                background: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+
+            .disease-list li {
+                font-size: 6.5pt !important;
+                padding: 0 !important;
+                color: #000 !important;
+            }
+
+            .footer {
+                margin-top: 4px !important;
+                padding: 2px !important;
+                page-break-inside: avoid;
+            }
+
+            .disclaimer {
+                font-size: 6.5pt !important;
+                padding: 3px !important;
+                margin-top: 2px !important;
+                background: #fff !important;
+                border: 1px solid #ddd !important;
+                color: #000 !important;
+            }
+
+            .party-info-box {
+                background: #f8f9fa !important;
+                border: 1px solid #000 !important;
+                color: #000 !important;
+                box-shadow: none !important;
+            }
+
+            .party-info-box p, .party-info-box strong {
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
+                display: none !important;
+            }
         }
     </style>
 

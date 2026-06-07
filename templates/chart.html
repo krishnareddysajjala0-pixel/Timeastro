@@ -691,261 +691,8 @@
       background: linear-gradient(45deg, #660000, #8b0000);
     }
 
-    /* ===== PRINT ===== */
-    @media print {
-      *, *::before, *::after {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
-        animation: none !important;
-        backdrop-filter: none !important;
-      }
-      
-      body::before, body::after, .background-overlay, .cosmic-bg {
-        display: none !important;
-      }
-      html, body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        height: auto !important;
-        width: 1024px !important; /* Unified width for same PDF quality on Mobile and Web */
-        min-width: 1024px !important;
-        overflow: visible !important;
-        -webkit-print-color-adjust: exact;
-      }
+    /* Removed print styles from here, moved to the bottom of the style tag to ensure they override mobile styles on mobile printing. */
 
-      .container {
-        width: 1024px !important;
-        min-width: 1024px !important;
-        zoom: 0.8 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-
-      .header {
-        color: #000 !important;
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-        margin-bottom: 2px !important;
-        width: 100% !important;
-        text-align: center !important;
-        border: none !important;
-      }
-
-
-      
-      .center {
-        border: 2px solid #000 !important;
-        background: #fff !important;
-      }
-      
-      .center::before { display: none !important; }
-
-      .om-title {
-        -webkit-text-fill-color: #d2691e !important;
-        color: #d2691e !important;
-        font-size: 33px !important;
-      }
-
-      .page-title {
-        color: #d2691e !important;
-        font-size: 17.7px !important;
-        margin-bottom: 2px !important;
-      }
-      
-      .person-name {
-        -webkit-text-fill-color: #000080 !important;
-        color: #000080 !important;
-        background: none !important;
-        font-size: 26px !important;
-      }
-      
-      .house-no {
-        background: transparent !important;
-        color: #b22222 !important;
-        border: 1px solid #b22222 !important;
-        top: 2px !important;
-        right: 2px !important;
-        width: 18px !important;
-        height: 18px !important;
-        font-size: 10.6px !important;
-      }
-      
-      .lagna-name {
-        background: transparent !important;
-        color: #000080 !important;
-        border: none !important;
-        bottom: 2px !important;
-        right: 2px !important;
-        font-size: 11.8px !important;
-        padding: 2px 6px !important;
-      }
-      
-      table td {
-        color: #000000 !important;
-      }
-      
-      table td i {
-        color: #b22222 !important;
-      }
-      
-      .time-value { color: #d2691e !important; font-size: 16.5px !important; }
-      .time-label { color: #000080 !important; font-size: 13px !important; }
-      
-      .party-badge {
-        background: #fff !important;
-        color: #000 !important;
-        border: 2px solid #000 !important;
-        font-size: 16.5px !important;
-      }
-
-      .action-buttons,
-      .nav-buttons,
-      .back-btn,
-      .no-print,
-      .form-container,
-      .scrolling-footer,
-      .quick-actions,
-      .theme-switcher,
-      .fixed-bottom-bar,
-      #action-bar,
-      .float-btn,
-      .print-hide,
-      #transit-btn,
-      #transit-loading,
-      .toggle-container {
-        display: none !important;
-      }
-
-      #print-wrapper {
-        width: 1024px !important;
-        min-width: 1024px !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
-        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-      }
-
-      body.transit-loaded #print-wrapper {
-        zoom: 0.75 !important; /* Scale wrapper to fit both charts stacked vertically on a single page */
-      }
-
-      .chart-container {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-        padding: 0 !important;
-        margin: 0 auto 5px auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        border: none !important;
-      }
-
-      #transit-container {
-        display: none !important;
-      }
-
-      body.transit-loaded #transit-container {
-        display: block !important;
-        page-break-before: avoid !important;
-        break-before: avoid !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        padding: 0 !important;
-        margin: 0 auto 5px auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        border: none !important;
-      }
-
-      .chart {
-        gap: 1px !important;
-        width: 100% !important;
-      }
-
-      .box {
-        background: #ffffff !important;
-        border: 1px solid #000 !important;
-        padding: 1px !important;
-        min-height: 65px !important;
-        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
-        line-height: 1.1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important; /* Center alignment */
-        text-align: center !important;
-      }
-
-      .box br {
-        display: none !important;
-      }
-
-      .center {
-        padding: 6px !important;
-        font-size: 17px !important; /* Increased by 20% (was 14.2px) */
-        border: 1px solid #000 !important;
-      }
-      
-      .center table {
-        font-size: 14.9px !important; /* Increased by 20% (was 12.4px) */
-        border-spacing: 0 1px !important; /* More compact spacing for print layout */
-      }
-
-      #transit-container .header {
-        margin-top: 90px !important; /* Generous spacing between birth chart and transit chart */
-        padding-top: 20px !important;
-        border-top: 1px dashed #000 !important;
-      }
-
-      #transit-container .header div {
-        margin-bottom: 2px !important;
-        font-size: 13px !important;
-        color: #000 !important;
-      }
-
-      .hand {
-        font-size: 17px !important; /* Same size as planet names (17px) */
-      }
-
-      .pos {
-        color: #006400 !important;
-      }
-
-      .neg {
-        color: #8b0000 !important;
-      }
-
-      .lagna {
-        border: 3px solid #000 !important;
-        box-shadow: none !important;
-      }
-      
-      .karma-label {
-        color: #000 !important;
-        font-size: 7.7px !important;
-        background: none !important;
-        border: 1px solid #ccc !important;
-        right: 2px !important;
-        padding: 4px 2px !important;
-      }
-
-
-    }
-
-    @page {
-      size: A4 portrait;
-      margin: 2mm !important;
-    }
 
     /* Scrolling Footer */
     .scrolling-footer {
@@ -1250,6 +997,288 @@
     /* Apply rainbow glow to requested buttons */
     .nav-home i, .theme-toggle-btn, .header-toggle-btn {
       animation: nav-rainbow 3s linear infinite !important;
+    }
+
+    /* ===== PRINT OVERRIDES (Placed at the bottom to ensure they take precedence over responsive mobile styles) ===== */
+    @media print {
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        animation: none !important;
+        backdrop-filter: none !important;
+      }
+      
+      body::before, body::after, .background-overlay, .cosmic-bg {
+        display: none !important;
+      }
+      html, body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        width: 1024px !important; /* Unified width for same PDF quality on Mobile and Web */
+        min-width: 1024px !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .container {
+        width: 1024px !important;
+        min-width: 1024px !important;
+        zoom: 0.8 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .header {
+        color: #000 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        margin-bottom: 2px !important;
+        width: 100% !important;
+        text-align: center !important;
+        border: none !important;
+      }
+      
+      .center {
+        border: 2px solid #000 !important;
+        background: #fff !important;
+      }
+      
+      .center::before { display: none !important; }
+
+      .om-title {
+        -webkit-text-fill-color: #d2691e !important;
+        color: #d2691e !important;
+        font-size: 33px !important;
+      }
+
+      .page-title {
+        color: #d2691e !important;
+        font-size: 17.7px !important;
+        margin-bottom: 2px !important;
+      }
+      
+      .person-name {
+        -webkit-text-fill-color: #000080 !important;
+        color: #000080 !important;
+        background: none !important;
+        font-size: 26px !important;
+      }
+      
+      .house-no {
+        background: transparent !important;
+        color: #b22222 !important;
+        border: 1px solid #b22222 !important;
+        top: 2px !important;
+        right: 2px !important;
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10.6px !important;
+      }
+      
+      .lagna-name {
+        background: transparent !important;
+        color: #000080 !important;
+        border: none !important;
+        bottom: 2px !important;
+        right: 2px !important;
+        font-size: 11.8px !important;
+        padding: 2px 6px !important;
+      }
+      
+      table td {
+        color: #000000 !important;
+      }
+      
+      table td i {
+        color: #b22222 !important;
+      }
+      
+      .time-value { color: #d2691e !important; font-size: 16.5px !important; }
+      .time-label { color: #000080 !important; font-size: 13px !important; }
+      
+      .party-badge {
+        background: #fff !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        font-size: 16.5px !important;
+      }
+
+      .action-buttons,
+      .nav-buttons,
+      .back-btn,
+      .no-print,
+      .form-container,
+      .scrolling-footer,
+      .quick-actions,
+      .theme-switcher,
+      .fixed-bottom-bar,
+      #action-bar,
+      .float-btn,
+      .print-hide,
+      #transit-btn,
+      #transit-loading,
+      .toggle-container {
+        display: none !important;
+      }
+
+      #print-wrapper {
+        width: 1024px !important;
+        min-width: 1024px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+
+      body.transit-loaded #print-wrapper {
+        zoom: 0.75 !important; /* Scale wrapper to fit both charts stacked vertically on a single page */
+      }
+
+      .chart-container {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        padding: 0 !important;
+        margin: 0 auto 5px auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      #transit-container {
+        display: none !important;
+      }
+
+      body.transit-loaded #transit-container {
+        display: block !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        padding: 0 !important;
+        margin: 0 auto 5px auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      .chart {
+        gap: 1px !important;
+        width: 100% !important;
+      }
+
+      .box {
+        background: #ffffff !important;
+        border: 1px solid #000 !important;
+        padding: 1px !important;
+        min-height: 65px !important;
+        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
+        line-height: 1.1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important; /* Center alignment */
+        text-align: center !important;
+      }
+
+      .box br {
+        display: none !important;
+      }
+
+      .center {
+        padding: 6px !important;
+        font-size: 17px !important; /* Increased by 20% (was 14.2px) */
+        border: 1px solid #000 !important;
+      }
+      
+      .center table {
+        font-size: 14.9px !important; /* Increased by 20% (was 12.4px) */
+        border-spacing: 0 1px !important; /* More compact spacing for print layout */
+      }
+
+      #transit-container .header {
+        margin-top: 90px !important; /* Generous spacing between birth chart and transit chart */
+        padding-top: 20px !important;
+        border-top: 1px dashed #000 !important;
+      }
+
+      #transit-container .header div {
+        margin-bottom: 2px !important;
+        font-size: 13px !important;
+        color: #000 !important;
+      }
+
+      .hand {
+        font-size: 17px !important; /* Same size as planet names (17px) */
+        padding: 3px 10px !important;
+        margin: 3px 2px !important;
+        border: 1px solid rgba(0, 0, 0, 0.3) !important;
+        border-radius: 12px !important;
+        background: transparent !important;
+      }
+
+      .pos {
+        color: #006400 !important;
+      }
+
+      .neg {
+        color: #8b0000 !important;
+      }
+
+      .lagna {
+        border: 3px solid #000 !important;
+        box-shadow: none !important;
+      }
+      
+      .karma-label {
+        color: #000 !important;
+        font-size: 7.7px !important;
+        background: none !important;
+        border: 1px solid #ccc !important;
+        right: 2px !important;
+        padding: 4px 2px !important;
+      }
+
+      /* ── Overrides for Mobile screen styles bleed in print ── */
+      .full-name, .full-deg {
+        display: inline !important;
+      }
+      .short-name, .short-deg {
+        display: none !important;
+      }
+      .nakshatra-info {
+        display: block !important;
+      }
+      .box span {
+        display: inline !important;
+        max-width: none !important;
+        word-break: normal !important;
+      }
+      .box-condensed {
+        font-size: 17px !important;
+      }
+      .box-condensed span {
+        line-height: 1.1 !important;
+      }
+      .box b, .box small {
+        font-size: inherit !important;
+      }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 2mm !important;
     }
   </style>
 </head>

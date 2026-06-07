@@ -1490,8 +1490,7 @@
             onclick="goToDashaChart()">
             <i class="fas fa-chart-pie"></i> దశాచారము
         </button>
-        <button type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="if(!window.isPrinting){ window.isPrinting=true; window.print(); setTimeout(function(){window.isPrinting=false;},2000); }">
+        <button id="print-btn" type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
             <i class="fas fa-file-pdf"></i> PDF
         </button>
     </div>
@@ -1742,6 +1741,43 @@
                 });
             });
         });
+
+        // Print optimization and mobile print view handler
+        (function() {
+            const printButtons = document.querySelectorAll('#print-btn, button.print-hide, .float-btn.print-hide');
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            const originalViewport = viewportMeta ? viewportMeta.getAttribute('content') : '';
+            let isPrinting = false;
+
+            const triggerPrint = function(e) {
+                e.preventDefault();
+                if (isPrinting) return;
+                isPrinting = true;
+                window.print();
+                setTimeout(function() {
+                    isPrinting = false;
+                }, 2000);
+            };
+
+            printButtons.forEach(function(btn) {
+                btn.removeAttribute('onclick');
+                btn.addEventListener('click', triggerPrint);
+            });
+
+            window.onbeforeprint = function() {
+                if (viewportMeta) {
+                    viewportMeta.setAttribute('content', 'width=1024');
+                }
+                document.body.classList.add('printing');
+            };
+
+            window.onafterprint = function() {
+                if (viewportMeta && originalViewport) {
+                    viewportMeta.setAttribute('content', originalViewport);
+                }
+                document.body.classList.remove('printing');
+            };
+        })();
 
         // Hide loader on back/forward cache
         window.addEventListener('pageshow', function() {

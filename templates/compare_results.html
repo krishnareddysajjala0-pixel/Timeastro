@@ -1364,7 +1364,7 @@
     </div>
   </div>
 
-  <button type="button" onclick="if(!window.isPrinting){ window.isPrinting=true; window.print(); setTimeout(function(){window.isPrinting=false;},2000); }" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-print"></i> ప్రింట్</button>
+  <button id="print-btn" type="button" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-print"></i> ప్రింట్</button>
   
   <div class="compare-wrapper">
 <div class="chart-container-wrapper">
@@ -1942,6 +1942,43 @@
                 });
             });
         });
+
+        // Print optimization and mobile print view handler
+        (function() {
+            const printButtons = document.querySelectorAll('#print-btn, button.print-hide, .float-btn.print-hide');
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            const originalViewport = viewportMeta ? viewportMeta.getAttribute('content') : '';
+            let isPrinting = false;
+
+            const triggerPrint = function(e) {
+                e.preventDefault();
+                if (isPrinting) return;
+                isPrinting = true;
+                window.print();
+                setTimeout(function() {
+                    isPrinting = false;
+                }, 2000);
+            };
+
+            printButtons.forEach(function(btn) {
+                btn.removeAttribute('onclick');
+                btn.addEventListener('click', triggerPrint);
+            });
+
+            window.onbeforeprint = function() {
+                if (viewportMeta) {
+                    viewportMeta.setAttribute('content', 'width=1024');
+                }
+                document.body.classList.add('printing');
+            };
+
+            window.onafterprint = function() {
+                if (viewportMeta && originalViewport) {
+                    viewportMeta.setAttribute('content', originalViewport);
+                }
+                document.body.classList.remove('printing');
+            };
+        })();
 
         // Hide loader on back/forward cache
         window.addEventListener('pageshow', function() {

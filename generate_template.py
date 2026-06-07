@@ -106,7 +106,7 @@ new_html = f"""<!DOCTYPE html>
   </div>
 
   <button onclick="window.history.back()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-arrow-left"></i> వెనుకకు</button>
-  <button type="button" onclick="if(!window.isPrinting){{ window.isPrinting=true; window.print(); setTimeout(function(){{window.isPrinting=false;}},2000); }}" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
+  <button id="print-btn" type="button" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
 
   <div class="compare-wrapper">
     <div class="chart-container-wrapper">
@@ -173,6 +173,40 @@ new_html = f"""<!DOCTYPE html>
               if(!this.href.includes('#')) showLoader();
           }});
       }});
+
+      // Print optimization and mobile print view handler
+      (function() {{
+          const printBtn = document.getElementById('print-btn');
+          const viewportMeta = document.querySelector('meta[name="viewport"]');
+          const originalViewport = viewportMeta ? viewportMeta.getAttribute('content') : '';
+          let isPrinting = false;
+
+          if (printBtn) {{
+              printBtn.addEventListener('click', function(e) {{
+                  e.preventDefault();
+                  if (isPrinting) return;
+                  isPrinting = true;
+                  window.print();
+                  setTimeout(function() {{
+                      isPrinting = false;
+                  }}, 2000);
+              }});
+          }}
+
+          window.onbeforeprint = function() {{
+              if (viewportMeta) {{
+                  viewportMeta.setAttribute('content', 'width=1024');
+              }}
+              document.body.classList.add('printing');
+          }};
+
+          window.onafterprint = function() {{
+              if (viewportMeta && originalViewport) {{
+                  viewportMeta.setAttribute('content', originalViewport);
+              }}
+              document.body.classList.remove('printing');
+          }};
+      }})();
   </script>
 </body>
 </html>

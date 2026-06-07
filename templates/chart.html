@@ -1652,8 +1652,7 @@
         <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
       </button>
 
-      <button type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-        onclick="if(!window.isPrinting){ window.isPrinting=true; window.print(); setTimeout(function(){window.isPrinting=false;},2000); }">
+      <button id="print-btn" type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
         <i class="fas fa-file-pdf"></i> ప్రింట్
       </button>
     </div>
@@ -1875,17 +1874,46 @@
         }
       }
 
-      // Print optimization
-      window.onbeforeprint = function () {
-        document.querySelectorAll('.box').forEach(box => {
-          box.style.boxShadow = 'none';
-          box.style.transform = 'none';
-        });
-      };
+      // Print optimization and mobile print view handler
+      (function() {
+        const printButtons = document.querySelectorAll('#print-btn, button.print-hide, .float-btn.print-hide');
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        const originalViewport = viewportMeta ? viewportMeta.getAttribute('content') : '';
+        let isPrinting = false;
 
-      window.onafterprint = function() {
-        // No special action needed
-      };
+        const triggerPrint = function(e) {
+          e.preventDefault();
+          if (isPrinting) return;
+          isPrinting = true;
+          window.print();
+          setTimeout(function() {
+            isPrinting = false;
+          }, 2000);
+        };
+
+        printButtons.forEach(function(btn) {
+          btn.removeAttribute('onclick');
+          btn.addEventListener('click', triggerPrint);
+        });
+
+        window.onbeforeprint = function() {
+          if (viewportMeta) {
+            viewportMeta.setAttribute('content', 'width=1024');
+          }
+          document.body.classList.add('printing');
+          document.querySelectorAll('.box').forEach(box => {
+            box.style.boxShadow = 'none';
+            box.style.transform = 'none';
+          });
+        };
+
+        window.onafterprint = function() {
+          if (viewportMeta && originalViewport) {
+            viewportMeta.setAttribute('content', originalViewport);
+          }
+          document.body.classList.remove('printing');
+        };
+      })();
 
       // Keyboard shortcuts
       document.addEventListener('keydown', function (e) {

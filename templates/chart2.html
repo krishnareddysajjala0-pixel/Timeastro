@@ -1831,8 +1831,8 @@
             onclick="window.location.href='/chart3'">
             <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
         </button>
-        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="window.print()">
+        <button type="button" class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+            onclick="if(!window.isPrinting){ window.isPrinting=true; window.print(); setTimeout(function(){window.isPrinting=false;},2000); }">
             <i class="fas fa-file-pdf"></i> PDF
         </button>
 
@@ -2031,11 +2031,7 @@
                 goToPlanetDetails();
             }
 
-            // Ctrl + P for print
-            if (e.ctrlKey && e.key === 'p') {
-                e.preventDefault();
-                window.print();
-            }
+            // Ctrl + P for print (handled natively by the browser to avoid security/pop-up blocks)
         });
 
         function startTyping() {

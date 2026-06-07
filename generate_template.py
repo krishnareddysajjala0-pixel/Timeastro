@@ -106,7 +106,7 @@ new_html = f"""<!DOCTYPE html>
   </div>
 
   <button onclick="window.history.back()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-arrow-left"></i> వెనుకకు</button>
-  <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
+  <button type="button" onclick="if(!window.isPrinting){{ window.isPrinting=true; window.print(); setTimeout(function(){{window.isPrinting=false;}},2000); }}" class="btn print-hide" style="position: fixed; top: 20px; right: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-print"></i> ప్రింట్</button>
 
   <div class="compare-wrapper">
     <div class="chart-container-wrapper">

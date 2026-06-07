@@ -650,20 +650,15 @@
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
-      .chart {
+    @media (max-width: 768px) {body:not(.printing) .chart {
         gap: 5px;
-      }
-
-      .box {
+      }body:not(.printing) .box {
         min-height: 35px;
         padding: 3px;
         font-size: 8.5px !important;
         line-height: 1;
         text-align: left !important;
-      }
-      
-      .house-no {
+      }body:not(.printing) .house-no {
         width: 18px !important;
         height: 18px !important;
         font-size: 10px !important;
@@ -672,142 +667,91 @@
         justify-content: center !important;
         line-height: 0 !important;
         padding: 0 !important;
-      }
-
-      .full-name, .full-deg {
+      }body:not(.printing) .full-name, body:not(.printing) .full-deg {
         display: none !important;
-      }
-      
-      .short-name, .short-deg {
+      }body:not(.printing) .short-name, body:not(.printing) .short-deg {
         display: inline !important;
-      }
-
-      .chart-container {
+      }body:not(.printing) .chart-container {
         padding: 5px;
         margin-bottom: 20px;
         max-height: none;
         overflow: visible;
         display: block;
-      }
-
-      .header {
+      }body:not(.printing) .header {
         margin-bottom: 10px;
         padding-bottom: 5px;
-      }
-
-      .om-title {
+      }body:not(.printing) .om-title {
         font-size: 18px;
         margin-bottom: 2px;
-      }
-
-      .page-title {
+      }body:not(.printing) .page-title {
         font-size: 24px;
         margin-bottom: 0.5em;
-      }
-
-      .person-name {
+      }body:not(.printing) .person-name {
         font-size: 16px;
         margin: 5px 0;
-      }
-
-      .party-badge {
+      }body:not(.printing) .party-badge {
         padding: 2px 8px;
         font-size: 10px;
         margin-bottom: 5px;
-      }
-
-      .box span {
+      }body:not(.printing) .box span {
         display: inline-block;
-        max-width: 85%; /* Prevents overlap with house number on right */
+        max-width: 85%; 
         word-break: break-word;
-      }
-
-      .box-condensed {
+      }body:not(.printing) .box-condensed {
         font-size: 9px !important;
-      }
-
-      .box-condensed span {
+      }body:not(.printing) .box-condensed span {
         line-height: 1;
-      }
-
-      .house-no {
+      }body:not(.printing) .house-no {
         width: 20px;
         height: 20px;
         font-size: 10px;
         top: 4px;
         right: 4px;
-      }
-
-      .karma-label {
-      font-size: 4.25px; /* 50% of 8.5px */
+      }body:not(.printing) .karma-label {
+      font-size: 4.25px; 
       margin-bottom: 2px;
       padding: 1px 2px;
-      }
-
-      .lagna-name {
+      }body:not(.printing) .lagna-name {
         font-size: 8px !important;
         padding: 2px 5px !important;
         bottom: 2px !important;
         right: 2px !important;
-      }
-
-      .center {
+      }body:not(.printing) .center {
         padding: 2px;
         font-size: 8.5px !important;
-      }
-
-      .person-name {
+      }body:not(.printing) .person-name {
         font-size: 8.5px !important;
         margin: 0 !important;
-      }
-
-      .center table {
+      }body:not(.printing) .center table {
         border-spacing: 0 1px !important;
         font-size: 8.5px !important;
-      }
-
-      .nakshatra-info {
+      }body:not(.printing) .nakshatra-info {
         display: none !important;
-      }
-
-      .form-btn {
+      }body:not(.printing) .form-btn {
         min-width: 100%;
         padding: 14px;
-      }
-
-      .form-buttons {
+      }body:not(.printing) .form-buttons {
         flex-direction: column;
-      }
-
-      .hand {
+      }body:not(.printing) .hand {
         padding: 2px 5px !important;
         font-size: 9px !important;
         margin: 1px 0 !important;
         white-space: nowrap !important;
         border-radius: 8px !important;
-      }
-
-      .box b, .box small {
+      }body:not(.printing) .box b, body:not(.printing) .box small {
         font-size: 9px !important;
-      }
-
-      .nav-buttons {
+      }body:not(.printing) .nav-buttons {
         bottom: 15px;
         padding: 10px 15px;
         flex-wrap: wrap;
         width: 95%;
         justify-content: center;
-      }
-
-      .nav-btn {
+      }body:not(.printing) .nav-btn {
         padding: 8px 15px;
         font-size: 12px;
-      }
-
-      .quick-action-btn {
+      }body:not(.printing) .quick-action-btn {
         min-width: 100%;
-      }
-    }
+      }}
 
     /* Theme Switcher */
     .theme-switcher {
@@ -1002,15 +946,10 @@
       cursor: pointer; transition: all 0.3s ease; color: gold; outline: none;
     }
     .header-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
-    @media (max-width: 768px) {
-      .top-button-stack { top: 10px !important; right: 10px !important; gap: 8px !important; }
-      .header-toggle-btn { width: 25px !important; height: 25px !important; font-size: 12px !important; }
-      #chupuluBtn { width: 30px !important; height: 30px !important; font-size: 16px !important; }
-      #karmaBtn {
+    @media (max-width: 768px) {body:not(.printing) .top-button-stack { top: 10px !important; right: 10px !important; gap: 8px !important; }body:not(.printing) .header-toggle-btn { width: 25px !important; height: 25px !important; font-size: 12px !important; }body:not(.printing) #chupuluBtn { width: 30px !important; height: 30px !important; font-size: 16px !important; }body:not(.printing) #karmaBtn {
         position: fixed !important; top: 10px !important; left: 10px !important; right: auto !important;
         width: 35px !important; height: 25px !important; font-size: 9px !important; border-radius: 12px !important;
-      }
-    }
+      }}
 
     /* Match Compare Kundali button style */
     .btn-show {
@@ -2377,81 +2316,52 @@
             margin: 8mm 10mm 8mm 10mm;
         }
             /* Mobile Responsive adjustments */
-            @media screen and (max-width: 768px) {
-                .maha-dasa-card {
+            @media screen and (max-width: 768px) {body:not(.printing) .maha-dasa-card {
                     padding: 10px;
                     margin: 10px 0;
-                }
-                .maha-dasa-header {
+                }body:not(.printing) .maha-dasa-header {
                     flex-direction: row;
                     flex-wrap: wrap;
                     align-items: center;
                     gap: 6px;
                     margin-bottom: 5px;
-                }
-                .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }
-                .maha-dasa-period { font-size: 13px; margin-top: 0; }
-                .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }
-                
-                .maha-accordion-toggle {
+                }body:not(.printing) .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }body:not(.printing) .maha-dasa-period { font-size: 13px; margin-top: 0; }body:not(.printing) .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }body:not(.printing) .maha-accordion-toggle {
                     position: absolute;
                     top: 10px;
                     right: 10px;
                     width: 26px;
                     height: 26px;
-                }
-
-                .maha-dasa-badges {
+                }body:not(.printing) .maha-dasa-badges {
                     flex-wrap: wrap;
                     margin-top: 2px;
                     gap: 4px;
-                }
-                .status-badge {
+                }body:not(.printing) .status-badge {
                     padding: 3px 6px;
                     font-size: 10px;
-                }
-                .anthara-container {
+                }body:not(.printing) .anthara-container {
                     padding: 8px;
                     margin-top: 5px;
-                }
-
-                .info-row {
+                }body:not(.printing) .info-row {
                     flex-direction: column;
                     gap: 10px;
-                }
-
-                .anthara-table {
+                }body:not(.printing) .anthara-table {
                     font-size: 11px;
-                }
-
-                .anthara-table th,
-                .anthara-table td {
+                }body:not(.printing) .anthara-table th, body:not(.printing) .anthara-table td {
                     padding: 6px 4px;
-                }
-
-                .table-icon {
+                }body:not(.printing) .table-icon {
                     width: 18px;
                     height: 18px;
                     font-size: 12px;
-                }
-
-                .person-name {
+                }body:not(.printing) .person-name {
                     font-size: 20px;
-                }
-
-                .summary-grid {
+                }body:not(.printing) .summary-grid {
                     grid-template-columns: 1fr;
-                }
-
-                .chart-form-buttons {
+                }body:not(.printing) .chart-form-buttons {
                     flex-direction: column;
-                }
-
-                .chart-form-btn {
+                }body:not(.printing) .chart-form-btn {
                     width: 100%;
                     min-width: 100%;
-                }
-            }
+                }}
 
         /* ===== PRINT OVERRIDES (Placed at the bottom to ensure they take precedence over responsive mobile styles) ===== */
         @media print {
@@ -3336,6 +3246,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;
@@ -3872,6 +3783,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

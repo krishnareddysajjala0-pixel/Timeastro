@@ -263,11 +263,9 @@
       margin-bottom: 20px;
     }
 
-    @media (max-width: 768px) {
-      .form-grid {
+    @media (max-width: 768px) {body:not(.printing) .form-grid {
         grid-template-columns: 1fr;
-      }
-    }
+      }}
 
     .form-group {
       margin-bottom: 0;
@@ -572,32 +570,19 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .container {
+    @media (max-width: 768px) {body:not(.printing) .container {
         padding: 15px;
-      }
-
-      .card {
+      }body:not(.printing) .card {
         padding: 24px;
-      }
-
-      .header h2 {
+      }body:not(.printing) .header h2 {
         font-size: 28px;
-      }
-
-      input,
-      .btn {
+      }body:not(.printing) input, body:not(.printing) .btn {
         padding: 14px 14px 14px 44px;
-      }
-
-      .quick-actions {
+      }body:not(.printing) .quick-actions {
         flex-direction: column;
-      }
-
-      .quick-btn {
+      }body:not(.printing) .quick-btn {
         width: 100%;
-      }
-    }
+      }}
 
     /* Floating planets animation */
     .floating-planets {
@@ -1607,6 +1592,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

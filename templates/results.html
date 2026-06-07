@@ -498,11 +498,9 @@
             margin-top: 15px;
         }
 
-        @media (max-width: 600px) {
-            .bhava-interpretation-box {
+        @media (max-width: 600px) {body:not(.printing) .bhava-interpretation-box {
                 grid-template-columns: 1fr;
-            }
-        }
+            }}
 
         .interpretation-content {
             background: rgba(255, 255, 255, 0.05);
@@ -836,22 +834,16 @@
             .planet-name[style*="color: #FF8C00"] { color: #D2691E !important; } /* Ketu */
         }
 
-        @media (max-width: 600px) {
-            .results-grid {
+        @media (max-width: 600px) {body:not(.printing) .results-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .person-name {
+            }body:not(.printing) .person-name {
                 font-size: 26px;
-            }
-
-            .theme-switcher {
+            }body:not(.printing) .theme-switcher {
                 top: 10px;
                 right: 10px;
                 transform: scale(0.85);
                 transform-origin: top right;
-            }
-        }
+            }}
     </style>
 </head>
 
@@ -1213,6 +1205,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

@@ -717,70 +717,42 @@
 
 
         /* Responsive Design */
-        @media screen and (max-width: 1200px) {
-            .container {
+        @media screen and (max-width: 1200px) {body:not(.printing) .container {
                 padding: 10px;
-            }
-
-            .header h1 {
+            }body:not(.printing) .header h1 {
                 font-size: 32px;
-            }
-
-            .section-title {
+            }body:not(.printing) .section-title {
                 font-size: 28px;
-            }
-
-            .data-table {
+            }body:not(.printing) .data-table {
                 font-size: 13px;
-            }
-
-            .planet-name-cell {
+            }body:not(.printing) .planet-name-cell {
                 font-size: 16px;
-            }
-        }
+            }}
 
-        @media screen and (max-width: 768px) {
-            .header h1 {
+        @media screen and (max-width: 768px) {body:not(.printing) .header h1 {
                 font-size: 28px;
-            }
-
-            .section-title {
+            }body:not(.printing) .section-title {
                 font-size: 24px;
                 flex-direction: column;
                 gap: 10px;
-            }
-
-            .data-table th,
-            .data-table td {
+            }body:not(.printing) .data-table th, body:not(.printing) .data-table td {
                 padding: 10px 8px;
                 font-size: 12px;
-            }
-
-            .nav-buttons {
+            }body:not(.printing) .nav-buttons {
                 flex-direction: column;
-            }
-
-            .nav-btn {
+            }body:not(.printing) .nav-btn {
                 width: 100%;
                 justify-content: center;
-            }
-
-            .disease-list li {
+            }body:not(.printing) .disease-list li {
                 font-size: 11px;
-            }
-
-            .float-buttons {
+            }body:not(.printing) .float-buttons {
                 bottom: 15px;
                 right: 15px;
-            }
-
-            /* Optimized Bottom Bar for Mobile */
-            .fixed-bottom-bar {
+            }body:not(.printing) .fixed-bottom-bar {
                 padding: 8px 10px !important;
                 gap: 6px !important;
                 bottom: 35px !important;
-            }
-            .float-btn {
+            }body:not(.printing) .float-btn {
                 padding: 8px 16px !important;
                 font-size: 15px !important;
                 min-width: 45px !important;
@@ -789,12 +761,10 @@
                 justify-content: center !important;
                 border-radius: 12px !important;
                 white-space: nowrap !important;
-            }
-            .float-btn i {
+            }body:not(.printing) .float-btn i {
                 margin-right: 5px !important;
                 font-size: 16px !important;
-            }
-        }
+            }}
 
       /* Theme Switcher */
     .theme-switcher {
@@ -1717,6 +1687,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

@@ -1074,81 +1074,52 @@
             margin: 8mm 10mm 8mm 10mm;
         }
             /* Mobile Responsive adjustments */
-            @media screen and (max-width: 768px) {
-                .maha-dasa-card {
+            @media screen and (max-width: 768px) {body:not(.printing) .maha-dasa-card {
                     padding: 10px;
                     margin: 10px 0;
-                }
-                .maha-dasa-header {
+                }body:not(.printing) .maha-dasa-header {
                     flex-direction: row;
                     flex-wrap: wrap;
                     align-items: center;
                     gap: 6px;
                     margin-bottom: 5px;
-                }
-                .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }
-                .maha-dasa-period { font-size: 13px; margin-top: 0; }
-                .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }
-                
-                .maha-accordion-toggle {
+                }body:not(.printing) .maha-dasa-name { font-size: 14px; margin-bottom: 2px; }body:not(.printing) .maha-dasa-period { font-size: 13px; margin-top: 0; }body:not(.printing) .maha-dasa-number { padding: 4px 8px; font-size: 12px; margin-right: 5px; min-width: 30px; }body:not(.printing) .maha-accordion-toggle {
                     position: absolute;
                     top: 10px;
                     right: 10px;
                     width: 26px;
                     height: 26px;
-                }
-
-                .maha-dasa-badges {
+                }body:not(.printing) .maha-dasa-badges {
                     flex-wrap: wrap;
                     margin-top: 2px;
                     gap: 4px;
-                }
-                .status-badge {
+                }body:not(.printing) .status-badge {
                     padding: 3px 6px;
                     font-size: 10px;
-                }
-                .anthara-container {
+                }body:not(.printing) .anthara-container {
                     padding: 8px;
                     margin-top: 5px;
-                }
-
-                .info-row {
+                }body:not(.printing) .info-row {
                     flex-direction: column;
                     gap: 10px;
-                }
-
-                .anthara-table {
+                }body:not(.printing) .anthara-table {
                     font-size: 11px;
-                }
-
-                .anthara-table th,
-                .anthara-table td {
+                }body:not(.printing) .anthara-table th, body:not(.printing) .anthara-table td {
                     padding: 6px 4px;
-                }
-
-                .table-icon {
+                }body:not(.printing) .table-icon {
                     width: 18px;
                     height: 18px;
                     font-size: 12px;
-                }
-
-                .person-name {
+                }body:not(.printing) .person-name {
                     font-size: 20px;
-                }
-
-                .summary-grid {
+                }body:not(.printing) .summary-grid {
                     grid-template-columns: 1fr;
-                }
-
-                .chart-form-buttons {
+                }body:not(.printing) .chart-form-buttons {
                     flex-direction: column;
-                }
-
-                .chart-form-btn {
+                }body:not(.printing) .chart-form-btn {
                     width: 100%;
                     min-width: 100%;
-                }
-            }
+                }}
 
         /* ===== PRINT OVERRIDES (Placed at the bottom to ensure they take precedence over responsive mobile styles) ===== */
         @media print {
@@ -2154,6 +2125,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

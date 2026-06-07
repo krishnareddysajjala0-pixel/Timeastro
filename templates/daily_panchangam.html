@@ -345,50 +345,20 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            body { padding: 10px; padding-bottom: 90px; }
-            .card { padding: 15px; margin-bottom: 10px; }
-            .form-grid { grid-template-columns: 1fr; gap: 15px; }
-            .panchangam-result { grid-template-columns: 1fr; gap: 10px; margin-top: 15px; padding-top: 15px; }
-            .panchangam-result > div { min-width: 0; }
-            .result-item { padding: 12px; gap: 10px; }
-            .result-icon { font-size: 20px; width: 24px; }
-            .result-label { font-size: 13px; }
-            .result-value { font-size: 15px; }
-            .header h2 { font-size: 22px; }
-            .chart-container-c { margin: 15px 0; }
-            .chart-c { 
+        @media (max-width: 768px) {body:not(.printing) { padding: 10px; padding-bottom: 90px; }body:not(.printing) .card { padding: 15px; margin-bottom: 10px; }body:not(.printing) .form-grid { grid-template-columns: 1fr; gap: 15px; }body:not(.printing) .panchangam-result { grid-template-columns: 1fr; gap: 10px; margin-top: 15px; padding-top: 15px; }body:not(.printing) .panchangam-result > div { min-width: 0; }body:not(.printing) .result-item { padding: 12px; gap: 10px; }body:not(.printing) .result-icon { font-size: 20px; width: 24px; }body:not(.printing) .result-label { font-size: 13px; }body:not(.printing) .result-value { font-size: 15px; }body:not(.printing) .header h2 { font-size: 22px; }body:not(.printing) .chart-container-c { margin: 15px 0; }body:not(.printing) .chart-c { 
                 max-width: 100%; 
                 border-width: 2px;
-            }
-            .box-c { 
+            }body:not(.printing) .box-c { 
                 min-height: 60px; 
                 font-size: 10px; 
                 padding: 3px; 
-            }
-            .center-c { 
+            }body:not(.printing) .center-c { 
                 font-size: 12px; 
                 padding: 4px; 
                 line-height: 1.3; 
                 border-width: 1px;
-            }
-            .lagna-name-c { font-size: 9px; right: 2px; bottom: 2px; }
-            .house-no-c { font-size: 9px; left: 2px; top: 2px; }
-            .section-title { font-size: 18px; margin-bottom: 10px; }
-            .rainbow-text-glow { font-size: 16px; margin-left: 5px; }
-            .fixed-bottom-bar-nav { padding: 8px 0; }
-            .nav-item i { font-size: 18px; }
-            .nav-item span { font-size: 11px; }
-            .btn, .btn-locate { padding: 12px 18px; font-size: 14px; }
-        }
-        @media (max-width: 400px) {
-            .box-c { min-height: 50px; font-size: 9px; }
-            .center-c { font-size: 11px; }
-            .lagna-name-c { font-size: 8px; right: 2px; bottom: 1px; }
-            .house-no-c { font-size: 8px; left: 2px; top: 1px; }
-            .btn-container { flex-direction: column; }
-            .btn, .btn-locate { width: 100%; justify-content: center; }
-        }
+            }body:not(.printing) .lagna-name-c { font-size: 9px; right: 2px; bottom: 2px; }body:not(.printing) .house-no-c { font-size: 9px; left: 2px; top: 2px; }body:not(.printing) .section-title { font-size: 18px; margin-bottom: 10px; }body:not(.printing) .rainbow-text-glow { font-size: 16px; margin-left: 5px; }body:not(.printing) .fixed-bottom-bar-nav { padding: 8px 0; }body:not(.printing) .nav-item i { font-size: 18px; }body:not(.printing) .nav-item span { font-size: 11px; }body:not(.printing) .btn, body:not(.printing) .btn-locate { padding: 12px 18px; font-size: 14px; }}
+        @media (max-width: 400px) {body:not(.printing) .box-c { min-height: 50px; font-size: 9px; }body:not(.printing) .center-c { font-size: 11px; }body:not(.printing) .lagna-name-c { font-size: 8px; right: 2px; bottom: 1px; }body:not(.printing) .house-no-c { font-size: 8px; left: 2px; top: 1px; }body:not(.printing) .btn-container { flex-direction: column; }body:not(.printing) .btn, body:not(.printing) .btn-locate { width: 100%; justify-content: center; }}
 
         /* Theme Switcher */
         .theme-switcher {
@@ -891,6 +861,7 @@
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;

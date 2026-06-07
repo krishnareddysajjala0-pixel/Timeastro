@@ -569,49 +569,37 @@
         margin-bottom: 20px;
     }
     
-    @media (max-width: 768px) {
-      .card {
+    @media (max-width: 768px) {body:not(.printing) .card {
         padding: 16px;
         border-radius: 16px;
-      }
-      .header {
+      }body:not(.printing) .header {
         margin-bottom: 16px;
-      }
-      .header h2 {
+      }body:not(.printing) .header h2 {
         font-size: 24px;
-      }
-      .form-grid {
+      }body:not(.printing) .form-grid {
         gap: 10px;
         margin-bottom: 10px;
-      }
-      .persons-wrapper {
+      }body:not(.printing) .persons-wrapper {
         gap: 20px;
-      }
-      input {
+      }body:not(.printing) input {
         padding: 10px 12px 10px 40px;
         font-size: 14px;
         border-radius: 10px;
-      }
-      .input-icon {
+      }body:not(.printing) .input-icon {
         left: 14px;
         font-size: 14px;
-      }
-      label {
+      }body:not(.printing) label {
         margin-bottom: 4px;
         font-size: 13px;
-      }
-      .person-title {
+      }body:not(.printing) .person-title {
         font-size: 16px;
         margin-bottom: 10px;
-      }
-      .btn-show {
+      }body:not(.printing) .btn-show {
         padding: 12px 24px;
         font-size: 16px;
-      }
-      .btn-container {
+      }body:not(.printing) .btn-container {
         margin-top: 15px;
-      }
-    }
+      }}
   </style>
 </head>
 
@@ -956,6 +944,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
+                if (btn.id === 'print-btn' || btn.classList.contains('print-hide') || btn.classList.contains('print-btn')) return;
                 var oc = btn.getAttribute('onclick') || '';
                 if (oc.indexOf('print()') !== -1) return;
                 btn.addEventListener('click', function() {

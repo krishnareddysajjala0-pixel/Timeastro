@@ -820,6 +820,22 @@
         display: none !important;
       }
 
+      #print-wrapper {
+        width: 1024px !important;
+        min-width: 1024px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+
+      body.transit-loaded #print-wrapper {
+        zoom: 0.75 !important; /* Scale wrapper to fit both charts stacked vertically on a single page */
+      }
+
       .chart-container {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
@@ -831,12 +847,16 @@
         max-width: 100% !important;
         box-shadow: none !important;
         border: none !important;
-        zoom: 0.8 !important;
       }
 
       #transit-container {
-        page-break-before: always !important;
-        break-before: always !important;
+        display: none !important;
+      }
+
+      body.transit-loaded #transit-container {
+        display: block !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         padding: 0 !important;
@@ -845,7 +865,6 @@
         max-width: 100% !important;
         box-shadow: none !important;
         border: none !important;
-        zoom: 0.8 !important;
       }
 
       .chart {
@@ -858,22 +877,44 @@
         border: 1px solid #000 !important;
         padding: 1px !important;
         min-height: 65px !important;
-        font-size: 12.4px !important;
+        font-size: 17px !important; /* 5% larger than previous planet size (16.2px), same size as hands */
         line-height: 1.1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important; /* Center alignment */
+        text-align: center !important;
+      }
+
+      .box br {
+        display: none !important;
       }
 
       .center {
         padding: 6px !important;
-        font-size: 14.2px !important;
+        font-size: 17px !important; /* Increased by 20% (was 14.2px) */
         border: 1px solid #000 !important;
       }
       
       .center table {
-        font-size: 12.4px !important;
+        font-size: 14.9px !important; /* Increased by 20% (was 12.4px) */
+        border-spacing: 0 1px !important; /* More compact spacing for print layout */
+      }
+
+      #transit-container .header {
+        margin-top: 90px !important; /* Generous spacing between birth chart and transit chart */
+        padding-top: 20px !important;
+        border-top: 1px dashed #000 !important;
+      }
+
+      #transit-container .header div {
+        margin-bottom: 2px !important;
+        font-size: 13px !important;
+        color: #000 !important;
       }
 
       .hand {
-        font-size: 13px !important;
+        font-size: 17px !important; /* Same size as planet names (17px) */
       }
 
       .pos {
@@ -903,7 +944,7 @@
 
     @page {
       size: A4 portrait;
-      margin: 5mm;
+      margin: 2mm !important;
     }
 
     /* Scrolling Footer */
@@ -1365,6 +1406,7 @@
     }
   </style>
 
+  <div id="print-wrapper">
   <!-- Header -->
   <div class="header">
     <div class="om-title">
@@ -1562,6 +1604,7 @@
     </div>
     
     <div id="transit-container"></div>
+  </div>
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
@@ -1787,6 +1830,8 @@
             const globalOverlay = document.getElementById('loading-overlay');
             if (globalOverlay) globalOverlay.style.display = 'none';
             container.innerHTML = html;
+            container.classList.add('loaded');
+            document.body.classList.add('transit-loaded');
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
           })
           .catch(error => {

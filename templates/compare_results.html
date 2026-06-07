@@ -766,6 +766,7 @@
         padding: 0 !important;
         margin: 0 !important;
         align-items: flex-start !important;
+        zoom: 0.92 !important; /* Scaled to fit A4 landscape page throughout with 2mm margins */
       }
 
       .chart-container-wrapper {
@@ -808,18 +809,28 @@
         border: 1px solid #000 !important;
         padding: 3px !important;
         min-height: 75px !important;
-        font-size: 11.8px !important;
+        font-size: 15px !important; /* 5% larger than previous planet size (14.3px), same size as hands */
         line-height: 1.2 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important; /* Center alignment */
+        text-align: center !important;
+      }
+
+      .box br {
+        display: none !important;
       }
 
       .center {
         padding: 8px !important;
-        font-size: 13px !important;
+        font-size: 15.6px !important; /* Increased by 20% (was 13px) */
         border: 1px solid #000 !important;
       }
       
       .center table {
-        font-size: 10.6px !important;
+        font-size: 12.7px !important; /* Increased by 20% (was 10.6px) */
+        border-spacing: 0 1px !important; /* More compact spacing for print layout */
       }
 
       .pos {
@@ -846,18 +857,21 @@
 
       .hand {
         padding: 1px 3px !important;
-        font-size: 9.4px !important;
+        font-size: 15px !important; /* Same size as planet names (15px) */
         margin: 0 !important;
       }
 
-      .box b, .box small {
+      .box b {
+        font-size: 1em !important;
+      }
+      .box small {
         font-size: 10.6px !important;
       }
     }
 
     @page {
       size: A4 landscape;
-      margin: 5mm;
+      margin: 2mm !important;
     }
 
     /* Scrolling Footer */

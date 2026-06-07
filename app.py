@@ -539,16 +539,15 @@ def log_user_to_github(name, dob, tob, place):
             except Exception as e:
                 print(f"Local Git push failed: {e}")
 
-        # Start both sync methods in background
-        api_thread = threading.Thread(target=github_api_sync, args=(name, log_entry))
-        api_thread.daemon = True
-        api_thread.start()
+        # 2. GitHub API Sync (Run synchronously for Vercel/Render serverless reliability)
+        github_api_sync(name, log_entry)
         
+        # 3. Local Git Sync (Run in background thread since it is local only)
         git_thread = threading.Thread(target=local_git_sync, args=(name,))
         git_thread.daemon = True
         git_thread.start()
         
-        # 4. Telegram Notification
+        # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
         send_telegram_notification(name, dob, tob, place)
         
     except Exception as e:
@@ -578,19 +577,17 @@ def send_telegram_notification(name, dob, tob, place):
             "parse_mode": "Markdown"
         }
         
-        def send_thread():
-            try:
-                res = requests.post(url, json=payload, timeout=10)
-                if res.status_code == 200:
-                    print("Telegram notification sent successfully!")
-                else:
-                    print(f"Telegram notification failed: {res.text}")
-            except Exception as thread_e:
-                print(f"Telegram API thread error: {thread_e}")
-                
-        threading.Thread(target=send_thread, daemon=True).start()
+        try:
+            res = requests.post(url, json=payload, timeout=10)
+            if res.status_code == 200:
+                print("Telegram notification sent successfully!")
+            else:
+                print(f"Telegram notification failed: {res.text}")
+        except Exception as api_e:
+            print(f"Telegram API error: {api_e}")
+            
     except Exception as e:
-        print(f"Failed to start Telegram notification thread: {e}")
+        print(f"Failed to send Telegram notification: {e}")
 
 
 def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_dt=None):
@@ -2594,6 +2591,7 @@ def daily_panchangam():
 @app.route("/calendar_view", methods=["GET", "POST"])
 def calendar_view():
     input_date = request.form.get("calendar_date")
+    view_type = request.form.get("view_type", "telugu")
     if not input_date:
         input_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
@@ -2635,6 +2633,12 @@ def calendar_view():
     
     y2, m2_dt, d2, h2 = swe.revjul(jd_end)
     end_dt = datetime.datetime(y2, m2_dt, d2).date()
+    
+    if view_type == "english":
+        import calendar as py_calendar
+        start_dt = datetime.date(date_obj.year, date_obj.month, 1)
+        last_day = py_calendar.monthrange(date_obj.year, date_obj.month)[1]
+        end_dt = datetime.date(date_obj.year, date_obj.month, last_day)
     
     # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
     adj_year = date_obj.year
@@ -2770,6 +2774,7 @@ def calendar_view():
     return render_template(
         "calendar_view.html",
         input_date=input_date,
+        view_type=view_type,
         festivals=festivals_list,
         days_data=days_data,
         year=date_obj.year,
@@ -2777,7 +2782,7 @@ def calendar_view():
         year_index=year_index + 1,
         kaliyuga_year=kaliyuga_year,
         thraitha_sakamu=thraitha_sakamu,
-        telugu_masam=telugu_masam_name,
+        telugu_masam=telugu_masam_name if view_type == "telugu" else f"{EN_MONTHS_TELUGU[date_obj.month - 1]} ({telugu_masam_name})",
         shukla_range=shukla_range,
         krishna_range=krishna_range,
         start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",

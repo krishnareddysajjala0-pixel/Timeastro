@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 <head>
     <meta charset="UTF-8">
@@ -151,6 +151,36 @@
         }
         .search-bar button { padding: 8px 18px; background: linear-gradient(135deg, #facc15, #eab308); border: none; font-weight: bold; border-radius: 8px; cursor: pointer; color: #111; transition: transform 0.2s; }
         .search-bar button:hover { transform: scale(1.05); }
+
+        .nav-month-btn {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-month-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .view-toggle-btn {
+            padding: 8px 18px;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .view-toggle-btn:hover {
+            transform: scale(1.05);
+        }
 
         .calendar-container {
             display: grid;
@@ -443,9 +473,17 @@
     </div>
 
     <div class="search-bar">
-        <form action="/calendar_view" method="POST">
+        <form action="/calendar_view" method="POST" id="calForm">
+            <input type="hidden" name="view_type" id="view_type" value="{{ view_type }}">
+            <button type="button" class="nav-month-btn" onclick="changeMonth(-1)" title="మునుపటి నెల"><i class="fas fa-chevron-left"></i></button>
             <input type="date" name="calendar_date" value="{{ input_date }}" required>
+            <button type="button" class="nav-month-btn" onclick="changeMonth(1)" title="తదుపరి నెల"><i class="fas fa-chevron-right"></i></button>
             <button type="submit">వీక్షించు</button>
+            {% if view_type == "telugu" %}
+            <button type="button" class="view-toggle-btn" onclick="toggleViewType('english')" title="ఆంగ్ల నెల ప్రకారం చూడండి" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff;">ఆంగ్ల నెల</button>
+            {% else %}
+            <button type="button" class="view-toggle-btn" onclick="toggleViewType('telugu')" title="తెలుగు నెల ప్రకారం చూడండి" style="background: linear-gradient(135deg, #a855f7, #7e22ce); color: #fff;">తెలుగు నెల</button>
+            {% endif %}
         </form>
     </div>
 
@@ -533,6 +571,36 @@
         </a>
     </div>
     <script>
+        function changeMonth(offset) {
+            const dateInput = document.querySelector('input[name="calendar_date"]');
+            if (!dateInput || !dateInput.value) return;
+            
+            const parts = dateInput.value.split('-');
+            if (parts.length !== 3) return;
+            
+            let year = parseInt(parts[0], 10);
+            let month = parseInt(parts[1], 10) - 1;
+            let day = parseInt(parts[2], 10);
+            
+            const d = new Date(year, month, day);
+            d.setMonth(d.getMonth() + offset);
+            
+            const newYear = d.getFullYear();
+            const newMonth = String(d.getMonth() + 1).padStart(2, '0');
+            const newDay = String(d.getDate()).padStart(2, '0');
+            
+            dateInput.value = `${newYear}-${newMonth}-${newDay}`;
+            
+            showLoader();
+            dateInput.form.submit();
+        }
+
+        function toggleViewType(newType) {
+            document.getElementById('view_type').value = newType;
+            showLoader();
+            document.getElementById('calForm').submit();
+        }
+
         function setTheme(theme) {
             if (theme === 'default') {
                 document.documentElement.removeAttribute('data-theme');

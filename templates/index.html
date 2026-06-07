@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 
 <head>
@@ -1330,6 +1330,46 @@
         .catch(error => console.log('Auto-location failed:', error));
     }
 
+    // Auto-fill precise device location on load silently, falling back to IP if needed
+    function initDefaultLocation() {
+      if (!navigator.geolocation) {
+        autoFillLocation();
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`
+            );
+            const data = await response.json();
+
+            if (data.display_name && !placeInput.value) {
+              placeInput.value = data.display_name;
+              latInput.value = lat;
+              lonInput.value = lon;
+            }
+          } catch (error) {
+            console.error("Silent geolocation reverse geocoding failed, trying IP:", error);
+            autoFillLocation();
+          }
+        },
+        (error) => {
+          console.log("Silent geolocation failed or denied, trying IP:", error);
+          autoFillLocation();
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: 600000
+        }
+      );
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', function () {
       const formGroups = document.querySelectorAll('.form-group');
@@ -1337,8 +1377,8 @@
         group.style.animationDelay = `${index * 0.1}s`;
       });
 
-      // Call auto-location on load
-      autoFillLocation();
+      // Call precise auto-location on load
+      initDefaultLocation();
     });
 
     // Clear validation errors on input

@@ -35,3 +35,4 @@
 22. [18-Jun-2026 08:24:32] Name: hanwika, DOB: 2026-06-17, TOB: 17:41, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 23. [20-Jun-2026 01:34:46] Name: Krishnareddy Sajjala, DOB: 2026-06-20, TOB: 07:04, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 24. [20-Jun-2026 04:38:18] Name: P.sivakumar, DOB: 1999-09-13, TOB: 04:30, Place: కదిరి, శ్రీ సత్యసాయి, Andhra Pradesh, 515591, India
+25. [25-Jun-2026 02:02:36] Name: గుత్తి కృష్ణ మీరా , DOB: 2017-01-10, TOB: 11:56, Place: Duttalur, Sri Potti Sriramulu Nellore, Andhra Pradesh, India

@@ -37,3 +37,4 @@
 24. [20-Jun-2026 04:38:18] Name: P.sivakumar, DOB: 1999-09-13, TOB: 04:30, Place: కదిరి, శ్రీ సత్యసాయి, Andhra Pradesh, 515591, India
 25. [25-Jun-2026 02:02:36] Name: గుత్తి కృష్ణ మీరా , DOB: 2017-01-10, TOB: 11:56, Place: Duttalur, Sri Potti Sriramulu Nellore, Andhra Pradesh, India
 26. [25-Jun-2026 15:05:15] Name: Mega Raju , DOB: 1997-09-29, TOB: 05:55, Place: Anantapur, Anantapuram, Andhra Pradesh, 515001, India
+27. [27-Jun-2026 02:18:51] Name: REDDY, DOB: 2026-06-27, TOB: 07:48, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

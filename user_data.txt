@@ -38,3 +38,4 @@
 25. [25-Jun-2026 02:02:36] Name: గుత్తి కృష్ణ మీరా , DOB: 2017-01-10, TOB: 11:56, Place: Duttalur, Sri Potti Sriramulu Nellore, Andhra Pradesh, India
 26. [25-Jun-2026 15:05:15] Name: Mega Raju , DOB: 1997-09-29, TOB: 05:55, Place: Anantapur, Anantapuram, Andhra Pradesh, 515001, India
 27. [27-Jun-2026 02:18:51] Name: REDDY, DOB: 2026-06-27, TOB: 07:48, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+28. [27-Jun-2026 18:22:32] Name: Shaik Muzaffar, DOB: 1997-01-18, TOB: 14:30, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India

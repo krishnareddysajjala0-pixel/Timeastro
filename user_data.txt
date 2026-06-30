@@ -42,3 +42,4 @@
 29. [27-Jun-2026 18:26:10] Name: Shaik Muzaffar, DOB: 1997-01-18, TOB: 14:30, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 30. [30-Jun-2026 14:24:40] Name: chiru, DOB: 1997-08-23, TOB: 09:45, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 31. [30-Jun-2026 14:28:40] Name: B MRUDULA, DOB: 2001-05-26, TOB: 02:40, Place: Ongole, Prakasam, Andhra Pradesh, 523002, India
+32. [30-Jun-2026 17:40:17] Name: A.sravani, DOB: 2002-06-06, TOB: 17:00, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India

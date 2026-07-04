@@ -72,3 +72,4 @@
 59. [04-Jul-2026 09:28:40] Name: చిన్న అమ్మడు , DOB: 1987-08-15, TOB: 05:05, Place: Srikakulam, శ్రీకాకుళం, Srikakulam, Andhra Pradesh, 532001, India
 60. [04-Jul-2026 09:36:35] Name: Reddy, DOB: 2026-07-04, TOB: 10:22, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 61. [04-Jul-2026 09:37:05] Name: Ok, DOB: 2026-07-04, TOB: 15:06, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+62. [04-Jul-2026 10:03:04] Name: Namana, DOB: 2017-08-29, TOB: 02:13, Place: Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, India

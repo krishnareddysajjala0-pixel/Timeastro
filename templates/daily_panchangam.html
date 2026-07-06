@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="te">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAVAN ASTRO - పంచాంగం</title>
+    <title>{{ _('RAVAN ASTRO - పంచాంగం') }}</title>
     <link rel="icon" type="image/png" href="/static/favicon.png">
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
@@ -411,8 +411,107 @@
             .card { background: #fff !important; border: 1px solid #000 !important; box-shadow: none !important; }
         }
     </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
     <div id="loading-overlay">
         <div class="loader-astro"></div>
         <p id="typing-text" style="font-size: 20px; font-weight: bold; text-align: center; padding: 20px; color: #ffd700; max-width: 80%;"></p>
@@ -451,7 +550,7 @@
         function startTyping() {
             const element = document.getElementById("typing-text");
             if (!element) return;
-            element.innerHTML = 'గణన చేస్తోంది';
+            element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
         }
 
         function showLoader() {
@@ -491,31 +590,31 @@
         <div class="card">
             <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
-                <h2>పంచాంగం</h2>
+                <h2>{{ _('పంచాంగం') }}</h2>
                 <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
             </div>
             
             <form id="panch-form" action="/daily_panchangam" method="POST" onsubmit="showLoader()">
                 <div class="form-grid">
                     <div>
-                        <label><i class="fas fa-calendar"></i> తేది (Date)</label>
+                        <label><i class="fas fa-calendar"></i> {{ _('తేది (Date)') }}</label>
                         <div class="input-container">
                             <i class="fas fa-calendar-day input-icon"></i>
                             <input type="date" id="inp-dob" name="dob" value="{{ dob }}" required>
                         </div>
                     </div>
                     <div>
-                        <label><i class="fas fa-clock"></i> సమయం (Time)</label>
+                        <label><i class="fas fa-clock"></i> {{ _('సమయం (Time)') }}</label>
                         <div class="input-container">
                             <i class="fas fa-clock input-icon"></i>
                             <input type="time" id="inp-tob" name="tob" value="{{ tob }}" required>
                         </div>
                     </div>
                     <div style="grid-column: 1 / -1;">
-                        <label><i class="fas fa-map-marker-alt"></i> స్థలం (Place)</label>
+                        <label><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం (Place)') }}</label>
                         <div class="input-container">
                             <i class="fas fa-map-marker-alt input-icon"></i>
-                            <input type="text" id="inp-place" name="place" value="{{ place }}" placeholder="గ్రామం, నగరం, రాష్ట్రం">
+                            <input type="text" id="inp-place" name="place" value="{{ place }}" placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
                         </div>
                         <input type="hidden" id="inp-lat" name="lat" value="{{ lat }}">
                         <input type="hidden" id="inp-lon" name="lon" value="{{ lon }}">
@@ -523,8 +622,8 @@
                 </div>
                 <div id="geo-status"></div>
                 <div class="btn-container">
-                    <button type="button" class="btn-locate" onclick="detectLocation()"><i class="fas fa-location-arrow"></i> నా స్థానం</button>
-                    <button type="submit" class="btn"><i class="fas fa-sync"></i> పంచాంగం చూడండి</button>
+                    <button type="button" class="btn-locate" onclick="detectLocation()"><i class="fas fa-location-arrow"></i> {{ _('నా స్థానం') }}</button>
+                    <button type="submit" class="btn"><i class="fas fa-sync"></i> {{ _('పంచాంగం చూడండి') }}</button>
                 </div>
             </form>
 
@@ -535,13 +634,13 @@
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(250, 204, 21, 0.1); border-color: #facc15; flex-direction: column; text-align: center; gap: 10px;">
                     <div class="result-icon"><i class="fas fa-calendar-alt" style="font-size: 24px;"></i></div>
                     <div>
-                        <div class="result-label" style="font-size: 18px;">ఇందు క్యాలెండర్ వివరాలు <br> <span class="rainbow-text-glow">త్రైత శకము-{{ panch.thraitha_sakamu }}</span></div>
+                        <div class="result-label" style="font-size: 18px;">{{ _('ఇందు క్యాలెండర్ వివరాలు') }} <br> <span class="rainbow-text-glow">{{ _('త్రైత శకము') }}-{{ panch.thraitha_sakamu }}</span></div>
                         <div class="result-value" style="font-weight: bold; font-size: 17px; margin-top: 5px;">
-                            {{ panch.year_name }} నామ సంవత్సరం ({{ panch.year_index + 1 }}), కలియుగ సంవత్సరం-{{ panch.kaliyuga_year }}
+                            {{ panch.year_name }} {{ _('నామ సంవత్సరం') }} ({{ panch.year_index + 1 }}), {{ _('కలియుగ సంవత్సరం') }}-{{ panch.kaliyuga_year }}
                         </div>
                         <div class="result-value" style="font-size: 16px; margin-top: 8px; color: #e2e8f0; font-weight: bold;">
-                            తెలుగు మాసం: {{ panch.masam_full }} <br>
-                            వారము: {{ panch.vara }}
+                            {{ _('తెలుగు మాసం') }}: {{ panch.masam_full }} <br>
+                            {{ _('వారము') }}: {{ panch.vara }}
                         </div>
                     </div>
                 </div>
@@ -550,7 +649,7 @@
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(52, 211, 153, 0.1); border-color: #34d399;">
                     <div class="result-icon"><i class="fas fa-arrow-up" style="color: #34d399;"></i></div>
                     <div>
-                        <div class="result-label">లగ్నం (Lagnam)</div>
+                        <div class="result-label">{{ _('లగ్నం (Lagnam)') }}</div>
                         <div class="result-value">{{ panch.lagna_full }}</div>
                     </div>
                 </div>
@@ -559,14 +658,14 @@
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-sun" style="color: #ff9800;"></i></div>
                     <div>
-                        <div class="result-label">సూర్యోదయం & సూర్యాస్తమయం</div>
+                        <div class="result-label">{{ _('సూర్యోదయం & సూర్యాస్తమయం') }}</div>
                         <div class="result-value" style="font-size: 14px;">{{ panch.sunrise }} | {{ panch.sunset }}</div>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-moon" style="color: #e0e0e0;"></i></div>
                     <div>
-                        <div class="result-label">చంద్రోదయం & చంద్రాస్తమయం</div>
+                        <div class="result-label">{{ _('చంద్రోదయం & చంద్రాస్తమయం') }}</div>
                         <div class="result-value" style="font-size: 14px;">{{ panch.moonrise }} | {{ panch.moonset }}</div>
                     </div>
                 </div>
@@ -579,10 +678,10 @@
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-certificate" style="color: #fca5a5;"></i></div>
                     <div>
-                        <div class="result-label">తిథి (Tithi)</div>
+                        <div class="result-label">{{ _('తిథి (Tithi)') }}</div>
                         <div class="result-value">{{ panch.tithi_full }}</div>
-                        <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">మొదలు: {{ panch.tithi_start }}</div>
-                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">ముగింపు: {{ panch.tithi_end }} వరకు</div>
+                        <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">{{ _('మొదలు:') }} {{ panch.tithi_start }}</div>
+                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.tithi_end }} {{ _('వరకు') }}</div>
                         <div style="font-size: 13px; color: #facc15; margin-top: 4px; font-weight: 600;">{{ panch.tithi_elapsed_str }}</div>
                         <div style="font-size: 13px; color: #facc15; font-weight: 600;">{{ panch.tithi_remaining_str }}</div>
                     </div>
@@ -592,10 +691,10 @@
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-star" style="color: #818cf8;"></i></div>
                     <div>
-                        <div class="result-label">నక్షత్రం (Nakshatra)</div>
+                        <div class="result-label">{{ _('నక్షత్రం (Nakshatra)') }}</div>
                         <div class="result-value">{{ panch.nakshatra }} ({{ panch.nak_padam }})</div>
-                        <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">మొదలు: {{ panch.nak_start }}</div>
-                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">ముగింపు: {{ panch.nak_end }} వరకు</div>
+                        <div style="font-size: 14px; color: #34d399; margin-top: 5px; font-weight: bold;">{{ _('మొదలు:') }} {{ panch.nak_start }}</div>
+                        <div style="font-size: 14px; color: #fca5a5; font-weight: bold;">{{ _('ముగింపు:') }} {{ panch.nak_end }} {{ _('వరకు') }}</div>
                         <div style="font-size: 13px; color: #facc15; margin-top: 4px; font-weight: 600;">{{ panch.nak_elapsed_str }}</div>
                         <div style="font-size: 13px; color: #facc15; font-weight: 600;">{{ panch.nak_remaining_str }}</div>
                     </div>
@@ -607,14 +706,14 @@
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-sun" style="color: #f59e0b;"></i></div>
                     <div>
-                        <div class="result-label">సూర్య లగ్నం</div>
+                        <div class="result-label">{{ _('సూర్య లగ్నం') }}</div>
                         <div class="result-value">{{ panch.surya_lagna }}</div>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="result-icon"><i class="fas fa-moon" style="color: #9ca3af;"></i></div>
                     <div>
-                        <div class="result-label">చంద్ర లగ్నం</div>
+                        <div class="result-label">{{ _('చంద్ర లగ్నం') }}</div>
                         <div class="result-value">{{ panch.chandra_lagna }}</div>
                     </div>
                 </div>
@@ -623,7 +722,7 @@
                 <div class="result-item" style="grid-column: 1 / -1; background: rgba(160, 160, 255, 0.1);">
                     <div class="result-icon"><i class="fas fa-compass"></i></div>
                     <div>
-                        <div class="result-label">అయనం & ఋతువు</div>
+                        <div class="result-label">{{ _('అయనం & ఋతువు') }}</div>
                         <div class="result-value">{{ panch.ayanam }}, {{ panch.rutuvu }} ఋతువు</div>
                     </div>
                 </div>
@@ -631,18 +730,18 @@
 
                 {% if panch.chart %}
                 <div class="chart-container-c">
-                    <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> లగ్న కుండలి</h2>
+                    <h2 class="section-title"><i class="fas fa-th-large section-icon"></i> {{ _('లగ్న కుండలి') }}</h2>
                     {% macro full_box(lagna, panch) %}
                         {% set hno = panch.houses.get(lagna, "") if panch.houses else "" %}
-                        <div class="box-c {% if panch.lagna==lagna %}lagna-c{% endif %}">
+                        <div class="box-c {% if panch.lagna == _(lagna) %}lagna-c{% endif %}">
                             {% if hno %}<span class="house-no-c">{{ hno }}</span>{% endif %}
                             <div style="text-align: center; line-height: 1.4;">{{ panch.chart[lagna] | safe }}</div>
-                            <span class="lagna-name-c">{{ lagna }}</span>
+                            <span class="lagna-name-c">{{ _(lagna) }}</span>
                         </div>
                     {% endmacro %}
                     <div class="chart-c">
                         {{ full_box("మీనం", panch) }} {{ full_box("మేషం", panch) }} {{ full_box("వృషభం", panch) }} {{ full_box("మిథునం", panch) }}
-                        {{ full_box("కుంభం", panch) }} <div class="center-c" style="text-align: center;">ద్వాదశ గ్రహముల సంచారము</div> {{ full_box("కర్కాటకం", panch) }}
+                        {{ full_box("కుంభం", panch) }} <div class="center-c" style="text-align: center;">{{ _('ద్వాదశ గ్రహముల సంచారము') }}</div> {{ full_box("కర్కాటకం", panch) }}
                         {{ full_box("మకరం", panch) }} {{ full_box("సింహం", panch) }}
                         {{ full_box("ధనస్సు", panch) }} {{ full_box("వృశ్చికం", panch) }} {{ full_box("తులా", panch) }} {{ full_box("కన్య", panch) }}
                     </div>
@@ -652,16 +751,16 @@
                 {% if panch.transit_table %}
                 <!-- Planet Transit Table -->
                 <div style="grid-column: 1 / -1; margin-top: 30px; min-width: 0;">
-                    <h2 class="section-title"><i class="fas fa-exchange-alt section-icon"></i> ద్వాదశ గ్రహముల లగ్న సంచారం</h2>
+                    <h2 class="section-title"><i class="fas fa-exchange-alt section-icon"></i> {{ _('ద్వాదశ గ్రహముల లగ్న సంచారం') }}</h2>
                     <div style="overflow-x: auto; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
                         <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 500px;">
                             <thead>
                                 <tr style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05));">
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">క్ర.సం</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">గ్రహము</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">లగ్నం</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">ప్రవేశ తేది & సమయం</th>
-                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">నిష్క్రమణ తేది & సమయం</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">{{ _('క్ర.సం') }}</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">{{ _('గ్రహము') }}</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">{{ _('లగ్నం') }}</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">{{ _('ప్రవేశ తేది & సమయం') }}</th>
+                                    <th style="padding: 12px 10px; text-align: left; color: #ffd700; font-weight: 800; border-bottom: 2px solid rgba(255, 215, 0, 0.4); font-size: 13px;">{{ _('నిష్క్రమణ తేది & సమయం') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -701,19 +800,19 @@
     <div class="fixed-bottom-bar-nav">
         <a href="/" class="nav-item nav-home">
             <i class="fas fa-home"></i>
-            <span>హోమ్</span>
+            <span>{{ _('హోమ్') }}</span>
         </a>
         <a href="/compare_kundali" class="nav-item nav-compare">
             <i class="fas fa-balance-scale"></i>
-            <span>పోలిక</span>
+            <span>{{ _('పోలిక') }}</span>
         </a>
         <a href="/daily_panchangam" class="nav-item active nav-panch">
             <i class="fas fa-om"></i>
-            <span>పంచాంగం</span>
+            <span>{{ _('పంచాంగం') }}</span>
         </a>
         <a href="/calendar_view" class="nav-item nav-cal">
             <i class="fas fa-calendar-alt"></i>
-            <span>క్యాలెండర్</span>
+            <span>{{ _('క్యాలెండర్') }}</span>
         </a>
     </div>
     <script>
@@ -803,7 +902,7 @@
                 setGeoStatus('మీ బ్రౌజర్ లోకేషన్ తెలుసుకోలేదు. దయచేసి మాన్యువల్‌గా స్థలం నమోదు చేయండి.', 'error');
                 return;
             }
-            setGeoStatus('📍 మీ ప్రస్తుత స్థానం గుర్తిస్తోంది...', '');
+            setGeoStatus('📍 మీ {{ _('ప్రస్తుత స్థానం') }} గుర్తిస్తోంది...', '');
             navigator.geolocation.getCurrentPosition(
                 function(pos) {
                     const lat = pos.coords.latitude;
@@ -885,7 +984,7 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)

@@ -1,0 +1,380 @@
+Line 0036:     "మేషం","వృషభం","మిథునం","కర్కాటకం",
+Line 0037:     "సింహం","కన్య","తులా","వృశ్చికం",
+Line 0038:     "ధనస్సు","మకరం","కుంభం","మీనం"
+Line 0042:     "సూర్యుడు": swe.SUN,
+Line 0043:     "చంద్రుడు": swe.MOON,
+Line 0044:     "కుజుడు": swe.MARS,
+Line 0045:     "బుధుడు": swe.MERCURY,
+Line 0046:     "గురు": swe.JUPITER,
+Line 0047:     "శుక్రుడు": swe.VENUS,
+Line 0048:     "శని": swe.SATURN,
+Line 0049:     "రాహు": swe.TRUE_NODE
+Line 0053:     "కుజుడు": [90, 210],
+Line 0054:     "గురు": [120, 240],
+Line 0055:     "శని": [60, 270]
+Line 0059:     "సూర్యుడు": "సూర్య",
+Line 0060:     "చంద్రుడు": "చంద్ర",
+Line 0061:     "కుజుడు": "కుజ",
+Line 0062:     "బుధుడు": "బుధ",
+Line 0063:     "గురు": "గురు",
+Line 0064:     "శుక్రుడు": "శుక్ర",
+Line 0065:     "శని": "శని",
+Line 0066:     "రాహు": "రాహు",
+Line 0067:     "కేతు": "కేతు",
+Line 0068:     "భూమి": "భూమి",
+Line 0069:     "మిత్ర": "మిత్ర",
+Line 0070:     "చిత్ర": "చిత్ర",
+Line 0071:     "లగ్నం": "లగ్నం"
+Line 0076:     "Sunday": "ఆదివారం",
+Line 0077:     "Monday": "సోమవారం",
+Line 0078:     "Tuesday": "మంగళవారం",
+Line 0079:     "Wednesday": "బుధవారం",
+Line 0080:     "Thursday": "గురువారం",
+Line 0081:     "Friday": "శుక్రవారం",
+Line 0082:     "Saturday": "శనివారం"
+Line 0087:     "అశ్విని","భరణి","కృత్తిక","రోహిణి","మృగశిర","ఆర్ద్ర",
+Line 0088:     "పునర్వసు","పుష్యమి","ఆశ్లేష","మఖ",
+Line 0089:     "పూర్వఫల్గుణి","ఉత్తరఫల్గుణి",
+Line 0090:     "హస్త","చిత్త","స్వాతి","విశాఖ",
+Line 0091:     "అనూరాధ","జ్యేష్ఠ","మూల","పూర్వాషాఢ",
+Line 0092:     "ఉత్తరాషాఢ","శ్రవణ","ధనిష్ఠ","శతభిష",
+Line 0093:     "పూర్వాభాద్ర","ఉత్తరాభాద్ర","రేవతి"
+Line 0100:     "ప్రభవ", "విభవ", "శుక్ల", "ప్రమోదూత", "ప్రజోత్పత్తి", "ఆంగీరస", "శ్రీముఖ", "భావ", "యువ", "ధాత",
+Line 0101:     "ఈశ్వర", "బహుధాన్య", "ప్రమాది", "విక్రమ", "వృష", "చిత్రభాను", "స్వభాను", "తారణ", "పార్థివ", "వ్యయ",
+Line 0102:     "సర్వజిత్తు", "సర్వధారి", "విరోధి", "వికృతి", "ఖర", "నందన", "విజయ", "జయ", "మన్మథ", "దుర్ముఖి",
+Line 0103:     "హేవిలంబి", "విలంబి", "వికారి", "శార్వరి", "ప్లవ", "శుభకృతు", "శోభకృతు", "క్రోధి", "విశ్వావసు", "పరాభవ",
+Line 0104:     "ప్లవంగ", "కీలక", "సౌమ్య", "సాధారణ", "విరోధికృతు", "పరీధావి", "ప్రమాదీచ", "ఆనంద", "రాక్షస", "నల",
+Line 0105:     "పింగళ", "కాళయుక్తి", "సిద్ధార్థి", "రౌద్రి", "దుర్మతి", "దుందుభి", "రుధిరోద్గారి", "రక్తాక్షి", "క్రోధన", "అక్షయ"
+Line 0109:     """Formats a datetime object into a Telugu AM/PM string (ఉ:/సా:)"""
+Line 0111:     ampm = "ఉ: " if dt.hour < 12 else "సా: "
+Line 0116:     "పాడ్యమి", "విదియ", "తదియ", "చవితి", "పంచమి", "షష్ఠి", "సప్తమి",
+Line 0117:     "అష్టమి", "నవమి", "దశమి", "ఏకాదశి", "ద్వాదశి", "త్రయోదశి", "చతుర్దశి", "పౌర్ణమి"
+Line 0121:     "పాడ్యమి", "విదియ", "తదియ", "చవితి", "పంచమి", "షష్ఠి", "సప్తమి",
+Line 0122:     "అష్టమి", "నవమి", "దశమి", "ఏకాదశి", "ద్వాదశి", "త్రయోదశి", "చతుర్దశి", "అమావాస్య"
+Line 0126:     "విష్కంభ", "ప్రీతి", "ఆయుష్మాన్", "సౌభాగ్య", "శోభన", "అతిగండ", "సుకర్మ",
+Line 0127:     "ధృతి", "శూల", "గండ", "వృధ్ధి", "ధ్రువ", "వ్యాఘాత", "హర్షణ", "వజ్ర", "సిద్ధి",
+Line 0128:     "వ్యతీపాత", "వరియాన్", "పరీఘ", "శివ", "సిద్ధ", "సాధ్య", "శుభ", "శుక్ల",
+Line 0129:     "బ్రహ్మ", "ఇంద్ర", "వైధృతి"
+Line 0132: KARANAS_MOVABLE = ["బవ", "బాలవ", "కౌలవ", "తైతిల", "గర", "వణిజ", "విష్టి"]
+Line 0136:     "సూర్య","చంద్ర","కుజ","రాహు","గురు","భూమి",
+Line 0137:     "శని","బుధ","కేతు","శుక్ర","మిత్ర","చిత్ర"
+Line 0141:     "సూర్య":10, "చంద్ర":10, "కుజ":7, "రాహు":10,
+Line 0142:     "గురు":13, "భూమి":13, "శని":13, "బుధ":10,
+Line 0143:     "కేతు":7, "శుక్ర":13, "మిత్ర":7, "చిత్ర":7
+Line 0151:     "సూర్య": [
+Line 0152:         ("సూర్య", 10), ("చంద్ర", 10), ("కుజ", 7), ("రాహు", 10),
+Line 0153:         ("గురు", 13), ("భూమి", 13), ("శని", 13), ("బుధ", 10), 
+Line 0154:         ("కేతు", 7), ("శుక్ర", 13), ("మిత్ర", 7), ("చిత్ర", 7)
+Line 0156:     "చంద్ర": [
+Line 0157:         ("చంద్ర", 10), ("కుజ", 7), ("రాహు", 10), ("గురు", 13),
+Line 0158:         ("భూమి", 13), ("శని", 13), ("బుధ", 10), ("కేతు", 7), 
+Line 0159:         ("శుక్ర", 13), ("మిత్ర", 7), ("చిత్ర", 7), ("సూర్య", 10)
+Line 0161:     "కుజ": [
+Line 0162:         ("కుజ", 4.9), ("రాహు", 7), ("గురు", 9.1), ("భూమి", 9.1),
+Line 0163:         ("శని", 9.1), ("బుధ", 7), ("కేతు", 4), ("శుక్ర", 9), 
+Line 0164:         ("మిత్ర", 4), ("చిత్ర", 4), ("సూర్య", 7), ("చంద్ర", 7)
+Line 0166:     "రాహు": [
+Line 0167:         ("రాహు", 10), ("గురు", 13), ("భూమి", 13), ("శని", 13), ("బుధ", 10),
+Line 0168:         ("కేతు", 7), ("శుక్ర", 13), ("మిత్ర", 7), ("చిత్ర", 7),
+Line 0169:         ("సూర్య", 10), ("చంద్ర", 10), ("కుజ", 7)
+Line 0171:     "గురు": [
+Line 0172:         ("గురు", 16.9), ("భూమి", 16.9), ("శని", 16.9), ("బుధ", 13), ("కేతు", 9),
+Line 0173:         ("శుక్ర", 16.9), ("మిత్ర", 9.1), ("చిత్ర", 9.1), 
+Line 0174:         ("సూర్య", 13), ("చంద్ర", 13), ("కుజ", 9.1), ("రాహు", 13)
+Line 0176:     "భూమి": [
+Line 0177:         ("భూమి", 16.9), ("శని", 16.9), ("బుధ", 13), ("కేతు", 9.1),
+Line 0178:         ("శుక్ర", 16.9), ("మిత్ర", 9.1), ("చిత్ర", 9.1),
+Line 0179:         ("సూర్య", 13), ("చంద్ర", 13), ("కుజ", 9.1),
+Line 0180:         ("రాహు", 13), ("గురు", 16.9)
+Line 0182:     "శని": [
+Line 0183:         ("శని", 16.9), ("బుధ", 13), ("కేతు", 9.1), ("శుక్ర", 16.9),
+Line 0184:         ("మిత్ర", 9.1), ("చిత్ర", 9.1), ("సూర్య", 13),
+Line 0185:         ("చంద్ర", 13), ("కుజ", 9.1), ("రాహు", 13), ("గురు", 16.9), ("భూమి", 16.9)
+Line 0187:     "బుధ": [
+Line 0188:         ("బుధ", 10), ("కేతు", 7), ("శుక్ర", 13), ("మిత్ర", 7),
+Line 0189:         ("చిత్ర", 7), ("సూర్య", 10), ("చంద్ర", 10),
+Line 0190:         ("కుజ", 7), ("రాహు", 10), ("గురు", 13), ("భూమి", 13), ("శని", 13)
+Line 0192:     "కేతు": [
+Line 0193:         ("కేతు", 4.9), ("శుక్ర", 9.1), ("మిత్ర", 4.9), ("చిత్ర", 4.9),
+Line 0194:         ("సూర్య", 7), ("చంద్ర", 7), ("కుజ", 4.9),
+Line 0195:         ("రాహు", 7), ("గురు", 9.1), ("భూమి", 9.1), ("శని", 9.1), ("బుధ", 7)
+Line 0197:     "శుక్ర": [
+Line 0198:         ("శుక్ర", 16.9), ("మిత్ర", 9.1), ("చిత్ర", 9.1), 
+Line 0199:         ("సూర్య", 13), ("చంద్ర", 13), ("కుజ", 9.1), ("రాహు", 13),
+Line 0200:         ("గురు", 16.9), ("భూమి", 16.9), ("శని", 16.9), ("బుధ", 13), ("కేతు", 9.1)
+Line 0202:     "మిత్ర": [
+Line 0203:         ("మిత్ర", 4.9), ("చిత్ర", 4.9), ("సూర్య", 7),
+Line 0204:         ("చంద్ర", 7), ("కుజ", 4), ("రాహు", 7), ("గురు", 9.1), ("భూమి", 9.1), 
+Line 0205:         ("శని", 9.1), ("బుధ", 7), ("కేతు", 4.9), ("శుక్ర", 9.1)
+Line 0207:     "చిత్ర": [
+Line 0208:         ("చిత్ర", 4.9), ("సూర్య", 7), ("చంద్ర", 7),
+Line 0209:         ("కుజ", 4.9), ("రాహు", 7), ("గురు", 9.1), ("భూమి", 9.1), ("శని", 9.1),
+Line 0210:         ("బుధ", 7), ("కేతు", 4.9), ("శుక్ర", 9.1), ("మిత్ర", 4.9)
+Line 0216:     "సూర్య": "#FFD700",  "సూర్యుడు": "#FFD700",  # Gold
+Line 0217:     "చంద్ర": "#F0F8FF",  "చంద్రుడు": "#F0F8FF",  # Alice Blue
+Line 0218:     "కుజ": "#FF4500",    "కుజుడు": "#FF4500",    # Orange Red
+Line 0219:     "బుధ": "#32CD32",    "బుధుడు": "#32CD32",    # Lime Green
+Line 0220:     "గురు": "#FFA500",   # Orange
+Line 0221:     "శుక్ర": "#FF69B4",  "శుక్రుడు": "#FF69B4",  # Hot Pink
+Line 0222:     "శని": "#696969",    # Dim Gray
+Line 0223:     "రాహు": "#8B4513",   # Saddle Brown
+Line 0224:     "కేతు": "#2F4F4F",   # Dark Slate Gray
+Line 0225:     "భూమి": "#228B22",   # Forest Green
+Line 0226:     "మిత్ర": "#9370DB",  # Medium Purple
+Line 0227:     "చిత్ర": "#40E0D0"   # Turquoise
+Line 0231:     "సూర్య": "☉",
+Line 0232:     "చంద్ర": "☽",
+Line 0233:     "కుజ": "♂",
+Line 0234:     "బుధ": "☿",
+Line 0235:     "గురు": "♃",
+Line 0236:     "శుక్ర": "♀",
+Line 0237:     "శని": "♄",
+Line 0238:     "రాహు": "☊",
+Line 0239:     "కేతు": "☋",
+Line 0240:     "భూమి": "♁",
+Line 0241:     "మిత్ర": "☆",
+Line 0242:     "చిత్ర": "✦"
+Line 0247:     "చైత్ర", "వైశాఖ", "జ్యేష్ఠ", "ఆషాఢ", "శ్రావణ", "భాద్రపద", 
+Line 0248:     "ఆశ్వయుజ", "కార్తీక", "మార్గశిర", "పుష్య", "మాఘ", "ఫాల్గుణ"
+Line 0260:     "వసంత", "గ్రీష్మ", "వర్ష", 
+Line 0261:     "శరత్", "హేమంత", "శిశిర"
+Line 0266: GURU_PARTY_LAGNAS = ["మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు", "మీనం"]
+Line 0268: SANI_PARTY_LAGNAS = ["వృషభం", "మిథునం", "కన్య", "తులా", "మకరం", "కుంభం"]
+Line 0272: # We map standard party friends for the "అనుకూలము (Favorable)" label
+Line 0273: GURU_PARTY_PLANETS = ["సూర్య", "చంద్ర", "కుజ", "గురు", "కేతు", "భూమి"] 
+Line 0274: SANI_PARTY_PLANETS = ["శని", "బుధ", "శుక్ర", "రాహు", "మిత్ర", "చిత్ర"]
+Line 0613:                     age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+Line 0619:                     age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
+Line 0641:     """Parse Telugu time string like '3గం 52ని' to (hours, minutes)"""
+Line 0643:         if 'గం' in time_str:
+Line 0644:             parts = time_str.split('గం')
+Line 0646:             minutes = int(parts[1].replace('ని', '').strip())
+Line 0724:     rahu = base_pos["రాహు"]
+Line 0726:     base_pos["కేతు"] = ketu
+Line 0732:     short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
+Line 0733:     html_str = f"<b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+Line 0738:         "భూమి": (base_pos["సూర్యుడు"] + 180) % 360,
+Line 0739:         "చిత్ర": (rahu + 3.3333) % 360,  # 1 pada offset
+Line 0740:         "మిత్ర": (ketu + 3.3333) % 360   # 1 pada offset
+Line 0755:         "చైత్ర", "వైశాఖ", "జ్యేష్ఠ", "ఆషాఢ", "శ్రావణ", "భాద్రపద", 
+Line 0756:         "ఆశ్వయుజ", "కార్తీక", "మార్గశిర", "పుష్య", "మాఘ", "ఫాల్గుణ"
+Line 0768:         "వసంత", "గ్రీష్మ", "వర్ష", 
+Line 0769:         "శరత్", "హేమంత", "శిశిర"
+Line 0800:     short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
+Line 0802:     html_str = f"<b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small>"
+Line 0815:     moon_lon = base_pos["చంద్రుడు"]
+Line 0844:         nak_start_str = f"నిన్న {nak_start_str}"
+Line 0846:         nak_start_str = f"రేపు {nak_start_str}"
+Line 0849:         nak_end_str = f"రేపు {nak_end_str}"
+Line 0851:         nak_end_str = f"నిన్న {nak_end_str}"
+Line 0860:     sun_lon = base_pos["సూర్యుడు"]
+Line 0861:     moon_lon = base_pos["చంద్రుడు"]
+Line 0866:     tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
+Line 0883:     tithi_elapsed_str = f"{t_elapsed_h}గం {t_elapsed_m}ని"
+Line 0884:     tithi_remaining_str = f"{t_remain_h}గం {t_remain_m}ని"
+Line 0893:         karana_name = "కింస్తుఘ్న"
+Line 0898:         karana_name = "శకుని"
+Line 0900:         karana_name = "చతుష్పాద"
+Line 0902:         karana_name = "నాగ"
+Line 0935:         suryodayam = ("ఉ: " if res_riseUTC.hour < 12 else "సా: ") + res_riseUTC.strftime("%I:%M")
+Line 0936:         suryastamayam = ("ఉ: " if res_setUTC.hour < 12 else "సా: ") + res_setUTC.strftime("%I:%M")
+Line 0939:         suryodayam = "ఉ: 06:00"
+Line 0940:         suryastamayam = "సా: 06:00"
+Line 0947:         ayanam = "ఉత్తరాయణం (Uttarayanam)"
+Line 0949:         ayanam = "దక్షిణాయణం (Dakshinayanam)"
+Line 0982:         "january": "జనవరి", "february": "ఫిబ్రవరి", "march": "మార్చి",
+Line 0983:         "april": "ఏప్రిల్", "may": "మే", "june": "జూన్",
+Line 0984:         "july": "జూలై", "august": "ఆగస్టు", "september": "సెప్టెంబర్",
+Line 0985:         "october": "అక్టోబర్", "november": "నవంబర్", "december": "డిసెంబర్"
+Line 0996:     telugu_masam = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+Line 1043:         green_planets = ["సూర్యుడు", "భూమి", "కుజుడు", "గురు", "కేతు", "చంద్రుడు"]
+Line 1045:         positive_lagnas = ["మీనం", "మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు"]
+Line 1106:         'nak_elapsed': f"{elapsed_h}గం {elapsed_m}ని",
+Line 1107:         'nak_remaining': f"{remain_h}గం {remain_m}ని",
+Line 1229:     rahu = base_pos["రాహు"]
+Line 1231:     base_pos["కేతు"] = ketu
+Line 1237:     short_k = SHORT_PLANETS_TELUGU.get("కేతు", "కే")
+Line 1238:     html_str = f"<b class='full-name'>కేతు</b><b class='short-name'>{short_k}</b> <small class='full-deg'>{d}°{m:02d}′</small><small class='short-deg'>{d}°</small>"
+Line 1242:         "భూమి": (base_pos["సూర్యుడు"] + 180) % 360,
+Line 1243:         "చిత్ర": (rahu + 3.3333) % 360,
+Line 1244:         "మిత్ర": (ketu + 3.3333) % 360
+Line 1280:     short_l = SHORT_PLANETS_TELUGU.get("లగ్నం", "ల")
+Line 1282:     html_str = f"<b class='full-name'>లగ్నం</b><b class='short-name'>{short_l}</b> <small class='full-deg'>{lagna_degree_str}</small><small class='short-deg'>{lagna_short_deg}</small>"
+Line 1304:         name="ఈ రోజు గ్రహ స్థితి",
+Line 1317:     nak_elapsed = birth_info.get('nak_elapsed', '0గం 0ని')
+Line 1318:     nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
+Line 1359:     dasa_elapsed_str = f"{dasa_elapsed_h}గం {dasa_elapsed_m}ని"
+Line 1364:     dasa_remain_str = f"{dasa_remain_h}గం {dasa_remain_m}ని"
+Line 1419:             stiti = "ప్రస్తుతం"
+Line 1421:             stiti = "గతం"
+Line 1423:             stiti = "భవిష్యత్తు"
+Line 1434:             age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+Line 1440:             age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
+Line 1547:     nak_elapsed = birth_info.get('nak_elapsed', '0గం 0ని')
+Line 1548:     nak_remaining = birth_info.get('nak_remaining', '0గం 0ని')
+Line 1621:         native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
+Line 1631:             is_friend = (is_green == (native_party == "గురు వర్గము"))
+Line 1749:     native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
+Line 1764:         is_friend = (is_green == (native_party == "గురు వర్గము"))
+Line 1851:                             f"<br><br><span style='color: {p_color};'><strong>{lord_house_num}వ స్థానాధిపతి (<span class='rainbow-planet'>{lord_planet}</span>) {p_house}వ స్థానములో ఉన్నందున:</strong> {rule_text}</span>"
+Line 1895:             sun_p = [p for p in occ_planets if "సూర్యుడు" in p['name']]
+Line 1899:                     special_notes.append(f"<span style='color: {p['color']};'>సూర్యుడు 4వ లగ్నములో ఉండటమువలన మీకు పై అంతస్థు భవనములు కట్టించు ప్రేరణ చేయును. ఒకవేళ పేదవారైనా ఆ ఇంటిలో నివాసము కల్గునట్లు చేయును.</span> ")
+Line 1901:                     special_notes.append(f"<span style='color: {p['color']};'>సూర్యుడు శత్రుగ్రహమై 4వ లగ్నములో ఉన్నందున గృహ సుఖములు లోపించును. ఉన్న పెద్ద ఇల్లును కూడా అమ్మి చిన్న ఇల్లును కొందామనుకొనును.</span> ")
+Line 1906:                 if "రాహు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>పాముకాటు లేదా విషాహారం వలన ప్రమాదం.</span> ")
+Line 1907:                 elif "చంద్రుడు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>నీటి గండముతో మరణ భయం.</span> ")
+Line 1908:                 elif "శుక్రుడు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>అగ్ని వలన ప్రమాదం.</span> ")
+Line 1909:                 elif "బుధుడు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>దయ్యాల పీడ లేదా వైద్యులకు అంతుచిక్కని రోగము.</span> ")
+Line 1910:                 elif "కుజుడు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>ఆయుధాల చేత లేదా రక్తసిక్త ప్రమాదము (బాంబులు/తుపాకులు).</span> ")
+Line 1915:                 if "కుజుడు" in p['name'] and not p['is_friend']:
+Line 1916:                     special_notes.append(f"<span style='color: {p['color']};'>మృగముల చేత గాయపడుట, ఆయుధములచేత దాడి, వ్రణములు, లేదా టీబీ/క్యాన్సర్ వంటి రోగముల భయము.</span> ")
+Line 1917:                 if "బుధుడు" in p['name']:
+Line 1919:                         special_notes.append(f"<span style='color: {p['color']};'>వైద్య విద్యలో రాణించుట, భూతవైద్యము కూడా తెలిసియుండుట.</span> ")
+Line 1921:                         special_notes.append(f"<span style='color: {p['color']};'>దయ్యాల బాధలు, దయ్యములు శరీరములో రోగరూపముగా ఉండి బాధింపవచ్చును.</span> ")
+Line 1926:                 if "శుక్రుడు" in p['name']:
+Line 1928:                         special_notes.append(f"<span style='color: {p['color']};'>అందమైన, అనుకూలమైన భార్య/భర్త లభించును. ఆమె/అతని వలన మనశ్శాంతి, సుఖము ఉండును.</span> ")
+Line 1930:                         special_notes.append(f"<span style='color: {p['color']};'>కళత్రము వలన కష్టములు, మనఃశ్శాంతి లోపించును.</span> ")
+Line 1931:                 if "కుజుడు" in p['name'] and not p['is_friend']:
+Line 1932:                     special_notes.append(f"<span style='color: {p['color']};'>యుక్తవయస్సులో వివాహము ఆలస్యమగును.</span> ")
+Line 1937:                 if "గురు" in p['name']:
+Line 1939:                         special_notes.append(f"<span style='color: {p['color']};'>బంగారము లేదా ధనము ఏదో ఒక విధంగా లభ్యమగుట (వ్యాపార లాభం లేదా అదృష్టం).</span> ")
+Line 1941:                         special_notes.append(f"<span style='color: {p['color']};'>ఉన్న బంగారమును కూడా అమ్మవలసిన పరిస్థితులు ఏర్పడును.</span> ")
+Line 1943:             rahu_in_3_list = [p for p in occ_planets if "రాహు" in p['name']]
+Line 1944:             guru_in_3_list = [p for p in occ_planets if "గురు" in p['name']]
+Line 1947:                 special_notes.append(f"<span style='color: {rahu_in_3_list[0]['color']};'>రాహువు గురువు కలిసి ఉండటము వలన బంగారు దొంగలు ఎత్తుకొని పోవు భయమున్నది.</span> ")
+Line 1952:                 if "సూర్యుడు" in p['name'] or "చంద్రుడు" in p['name']:
+Line 1953:                     special_notes.append(f"<span style='color: {p['color']};'>ప్రభుత్వ ఉన్నత ఉద్యోగి (కలెక్టర్) లేదా మంత్రి పదవి యోగం.</span> ")
+Line 1954:                 elif "కుజుడు" in p['name']:
+Line 1955:                     if any("సూర్యుడు" in p2['name'] or "చంద్రుడు" in p2['name'] for p2 in occ_planets):
+Line 1956:                         special_notes.append(f"<span style='color: {p['color']};'>మిలిటరీలో పెద్ద డాక్టరుగా పేరు తెచ్చుకొందురు.</span> ")
+Line 1958:                         special_notes.append(f"<span style='color: {p['color']};'>ప్రభుత్వ డాక్టరుగా లేదా గొప్ప సర్జన్ గా పేరు తెచ్చుకొందురు.</span> ")
+Line 1959:                 elif "శుక్రుడు" in p['name']:
+Line 1960:                     special_notes.append(f"<span style='color: {p['color']};'>అష్టైశ్వర్యములతో కూడిన సుఖమయ జీవితం.</span> ")
+Line 1965:                 if "బుధుడు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>కట్నకానుకల రూపంలో లబ్ది.</span> ")
+Line 1966:                 elif "గురు" in p['name']: special_notes.append(f"<span style='color: {p['color']};'>డొనేషన్లు లేదా విద్యాసంస్థల ద్వారా లాభం.</span> ")
+Line 1971:                 if "రాహు" in p['name']:
+Line 1973:                         special_notes.append(f"<span style='color: {p['color']};'>దొంగవృత్తి లేదా దోపిడీల ద్వారా లక్షలు సంపాదించుట, సమాజములో భయంతో కూడిన గౌరవము.</span> ")
+Line 1975:                         special_notes.append(f"<span style='color: {p['color']};'>దొంగతనములలో దొరికిపోవుట, పోలీస్ కేసులు, జైలు జీవితము అనుభవించవలసి రావచ్చు.</span> ")
+Line 1980:                 if "కేతు" in p['name']:
+Line 1982:                         special_notes.append(f"<span style='color: {p['color']};'>దేవుని వైపు చింత, హేతువాదిక జ్ఞానము, సత్యాన్వేషణలో దైవభక్తి పెరగడము.</span> ")
+Line 1984:                         special_notes.append(f"<span style='color: {p['color']};'>దైవజ్ఞానము మీద ఆసక్తి ఉండదు, పూర్తిగా ప్రపంచ జ్ఞానములోనే ఉండిపోవుట.</span> ")
+Line 1987:         moon_enemy_list = [p for p in enemies_in_house if "చంద్రుడు" in p['name']]
+Line 1989:             special_notes.append(f"<span style='color: {moon_enemy_list[0]['color']};'>చంద్రుడు వ్యతిరేఖముగా ఉన్నందున నీటి ఇబ్బందులు (బావులు ఎండిపోవుట, ఇంటిలో నీరు కారుట, బాత్ రూమ్ పైపులు చెడిపోవుట).</span> ")
+Line 1993:             if "శని" in p['name'] and p['is_friend']:
+Line 1994:                 special_notes.append(f"<span style='color: {p['color']};'>ఇనుము వ్యాపారములో మంచి లాభములు పొంది ధనికులయ్యే యోగము.</span> ")
+Line 2000:             rk_p = [p for p in occ_planets if any(x in p['name'] for x in ["రాహు", "కేతు"])]
+Line 2004:                 rk_name = "రాహు" if "రాహు" in rk_p[0]['name'] else "కేతు"
+Line 2007:                     if rk_name == "రాహు" and any(x in p['name'] for x in ["సూర్యుడు", "చంద్రుడు", "కుజుడు", "గురు"]):
+Line 2009:                     elif rk_name == "కేతు" and any(x in p['name'] for x in ["శుక్రుడు", "శని", "బుధుడు"]):
+Line 2013:                     special_notes.append(f"<span style='color: {rk_p[0]['color']};'>{rk_p[0]['name']} 7వ స్థానములో ఉన్నప్పటికీ, వ్యతిరేక గ్రహముల ప్రభావమువలన రెండవ వివాహము లేదా అక్రమ సంబంధముల ఆటంకములు తొలగిపోవును.</span> ")
+Line 2015:                     special_notes.append(f"<span style='color: {rk_p[0]['color']};'>{rk_p[0]['name']} 7వ స్థానములో ఉన్నందున రెండవ పెళ్ళికి లేదా అక్రమ సంబంధములకు అవకాశమున్నది.</span> ")
+Line 2019:             has_mars = any("కుజుడు" in p['name'] for p in occ_planets)
+Line 2020:             has_venus = any("శుక్రుడు" in p['name'] for p in occ_planets)
+Line 2025:                     if "కుజుడు" in p['name']:
+Line 2030:                 special_notes.append(f"<span style='color: {m_color};'>కుజుడు మరియు శుక్రుడు ఇద్దరూ లగ్నములో కలిసి ఉన్నందున, భార్యాభర్తల మధ్య అన్యోన్యత లోపించి తరచూ పోట్లాటలు జరిగే సూచనలున్నవి.</span> ")
+Line 2034:             moon_p = [p for p in occ_planets if "చంద్రుడు" in p['name']]
+Line 2036:                 special_notes.append(f"<span style='color: {moon_p[0]['color']};'>చంద్రుడు 5వ స్థానములో ఉన్నందున మీరు గొప్ప మేధాశక్తి మరియు మంచి బుద్ధి గలవారై ఉంటారు. ఏ సమస్యకైనా సులభముగా జవాబు చెప్పగలరు.</span> ")
+Line 2038:             moon_p = [p for p in occ_planets if "చంద్రుడు" in p['name']]
+Line 2040:                 special_notes.append(f"<span style='color: {moon_p[0]['color']};'>చంద్రుడు పాపస్థానములో (3, 7, 11) ఉన్నందున తెలివితేటలు తక్కువగా ఉండును లేదా ప్రవర్తనలో అజ్ఞానము కనిపించవచ్చును.</span> ")
+Line 2044:             mars_p = [p for p in occ_planets if "కుజుడు" in p['name']]
+Line 2046:                 special_notes.append(f"<span style='color: {mars_p[0]['color']};'>కుజుడు 4వ స్థానములో వ్యతిరేఖముగా ఉన్నందున గృహము లేదా పొలము వద్ద దారికి సంబంధించిన తగాదాలు (దక్షిణ దిశలో) వచ్చే అవకాశమున్నది.</span> ")
+Line 2050:             if "బుధుడు" in p['name']:
+Line 2052:                     special_notes.append(f"<span style='color: {p['color']};'>బుధుడు 5వ స్థానములో అనుకూలముగా ఉన్నందున మీకు జ్యోతిష్యము మరియు శాస్త్రముల మీద మంచి ఆసక్తి, అవగాహన కల్గును.</span> ")
+Line 2053:                 elif not p['is_friend'] and any(x in p['name'] for x in ["చంద్రుడు"]):
+Line 2054:                     special_notes.append(f"<span style='color: {p['color']};'>బుధుడు చంద్రునితో కలిసి శత్రువుగా ఉన్నందున వ్యాపార విషయాలలో తెలివితక్కువతనము ప్రదర్శించవచ్చును.</span> ")
+Line 2058:             if "గురు" in p['name'] and not p['is_friend']:
+Line 2059:                 special_notes.append(f"<span style='color: {p['color']};'>గురువు వ్యతిరేఖముగా ఉన్నందున ధనము నిలువ చేయడములో ఇబ్బందులు కల్గును.</span> ")
+Line 2060:             if "శుక్రుడు" in p['name'] and not p['is_friend']:
+Line 2061:                 special_notes.append(f"<span style='color: {p['color']};'>శుక్రుడు వ్యతిరేఖముగా ఉన్నందున చేతిలో డబ్బు నిలువక ప్రవాహములా ఖర్చైపోవును.</span> ")
+Line 2125:     tithi_paksha = "శుక్ల పక్షం" if tithi_index < 15 else "కృష్ణ పక్షం"
+Line 2143:     tithi_elapsed_str = f"గడిచిన సమయం: {t_elapsed_h}గం {t_elapsed_m}ని"
+Line 2144:     tithi_remaining_str = f"మిగిలిన సమయం: {t_remain_h}గం {t_remain_m}ని"
+Line 2161:         tithi_start_str = f"నిన్న {tithi_start_str}"
+Line 2163:         tithi_start_str = f"రేపు {tithi_start_str}"
+Line 2166:         tithi_end_str = f"రేపు {tithi_end_str}"
+Line 2168:         tithi_end_str = f"నిన్న {tithi_end_str}"
+Line 2170:     calendar_tithi_end = f"{'ఉ: ' if target_tithi_end.hour < 12 else 'సా: '}{target_tithi_end.strftime('%I:%M')}"
+Line 2187:     nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
+Line 2188:     nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
+Line 2203:         nak_start_str = f"నిన్న {nak_start_str}"
+Line 2205:         nak_start_str = f"రేపు {nak_start_str}"
+Line 2208:         nak_end_str = f"రేపు {nak_end_str}"
+Line 2210:         nak_end_str = f"నిన్న {nak_end_str}"
+Line 2212:     calendar_nak_end = f"{'ఉ: ' if target_nak.hour < 12 else 'సా: '}{target_nak.strftime('%I:%M')}"
+Line 2223:         if idx == 1: return "కింస్తుఘ్న"
+Line 2225:         elif idx == 58: return "శకుని"
+Line 2226:         elif idx == 59: return "చతుష్పాద"
+Line 2227:         elif idx == 60: return "నాగ"
+Line 2243:     ayanam = "ఉత్తరాయణం" if (sun_lon >= 270 or sun_lon < 90) else "దక్షిణాయణం"
+Line 2269:         "january": "జనవరి", "february": "ఫిబ్రవరి", "march": "మార్చి",
+Line 2270:         "april": "ఏప్రిల్", "may": "మే", "june": "జూన్",
+Line 2271:         "july": "జూలై", "august": "ఆగస్టు", "september": "సెప్టెంబర్",
+Line 2272:         "october": "అక్టోబర్", "november": "నవంబర్", "december": "డిసెంబర్"
+Line 2282:     telugu_masam_full = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+Line 2294:     telugu_weekdays = ["సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము", "ఆదివారము"]
+Line 2298:     suryodayam = "ఉ: 06:00"
+Line 2299:     suryastamayam = "సా: 06:00"
+Line 2336:             return f"{get_am_pm_str(start_dt)} నుండి {get_am_pm_str(end_dt)} వరకు"
+Line 2345:         abhijit = f"{get_am_pm_str(abhi_start)} నుండి {get_am_pm_str(abhi_end)} వరకు"
+Line 2352:             durmuhurtams.append(f"{get_am_pm_str(d_start)} నుండి {get_am_pm_str(d_end)} వరకు")
+Line 2358:         "tithi_num": f"{(tithi_index%15) + 1}వ తిథి",
+Line 2365:         "nak_padam": f"{padam}వ పాదం",
+Line 2461:             "సూర్యుడు": swe.SUN, "చంద్రుడు": swe.MOON, "కుజుడు": swe.MARS,
+Line 2462:             "బుధుడు": swe.MERCURY, "గురు": swe.JUPITER, "శుక్రుడు": swe.VENUS, 
+Line 2463:             "శని": swe.SATURN, "రాహు": swe.TRUE_NODE
+Line 2481:         rahu_lon = base_pos.get("రాహు", 0)
+Line 2483:         base_pos["కేతు"] = ketu_lon
+Line 2485:         chart_data_temp[r_k].append((ketu_lon % 30, get_p_info("కేతు", ketu_lon)))
+Line 2489:             "భూమి": (base_pos["సూర్యుడు"] + 180) % 360,
+Line 2490:             "చిత్ర": (base_pos["రాహు"] + 3.3333) % 360,
+Line 2491:             "మిత్ర": (base_pos["కేతు"] + 3.3333) % 360
+Line 2504:         chart_data_temp[lagna].append((lagna_lon % 30, get_p_info("లగ్నం", lagna_lon)))
+Line 2508:         panch_data['lagna_full'] = f"{lagna} ({lagna_deg}°{lagna_min:02d}′ వద్ద)"
+Line 2528:             if ptype == "కేతు":
+Line 2531:             elif ptype == "భూమి":
+Line 2534:             elif ptype == "చిత్ర":
+Line 2537:             elif ptype == "మిత్ర":
+Line 2544:             if name in ("కేతు", "భూమి", "చిత్ర", "మిత్ర"):
+Line 2549:         ALWAYS_RETROGRADE = {"రాహు", "కేతు", "చిత్ర", "మిత్ర"}
+Line 2575:                 "చంద్రుడు": 0.5, "సూర్యుడు": 3, "భూమి": 3,
+Line 2576:                 "బుధుడు": 2, "శుక్రుడు": 3, "కుజుడు": 5,
+Line 2577:                 "గురు": 15, "శని": 30,
+Line 2578:                 "రాహు": 15, "కేతు": 15, "చిత్ర": 15, "మిత్ర": 15
+Line 2620:             te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
+Line 2621:                          "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+Line 2622:             ampm = "ఉ" if dt_val.hour < 12 else "సా"
+Line 2628:             ("సూర్యుడు", swe.SUN), ("చంద్రుడు", swe.MOON), ("కుజుడు", swe.MARS),
+Line 2629:             ("బుధుడు", swe.MERCURY), ("గురు", swe.JUPITER), ("శుక్రుడు", swe.VENUS),
+Line 2630:             ("శని", swe.SATURN), ("రాహు", swe.TRUE_NODE),
+Line 2631:             ("కేతు", None), ("భూమి", None), ("చిత్ర", None), ("మిత్ర", None)
+Line 2747:     EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
+Line 2760:         ("చైత్ర", 0, "పాడ్యమి"): "ఉగాది",
+Line 2761:         ("చైత్ర", 0, "నవమి"): "శ్రీరామ నవమి",
+Line 2762:         ("వైశాఖ", 0, "తదియ"): "అక్షయ తృతీయ",
+Line 2763:         ("వైశాఖ", 0, "పౌర్ణమి"): "బుద్ధ పూర్ణిమ",
+Line 2764:         ("జ్యేష్ఠ", 0, "ఏకాదశి"): "నిర్జల ఏకాదశి",
+Line 2765:         ("ఆషాఢ", 0, "ఏకాదశి"): "తొలి ఏకాదశి",
+Line 2766:         ("ఆషాఢ", 0, "పౌర్ణమి"): "గురు పూర్ణిమ",
+Line 2767:         ("శ్రావణ", 0, "చవితి"): "నాగుల చవితి",
+Line 2768:         ("శ్రావణ", 0, "పంచమి"): "నాగుల పంచమి",
+Line 2769:         ("శ్రావణ", 1, "అష్టమి"): "కృష్ణాష్టమి",
+Line 2770:         ("భాద్రపద", 0, "చవితి"): "వినాయక చవితి",
+Line 2771:         ("భాద్రపద", 0, "చతుర్దశి"): "అనంత చతుర్దశి",
+Line 2772:         ("ఆశ్వయుజ", 0, "దశమి"): "విజయదశమి (దసరా)",
+Line 2773:         ("ఆశ్వయుజ", 1, "అమావాస్య"): "దీపావళి",
+Line 2774:         ("కార్తీక", 0, "ద్వాదశి"): "చిలుకు ద్వాదశి",
+Line 2775:         ("కార్తీక", 0, "పౌర్ణమి"): "కార్తీక పూర్ణిమ",
+Line 2776:         ("మార్గశిర", 0, "పౌర్ణమి"): "దత్తాత్రేయ జయంతి",
+Line 2777:         ("పుష్య", 0, "ఏకాదశి"): "వైకుంఠ ఏకాదశి",
+Line 2778:         ("మాఘ", 0, "పంచమి"): "వసంత పంచమి",
+Line 2779:         ("మాఘ", 1, "చతుర్దశి"): "మహా శివరాత్రి",
+Line 2780:         ("ఫాల్గుణ", 0, "పౌర్ణమి"): "హోలీ"
+Line 2785:         (4, 14): "అంబేద్కర్ జయంతి",
+Line 2786:         (8, 15): "స్వాతంత్ర దినోత్సవం",
+Line 2787:         (10, 2): "గాంధీ జయంతి",
+Line 2788:         (1, 14): "మకర సంక్రాంతి",
+Line 2789:         (1, 13): "భోగి",
+Line 2790:         (1, 15): "కనుమ"
+Line 2816:         pks = 0 if "శుక్ల" in panch["paksha"] else 1
+Line 2847:             "is_shukla": "శుక్ల" in panch["paksha"],
+Line 2848:             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
+Line 2849:             "is_amavasya": "అమావాస్య" in panch["tithi_full"],

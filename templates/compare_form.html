@@ -613,9 +613,108 @@
       }
     }
   </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
 
   <div class="theme-switcher" id="themeSwitcher">
     <button class="theme-toggle-btn" onclick="toggleThemeMenu()" title="Themes" style="outline:none;">🎨</button>
@@ -633,8 +732,8 @@
     <div class="card">
 
       <div class="header">
-        <h2>కుండలి పోలిక</h2>
-        <div class="subtitle">ఇద్దరు వ్యక్తుల కుండలులను సరిపోల్చండి</div>
+        <h2>{{ _('కుండలి పోలిక') }}</h2>
+        <div class="subtitle">{{ _('ఇద్దరు వ్యక్తుల కుండలులను సరిపోల్చండి') }}</div>
       </div>
 
       <form action="/compare_results" method="post" id="mainForm">
@@ -642,34 +741,34 @@
         <div class="persons-wrapper">
           <!-- PERSON 1 -->
           <div class="person-box">
-            <h3 class="person-title"><i class="fas fa-user-astronaut"></i> మొదటి వ్యక్తి</h3>
+            <h3 class="person-title"><i class="fas fa-user-astronaut"></i> {{ _('మొదటి వ్యక్తి') }}</h3>
             <div class="form-grid">
               <div class="form-group">
-                <label for="name1" class="required-field"><i class="fas fa-user"></i> పేరు</label>
+                <label for="name1" class="required-field"><i class="fas fa-user"></i> {{ _('పేరు') }}</label>
                 <div class="input-container">
                   <div class="input-icon"><i class="fas fa-user-circle"></i></div>
-                  <input type="text" id="name1" name="name1" required placeholder="మొదటి వ్యక్తి పేరు">
+                  <input type="text" id="name1" name="name1" required placeholder="{{ _('మొదటి వ్యక్తి పేరు') }}">
                 </div>
               </div>
               <div class="form-group">
-                <label for="dob1" class="required-field"><i class="fas fa-calendar-alt"></i> జన్మ తేది</label>
+                <label for="dob1" class="required-field"><i class="fas fa-calendar-alt"></i> {{ _('జన్మ తేది') }}</label>
                 <div class="input-container">
                   <div class="input-icon"><i class="fas fa-birthday-cake"></i></div>
                   <input type="date" id="dob1" name="dob1" required>
                 </div>
               </div>
               <div class="form-group">
-                <label for="tob1" class="required-field"><i class="fas fa-clock"></i> జన్మ సమయం</label>
+                <label for="tob1" class="required-field"><i class="fas fa-clock"></i> {{ _('జన్మ సమయం') }}</label>
                 <div class="input-container">
                   <div class="input-icon"><i class="fas fa-history"></i></div>
                   <input type="time" id="tob1" name="tob1" required>
                 </div>
               </div>
               <div class="form-group place-container">
-                <label for="place1" class="required-field"><i class="fas fa-map-marker-alt"></i> జన్మ స్థలం</label>
+                <label for="place1" class="required-field"><i class="fas fa-map-marker-alt"></i> {{ _('జన్మ స్థలం') }}</label>
                 <div class="input-container">
                   <div class="input-icon"><i class="fas fa-globe-asia"></i></div>
-                  <input type="text" class="place-input" id="place1" name="place1" autocomplete="off" required placeholder="గ్రామం, నగరం, రాష్ట్రం">
+                  <input type="text" class="place-input" id="place1" name="place1" autocomplete="off" required placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
                 </div>
                 <div class="suggestions" id="suggestions1"></div>
                 <input type="hidden" name="lat1" id="lat1">
@@ -682,34 +781,34 @@
 
           <!-- PERSON 2 -->
           <div class="person-box">
-            <h3 class="person-title"><i class="fas fa-user-astronaut"></i> రెండవ వ్యక్తి</h3>
+            <h3 class="person-title"><i class="fas fa-user-astronaut"></i> {{ _('రెండవ వ్యక్తి') }}</h3>
             <div class="form-grid">
             <div class="form-group">
-                <label for="name2" class="required-field"><i class="fas fa-user"></i> పేరు</label>
+                <label for="name2" class="required-field"><i class="fas fa-user"></i> {{ _('పేరు') }}</label>
                 <div class="input-container">
                 <div class="input-icon"><i class="fas fa-user-circle"></i></div>
-                <input type="text" id="name2" name="name2" required placeholder="రెండవ వ్యక్తి పేరు">
+                <input type="text" id="name2" name="name2" required placeholder="{{ _('రెండవ వ్యక్తి పేరు') }}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="dob2" class="required-field"><i class="fas fa-calendar-alt"></i> జన్మ తేది</label>
+                <label for="dob2" class="required-field"><i class="fas fa-calendar-alt"></i> {{ _('జన్మ తేది') }}</label>
                 <div class="input-container">
                 <div class="input-icon"><i class="fas fa-birthday-cake"></i></div>
                 <input type="date" id="dob2" name="dob2" required>
                 </div>
             </div>
             <div class="form-group">
-                <label for="tob2" class="required-field"><i class="fas fa-clock"></i> జన్మ సమయం</label>
+                <label for="tob2" class="required-field"><i class="fas fa-clock"></i> {{ _('జన్మ సమయం') }}</label>
                 <div class="input-container">
                 <div class="input-icon"><i class="fas fa-history"></i></div>
                 <input type="time" id="tob2" name="tob2" required>
                 </div>
             </div>
             <div class="form-group place-container">
-                <label for="place2" class="required-field"><i class="fas fa-map-marker-alt"></i> జన్మ స్థలం</label>
+                <label for="place2" class="required-field"><i class="fas fa-map-marker-alt"></i> {{ _('జన్మ స్థలం') }}</label>
                 <div class="input-container">
                 <div class="input-icon"><i class="fas fa-globe-asia"></i></div>
-                <input type="text" class="place-input" id="place2" name="place2" autocomplete="off" required placeholder="గ్రామం, నగరం, రాష్ట్రం">
+                <input type="text" class="place-input" id="place2" name="place2" autocomplete="off" required placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
                 </div>
                 <div class="suggestions" id="suggestions2"></div>
                 <input type="hidden" name="lat2" id="lat2">
@@ -722,7 +821,7 @@
         <div class="btn-container">
           <button type="submit" class="btn btn-show">
             <span class="btn-icon">⚖️</span>
-            కుండలి పోల్చండి
+            {{ _('కుండలి పోల్చండి') }}
           </button>
         </div>
       </form>
@@ -737,19 +836,19 @@
   <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item nav-home">
           <i class="fas fa-home"></i>
-          <span>హోమ్</span>
+          <span>{{ _('హోమ్') }}</span>
       </a>
       <a href="/compare_kundali" class="nav-item active nav-compare">
           <i class="fas fa-balance-scale"></i>
-          <span>పోలిక</span>
+          <span>{{ _('పోలిక') }}</span>
       </a>
       <a href="/daily_panchangam" class="nav-item nav-panch">
           <i class="fas fa-om"></i>
-          <span>పంచాంగం</span>
+          <span>{{ _('పంచాంగం') }}</span>
       </a>
       <a href="/calendar_view" class="nav-item nav-cal">
           <i class="fas fa-calendar-alt"></i>
-          <span>క్యాలెండర్</span>
+          <span>{{ _('క్యాలెండర్') }}</span>
       </a>
   </div>
 
@@ -791,7 +890,7 @@
                 const data = await res.json();
                 suggestions.innerHTML = "";
                 if (data.length === 0) {
-                    suggestions.innerHTML = `<div style="color: #888; font-style: italic;">ఫలితాలు లేవు</div>`;
+                    suggestions.innerHTML = `<div style="color: #888; font-style: italic;">{{ _('ఫలితాలు లేవు') }}</div>`;
                 } else {
                     data.forEach(p => {
                     const div = document.createElement("div");
@@ -883,7 +982,7 @@
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
-        element.innerHTML = 'గణన చేస్తోంది';
+        element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
     }
 
     function playLoadingSound() {
@@ -951,7 +1050,7 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         document.addEventListener('DOMContentLoaded', function() {

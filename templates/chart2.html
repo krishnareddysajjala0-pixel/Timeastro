@@ -1518,9 +1518,108 @@
                 }
             }
     </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
 <!-- APP GLOW BORDER -->
 
     <!-- Theme Switcher -->
@@ -1569,7 +1668,7 @@
         <div class="cosmic-header">
             <div class="party-name" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
                 <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
-                దశకంఠుని దశాచార పద్దతి ప్రకారం దశ ఆచార వివరములు
+                {{ _('దశకంఠుని దశాచార పద్దతి ప్రకారం దశ ఆచార వివరములు') }}
                 <img src="/static/images/brand_logo.png" alt="Logo" style="width: 30px; height: auto;">
             </div>
             <div class="person-name">{{ name }}</div>
@@ -1577,23 +1676,23 @@
             <div class="info-row">
                 <div class="info-item">
                     <span class="info-icon">📅</span>
-                    <strong class="info-label">జన్మ తేదీ:</strong>
+                    <strong class="info-label">{{ _('జన్మ తేదీ:') }}</strong>
                     <span>{{ dob }} {% if day_name %}({{ day_name }}){% endif %}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">⏰</span>
-                    <strong class="info-label">జన్మ సమయం:</strong>
+                    <strong class="info-label">{{ _('జన్మ సమయం:') }}</strong>
                     <span>{{ tob }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">📍</span>
-                    <strong class="info-label">జన్మ స్థలం:</strong>
+                    <strong class="info-label">{{ _('జన్మ స్థలం:') }}</strong>
                     <span>{{ place }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">✦</span>
-                    <strong class="info-label">నక్షత్రం:</strong>
-                    <span>{{ nakshatra }} ({{ padam }} పాదం)</span>
+                    <strong class="info-label">{{ _('నక్షత్రం:') }}</strong>
+                    <span>{{ nakshatra }} ({{ padam }} {{ _('పాదం') }})</span>
                 </div>
             </div>
 
@@ -1604,20 +1703,20 @@
         <div class="current-dasa-box" style="padding: 10px;">
             <div class="current-dasa-inline" style="margin-bottom: 8px; font-size: 16px;">
                 <span class="planet-icon" style="font-size: 20px;">{{ current_dasa_icon }}</span>
-                <span>ప్రస్తుత మహాదశ:
+                <span>{{ _('ప్రస్తుత') }} {{ _('మహాదశ') }}:
                     {% if current_dasa_favorable %}
                     <span class="highlight text-favorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
-                    class="favorable">అనుకూలము</span> |
+                    class="favorable">{{ _('అనుకూలము') }}</span> |
                 {% else %}
                 <span class="highlight text-unfavorable" style="font-size: 16px;">{{ maha }}</span></span> - <span
-                    class="unfavorable">ప్రతికూలము</span> |
+                    class="unfavorable">{{ _('ప్రతికూలము') }}</span> |
                 {% endif %}
                 <br>
-                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} నుండి {{ maha_end }} వరకు</span>
+                <span class="highlight" style="color: #ffd700; font-size: 14px;">{{ maha_start }} {{ _('నుండి') }} {{ maha_end }} {{ _('వరకు') }}</span>
                 {% if maha_age_start and maha_age_end %}
                 <br>
                 <span style="font-size: 14px; color: #a0a0ff;">
-                    (వయసు: {{ maha_age_start }} నుండి {{ maha_age_end }} వరకు)
+                    ({{ _('వయసు') }}: {{ maha_age_start }} {{ _('నుండి') }} {{ maha_age_end }} {{ _('వరకు') }})
                 </span>
                 {% endif %}
             </div>
@@ -1629,10 +1728,10 @@
                     </div>
                 </div>
                 <div class="progress-stats" style="font-size: 14px; justify-content: space-around;">
-                    <span>గతమైనది: {{ "%.2f"|format(completed_years) }} సం.</span>
-                    <span>మిగిలినది: {{ "%.2f"|format(remaining_years) }} సం.</span>
+                    <span>{{ _('గతమైనది') }}: {{ "%.2f"|format(completed_years) }} {{ _('సం') }}.</span>
+                    <span>{{ _('మిగిలినది') }}: {{ "%.2f"|format(remaining_years) }} {{ _('సం') }}.</span>
                     <span style="color: #4CAF50; font-weight: bold;">{{ ((completed_years / total_years * 100) if
-                        total_years > 0 else 0)|round(1) }}% పూర్తైంది</span>
+                        total_years > 0 else 0)|round(1) }}% {{ _('పూర్తైంది') }}</span>
                 </div>
             </div>
         </div>
@@ -1641,17 +1740,17 @@
 
         <!-- PRINT ONLY: Maha Dasa Summary -->
         <div class="print-summary-section" style="display: none;">
-            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+            <div style="text-align: center; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-decoration: underline;">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
             <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
                 <thead>
                     <tr>
-                        <th style="border: 1px solid #000; padding: 10px;">క్ర.సం</th>
-                        <th style="border: 1px solid #000; padding: 10px;">మహాదశ</th>
-                        <th style="border: 1px solid #000; padding: 10px;">ఫలితం</th>
-                        <th style="border: 1px solid #000; padding: 10px;">సంవత్సరాలు</th>
-                        <th style="border: 1px solid #000; padding: 10px;">ప్రారంభం</th>
-                        <th style="border: 1px solid #000; padding: 10px;">ముగింపు</th>
-                        <th style="border: 1px solid #000; padding: 10px;">వయసు</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('క్ర.సం') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('మహాదశ') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('ఫలితం') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('సంవత్సరాలు') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('ప్రారంభం') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('ముగింపు') }}</th>
+                        <th style="border: 1px solid #000; padding: 10px;">{{ _('వయసు') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1660,7 +1759,7 @@
                         <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold;">{{ loop.index }}</td>
                         <td style="border: 1px solid #000; padding: 10px;">{{ dasa.icon }} {{ dasa.maha }}</td>
                         <td style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold; color: {% if dasa.is_favorable %}#006400{% else %}#b22222{% endif %};">
-                            {% if dasa.is_favorable %}అనుకూలము{% else %}ప్రతికూలము{% endif %}
+                            {% if dasa.is_favorable %}{{ _('అనుకూలము') }}{% else %}{{ _('ప్రతికూలము') }}{% endif %}
                         </td>
                         <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ dasa.years }}</td>
                         <td style="border: 1px solid #000; padding: 10px;">{{ dasa.start }}</td>
@@ -1674,7 +1773,7 @@
 
         <!-- Complete Dasa Details -->
         <div class="dasa-section">
-            <div class="section-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+            <div class="section-title">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
 
             {% for dasa in all_dasas %}
             <div class="maha-dasa-card {% if dasa.is_current %}current{% endif %} {% if dasa.is_birth_dasa %}birth{% endif %}"
@@ -1688,18 +1787,18 @@
                         <div class="maha-dasa-name">
                             <span style="color: {{ dasa.color }}; margin-right: 8px;">{{ dasa.icon }}</span>
                             {% if dasa.is_favorable %}
-                            <span class="text-favorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="favorable">అనుకూలము</span>
+                            <span class="text-favorable">{{ dasa.maha }} {{ _('మహాదశ') }} ({{ dasa.years }} {{ _('సంవత్సరాలు') }})</span>
+                            <span class="favorable">{{ _('అనుకూలము') }}</span>
                             {% else %}
-                            <span class="text-unfavorable">{{ dasa.maha }} మహాదశ ({{ dasa.years }} సంవత్సరాలు)</span>
-                            <span class="unfavorable">ప్రతికూలము</span>
+                            <span class="text-unfavorable">{{ dasa.maha }} {{ _('మహాదశ') }} ({{ dasa.years }} {{ _('సంవత్సరాలు') }})</span>
+                            <span class="unfavorable">{{ _('ప్రతికూలము') }}</span>
                             {% endif %}
                         </div>
                         <div class="maha-dasa-period">
-                            {{ dasa.start }} నుండి {{ dasa.end }} వరకు
+                            {{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }} {{ _('వరకు') }}
                             <br>
                             <span style="font-size: 13px; color: #a0a0ff;">
-                                (వయసు: {{ dasa.age_start }} నుండి {{ dasa.age_end }} వరకు)
+                                ({{ _('వయసు') }}: {{ dasa.age_start }} {{ _('నుండి') }} {{ dasa.age_end }} {{ _('వరకు') }})
                             </span>
                         </div>
                     </div>
@@ -1708,7 +1807,7 @@
                             {{ dasa.stiti }}
                         </span>
                         {% if dasa.is_birth_dasa %}
-                        <span class="status-badge birth-badge">జన్మ దశ</span>
+                        <span class="status-badge birth-badge">{{ _('జన్మ దశ') }}</span>
                         {% endif %}
                     </div>
                     <div class="maha-accordion-toggle">
@@ -1720,18 +1819,18 @@
                     {% if dasa.antharas|length > 0 %}
                     <div class="anthara-container">
                         <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 10px; font-weight: bold;">
-                            అంతర్దశలు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
+                            {{ _('అంతర్దశ') }}లు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
                         </div>
 
                         <table class="anthara-table">
                             <thead>
                                 <tr>
-                                    <th>అంతర్దశ</th>
-                                    <th>ప్రారంభం</th>
-                                    <th>వయసు (మొదలు)</th>
-                                    <th>ముగింపు</th>
-                                    <th>వయసు (ముగింపు)</th>
-                                    <th>స్థితి</th>
+                                    <th>{{ _('అంతర్దశ') }}</th>
+                                    <th>{{ _('ప్రారంభం') }}</th>
+                                    <th>{{ _('వయసు (మొదలు)') }}</th>
+                                    <th>{{ _('ముగింపు') }}</th>
+                                    <th>{{ _('వయసు (ముగింపు)') }}</th>
+                                    <th>{{ _('స్థితి') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1752,7 +1851,7 @@
                                         set badge_class='' %} {% if is_present %} {% set status='ప్రస్తుతం' %} {% set
                                         badge_class='current-badge' %} {% elif is_janma %} {% set status='జన్మ దశ' %} {%
                                         set badge_class='birth-badge' %} {% elif now_num < start_num %} {% set
-                                        status='భవిష్యత్' %} {% set badge_class='future-badge' %} {% else %} {% set
+                                        status='భవిష్యత్తు' %} {% set badge_class='future-badge' %} {% else %} {% set
                                         status='గతం' %} {% set badge_class='past-badge' %} {% endif %} <tr
                                         class="{% if badge_class == 'current-badge' %}current{% endif %}">
                                         <td>
@@ -1763,11 +1862,11 @@
                                                 {% if a.is_favorable %}
                                                 <span class="anthara-name text-favorable"
                                                     data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="favorable">అనుకూలము</span>
+                                                <span class="favorable">{{ _('అనుకూలము') }}</span>
                                                 {% else %}
                                                 <span class="anthara-name text-unfavorable"
                                                     data-planet="{{ a.anthara }}">{{ a.anthara }}</span>
-                                                <span class="unfavorable">ప్రతికూలము</span>
+                                                <span class="unfavorable">{{ _('ప్రతికూలము') }}</span>
                                                 {% endif %}
                                             </div>
                                         </td>
@@ -1785,7 +1884,7 @@
                                         </td>
                                         <td>
                                             <span class="status-badge {{ badge_class }}">
-                                                {{ status }}
+                                                {{ _(status) }}
                                             </span>
                                         </td>
                                         </tr>
@@ -1796,7 +1895,7 @@
                     {% else %}
                     <div style="text-align: center; padding: 15px; color: #8888cc; font-style: italic; 
                             background: rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 10px;">
-                        ఈ మహాదశకు అంతర్దశల వివరాలు అందుబాటులో లేవు
+                        {{ _('ఈ మహాదశకు అంతర్దశల వివరాలు అందుబాటులో లేవు') }}
                     </div>
                     {% endif %}
                 </div>
@@ -1829,16 +1928,16 @@
     <div class="fixed-bottom-bar" id="action-bar">
         <button class="nav-item nav-home float-btn rainbow-animate" style="background: linear-gradient(135deg, #FFD700, #DAA520); color: #000;"
             onclick="window.location.href='/'">
-            <i class="fas fa-home"></i> హోమ్
+            <i class="fas fa-home"></i> {{ _('హోమ్') }}
         </button>
         <button class="float-btn" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);"
             onclick="window.location.href='/go-to-birth-chart'">
-            <i class="fas fa-arrow-left"></i> కుండలికి
+            <i class="fas fa-arrow-left"></i> {{ _('కుండలికి') }}
         </button>
 
         <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
             onclick="window.location.href='/chart3'">
-            <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
+            <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
             onclick="window.print()">
@@ -1965,7 +2064,7 @@
 
             // In a real app, this would call your backend PDF generation
             setTimeout(() => {
-                alert('PDF డౌన్‌లోడ్ చేయడానికి ప్రింట్ ఎంపికను ఉపయోగించండి.');
+                alert('PDF డౌన్‌లోడ్ చేయడానికి {{ _('ప్రింట్') }} ఎంపికను ఉపయోగించండి.');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }, 1000);
@@ -1974,7 +2073,7 @@
 
 
         function showReminders() {
-            alert('రిమైండర్లు: ఈ దశ చివరి తేదీ: {{ maha_end }}');
+            alert('రిమైండర్లు: ఈ దశ చివరి {{ _('తేదీ:') }} {{ maha_end }}');
         }
 
         // Accordion Toggle
@@ -1993,18 +2092,18 @@
         // Initialize tooltips
         function initializeTooltips() {
             const tooltips = {
-                'సూర్య': 'సూర్యుడు - జీవిత శక్తి, ప్రతిష్ట',
-                'చంద్ర': 'చంద్రుడు - మనస్సు, భావోద్వేగాలు',
-                'కుజ': 'కుజుడు - శక్తి, సాహసం',
-                'గురు': 'గురువు - జ్ఞానం, అదృష్టం',
-                'శుక్ర': 'శుక్రుడు - ప్రేమ, సౌందర్యం',
-                'శని': 'శని - కర్మ, పరిశ్రమ',
-                'బుధ': 'బుధుడు - బుద్ధి, వాణిజ్యం',
-                'రాహు': 'రాహువు - కామనా, అస్పష్టత',
-                'కేతు': 'కేతువు - ఆధ్యాత్మికత, విముక్తి',
-                'భూమి': 'భూమి - స్థిరత్వం, ప్రాథమిక అవసరాలు',
-                'మిత్ర': 'మిత్ర - స్నేహం, సహకారం',
-                'చిత్ర': 'చిత్ర - సృజనాత్మకత, కళ'
+                'సూర్య': '{{ _('సూర్యుడు') }} - జీవిత శక్తి, ప్రతిష్ట',
+                'చంద్ర': '{{ _('చంద్రుడు') }} - మనస్సు, భావోద్వేగాలు',
+                'కుజ': '{{ _('కుజుడు') }} - శక్తి, సాహసం',
+                'గురు': '{{ _('గురువు') }} - జ్ఞానం, అదృష్టం',
+                'శుక్ర': '{{ _('శుక్రుడు') }} - ప్రేమ, సౌందర్యం',
+                '{{ _('శని') }}': '{{ _('శని') }} - {{ _('కర్మ') }}, పరిశ్రమ',
+                'బుధ': '{{ _('బుధుడు') }} - బుద్ధి, వాణిజ్యం',
+                'రాహు': '{{ _('రాహువు') }} - కామనా, అస్పష్టత',
+                'కేతు': '{{ _('కేతువు') }} - ఆధ్యాత్మికత, విముక్తి',
+                '{{ _('భూమి') }}': '{{ _('భూమి') }} - స్థిరత్వం, ప్రాథమిక అవసరాలు',
+                '{{ _('మిత్ర') }}': '{{ _('మిత్ర') }} - స్నేహం, సహకారం',
+                '{{ _('చిత్ర') }}': '{{ _('చిత్ర') }} - సృజనాత్మకత, కళ'
             };
 
             // Add tooltips to planet names
@@ -2051,7 +2150,7 @@
             const element = document.getElementById("typing-text");
             if (!element) return;
             
-            element.innerHTML = 'గణన చేస్తోంది';
+            element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
         }
 
         
@@ -2099,7 +2198,7 @@
     <div id="loading-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,10,30,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:100000;">
         <div style="width:60px; height:60px; border:5px solid rgba(255,215,0,0.2); border-top:5px solid #ffd700; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:20px;"></div>
         <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
-        <p id="typing-text-chart2" style="font-size:20px; font-weight:bold; color:#ffd700;">గణన చేస్తోంది</p>
+        <p id="typing-text-chart2" style="font-size:20px; font-weight:bold; color:#ffd700;">{{ _('గణన చేస్తోంది') }}</p>
     </div>
 
     <!-- Universal Loading Interceptor -->
@@ -2132,7 +2231,7 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)

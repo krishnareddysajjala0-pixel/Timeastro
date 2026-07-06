@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>జాఫతకము</title>
+  <title>{{ _('జాఫతకము') }}</title>
   <!-- PWA settings -->
   <link rel="manifest" href="/static/manifest.json">
   <meta name="theme-color" content="#1A1A1D">
@@ -1316,21 +1316,120 @@
       transform: translateY(-2px);
     }
 </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
 
   <!-- Header -->
   <div class="header" style="margin-top: 20px;">
     <h2 class="page-title" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
       <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
-      జాఫతకము పోలిక
+      {{ _('జాఫతకము పోలిక') }}
       <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
     </h2>
   </div>
   
   <div class="top-button-stack">
     <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
-    <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">కర్మ</button>
+    <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">{{ _('కర్మ') }}</button>
     
     <!-- Theme Switcher -->
     <div class="theme-switcher print-hide" style="position: static; margin-left: 10px;">
@@ -1348,17 +1447,23 @@
     </div>
   </div>
 
-  <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-print"></i> ప్రింట్</button>
+  <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-print"></i> {{ _('ప్రింట్') }}</button>
   
   <div class="compare-wrapper">
 <div class="chart-container-wrapper">
 <div class="compare-person-header">{{ p1.name }}</div>
 {# ===== VARIABLES ===== #}
-    {% set positive_lagnas = positive_lagnas if positive_lagnas is defined else
-    ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
-    {% set green_planets = green_planets if green_planets is defined else
-    ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
-    {% set red_planets = red_planets if red_planets is defined else ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
+    {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
+    {% set positive_lagnas = [] %}
+    {% for l in positive_lagnas_raw %}
+    {% set _ = positive_lagnas.append(_(l)) %}
+    {% endfor %}
+    {% set green_planets_raw = ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
+    {% set green_planets = [] %}
+    {% for p in green_planets_raw %}
+    {% set _ = green_planets.append(_(p)) %}
+    {% endfor %}
+    {% set red_planets = ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
 
     {# ===== HELPER FUNCTION TO EXTRACT DEGREES ===== #}
     {% macro extract_degrees_p1(line) %}
@@ -1410,23 +1515,23 @@
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
-    <div class="box {{ house_bg_class_p1(hno) }} {% if p1.lagna==lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class_p1(hno) }} {% if p1.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
       <span class="house-no">{{ hno }}</span>
 
       
       {% if hno in [1,5,9] %}
-        <div class="karma-label">పుణ్యం</div>
+        <div class="karma-label">{{ _('పుణ్యం') }}</div>
       {% elif hno in [3,7,11] %}
-        <div class="karma-label">పాపం</div>
+        <div class="karma-label">{{ _('పాపం') }}</div>
       {% else %}
-        <div class="karma-label">పుణ్యం + పాపం</div>
+        <div class="karma-label">{{ _('పుణ్యం + పాపం') }}</div>
       {% endif %}
 
 
 
       {# Display all content from chart data #}
       {% for line in p1.chart[lagna].split('<br>') %}
-      {% if "లగ్నం" in line %}
+      {% if _("లగ్నం") in line %}
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
@@ -1439,7 +1544,7 @@
       {% endif %}
       {% endfor %}
 
-      <span class="lagna-name">{{ lagna }}</span>
+      <span class="lagna-name">{{ _(lagna) }}</span>
     </div>
     {% endmacro %}
 
@@ -1459,33 +1564,33 @@
             <table
               style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
               <tr>
-                <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
+                <td style="color: #ffd700; width: 35%; white-space: nowrap;">{{ _('వర్గము:') }}</td>
                 <td style="font-weight: bold;">
                   {% if p1.lagna in positive_lagnas %}
-                    <span class="rainbow-text">గురు పార్టీ</span>
+                    <span class="rainbow-text">{{ _('గురు పార్టీ') }}</span>
                   {% else %}
-                    <span class="rainbow-text">శని పార్టీ</span>
+                    <span class="rainbow-text">{{ _('శని పార్టీ') }}</span>
                   {% endif %}
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">పేరు:</td>
+                <td style="color: #ffd700;">{{ _('పేరు:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.name }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> తేదీ:</td>
+                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.dob }} ({{ p1.day_name }})</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-clock"></i> సమయం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.tob }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> స్థలం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.place.split(',')[0] if ',' in p1.place else p1.place }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-compass"></i> లగ్నం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
                 <td style="color: var(--text-main);">
                   {{ p1.lagna }} 
                   {% if p1.lagna_deg is defined and p1.lagna_deg %}
@@ -1494,25 +1599,25 @@
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> నక్షత్రం:</td>
+                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
                 <td style="color: var(--text-main);">
-                  {{ p1.nakshatra }} ({{ p1.padam }} పాదం)
+                  {{ p1.nakshatra }} ({{ p1.padam }} {{ _('పాదం') }})
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మొదలు:</td>
+                <td style="color: #ffd700;">{{ _('మొదలు:') }}</td>
                 <td style="color: #34d399; font-weight: bold;">{{ p1.nak_start }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">ముగింపు:</td>
-                <td style="color: #fca5a5; font-weight: bold;">{{ p1.nak_end }} వరకు</td>
+                <td style="color: #ffd700;">{{ _('ముగింపు:') }}</td>
+                <td style="color: #fca5a5; font-weight: bold;">{{ p1.nak_end }} {{ _('వరకు') }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">గడిచిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('గడిచిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.nak_elapsed }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మిగిలిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('మిగిలిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p1.nak_remaining }}</td>
               </tr>
             </table>
@@ -1537,11 +1642,17 @@
 <div class="chart-container-wrapper">
 <div class="compare-person-header">{{ p2.name }}</div>
 {# ===== VARIABLES ===== #}
-    {% set positive_lagnas = positive_lagnas if positive_lagnas is defined else
-    ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
-    {% set green_planets = green_planets if green_planets is defined else
-    ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
-    {% set red_planets = red_planets if red_planets is defined else ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
+    {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
+    {% set positive_lagnas = [] %}
+    {% for l in positive_lagnas_raw %}
+    {% set _ = positive_lagnas.append(_(l)) %}
+    {% endfor %}
+    {% set green_planets_raw = ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
+    {% set green_planets = [] %}
+    {% for p in green_planets_raw %}
+    {% set _ = green_planets.append(_(p)) %}
+    {% endfor %}
+    {% set red_planets = ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
 
     {# ===== HELPER FUNCTION TO EXTRACT DEGREES ===== #}
     {% macro extract_degrees_p2(line) %}
@@ -1593,23 +1704,23 @@
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
-    <div class="box {{ house_bg_class_p2(hno) }} {% if p2.lagna==lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class_p2(hno) }} {% if p2.lagna == _(lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
       <span class="house-no">{{ hno }}</span>
 
       
       {% if hno in [1,5,9] %}
-        <div class="karma-label">పుణ్యం</div>
+        <div class="karma-label">{{ _('పుణ్యం') }}</div>
       {% elif hno in [3,7,11] %}
-        <div class="karma-label">పాపం</div>
+        <div class="karma-label">{{ _('పాపం') }}</div>
       {% else %}
-        <div class="karma-label">పుణ్యం + పాపం</div>
+        <div class="karma-label">{{ _('పుణ్యం + పాపం') }}</div>
       {% endif %}
 
 
 
       {# Display all content from chart data #}
       {% for line in p2.chart[lagna].split('<br>') %}
-      {% if "లగ్నం" in line %}
+      {% if _("లగ్నం") in line %}
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
@@ -1622,7 +1733,7 @@
       {% endif %}
       {% endfor %}
 
-      <span class="lagna-name">{{ lagna }}</span>
+      <span class="lagna-name">{{ _(lagna) }}</span>
     </div>
     {% endmacro %}
 
@@ -1642,33 +1753,33 @@
             <table
               style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
               <tr>
-                <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
+                <td style="color: #ffd700; width: 35%; white-space: nowrap;">{{ _('వర్గము:') }}</td>
                 <td style="font-weight: bold;">
                   {% if p2.lagna in positive_lagnas %}
-                    <span class="rainbow-text">గురు పార్టీ</span>
+                    <span class="rainbow-text">{{ _('గురు పార్టీ') }}</span>
                   {% else %}
-                    <span class="rainbow-text">శని పార్టీ</span>
+                    <span class="rainbow-text">{{ _('శని పార్టీ') }}</span>
                   {% endif %}
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">పేరు:</td>
+                <td style="color: #ffd700;">{{ _('పేరు:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.name }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> తేదీ:</td>
+                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.dob }} ({{ p2.day_name }})</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-clock"></i> సమయం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.tob }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> స్థలం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.place.split(',')[0] if ',' in p2.place else p2.place }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-compass"></i> లగ్నం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
                 <td style="color: var(--text-main);">
                   {{ p2.lagna }} 
                   {% if p2.lagna_deg is defined and p2.lagna_deg %}
@@ -1677,25 +1788,25 @@
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> నక్షత్రం:</td>
+                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
                 <td style="color: var(--text-main);">
-                  {{ p2.nakshatra }} ({{ p2.padam }} పాదం)
+                  {{ p2.nakshatra }} ({{ p2.padam }} {{ _('పాదం') }})
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మొదలు:</td>
+                <td style="color: #ffd700;">{{ _('మొదలు:') }}</td>
                 <td style="color: #34d399; font-weight: bold;">{{ p2.nak_start }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">ముగింపు:</td>
-                <td style="color: #fca5a5; font-weight: bold;">{{ p2.nak_end }} వరకు</td>
+                <td style="color: #ffd700;">{{ _('ముగింపు:') }}</td>
+                <td style="color: #fca5a5; font-weight: bold;">{{ p2.nak_end }} {{ _('వరకు') }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">గడిచిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('గడిచిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.nak_elapsed }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మిగిలిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('మిగిలిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ p2.nak_remaining }}</td>
               </tr>
             </table>
@@ -1724,24 +1835,24 @@
   <div class="bottom-content-btns text-center print-hide" style="text-align: center; margin-top: 30px; margin-bottom: 100px; display: flex; justify-content: center;">
     <button onclick="goToCompareDasha()" class="btn btn-show">
       <span style="font-size: 20px;">⚖️</span> 
-      దశాచార పోలిక
+      {{ _('దశాచార పోలిక') }}
     </button>
   </div>  <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item nav-home">
           <i class="fas fa-home"></i>
-          <span>హోమ్</span>
+          <span>{{ _('హోమ్') }}</span>
       </a>
       <a href="/compare_kundali" class="nav-item active nav-compare">
           <i class="fas fa-balance-scale"></i>
-          <span>పోలిక</span>
+          <span>{{ _('పోలిక') }}</span>
       </a>
       <a href="/daily_panchangam" class="nav-item nav-panch">
           <i class="fas fa-om"></i>
-          <span>పంచాంగం</span>
+          <span>{{ _('పంచాంగం') }}</span>
       </a>
       <a href="/calendar_view" class="nav-item nav-cal">
           <i class="fas fa-calendar-alt"></i>
-          <span>క్యాలెండర్</span>
+          <span>{{ _('క్యాలెండర్') }}</span>
       </a>
   </div>
 
@@ -1835,7 +1946,7 @@
     function startTyping() {
         const element = document.getElementById("typing-text");
         if (!element) return;
-        element.innerHTML = 'గణన చేస్తోంది';
+        element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
     }
 
     function showLoader() {
@@ -1896,7 +2007,7 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)

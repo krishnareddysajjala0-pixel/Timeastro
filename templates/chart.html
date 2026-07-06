@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>జాఫతకము</title>
+  <title>{{ _('జాఫతకము') }}</title>
   <!-- PWA settings -->
   <link rel="manifest" href="/static/manifest.json">
   <meta name="theme-color" content="#1A1A1D">
@@ -703,8 +703,37 @@
       background: linear-gradient(45deg, #660000, #8b0000);
     }
 
+    /* ===== Mahadasha print section: hidden on screen, only visible during print ===== */
+    #mahadasha-print-section {
+      display: none;
+    }
+
     /* ===== PRINT ===== */
     @media print {
+      /* ===== Force ALL themes to print-safe light colors =====
+         Without this, dark/cosmic themes keep white text → invisible in PDF */
+      :root,
+      [data-theme],
+      [data-theme="cosmic"],
+      [data-theme="dark"],
+      [data-theme="sunset"],
+      [data-theme="ocean"],
+      [data-theme="forest"] {
+        --bg-primary:        #ffffff !important;
+        --text-main:         #000000 !important;
+        --text-muted:        #333333 !important;
+        --card-bg:           #ffffff !important;
+        --card-border:       #cccccc !important;
+        --shadow-color:      rgba(0,0,0,0.1) !important;
+        --header-bg:         #f8f9fa  !important;
+        --title-bg:          #f1f5f9  !important;
+        --table-header-bg:   #f1f5f9  !important;
+        --table-row-bg:      #ffffff  !important;
+        --table-row-alt-bg:  #f8fafc  !important;
+        --table-hover-bg:    #f0f9ff  !important;
+        --accent-glow:       none     !important;
+      }
+
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -828,7 +857,9 @@
       .print-hide,
       #transit-btn,
       #transit-loading,
-      .toggle-container {
+      .toggle-container,
+      #loading-overlay,
+      #print-options-modal {
         display: none !important;
       }
 
@@ -837,11 +868,17 @@
         min-width: 1024px !important;
         margin: 0 auto !important;
         padding: 0 !important;
-        zoom: 0.78 !important; /* Unified zoom for perfect single page layout width and height */
+        zoom: 0.78 !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
+      }
+
+      /* When mahadasha is being printed alongside transit, shrink print-wrapper */
+      body.transit-loaded[data-print-mode="kundali-and-dasha"] #print-wrapper {
+        page-break-after: auto !important;
+        break-after: auto !important;
       }
 
       body.transit-loaded #print-wrapper {
@@ -877,6 +914,113 @@
         max-width: 100% !important;
         box-shadow: none !important;
         border: none !important;
+      }
+
+      /* ===== MAHADASHA PRINT SECTION ===== */
+      /* Always hidden on screen; only shown during print via data-print-mode */
+      #mahadasha-print-section {
+        display: none !important;
+      }
+
+      /* kundali-and-dasha, NO transit: show on same page after kundali */
+      body[data-print-mode="kundali-and-dasha"] #mahadasha-print-section {
+        display: block !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        margin: 12px auto 0 auto !important;
+        width: 100% !important;
+        text-align: center !important;
+      }
+
+      /* kundali-and-dasha, WITH transit: force mahadasha to a new page */
+      body.transit-loaded[data-print-mode="kundali-and-dasha"] #mahadasha-print-section {
+        display: block !important;
+        page-break-before: always !important;
+        break-before: page !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding-top: 10px !important;
+      }
+
+      .maha-print-title {
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #000 !important;
+        font-family: 'Noto Sans Telugu', sans-serif;
+      }
+
+      .maha-print-table {
+        width: 100%;          /* match kundali chart width */
+        margin: 0 auto;       /* center the table */
+        border-collapse: collapse;
+        font-size: 14pt;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-family: 'Noto Sans Telugu', sans-serif;
+      }
+
+      .maha-print-table th {
+        background-color: #e2e8f0 !important;
+        color: #000 !important;
+        font-weight: bold;
+        border: 1.5px solid #000 !important;
+        padding: 6px 8px !important;
+        text-align: center;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .maha-print-table td {
+        border: 1.5px solid #000 !important;
+        padding: 6px 8px !important;
+        text-align: center;
+        color: #000 !important;
+      }
+
+      .maha-print-table tbody tr:nth-child(even) td {
+        background-color: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .maha-favorable {
+        color: #006400 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .maha-unfavorable {
+        color: #b22222 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* Planet name column: green for favorable, red for unfavorable (Guru/Shani party) */
+      .maha-planet-favorable {
+        color: #006400 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .maha-planet-unfavorable {
+        color: #b22222 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .maha-current-row td {
+        background-color: #fef9c3 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       .chart {
@@ -957,6 +1101,7 @@
     @page {
       size: A4 portrait;
       margin: 2mm !important;
+      margin-top: 0.5in !important;
     }
 
     /* Scrolling Footer */
@@ -1264,9 +1409,108 @@
       animation: nav-rainbow 3s linear infinite !important;
     }
   </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
   <!-- Right Side Controls (Vertical Stack) -->
   <div id="top-button-stack" class="top-button-stack">
     <!-- Theme Switcher -->
@@ -1288,7 +1532,7 @@
     <!-- Chart Toggle Buttons -->
     <div class="toggle-container" id="chart-toggles">
       <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
-      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">కర్మ</button>
+      <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">{{ _('కర్మ') }}</button>
     </div>
   </div>
 
@@ -1422,20 +1666,26 @@
   <!-- Header -->
   <div class="header">
     <div class="om-title">
-      🕉️ ఓం శ్రీ గురవే నమః 🕉️
+      {{ _('🕉️ ఓం శ్రీ గురవే నమః 🕉️') }}
     </div>
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;">
       <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
-      <h1 class="page-title" style="margin-bottom: 0; font-size: 32px;">జాఫతకము</h1>
+      <h1 class="page-title" style="margin-bottom: 0; font-size: 32px;">{{ _('జాఫతకము') }}</h1>
       <img src="/static/images/brand_logo.png" alt="Logo" style="width: 35px; height: auto;">
     </div>
 
     {# ===== VARIABLES ===== #}
-    {% set positive_lagnas = positive_lagnas if positive_lagnas is defined else
-    ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
-    {% set green_planets = green_planets if green_planets is defined else
-    ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
-    {% set red_planets = red_planets if red_planets is defined else ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
+    {% set positive_lagnas_raw = ["మీనం","మేషం","కర్కాటకం","సింహం","వృశ్చికం","ధనస్సు"] %}
+    {% set positive_lagnas = [] %}
+    {% for l in positive_lagnas_raw %}
+    {% set _ = positive_lagnas.append(_(l)) %}
+    {% endfor %}
+    {% set green_planets_raw = ["సూర్యుడు","భూమి","కుజుడు","గురు","కేతు","చంద్రుడు"] %}
+    {% set green_planets = [] %}
+    {% for p in green_planets_raw %}
+    {% set _ = green_planets.append(_(p)) %}
+    {% endfor %}
+    {% set red_planets = ["శని","రాహు","బుధ","శుక్ర","మిత్ర","చిత్ర"] %}
 
     {# ===== HELPER FUNCTION TO EXTRACT DEGREES ===== #}
     {% macro extract_degrees(line) %}
@@ -1487,23 +1737,23 @@
     {% set items_count = namespace(count=0) %}
     {% for line in lines %}{% if line.strip() %}{% set items_count.count = items_count.count + 1 %}{% endif %}{% endfor %}
     
-    <div class="box {{ house_bg_class(hno) }} {% if lagna==box_lagna %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
+    <div class="box {{ house_bg_class(hno) }} {% if lagna == _(box_lagna) %}lagna{% endif %} {% if items_count.count > 3 %}box-condensed{% endif %}">
       <span class="house-no">{{ hno }}</span>
 
       
       {% if hno in [1,5,9] %}
-        <div class="karma-label">పుణ్యం</div>
+        <div class="karma-label">{{ _('పుణ్యం') }}</div>
       {% elif hno in [3,7,11] %}
-        <div class="karma-label">పాపం</div>
+        <div class="karma-label">{{ _('పాపం') }}</div>
       {% else %}
-        <div class="karma-label">పుణ్యం + పాపం</div>
+        <div class="karma-label">{{ _('పుణ్యం + పాపం') }}</div>
       {% endif %}
 
 
 
       {# Display all content from chart data #}
       {% for line in chart[box_lagna].split('<br>') %}
-      {% if "లగ్నం" in line %}
+      {% if _("లగ్నం") in line %}
       {# Style Lagna line differently - SHOW LAGNA DEGREE ONLY IN LAGNA BOX #}
       <div style="color: gold; font-weight: bold; margin-bottom: 5px;">
         {{ line | safe }}
@@ -1516,7 +1766,7 @@
       {% endif %}
       {% endfor %}
 
-      <span class="lagna-name">{{ box_lagna }}</span>
+      <span class="lagna-name">{{ _(box_lagna) }}</span>
     </div>
     {% endmacro %}
 
@@ -1536,29 +1786,29 @@
             <table
               style="width: 100%; border-collapse: separate; border-spacing: 0 5px; font-size: 13px; text-align: left; margin: 0 auto;">
               <tr>
-                <td style="color: #ffd700; width: 35%; white-space: nowrap;">వర్గము:</td>
+                <td style="color: #ffd700; width: 35%; white-space: nowrap;">{{ _('వర్గము:') }}</td>
                 <td style="font-weight: bold; animation: nav-rainbow 3s linear infinite !important;">
-                  {{ "గురు పార్టీ" if lagna in positive_lagnas else "శని పార్టీ" }}
+                  {{ _("గురు పార్టీ") if lagna in positive_lagnas else _("శని పార్టీ") }}
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">పేరు:</td>
+                <td style="color: #ffd700;">{{ _('పేరు:') }}</td>
                 <td style="color: var(--text-main);">{{ name }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> తేదీ:</td>
+                <td style="color: #ffd700;"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
                 <td style="color: var(--text-main);">{{ dob }} ({{ day_name }})</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-clock"></i> సమయం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ tob }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> స్థలం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
                 <td style="color: var(--text-main);">{{ place.split(',')[0] if ',' in place else place }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;"><i class="fas fa-compass"></i> లగ్నం:</td>
+                <td style="color: #ffd700;"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
                 <td style="color: var(--text-main);">
                   {{ lagna }} 
                   {% if lagna_deg is defined and lagna_deg %}
@@ -1567,25 +1817,25 @@
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> నక్షత్రం:</td>
+                <td style="color: #ffd700; white-space: nowrap;"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
                 <td style="color: var(--text-main);">
-                  {{ nakshatra }} ({{ padam }} పాదం)
+                  {{ nakshatra }} ({{ padam }} {{ _('పాదం') }})
                 </td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మొదలు:</td>
+                <td style="color: #ffd700;">{{ _('మొదలు:') }}</td>
                 <td style="color: #34d399; font-weight: bold;">{{ nak_start }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">ముగింపు:</td>
-                <td style="color: #fca5a5; font-weight: bold;">{{ nak_end }} వరకు</td>
+                <td style="color: #ffd700;">{{ _('ముగింపు:') }}</td>
+                <td style="color: #fca5a5; font-weight: bold;">{{ nak_end }} {{ _('వరకు') }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">గడిచిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('గడిచిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ nak_elapsed }}</td>
               </tr>
               <tr>
-                <td style="color: #ffd700;">మిగిలిన సమయం:</td>
+                <td style="color: #ffd700;">{{ _('మిగిలిన సమయం:') }}</td>
                 <td style="color: var(--text-main);">{{ nak_remaining }}</td>
               </tr>
             </table>
@@ -1608,36 +1858,158 @@
     <!-- Transit Button and Container -->
     <div style="text-align: center; margin: 20px 0;">
       <button onclick="fetchTransitChart()" id="transit-btn" style="background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(11, 163, 96, 0.4); display: inline-flex; align-items: center; gap: 8px;">
-        <i class="fas fa-satellite" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i> ఈ రోజు గ్రహ స్థితి
+        <i class="fas fa-satellite" style="filter: drop-shadow(0 0 5px red) drop-shadow(0 0 5px orange) drop-shadow(0 0 5px yellow) drop-shadow(0 0 5px green) drop-shadow(0 0 5px blue) drop-shadow(0 0 5px indigo) drop-shadow(0 0 5px violet);"></i> {{ _('ఈ రోజు గ్రహ స్థితి') }}
       </button>
       <div id="transit-loading" style="display: none; color: #ffd700; margin-top: 15px; font-size: 14px;">
-        <i class="fas fa-spinner fa-spin"></i> జనరేట్ చేస్తోంది...
+        <i class="fas fa-spinner fa-spin"></i> {{ _('జనరేట్ చేస్తోంది...') }}
       </div>
     </div>
     
     <div id="transit-container"></div>
+
+    <!-- Toggle button for transit chart (shown after transit loads) -->
+    <div id="transit-toggle-bar" class="print-hide" style="display:none; text-align:center; margin: 8px 0;">
+      <button id="transit-toggle-btn" onclick="toggleTransitChart()"
+        style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#000; border:none;
+               padding:8px 20px; border-radius:8px; font-size:14px; font-weight:700;
+               cursor:pointer; font-family:'Noto Sans Telugu',sans-serif;
+               box-shadow:0 3px 10px rgba(245,158,11,0.4); display:inline-flex;
+               align-items:center; gap:8px;">
+        <i class="fas fa-eye-slash" id="transit-toggle-icon"></i>
+        <span id="transit-toggle-text">{{ _('ఈ రోజు కుండలి దాచు') }}</span>
+      </button>
+    </div>
+
+  </div><!-- end #print-wrapper -->
+
+  <!-- PRINT ONLY: Mahadasha Summary Table – OUTSIDE #print-wrapper to avoid page-break conflicts -->
+  {% if all_dasas is defined and all_dasas %}
+  <div id="mahadasha-print-section">
+    <div class="maha-print-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+    <table class="maha-print-table">
+      <thead>
+        <tr>
+          <th>{{ _('క్ర.సం') }}</th>
+          <th>{{ _('మహాదశ') }}</th>
+          <th>{{ _('ఫలితం') }}</th>
+          <th>{{ _('సంవత్సరాలు') }}</th>
+          <th>{{ _('ప్రారంభం') }}</th>
+          <th>{{ _('ముగింపు') }}</th>
+          <th>{{ _('వయసు') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dasa in all_dasas %}
+        <tr{% if dasa.is_current %} class="maha-current-row"{% endif %}>
+          <td>{{ loop.index }}</td>
+          <td class="{{ 'maha-planet-favorable' if dasa.is_favorable else 'maha-planet-unfavorable' }}">{{ dasa.icon }} {{ dasa.maha }}</td>
+          <td class="{{ 'maha-favorable' if dasa.is_favorable else 'maha-unfavorable' }}">
+            {% if dasa.is_favorable %}{{ _('అనుకూలము') }}{% else %}{{ _('ప్రతికూలము') }}{% endif %}
+          </td>
+          <td>{{ dasa.years }}</td>
+          <td>{{ dasa.start }}</td>
+          <td>{{ dasa.end }}</td>
+          <td>{{ dasa.age_start }} - {{ dasa.age_end }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+  {% endif %}
 
     <!-- Floating Bottom Action Bar -->
     <div class="fixed-bottom-bar" id="action-bar">
       <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
         onclick="window.location.href='/'">
-        <i class="fas fa-home"></i> హోమ్
+        <i class="fas fa-home"></i> {{ _('హోమ్') }}
       </button>
 
       <button class="float-btn" style="background: linear-gradient(135deg, #059669, #047857);"
         onclick="window.location.href='/go-to-dasha-chart'">
-        <i class="fas fa-calendar-alt"></i> దశాచారము
+        <i class="fas fa-calendar-alt"></i> {{ _('దశాచారము') }}
       </button>
       <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
         onclick="window.location.href='/chart3'">
-        <i class="fas fa-star"></i> ద్వాదశ గ్రహములు
+        <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
       </button>
 
-      <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-        onclick="window.print()">
-        <i class="fas fa-file-pdf"></i> ప్రింట్
+      <button class="float-btn print-hide" id="print-options-btn"
+        style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+        onclick="openPrintOptions()">
+        <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
       </button>
+    </div>
+
+    <!-- Print Options Modal -->
+    <div id="print-options-modal" style="display:none; position:fixed; inset:0; z-index:999999;
+         background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
+         align-items:center; justify-content:center;">
+      <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);
+                  border:1px solid rgba(255,215,0,0.35); border-radius:18px;
+                  padding:28px 32px; min-width:300px; max-width:380px; width:90%;
+                  box-shadow:0 0 40px rgba(255,215,0,0.15); text-align:center;
+                  font-family:'Noto Sans Telugu',sans-serif;">
+        <!-- Title -->
+        <div style="font-size:20px; font-weight:800; color:#ffd700;
+                    margin-bottom:6px; letter-spacing:0.5px;">
+          {{ _('🖨️ ప్రింట్ ఎంపిక') }}
+        </div>
+        <div style="font-size:12px; color:#94a3b8; margin-bottom:20px;">
+          {{ _('ముద్రించాల్సిన వివరాలను ఎంచుకోండి') }}
+        </div>
+
+        <!-- Options -->
+        <div style="display:flex; flex-direction:column; gap:12px; text-align:left; margin-bottom:24px;">
+
+          <!-- Option 1: Kundali only -->
+          <label id="po-label-kundali" for="po-kundali-only"
+            style="display:flex; align-items:center; gap:12px; cursor:pointer;
+                   background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,215,0,0.4);
+                   border-radius:10px; padding:12px 16px; transition:all 0.2s;"
+            onclick="selectPrintOption('kundali-only')">
+            <input type="radio" id="po-kundali-only" name="print-mode" value="kundali-only"
+              checked style="accent-color:#ffd700; width:18px; height:18px; cursor:pointer;">
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#ffd700;">{{ _('కుండలి మాత్రమే') }}</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">{{ _('జనన చక్రం మాత్రమే ముద్రించబడుతుంది') }}</div>
+            </div>
+          </label>
+
+          <!-- Option 2: Kundali + Mahadasha -->
+          <label id="po-label-both" for="po-kundali-and-dasha"
+            style="display:flex; align-items:center; gap:12px; cursor:pointer;
+                   background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,255,255,0.15);
+                   border-radius:10px; padding:12px 16px; transition:all 0.2s;"
+            onclick="selectPrintOption('kundali-and-dasha')">
+            <input type="radio" id="po-kundali-and-dasha" name="print-mode" value="kundali-and-dasha"
+              style="accent-color:#ffd700; width:18px; height:18px; cursor:pointer;">
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#a5f3fc;">{{ _('కుండలి + మహాదశ వివరాలు') }}</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">{{ _('జనన చక్రం మరియు 120 సం. దశా చక్రం') }}</div>
+            </div>
+          </label>
+
+        </div>
+
+        <!-- Buttons -->
+        <div style="display:flex; gap:12px; justify-content:center;">
+          <button onclick="closePrintOptions()"
+            style="flex:1; padding:10px 0; border-radius:10px; border:1px solid rgba(255,255,255,0.2);
+                   background:rgba(255,255,255,0.08); color:#cbd5e1; font-size:14px;
+                   font-family:'Noto Sans Telugu',sans-serif; cursor:pointer;
+                   transition:all 0.2s; font-weight:600;">
+            {{ _('రద్దు') }}
+          </button>
+          <button onclick="doPrint()"
+            style="flex:1; padding:10px 0; border-radius:10px; border:none;
+                   background:linear-gradient(135deg,#e91e63,#c2185b); color:#fff; font-size:14px;
+                   font-family:'Noto Sans Telugu',sans-serif; cursor:pointer;
+                   box-shadow:0 4px 15px rgba(233,30,99,0.4); font-weight:700;
+                   transition:all 0.2s;">
+            {{ _('🖨️ ప్రింట్') }}
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Loading Overlay -->
@@ -1844,6 +2216,9 @@
             container.innerHTML = html;
             container.classList.add('loaded');
             document.body.classList.add('transit-loaded');
+            // Show the hide/show toggle button
+            const toggleBar = document.getElementById('transit-toggle-bar');
+            if (toggleBar) toggleBar.style.display = 'block';
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
           })
           .catch(error => {
@@ -1852,29 +2227,143 @@
             const globalOverlay = document.getElementById('loading-overlay');
             if (globalOverlay) globalOverlay.style.display = 'none';
             if (btn) btn.style.display = 'inline-flex';
-            alert('గ్రహ స్థితిని తీసుకురావడంలో లోపం ఏర్పడింది.');
+            alert('గ్రహ {{ _('స్థితి') }}ని తీసుకురావడంలో లోపం ఏర్పడింది.');
           });
         }
       }
 
-      // Print optimization
+      // ===== PRINT THEME RESET (most reliable cross-browser approach) =====
+      // Temporarily remove data-theme so the default light CSS applies during print
       window.onbeforeprint = function () {
+        // 1. Remove data-theme so browser prints in light mode
+        document.documentElement.removeAttribute('data-theme');
+
+        // 2. Force white background on all key elements
+        document.body.style.background = '#ffffff';
+        document.body.style.color = '#000000';
+
+        // 3. Box shadow/transform cleanup
         document.querySelectorAll('.box').forEach(box => {
           box.style.boxShadow = 'none';
           box.style.transform = 'none';
+          box.style.background = '#ffffff';
+          box.style.color = '#000000';
         });
-
         document.querySelectorAll('.hand').forEach(hand => {
           hand.style.border = '1px solid #666';
         });
+        // 4. Make sure loading overlay is hidden
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'none';
       };
 
       window.onafterprint = function() {
-        // No special action needed
+        // Restore original theme from localStorage preferred theme
+        const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+        setTheme(savedTheme);
+
+        // Restore body styles
+        document.body.style.background = '';
+        document.body.style.color = '';
+
+        // Restore box styles
+        document.querySelectorAll('.box').forEach(box => {
+          box.style.boxShadow = '';
+          box.style.transform = '';
+          box.style.background = '';
+          box.style.color = '';
+        });
+
+        // Restore hand styles
+        document.querySelectorAll('.hand').forEach(hand => {
+          hand.style.border = '';
+        });
+
+        // Clean up print mode attribute
+        document.body.removeAttribute('data-print-mode');
+
+        // Clean up loading overlay display
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = '';
       };
+
+      // ===== TRANSIT TOGGLE =====
+      function toggleTransitChart() {
+        const container = document.getElementById('transit-container');
+        const icon = document.getElementById('transit-toggle-icon');
+        const text = document.getElementById('transit-toggle-text');
+        const isHidden = container.style.display === 'none';
+        if (isHidden) {
+          container.style.display = 'block';
+          document.body.classList.add('transit-loaded');
+          icon.className = 'fas fa-eye-slash';
+          text.textContent = '{{ _('ఈ రోజు కుండలి దాచు') }}';
+        } else {
+          container.style.display = 'none';
+          document.body.classList.remove('transit-loaded');
+          icon.className = 'fas fa-eye';
+          text.textContent = 'ఈ రోజు కుండలి చూపు';
+        }
+      }
+
+      // ===== PRINT OPTIONS MODAL =====
+      function openPrintOptions() {
+        const modal = document.getElementById('print-options-modal');
+        modal.style.display = 'flex';
+        // Reset to default selection
+        document.getElementById('po-kundali-only').checked = true;
+        selectPrintOption('kundali-only');
+      }
+
+      function closePrintOptions() {
+        document.getElementById('print-options-modal').style.display = 'none';
+      }
+
+      function selectPrintOption(value) {
+        // Update radio
+        const radio = document.querySelector(`input[name="print-mode"][value="${value}"]`);
+        if (radio) radio.checked = true;
+        // Highlight active label
+        const labelKundali = document.getElementById('po-label-kundali');
+        const labelBoth = document.getElementById('po-label-both');
+        if (value === 'kundali-only') {
+          labelKundali.style.borderColor = 'rgba(255,215,0,0.8)';
+          labelKundali.style.background = 'rgba(255,215,0,0.08)';
+          labelBoth.style.borderColor = 'rgba(255,255,255,0.15)';
+          labelBoth.style.background = 'rgba(255,255,255,0.05)';
+        } else {
+          labelBoth.style.borderColor = 'rgba(165,243,252,0.8)';
+          labelBoth.style.background = 'rgba(165,243,252,0.08)';
+          labelKundali.style.borderColor = 'rgba(255,255,255,0.15)';
+          labelKundali.style.background = 'rgba(255,255,255,0.05)';
+        }
+      }
+
+      function doPrint() {
+        const selected = document.querySelector('input[name="print-mode"]:checked');
+        const mode = selected ? selected.value : 'kundali-only';
+        document.body.setAttribute('data-print-mode', mode);
+        closePrintOptions();
+
+        // Explicitly trigger onbeforeprint logic (Chrome doesn't always fire it with setTimeout)
+        window.onbeforeprint();
+
+        // Delay so DOM updates are applied before print dialog opens
+        setTimeout(() => { window.print(); }, 150);
+      }
+
+      // Close modal on overlay click
+      document.getElementById('print-options-modal').addEventListener('click', function(e) {
+        if (e.target === this) closePrintOptions();
+      });
 
       // Keyboard shortcuts
       document.addEventListener('keydown', function (e) {
+        // Escape to close print options modal
+        if (e.key === 'Escape') {
+          closePrintOptions();
+        }
+
         // Home key to go to home
         if (e.key === 'Home') {
           window.location.href = '/';
@@ -1886,10 +2375,10 @@
           goToDasaChart();
         }
 
-        // Ctrl + P for print
+        // Ctrl + P for print — open print options modal
         if (e.ctrlKey && e.key === 'p') {
           e.preventDefault();
-          window.print();
+          openPrintOptions();
         }
 
         // Ctrl + G for planet details
@@ -1912,7 +2401,7 @@
           const element = document.getElementById("typing-text");
           if (!element) return;
           
-          element.innerHTML = 'గణన చేస్తోంది';
+          element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
       }
 
       
@@ -1994,14 +2483,14 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
                 var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
+                if (btn.id === 'print-options-btn' || oc.indexOf('print') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;
                 btn.addEventListener('click', function() {
                     showGananaLoader();

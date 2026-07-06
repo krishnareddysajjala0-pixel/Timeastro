@@ -852,9 +852,108 @@
       .scrolling-footer { display: none !important; }
     }
   </style>
+<style>
+    /* Language Switcher */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+      max-height: 45px;
+      min-width: 45px;
+    }
+
+    .language-switcher.expanded {
+      max-height: 400px;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-main, #ffffff);
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .lang-options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      margin-top: 8px;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--text-main, #ffffff);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .lang-btn:hover {
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    .lang-btn.active {
+      font-weight: bold;
+      background: var(--btn-show-bg, linear-gradient(135deg, #fbbf24, #f59e0b));
+      color: var(--btn-show-text, #020617);
+    }
+</style>
 </head>
 
 <body>
+
+  <!-- Language Switcher -->
+  <div class="language-switcher print-hide">
+    <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+      <i class="fas fa-language"></i>
+      <span style="font-size: 14px; margin-left: 2px;">{{ _('భాష') }}</span>
+    </button>
+    <div class="lang-options">
+      <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+      <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+      <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+      <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+      <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+      <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+      <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+    </div>
+  </div>
+
 
   <!-- Theme Switcher -->
   <div class="theme-switcher print-hide">
@@ -925,15 +1024,15 @@
         </style>
         <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;"> 
           <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="width: 35px; height: auto;">
-          జాఫతకము 
+          {{ _('జాఫతకము') }} 
           <img src="/static/images/brand_logo.png" alt="Logo" class="title-emblem-small" style="width: 35px; height: auto;">
         </h2>
-        <div class="subtitle">ప్రారబ్దకర్మ పత్రము</div>
+        <div class="subtitle">{{ _('ప్రారబ్దకర్మ పత్రము') }}</div>
         <div style="font-size: 12px; font-weight: 700; margin-top: 6px; animation: rainbow-text 7s linear infinite; text-shadow: 0 0 8px rgba(255,255,255,0.2);">
-          పుట్టినప్పుడే నిర్ణయించబడిన పతకము కావున దీనిని జాఫతకము అంటున్నాము.
+          {{ _('పుట్టినప్పుడే నిర్ణయించబడిన పతకము కావున దీనిని జాఫతకము అంటున్నాము.') }}
         </div>
         <div style="font-size: 11px; color: var(--text-muted); opacity: 0.7; margin-top: 5px;">
-          ద్వాదశ గ్రహములతో కూడిన జ్యోతిష్య శాస్త్రము ఆధారముగా మీ జాఫతకము నిర్ణయించబడుతుంది.
+          {{ _('ద్వాదశ గ్రహములతో కూడిన జ్యోతిష్య శాస్త్రము ఆధారముగా మీ జాఫతకము నిర్ణయించబడుతుంది.') }}
         </div>
       </div>
 
@@ -944,37 +1043,37 @@
           <!-- Column 1 -->
           <div class="form-group">
             <label for="name" class="required-field">
-              <i class="fas fa-user"></i> పేరు
+              <i class="fas fa-user"></i> {{ _('పేరు') }}
             </label>
             <div class="input-container">
               <div class="input-icon"><i class="fas fa-user-circle"></i></div>
-              <input type="text" id="name" name="name" required placeholder="మీ పూర్తి పేరు">
+              <input type="text" id="name" name="name" required placeholder="{{ _('మీ పూర్తి పేరు') }}">
             </div>
-            <div class="error-message">దయచేసి పేరు నమోదు చేయండి</div>
+            <div class="error-message">{{ _('దయచేసి పేరు నమోదు చేయండి') }}</div>
           </div>
 
           <!-- Column 2 -->
           <div class="form-group">
             <label for="dob" class="required-field">
-              <i class="fas fa-calendar-alt"></i> జన్మ తేది
+              <i class="fas fa-calendar-alt"></i> {{ _('జన్మ తేది') }}
             </label>
             <div class="input-container">
               <div class="input-icon"><i class="fas fa-birthday-cake"></i></div>
               <input type="date" id="dob" name="dob" required>
             </div>
-            <div class="error-message">దయచేసి జన్మ తేది ఎంచుకోండి</div>
+            <div class="error-message">{{ _('దయచేసి జన్మ తేది ఎంచుకోండి') }}</div>
           </div>
 
           <!-- Column 1 -->
           <div class="form-group">
             <label for="tob" class="required-field">
-              <i class="fas fa-clock"></i> జన్మ సమయం
+              <i class="fas fa-clock"></i> {{ _('జన్మ సమయం') }}
             </label>
             <div class="input-container">
               <div class="input-icon"><i class="fas fa-history"></i></div>
               <input type="time" id="tob" name="tob" required>
             </div>
-            <div class="error-message">దయచేసి సమయం ఎంచుకోండి</div>
+            <div class="error-message">{{ _('దయచేసి సమయం ఎంచుకోండి') }}</div>
           </div>
 
           <!-- Column 2 - Placeholder for layout balance -->
@@ -983,23 +1082,23 @@
           <!-- Full width place input -->
           <div class="form-group place-container">
             <label for="place" class="required-field">
-              <i class="fas fa-map-marker-alt"></i> జన్మ స్థలం
+              <i class="fas fa-map-marker-alt"></i> {{ _('జన్మ స్థలం') }}
             </label>
             <div class="input-container">
               <div class="input-icon"><i class="fas fa-globe-asia"></i></div>
               <input type="text" id="place" name="place" autocomplete="off" required
-                placeholder="గ్రామం, నగరం, రాష్ట్రం">
+                placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
             </div>
             <div id="suggestions"></div>
-            <div class="error-message">దయచేసి జాబితా నుండి స్థలం ఎంచుకోండి</div>
+            <div class="error-message">{{ _('దయచేసి జాబితా నుండి స్థలం ఎంచుకోండి') }}</div>
 
             <!-- Location buttons -->
             <div class="location-buttons">
               <button type="button" class="location-btn" onclick="getCurrentLocation()">
-                <i class="fas fa-location-crosshairs"></i> ప్రస్తుత స్థానం
+                <i class="fas fa-location-crosshairs"></i> {{ _('ప్రస్తుత స్థానం') }}
               </button>
               <button type="button" class="location-btn" onclick="clearLocation()">
-                <i class="fas fa-eraser"></i> క్లియర్
+                <i class="fas fa-eraser"></i> {{ _('క్లియర్') }}
               </button>
             </div>
           </div>
@@ -1012,7 +1111,7 @@
         <div class="btn-container">
           <button type="submit" class="btn btn-show" onclick="showLoading()">
             <span class="btn-icon">🌀</span>
-            కుండలి చూపించండి
+            {{ _('కుండలి చూపించండి') }}
           </button>
         </div>
       </form>
@@ -1195,7 +1294,7 @@
 
         if (data.length === 0) {
           const noResult = document.createElement("div");
-          noResult.textContent = "ఫలితాలు లేవు";
+          noResult.textContent = "{{ _('ఫలితాలు లేవు') }}";
           noResult.style.color = "#888";
           noResult.style.fontStyle = "italic";
           suggestions.appendChild(noResult);
@@ -1493,19 +1592,19 @@
   <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item active nav-home">
           <i class="fas fa-home"></i>
-          <span>హోమ్</span>
+          <span>{{ _('హోమ్') }}</span>
       </a>
       <a href="/compare_kundali" class="nav-item nav-compare">
           <i class="fas fa-balance-scale"></i>
-          <span>పోలిక</span>
+          <span>{{ _('పోలిక') }}</span>
       </a>
       <a href="/daily_panchangam" class="nav-item nav-panch">
           <i class="fas fa-om"></i>
-          <span>పంచాంగం</span>
+          <span>{{ _('పంచాంగం') }}</span>
       </a>
       <a href="/calendar_view" class="nav-item nav-cal">
           <i class="fas fa-calendar-alt"></i>
-          <span>క్యాలెండర్</span>
+          <span>{{ _('క్యాలెండర్') }}</span>
       </a>
   </div>
   <script>
@@ -1513,7 +1612,7 @@
           const element = document.getElementById(targetId);
           if (!element) return;
           
-          element.innerHTML = 'గణన చేస్తోంది';
+          element.innerHTML = '{{ _('గణన చేస్తోంది') }}';
       }
 
       
@@ -1601,7 +1700,7 @@
             playLoadingSound();
             overlay.style.display = 'flex';
             var textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay, div[style*="color:#ffd700"], div[style*="color: #ffd700"]');
-            if (textEl) textEl.textContent = 'గణన చేస్తోంది';
+            if (textEl) textEl.textContent = '{{ _('గణన చేస్తోంది') }}';
         }
 
         // Attach ONLY to navigation float-btn buttons (skip print)

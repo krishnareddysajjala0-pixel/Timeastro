@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context
 import swisseph as swe
 import datetime
 import pytz
@@ -8,8 +8,130 @@ import subprocess
 import requests
 import base64
 import json
+import re
+
+# Cache loaded translation dictionaries
+TRANSLATIONS_CACHE = {}
+
+def get_translations_dict(lang):
+    if lang == 'te':
+        return {}
+    if lang not in TRANSLATIONS_CACHE:
+        path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    TRANSLATIONS_CACHE[lang] = json.load(f)
+            except Exception as e:
+                print(f"Error loading vocabulary {lang}: {e}")
+                TRANSLATIONS_CACHE[lang] = {}
+        else:
+            TRANSLATIONS_CACHE[lang] = {}
+    return TRANSLATIONS_CACHE[lang]
+
+def tr(text, lang=None):
+    if not text:
+        return text
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang', 'te')
+    if lang == 'te':
+        return text
+        
+    mapping = get_translations_dict(lang)
+    if text in mapping:
+        return mapping[text]
+        
+    # Suffix matching
+    tithi_match = re.match(r'^(\d+)వ తిథి$', text)
+    if tithi_match:
+        num = tithi_match.group(1)
+        suffix = mapping.get("వ తిథి", " Tithi")
+        return f"{num}{suffix}"
+        
+    padam_match = re.match(r'^(\d+)వ పాదం$', text)
+    if padam_match:
+        num = padam_match.group(1)
+        suffix = mapping.get("వ పాదం", " Pada")
+        return f"{num}{suffix}"
+        
+    # Handle combined times
+    if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
+        translated_text = text
+        for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
+            if te_word in translated_text:
+                translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
+        return translated_text
+        
+    return text
+
+def translate_html_string(html_str, lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang', 'te')
+    if lang == 'te':
+        return html_str
+        
+    def repl(match):
+        text = match.group(2)
+        if text.strip():
+            return f"{match.group(1)}{tr(text, lang)}{match.group(3)}"
+        return match.group(0)
+    return re.sub(r'(>)([^<]+)(<)', repl, html_str)
+
+def translate_data(val, lang):
+    if lang == 'te' or not val:
+        return val
+    
+    if isinstance(val, str):
+        if "<span" in val or "<br" in val or "<b>" in val:
+            return translate_html_string(val, lang)
+        return tr(val, lang)
+    elif isinstance(val, list):
+        return [translate_data(item, lang) for item in val]
+    elif isinstance(val, dict):
+        return {k: translate_data(v, lang) for k, v in val.items()}
+    return val
+
+def render_template(template_name_or_list, **context):
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    if lang != 'te':
+        translated_context = {}
+        for k, v in context.items():
+            translated_context[k] = translate_data(v, lang)
+        translated_context['current_lang'] = lang
+        return flask_render_template(template_name_or_list, **translated_context)
+    context['current_lang'] = 'te'
+    return flask_render_template(template_name_or_list, **context)
 
 def load_rules(filename):
+    if filename == 'astro_constants.json':
+        path = os.path.join(os.path.dirname(__file__), filename)
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading {filename}: {e}")
+            return {}
+
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    if lang != 'te':
+        base, ext = os.path.splitext(filename)
+        localized_filename = f"{base}_{lang}{ext}"
+        path = os.path.join(os.path.dirname(__file__), localized_filename)
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading localized {localized_filename}: {e}")
+                
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
@@ -18,6 +140,49 @@ def load_rules(filename):
         print(f"Error loading {filename}: {e}")
         return {}
 
+def load_localized_constants():
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    filename = 'astro_constants.json'
+    if lang != 'te':
+        base, ext = os.path.splitext(filename)
+        localized_filename = f"{base}_{lang}{ext}"
+        path = os.path.join(os.path.dirname(__file__), localized_filename)
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading localized {localized_filename}: {e}")
+    path = os.path.join(os.path.dirname(__file__), filename)
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading {filename}: {e}")
+        return {}
+
+def format_lord_placement(lord_house_num, lord_planet, p_house, lang):
+    translated_planet = tr(lord_planet, lang)
+    if lang == 'en':
+        ordinals = {1: '1st', 2: '2nd', 3: '3rd', 4: '4th', 5: '5th', 6: '6th',
+                    7: '7th', 8: '8th', 9: '9th', 10: '10th', 11: '11th', 12: '12th'}
+        ord_lord = ordinals.get(int(lord_house_num), f"{lord_house_num}th")
+        ord_house = ordinals.get(int(p_house), f"{p_house}th")
+        return f"{ord_lord} Lord ({translated_planet}) in {ord_house} House:"
+    elif lang == 'hi':
+        return f"{lord_house_num}वें घर का स्वामी ({translated_planet}) {p_house}वें स्थान पर होने के कारण:"
+    elif lang == 'kn':
+        return f"{lord_house_num}ನೇ ಮನೆ ಅಧಿಪತಿ ({translated_planet}) {p_house}ನೇ ಸ್ಥಾನದಲ್ಲಿರುವುದರಿಂದ:"
+    elif lang == 'ml':
+        return f"{lord_house_num}-ാം ഭാവനാഥൻ ({translated_planet}) {p_house}-ാം ഭാവത്തിൽ നില്ക്കുന്നതിനാൽ:"
+    elif lang == 'or':
+        return f"{lord_house_num}ମ ଭାବ ଅଧିପତି ({translated_planet}) {p_house}ମ ଭାବରେ ରହିଥିବାରୁ:"
+    elif lang == 'ta':
+        return f"{lord_house_num}வது வீட்டின் அதிபதி ({translated_planet}) {p_house}வது இடத்தில் இருப்பதால்:"
+    return f"{lord_house_num}వ స్థానాధిపతి ({translated_planet}) {p_house}వ స్థానములో ఉన్నందున:"
+
 
 
 # Git path for Windows environment stability
@@ -25,6 +190,55 @@ GIT_PATH = r'C:\Users\gnana\AppData\Local\GitHubDesktop\app-3.5.8\resources\app\
 
 app = Flask(__name__)
 app.secret_key = 'astrology-secret-key-2024'  # Required for session
+
+@app.context_processor
+def inject_translation():
+    lang = 'te'
+    if has_request_context():
+        lang = session.get('lang', 'te')
+    
+    mapping = get_translations_dict(lang)
+    
+    def translate_text(text):
+        if not text or lang == 'te':
+            return text
+        if text == 'భాష':
+            return {
+                'en': 'Language',
+                'kn': 'ಭಾಷೆ',
+                'hi': 'भाषा',
+                'ta': 'மொழி',
+                'ml': 'ഭാഷ',
+                'or': 'ଭାଷା'
+            }.get(lang, 'Language')
+        if isinstance(text, str):
+            if text in mapping:
+                return mapping[text]
+            
+            # Suffix matching
+            import re
+            tithi_match = re.match(r'^(\d+)వ తిథి$', text)
+            if tithi_match:
+                num = tithi_match.group(1)
+                suffix = mapping.get("వ తిథి", " Tithi")
+                return f"{num}{suffix}"
+                
+            padam_match = re.match(r'^(\d+)వ పాదం$', text)
+            if padam_match:
+                num = padam_match.group(1)
+                suffix = mapping.get("వ పాదం", " Pada")
+                return f"{num}{suffix}"
+                
+            # Handle combined times
+            if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
+                translated_text = text
+                for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
+                    if te_word in translated_text:
+                        translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
+                return translated_text
+                
+        return text
+    return dict(_=translate_text, current_lang=lang)
 
 # ---------------- Swiss Ephemeris ----------------
 # swe.set_ephe_path(".")  # Removed to allow Render to use default pyswisseph bundled files
@@ -108,7 +322,7 @@ TELUGU_YEARS = [
 def get_am_pm_str(dt):
     """Formats a datetime object into a Telugu AM/PM string (ఉ:/సా:)"""
     time_str = dt.strftime("%I:%M")
-    ampm = "ఉ: " if dt.hour < 12 else "సా: "
+    ampm = tr("ఉ: ") if dt.hour < 12 else tr("సా: ")
     return f"{ampm}{time_str}"
 
 # ---------------- Panchangam Data ----------------
@@ -675,6 +889,12 @@ def get_planet_icon(planet_name):
 def index():
     return render_template("index.html")
 
+@app.route("/set_lang/<lang>")
+def set_lang(lang):
+    if lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
+        session['lang'] = lang
+    return redirect(request.referrer or url_for('index'))
+
 def get_kundali_data(name, dob, tob, place, lat, lon):
     # Ensure standard Lahiri Ayanamsa is used for all calculations
     swe.set_sid_mode(swe.SIDM_LAHIRI)
@@ -932,12 +1152,12 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         res_setUTC = s["sunset"]
         
         # Convert Astral's timezone-aware response directly to the requested format
-        suryodayam = ("ఉ: " if res_riseUTC.hour < 12 else "సా: ") + res_riseUTC.strftime("%I:%M")
-        suryastamayam = ("ఉ: " if res_setUTC.hour < 12 else "సా: ") + res_setUTC.strftime("%I:%M")
+        suryodayam = (tr("ఉ: ") if res_riseUTC.hour < 12 else tr("సా: ")) + res_riseUTC.strftime("%I:%M")
+        suryastamayam = (tr("ఉ: ") if res_setUTC.hour < 12 else tr("సా: ")) + res_setUTC.strftime("%I:%M")
     except Exception as e:
         print(f"Astral Sun Calculation Failed: {e}")
-        suryodayam = "ఉ: 06:00"
-        suryastamayam = "సా: 06:00"
+        suryodayam = tr("ఉ: ") + "06:00"
+        suryastamayam = tr("సా: ") + "06:00"
     
     # Astral has already given us formatted 'suryodayam' and 'suryastamayam'
 
@@ -990,10 +1210,10 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         dt_val = datetime.datetime(y, m_dt, d, int(h), int((h%1)*60))
         dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
         en_month = dt_val.strftime("%B").lower()
-        te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
+        te_month = tr(EN_TO_TELUGU_MONTHS.get(en_month, en_month))
         return f"{te_month}-{d:02d}"
 
-    telugu_masam = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+    telugu_masam = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
 
     # 4. Telugu Year (Samvatsara) accurate calculation
     try:
@@ -1130,18 +1350,31 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'nak_index': nak_index
     }
 
-@app.route("/chart", methods=["POST"])
+@app.route("/chart", methods=["GET", "POST"])
 def chart():
-    name = request.form.get("name","")
-    dob = request.form.get("dob","")
-    tob = request.form.get("tob","")
-    place = request.form.get("place","")
+    if request.method == "POST":
+        name = request.form.get("name","")
+        dob = request.form.get("dob","")
+        tob = request.form.get("tob","")
+        place = request.form.get("place","")
+        lat = request.form.get("lat")
+        lon = request.form.get("lon")
+        
+        session['chart_form'] = {
+            'name': name, 'dob': dob, 'tob': tob, 'place': place,
+            'lat': lat, 'lon': lon
+        }
+    else:
+        form_data = session.get('chart_form', {})
+        name = form_data.get('name', '')
+        dob = form_data.get('dob', '')
+        tob = form_data.get('tob', '')
+        place = form_data.get('place', '')
+        lat = form_data.get('lat')
+        lon = form_data.get('lon')
 
-    lat = request.form.get("lat")
-    lon = request.form.get("lon")
-
-    if not lat or not lon:
-        return "❌ Please select place from suggestion list"
+    if not name or not dob or not lat or not lon:
+        return redirect(url_for('index'))
 
     lat = float(lat)
     lon = float(lon)
@@ -1154,30 +1387,54 @@ def chart():
     # Store birth info in session for other pages
     session['birth_info'] = data
 
-    return render_template("chart.html", **data)
+    # Calculate dasha data for the print Mahadasha table
+    dasha_data = get_dasha_info(data)
+
+    return render_template("chart.html", **data, **dasha_data)
 
 @app.route("/compare_kundali")
 def compare_kundali():
     return render_template("compare_form.html")
 
-@app.route("/compare_results", methods=["POST"])
+@app.route("/compare_results", methods=["GET", "POST"])
 def compare_results():
-    name1 = request.form.get("name1","")
-    dob1 = request.form.get("dob1","")
-    tob1 = request.form.get("tob1","")
-    place1 = request.form.get("place1","")
-    lat1 = request.form.get("lat1")
-    lon1 = request.form.get("lon1")
+    if request.method == "POST":
+        name1 = request.form.get("name1","")
+        dob1 = request.form.get("dob1","")
+        tob1 = request.form.get("tob1","")
+        place1 = request.form.get("place1","")
+        lat1 = request.form.get("lat1")
+        lon1 = request.form.get("lon1")
 
-    name2 = request.form.get("name2","")
-    dob2 = request.form.get("dob2","")
-    tob2 = request.form.get("tob2","")
-    place2 = request.form.get("place2","")
-    lat2 = request.form.get("lat2")
-    lon2 = request.form.get("lon2")
+        name2 = request.form.get("name2","")
+        dob2 = request.form.get("dob2","")
+        tob2 = request.form.get("tob2","")
+        place2 = request.form.get("place2","")
+        lat2 = request.form.get("lat2")
+        lon2 = request.form.get("lon2")
+        
+        session['compare_form'] = {
+            'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2
+        }
+    else:
+        form_data = session.get('compare_form', {})
+        name1 = form_data.get('name1', '')
+        dob1 = form_data.get('dob1', '')
+        tob1 = form_data.get('tob1', '')
+        place1 = form_data.get('place1', '')
+        lat1 = form_data.get('lat1')
+        lon1 = form_data.get('lon1')
+        
+        name2 = form_data.get('name2', '')
+        dob2 = form_data.get('dob2', '')
+        tob2 = form_data.get('tob2', '')
+        place2 = form_data.get('place2', '')
+        lat2 = form_data.get('lat2')
+        lon2 = form_data.get('lon2')
 
-    if not lat1 or not lon1 or not lat2 or not lon2:
-        return "❌ Please select place from suggestion list for both entries"
+    if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
+        return redirect(url_for('compare_kundali'))
 
     data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
     data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
@@ -1353,12 +1610,12 @@ def get_dasha_info(birth_info):
     # Calculate elapsed and remaining time in birth rasi (Dasha segment) for display
     dasa_elapsed_h = int(elapsed_duration_days * 24)
     dasa_elapsed_m = int(((elapsed_duration_days * 24) % 1) * 60)
-    dasa_elapsed_str = f"{dasa_elapsed_h}గం {dasa_elapsed_m}ని"
+    dasa_elapsed_str = f"{dasa_elapsed_h}{tr('గం')} {dasa_elapsed_m}{tr('ని')}"
     
     dasa_remain_days = jd_e - jd_birth
     dasa_remain_h = int(dasa_remain_days * 24)
     dasa_remain_m = int(((dasa_remain_days * 24) % 1) * 60)
-    dasa_remain_str = f"{dasa_remain_h}గం {dasa_remain_m}ని"
+    dasa_remain_str = f"{dasa_remain_h}{tr('గం')} {dasa_remain_m}{tr('ని')}"
     
     birth_dasa_years = DASA_YEARS.get(birth_dasa, 10)
     elapsed_years_in_birth_dasa = birth_dasa_years * fraction
@@ -1558,24 +1815,45 @@ def chart2():
     )
 
 
-@app.route("/compare_dasha", methods=["POST"])
+@app.route("/compare_dasha", methods=["GET", "POST"])
 def compare_dasha():
-    name1 = request.form.get("name1","")
-    dob1 = request.form.get("dob1","")
-    tob1 = request.form.get("tob1","")
-    place1 = request.form.get("place1","")
-    lat1 = request.form.get("lat1")
-    lon1 = request.form.get("lon1")
+    if request.method == "POST":
+        name1 = request.form.get("name1","")
+        dob1 = request.form.get("dob1","")
+        tob1 = request.form.get("tob1","")
+        place1 = request.form.get("place1","")
+        lat1 = request.form.get("lat1")
+        lon1 = request.form.get("lon1")
 
-    name2 = request.form.get("name2","")
-    dob2 = request.form.get("dob2","")
-    tob2 = request.form.get("tob2","")
-    place2 = request.form.get("place2","")
-    lat2 = request.form.get("lat2")
-    lon2 = request.form.get("lon2")
+        name2 = request.form.get("name2","")
+        dob2 = request.form.get("dob2","")
+        tob2 = request.form.get("tob2","")
+        place2 = request.form.get("place2","")
+        lat2 = request.form.get("lat2")
+        lon2 = request.form.get("lon2")
+        
+        session['dasha_form'] = {
+            'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2
+        }
+    else:
+        form_data = session.get('dasha_form', {})
+        name1 = form_data.get('name1', '')
+        dob1 = form_data.get('dob1', '')
+        tob1 = form_data.get('tob1', '')
+        place1 = form_data.get('place1', '')
+        lat1 = form_data.get('lat1')
+        lon1 = form_data.get('lon1')
+        
+        name2 = form_data.get('name2', '')
+        dob2 = form_data.get('dob2', '')
+        tob2 = form_data.get('tob2', '')
+        place2 = form_data.get('place2', '')
+        lat2 = form_data.get('lat2')
+        lon2 = form_data.get('lon2')
 
-    if not lat1 or not lon1 or not lat2 or not lon2:
-        return "❌ Please select place from suggestion list for both entries"
+    if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
+        return redirect(url_for('compare_kundali'))
 
     data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
     data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
@@ -1599,7 +1877,83 @@ def chart3():
     current_year = datetime.datetime.now().year
     birth_info = session.get('birth_info', {})
     lagna = birth_info.get('lagna', '')
-    return render_template("chart3.html", current_year=current_year, lagna=lagna)
+
+    native_party = ""
+    friends = []
+    enemies = []
+
+    if birth_info:
+        planet_positions = birth_info.get('planet_positions', [])
+        
+        # Load dynamic constants and rules from JSON files
+        ASTRO_CONSTANTS = load_rules('astro_constants.json')
+        GURU_PARTY_LAGNAS = ASTRO_CONSTANTS.get('GURU_PARTY_LAGNAS', [])
+        GURU_PARTY_PLANETS = ASTRO_CONSTANTS.get('GURU_PARTY_PLANETS', [])
+        BITTER_ENEMIES = ASTRO_CONSTANTS.get('BITTER_ENEMIES', {})
+        PLANET_RULERSHIPS = load_localized_constants().get('PLANET_RULERSHIPS', {})
+        OWN_HOUSE_RULES = ASTRO_CONSTANTS.get('OWN_HOUSE_RULES', {})
+        
+        native_party = "గురు వర్గము" if lagna in GURU_PARTY_LAGNAS else "శని వర్గము"
+        
+        # Process planets
+        results_data = []
+        for p in planet_positions:
+            p_name = p['name']
+            p_lagna = p['lagna']
+            
+            # is_friend?
+            is_green = any(gp in p_name for gp in GURU_PARTY_PLANETS)
+            is_friend = (is_green == (native_party == "గురు వర్గము"))
+            
+            # is_own_house?
+            own_house = "N/A"
+            is_own_house = False
+            for rule_name, rule_house in OWN_HOUSE_RULES.items():
+                if rule_name in p_name:
+                    own_house = rule_house
+                    is_own_house = (p_lagna == rule_house)
+                    break
+            
+            # bitter_enemy?
+            bitter_enemy = None
+            for be_key, be_val in BITTER_ENEMIES.items():
+                if be_key in p_name:
+                    bitter_enemy = be_val
+                    break
+
+            # detailed Rulership
+            rulership = "N/A"
+            for r_name, r_text in PLANET_RULERSHIPS.items():
+                if r_name in p_name:
+                    rulership = r_text
+                    break
+
+            results_data.append({
+                "name": p_name,
+                "current_lagna": p_lagna,
+                "own_house": own_house,
+                "is_own_house": is_own_house,
+                "is_friend": is_friend,
+                "bitter_enemy": bitter_enemy,
+                "color": p.get('color', '#ffffff'),
+                "degree": p.get('degree', ''),
+                "strength": p.get('strength', 0),
+                "nakshatra": p.get('nakshatra', ''),
+                "padam": p.get('padam', ''),
+                "rulership": rulership,
+                "is_hand": p.get('is_hand', False)
+            })
+
+        # Group into Friends and Enemies (Main planets only for the summary cards)
+        friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
+        enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
+
+    return render_template("chart3.html", 
+                           current_year=current_year, 
+                           lagna=lagna,
+                           native_party=native_party,
+                           friends=friends,
+                           enemies=enemies)
 
 @app.route("/go-to-birth-chart")
 def go_to_birth_chart():
@@ -1658,7 +2012,7 @@ def results():
     GURU_PARTY_LAGNAS = ASTRO_CONSTANTS.get('GURU_PARTY_LAGNAS', [])
     GURU_PARTY_PLANETS = ASTRO_CONSTANTS.get('GURU_PARTY_PLANETS', [])
     BITTER_ENEMIES = ASTRO_CONSTANTS.get('BITTER_ENEMIES', {})
-    PLANET_RULERSHIPS = ASTRO_CONSTANTS.get('PLANET_RULERSHIPS', {})
+    PLANET_RULERSHIPS = load_localized_constants().get('PLANET_RULERSHIPS', {})
     OWN_HOUSE_RULES = ASTRO_CONSTANTS.get('OWN_HOUSE_RULES', {})
     
     BHAVA_LORD_RULES = load_rules('bhava_lord_rules.json')
@@ -1768,8 +2122,10 @@ def results():
                                 p_color = p['color']
                                 break
                         
+                        lang = session.get('lang', 'te') if has_request_context() else 'te'
+                        header_text = format_lord_placement(lord_house_num, lord_planet, p_house, lang)
                         placed_rules_map[p_house].append(
-                            f"<br><br><span style='color: {p_color};'><strong>{lord_house_num}వ స్థానాధిపతి (<span class='rainbow-planet'>{lord_planet}</span>) {p_house}వ స్థానములో ఉన్నందున:</strong> {rule_text}</span>"
+                            f"<br><br><span style='color: {p_color};'><strong>{header_text}</strong> {rule_text}</span>"
                         )
 
     bhava_report = []
@@ -1988,7 +2344,7 @@ def results():
             "meaning": bhava_data["meaning"],
             "planets": p_info,
             "interpretation": interpretation,
-            "special_notes": special_notes,
+            "special_notes": [translate_html_string(note) for note in special_notes],
             "state": state
         })
 
@@ -2061,8 +2417,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     t_remain_h = int(t_remain_days * 24)
     t_remain_m = int(((t_remain_days * 24) % 1) * 60)
     
-    tithi_elapsed_str = f"గడిచిన సమయం: {t_elapsed_h}గం {t_elapsed_m}ని"
-    tithi_remaining_str = f"మిగిలిన సమయం: {t_remain_h}గం {t_remain_m}ని"
+    tithi_elapsed_str = f"{tr('గడిచిన సమయం')}: {t_elapsed_h}{tr('గం')} {t_elapsed_m}{tr('ని')}"
+    tithi_remaining_str = f"{tr('మిగిలిన సమయం')}: {t_remain_h}{tr('గం')} {t_remain_m}{tr('ని')}"
     
     y, m, d, h = swe.revjul(jd)
     jd_dt = pytz.utc.localize(datetime.datetime(*(int(y), int(m), int(d), int(h)), int((h%1)*60))).astimezone(local_tz)
@@ -2079,16 +2435,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     tithi_end_str = get_am_pm_str(target_tithi_end)
     
     if target_tithi_start.date() < calc_date:
-        tithi_start_str = f"నిన్న {tithi_start_str}"
+        tithi_start_str = f"{tr('నిన్న')} {tithi_start_str}"
     elif target_tithi_start.date() > calc_date:
-        tithi_start_str = f"రేపు {tithi_start_str}"
+        tithi_start_str = f"{tr('రేపు')} {tithi_start_str}"
         
     if target_tithi_end.date() > calc_date:
-        tithi_end_str = f"రేపు {tithi_end_str}"
+        tithi_end_str = f"{tr('రేపు')} {tithi_end_str}"
     elif target_tithi_end.date() < calc_date:
-        tithi_end_str = f"నిన్న {tithi_end_str}"
+        tithi_end_str = f"{tr('నిన్న')} {tithi_end_str}"
         
-    calendar_tithi_end = f"{'ఉ: ' if target_tithi_end.hour < 12 else 'సా: '}{target_tithi_end.strftime('%I:%M')}"
+    calendar_tithi_end = f"{tr('ఉ: ') if target_tithi_end.hour < 12 else tr('సా: ')}{target_tithi_end.strftime('%I:%M')}"
     
     # Nakshatra exact tracking
     nak_index = int(moon_lon / NAKSHATRA_SIZE)
@@ -2105,8 +2461,8 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     remain_days = jd_end - jd
     nak_remain_h = int(remain_days * 24)
     nak_remain_m = int(((remain_days * 24) % 1) * 60)
-    nak_elapsed_str = f"గడిచిన సమయం: {nak_elapsed_h}గం {nak_elapsed_m}ని"
-    nak_remaining_str = f"మిగిలిన సమయం: {nak_remain_h}గం {nak_remain_m}ని"
+    nak_elapsed_str = f"{tr('గడిచిన సమయం')}: {nak_elapsed_h}{tr('గం')} {nak_elapsed_m}{tr('ని')}"
+    nak_remaining_str = f"{tr('మిగిలిన సమయం')}: {nak_remain_h}{tr('గం')} {nak_remain_m}{tr('ని')}"
     
     # Calculate nak_end directly from exact jd_end
     ye, me, de, he = swe.revjul(jd_end)
@@ -2121,16 +2477,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     # Add Ninna (Yesterday) / Repu (Tomorrow) indicators
     calc_date = jd_dt.date()
     if target_nak_start.date() < calc_date:
-        nak_start_str = f"నిన్న {nak_start_str}"
+        nak_start_str = f"{tr('నిన్న')} {nak_start_str}"
     elif target_nak_start.date() > calc_date:
-        nak_start_str = f"రేపు {nak_start_str}"
+        nak_start_str = f"{tr('రేపు')} {nak_start_str}"
         
     if target_nak.date() > calc_date:
-        nak_end_str = f"రేపు {nak_end_str}"
+        nak_end_str = f"{tr('రేపు')} {nak_end_str}"
     elif target_nak.date() < calc_date:
-        nak_end_str = f"నిన్న {nak_end_str}"
+        nak_end_str = f"{tr('నిన్న')} {nak_end_str}"
 
-    calendar_nak_end = f"{'ఉ: ' if target_nak.hour < 12 else 'సా: '}{target_nak.strftime('%I:%M')}"
+    calendar_nak_end = f"{tr('ఉ: ') if target_nak.hour < 12 else tr('సా: ')}{target_nak.strftime('%I:%M')}"
     
     # Yoga
     yoga_index = int(((sun_lon + moon_lon) % 360) / NAKSHATRA_SIZE)
@@ -2197,16 +2553,16 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         dt_val = datetime.datetime(y_a, m_dt_a, d_a, int(h_a), int((h_a%1)*60))
         dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
         en_month = dt_val.strftime("%B").lower()
-        te_month = EN_TO_TELUGU_MONTHS.get(en_month, en_month)
+        te_month = tr(EN_TO_TELUGU_MONTHS.get(en_month, en_month))
         return f"{te_month}-{d_a:02d}"
 
-    telugu_masam_full = f"{masam_index+1}. {telugu_masam_name} మాసం ({format_jd(jd_start)} నుంచి {format_jd(jd_end)} వరకు)"
+    telugu_masam_full = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
     
     year = local_midnight.year
     month_cal = local_midnight.month
     adj_year = year - 1 if (month_cal <= 6 and masam_index >= 9) else year
     year_index = (adj_year - 1987) % 60
-    telugu_year = TELUGU_YEARS[year_index]
+    telugu_year = tr(TELUGU_YEARS[year_index])
     saka_year = adj_year - 78
     kaliyuga_year = 5126 + (adj_year - 2025)
     thraitha_sakamu = 47 + (adj_year - 2025)
@@ -2214,7 +2570,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     # Weekday mapping
     telugu_weekdays = ["సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము", "ఆదివారము"]
     wd_index = local_midnight.weekday()
-    vara_name = telugu_weekdays[wd_index]
+    vara_name = tr(telugu_weekdays[wd_index])
     
     suryodayam = "ఉ: 06:00"
     suryastamayam = "సా: 06:00"
@@ -2270,7 +2626,7 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
         for d_idx in dur_indices[wd_index]:
             d_start = sunrise_dt + datetime.timedelta(seconds=muhurta_secs * d_idx)
             d_end = d_start + datetime.timedelta(seconds=muhurta_secs)
-            durmuhurtams.append(f"{get_am_pm_str(d_start)} నుండి {get_am_pm_str(d_end)} వరకు")
+            durmuhurtams.append(f"{get_am_pm_str(d_start)} {tr('నుండి')} {get_am_pm_str(d_end)} {tr('వరకు')}")
             
     except Exception:
         pass
@@ -2426,7 +2782,7 @@ def daily_panchangam():
         
         lagna_deg = int(lagna_lon % 30)
         lagna_min = int(((lagna_lon % 30) - lagna_deg) * 60)
-        panch_data['lagna_full'] = f"{lagna} ({lagna_deg}°{lagna_min:02d}′ వద్ద)"
+        panch_data['lagna_full'] = f"{tr(lagna)} ({lagna_deg}°{lagna_min:02d}′ {tr('వద్ద')})"
         
         chart_data = {r: '<br>'.join([x[1] for x in sorted(lst, key=lambda i: i[0])]) for r,lst in chart_data_temp.items()}
         rsi_idx = LAGNA_NAMES_TELUGU.index(lagna)
@@ -2540,9 +2896,9 @@ def daily_panchangam():
             dt_val = pytz.utc.localize(dt_val).astimezone(local_tz)
             te_months = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్",
                          "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
-            ampm = "ఉ" if dt_val.hour < 12 else "సా"
+            ampm = tr("ఉ: ") if dt_val.hour < 12 else tr("సా: ")
             time_str = dt_val.strftime("%I:%M:%S").lstrip("0") or "12:00:00"
-            return f"{dt_val.day} {te_months[dt_val.month - 1]} {dt_val.year} ({ampm}: {time_str})"
+            return f"{dt_val.day} {tr(te_months[dt_val.month - 1])} {dt_val.year} ({ampm}{time_str})"
 
         # All 12 planets
         ALL_PLANETS_TRANSIT = [
@@ -2556,7 +2912,7 @@ def daily_panchangam():
         for p_name, p_id in ALL_PLANETS_TRANSIT:
             lon_now = get_any_planet_lon(jd, p_name, p_id)
             lagna_idx = int(lon_now / 30) % 12
-            lagna_name = LAGNA_NAMES_TELUGU[lagna_idx]
+            lagna_name = tr(LAGNA_NAMES_TELUGU[lagna_idx])
 
             # Find both rasi boundaries (one in each temporal direction)
             jd_bound1 = find_lagna_boundary(jd, p_name, p_id, lagna_idx, find_exit=True)
@@ -2643,7 +2999,7 @@ def calendar_view():
     # Branding Calculations (Year, Kaliyuga, Thraitha Sakamu)
     adj_year = date_obj.year
     year_index = (adj_year - 1987) % 60
-    year_name = TELUGU_YEARS[year_index]
+    year_name = tr(TELUGU_YEARS[year_index])
     cycles_since_1987 = (adj_year - 1987) // 60
     kaliyuga_year = 5088 + (cycles_since_1987 * 60) + year_index
     thraitha_sakamu = 47 + (adj_year - 2025)
@@ -2666,14 +3022,17 @@ def calendar_view():
     purnima_dt = datetime.date(int(y3), int(m3), int(d3))
     
     EN_MONTHS_TELUGU = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"]
-    shukla_range = f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month-1]} - {purnima_dt.day} {EN_MONTHS_TELUGU[purnima_dt.month-1]}"
+    def tr_month(te_month):
+        return tr(te_month)
+    shukla_range = f"{start_dt.day} {tr_month(EN_MONTHS_TELUGU[start_dt.month-1])} - {purnima_dt.day} {tr_month(EN_MONTHS_TELUGU[purnima_dt.month-1])}"
     krishna_start_dt = purnima_dt + datetime.timedelta(days=1)
-    krishna_range = f"{krishna_start_dt.day} {EN_MONTHS_TELUGU[krishna_start_dt.month-1]} - {end_dt.day} {EN_MONTHS_TELUGU[end_dt.month-1]}"
+    krishna_range = f"{krishna_start_dt.day} {tr_month(EN_MONTHS_TELUGU[krishna_start_dt.month-1])} - {end_dt.day} {tr_month(EN_MONTHS_TELUGU[end_dt.month-1])}"
 
     amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
     lagna_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
+    translated_masam_name = tr(telugu_masam_name)
     
     # Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
     # Paksham: 0 for Shukla, 1 for Krishna
@@ -2749,7 +3108,7 @@ def calendar_view():
             f_name = DATE_FESTS.get(d_key, "")
             
         if f_name:
-            festivals_list.append({"day": current_dt.day, "name": f_name})
+            festivals_list.append({"day": current_dt.day, "name": tr(f_name)})
             
         days_data[wd][week_idx] = {
             "date": current_dt.day,
@@ -2764,7 +3123,7 @@ def calendar_view():
             "sunrise": panch["sunrise"],
             "sunset": panch["sunset"],
             "is_festival": bool(f_name),
-            "fest_name": f_name,
+            "fest_name": tr(f_name) if f_name else "",
             "is_shukla": "శుక్ల" in panch["paksha"],
             "is_pournami": "పౌర్ణమి" in panch["tithi_full"],
             "is_amavasya": "అమావాస్య" in panch["tithi_full"],
@@ -2782,11 +3141,11 @@ def calendar_view():
         year_index=year_index + 1,
         kaliyuga_year=kaliyuga_year,
         thraitha_sakamu=thraitha_sakamu,
-        telugu_masam=telugu_masam_name if view_type == "telugu" else f"{EN_MONTHS_TELUGU[date_obj.month - 1]} ({telugu_masam_name})",
+        telugu_masam=translated_masam_name if view_type == "telugu" else f"{tr(EN_MONTHS_TELUGU[date_obj.month - 1])} ({translated_masam_name})",
         shukla_range=shukla_range,
         krishna_range=krishna_range,
-        start_dt_str=f"{start_dt.day} {EN_MONTHS_TELUGU[start_dt.month - 1]}",
-        end_dt_str=f"{end_dt.day} {EN_MONTHS_TELUGU[end_dt.month - 1]}"
+        start_dt_str=f"{start_dt.day} {tr(EN_MONTHS_TELUGU[start_dt.month - 1])}",
+        end_dt_str=f"{end_dt.day} {tr(EN_MONTHS_TELUGU[end_dt.month - 1])}"
     )
 
 if __name__ == "__main__":

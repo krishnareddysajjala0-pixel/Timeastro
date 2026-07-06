@@ -40,8 +40,16 @@ def tr(text, lang=None):
         return text
         
     mapping = get_translations_dict(lang)
-    if text in mapping:
-        return mapping[text]
+    
+    # Centralized stripped check to match keys like "ఉ:" and "సా:" even with trailing spaces
+    stripped = text.strip()
+    if stripped in mapping:
+        translated = mapping[stripped]
+        if text.startswith(' '):
+            translated = ' ' + translated
+        if text.endswith(' '):
+            translated = translated + ' '
+        return translated
         
     # Suffix matching
     tithi_match = re.match(r'^(\d+)వ తిథి$', text)
@@ -56,15 +64,27 @@ def tr(text, lang=None):
         suffix = mapping.get("వ పాదం", " Pada")
         return f"{num}{suffix}"
         
-    # Handle combined times
-    if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
+    # Handle combined times (e.g. "నిన్న సా: 03:12")
+    time_keywords = ["ఉ: ", "సా: ", "ఉ:", "సా:", "గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న", "ముగింపు", "మొదలు"]
+    # Sort by length descending to match longer keywords first (e.g. 'నిన్న' before 'ని')
+    time_keywords.sort(key=len, reverse=True)
+    
+    if any(k in text for k in time_keywords):
         translated_text = text
-        for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
+        for te_word in time_keywords:
             if te_word in translated_text:
-                translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
+                stripped_word = te_word.strip()
+                replacement = mapping.get(stripped_word)
+                if replacement:
+                    if te_word.startswith(' '):
+                        replacement = ' ' + replacement
+                    if te_word.endswith(' '):
+                        replacement = replacement + ' '
+                    translated_text = translated_text.replace(te_word, replacement)
         return translated_text
         
     return text
+
 
 def translate_html_string(html_str, lang=None):
     if not lang:

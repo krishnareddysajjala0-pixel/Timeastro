@@ -1885,7 +1885,7 @@
   <!-- PRINT ONLY: Mahadasha Summary Table – OUTSIDE #print-wrapper to avoid page-break conflicts -->
   {% if all_dasas is defined and all_dasas %}
   <div id="mahadasha-print-section">
-    <div class="maha-print-title">✨ సంపూర్ణ దశా వివరాలు ({{ total_cycle_years }} సంవత్సరాల చక్రం) ✨</div>
+    <div class="maha-print-title">✨ {{ _('సంపూర్ణ దశా వివరాలు') }} ({{ total_cycle_years }} {{ _('సంవత్సరాల చక్రం') }}) ✨</div>
     <table class="maha-print-table">
       <thead>
         <tr>
@@ -2302,7 +2302,7 @@
           container.style.display = 'none';
           document.body.classList.remove('transit-loaded');
           icon.className = 'fas fa-eye';
-          text.textContent = 'ఈ రోజు కుండలి చూపు';
+          text.textContent = '{{ _("ఈ రోజు కుండలి చూపు") }}';
         }
       }
 

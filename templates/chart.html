@@ -74,8 +74,8 @@
         /* Redundant but kept for compatibility */
     }
 
-    [data-theme="dark"] {
-      --bg-primary: radial-gradient(circle at center, #0f172a 0%, #02    [data-theme="sunset"] {
+    
+    [data-theme="sunset"] {
       --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
       --text-main: #ffffff;
       --text-muted: #c7d2fe;
@@ -325,13 +325,6 @@
 
     /* Force white text for mantra in dark modes */
     [data-theme="cosmic"] .om-title,
-    [data-theme="dark"] .om-title,
-    [data-theme="sunset"] .om-title,
-    [data-theme="ocean"] .om-title,
-    [data-theme="forest"] .om-title {
-      -webkit-text-fill-color: #ffffff;
-    }
-
     .page-title {
       font-size: 36px;
       color: var(--text-main);
@@ -842,25 +835,6 @@
       :root,
       [data-theme],
       [data-theme="cosmic"],
-      [data-theme="dark"],
-      [data-theme="sunset"],
-      [data-theme="ocean"],
-      [data-theme="forest"] {
-        --bg-primary:        #ffffff !important;
-        --text-main:         #000000 !important;
-        --text-muted:        #333333 !important;
-        --card-bg:           #ffffff !important;
-        --card-border:       #cccccc !important;
-        --shadow-color:      rgba(0,0,0,0.1) !important;
-        --header-bg:         #f8f9fa  !important;
-        --title-bg:          #f1f5f9  !important;
-        --table-header-bg:   #f1f5f9  !important;
-        --table-row-bg:      #ffffff  !important;
-        --table-row-alt-bg:  #f8fafc  !important;
-        --table-hover-bg:    #f0f9ff  !important;
-        --accent-glow:       none     !important;
-      }
-
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;

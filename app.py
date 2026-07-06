@@ -782,13 +782,13 @@ def log_user_to_github(name, dob, tob, place):
         git_thread.start()
         
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place)
+        send_telegram_notification(name, dob, tob, place, serial_no=serial_no)
         
     except Exception as e:
         print(f"Critical logging error: {e}")
 
 
-def send_telegram_notification(name, dob, tob, place):
+def send_telegram_notification(name, dob, tob, place, serial_no=None):
     """Send user details to Telegram Bot channel/chat."""
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -796,9 +796,26 @@ def send_telegram_notification(name, dob, tob, place):
         print("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured. Skipping notification.")
         return
 
+    # Fallback to calculate serial number locally if not passed
+    if not serial_no:
+        try:
+            basedir = os.path.dirname(os.path.abspath(__file__))
+            log_file = os.path.join(basedir, "user_data.txt")
+            if os.path.exists(log_file):
+                with open(log_file, "r", encoding="utf-8") as f:
+                    lines = f.readlines()
+                    if lines:
+                        last_line = lines[-1].strip()
+                        if last_line and ". " in last_line:
+                            serial_no = int(last_line.split(". ")[0])
+        except Exception:
+            pass
+
     try:
+        serial_line = f"🔢 *Serial Number:* {serial_no}\n" if serial_no else ""
         message = (
             f"🌟 *New User Query on Timeastro!*\n\n"
+            f"{serial_line}"
             f"👤 *Name:* {name}\n"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"

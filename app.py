@@ -708,6 +708,8 @@ def log_user_to_github(name, dob, tob, place):
         except Exception as e:
             print(f"Local file write error: {e}")
 
+        final_serial = [serial_no]
+
         # 2. GitHub API Sync (For Render support)
         def github_api_sync(entry_name, entry_text):
             token = os.environ.get("GITHUB_TOKEN")
@@ -741,6 +743,8 @@ def log_user_to_github(name, dob, tob, place):
                             try:
                                 remote_serial = int(last_line.split(". ")[0]) + 1
                             except: pass
+                    
+                    final_serial[0] = remote_serial
                     
                     remote_timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
                     new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
@@ -782,7 +786,7 @@ def log_user_to_github(name, dob, tob, place):
         git_thread.start()
         
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place, serial_no=serial_no)
+        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
         
     except Exception as e:
         print(f"Critical logging error: {e}")

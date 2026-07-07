@@ -10,7 +10,6 @@
   <meta name="theme-color" content="#1A1A1D">
   <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     (function () {
       const savedTheme = localStorage.getItem('preferred-theme') || 'default';
@@ -2436,114 +2435,6 @@
         document.getElementById('print-options-modal').style.display = 'none';
       }
 
-      function doDirectPDFDownload() {
-        closePrintOptions();
-        
-        // Show loader
-        const overlay = document.getElementById('loading-overlay');
-        if (overlay) {
-          overlay.style.display = 'flex';
-          const textEl = overlay.querySelector('p, #typing-text, #typing-text-overlay');
-          if (textEl) textEl.textContent = '{{ _("గణన చేస్తోంది") }}';
-        }
-
-        const selected = document.querySelector('input[name="print-mode"]:checked');
-        const mode = selected ? selected.value : 'kundali-only';
-        document.body.setAttribute('data-print-mode', mode);
-
-        // Apply all print styles dynamically
-        window.onbeforeprint();
-
-        // Temporarily activate print media query rules and disable mobile responsive rules for screen capture
-        const printRules = [];
-        const disabledRules = [];
-        for (const sheet of document.styleSheets) {
-          try {
-            const rules = sheet.cssRules || sheet.rules;
-            if (!rules) continue;
-            for (const rule of rules) {
-              if (rule.media && rule.media.mediaText) {
-                const text = rule.media.mediaText;
-                if (text.indexOf('print') !== -1) {
-                  printRules.push(rule);
-                } else if (text.indexOf('max-width') !== -1 || text.indexOf('768') !== -1) {
-                  disabledRules.push({ rule, originalText: text });
-                }
-              }
-            }
-          } catch (e) {
-            // Ignore security errors on cross-origin style sheets
-          }
-        }
-        printRules.forEach(rule => {
-          rule.media.mediaText = 'all';
-        });
-        disabledRules.forEach(item => {
-          item.rule.media.mediaText = 'not all';
-        });
-
-        let element = document.body;
-        let filename = 'Kundali_Report.pdf';
-
-        if (mode === 'kundali-only') {
-          element = document.getElementById('print-wrapper') || document.body;
-        }
-
-        // Remove images temporarily to avoid SecurityError in WebView/mobile apps
-        const images = Array.from(element.querySelectorAll('img'));
-        const placeholders = images.map(img => {
-          const placeholder = document.createElement('div');
-          placeholder.style.display = 'none';
-          img.parentNode.replaceChild(placeholder, img);
-          return { img, placeholder };
-        });
-
-        const opt = {
-          margin:       [8, 8, 8, 8],
-          filename:     filename,
-          image:        { type: 'jpeg', quality: 0.95 },
-          html2canvas:  { scale: 1.8, useCORS: true, logging: false },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-          // Restore print media rule settings
-          printRules.forEach(rule => {
-            rule.media.mediaText = 'print';
-          });
-          disabledRules.forEach(item => {
-            item.rule.media.mediaText = item.originalText;
-          });
-          // Restore images
-          placeholders.forEach(({ img, placeholder }) => {
-            if (placeholder.parentNode) {
-              placeholder.parentNode.replaceChild(img, placeholder);
-            }
-          });
-          // Restore screen theme and styles
-          window.onafterprint();
-          if (overlay) overlay.style.display = 'none';
-        }).catch(err => {
-          console.error("PDF download failed:", err);
-          // Restore print media rule settings
-          printRules.forEach(rule => {
-            rule.media.mediaText = 'print';
-          });
-          disabledRules.forEach(item => {
-            item.rule.media.mediaText = item.originalText;
-          });
-          // Restore images
-          placeholders.forEach(({ img, placeholder }) => {
-            if (placeholder.parentNode) {
-              placeholder.parentNode.replaceChild(img, placeholder);
-            }
-          });
-          window.onafterprint();
-          if (overlay) overlay.style.display = 'none';
-          alert("PDF generation failed: " + err);
-        });
-      }
-
       function selectPrintOption(value) {
         // Update radio
         const radio = document.querySelector(`input[name="print-mode"][value="${value}"]`);
@@ -2565,11 +2456,6 @@
       }
 
       function doPrint() {
-        if (window.innerWidth < 768) {
-          doDirectPDFDownload();
-          return;
-        }
-
         const selected = document.querySelector('input[name="print-mode"]:checked');
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);

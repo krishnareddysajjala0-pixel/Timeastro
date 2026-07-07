@@ -2124,52 +2124,6 @@
 
     </div>
 
-    <!-- Mobile Print Options Modal -->
-    <div id="mobile-print-modal" style="display:none; position:fixed; inset:0; z-index:999999;
-         background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
-         align-items:center; justify-content:center; padding: 20px;">
-      <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);
-                  border:1px solid rgba(255,215,0,0.35); border-radius:18px;
-                  padding:28px 32px; min-width:300px; max-width:380px; width:100%;
-                  box-shadow:0 0 40px rgba(255,215,0,0.15); text-align:center;
-                  font-family:'Noto Sans Telugu',sans-serif; color:#ffffff;">
-        <div style="font-size:20px; font-weight:800; color:#ffd700; margin-bottom:6px;">
-          {{ _('🖨️ పిడిఎఫ్ / ప్రింట్') }}
-        </div>
-        <div style="font-size:12px; color:#94a3b8; margin-bottom:20px;">
-          {{ _('ఎంపికను ఎంచుకోండి') }}
-        </div>
-        
-        <div style="display:flex; flex-direction:column; gap:12px; text-align:left; margin-bottom:24px;">
-          <!-- Option 1: Direct PDF download -->
-          <button onclick="triggerDirectPDFDownload('chart2')" 
-             style="display:flex; align-items:center; gap:12px; cursor:pointer; background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,215,0,0.4); border-radius:10px; padding:12px 16px; width:100%; text-align:left; transition:all 0.2s; color:#ffd700; font-family:inherit;">
-             <i class="fas fa-download" style="font-size:18px;"></i>
-             <div>
-               <div style="font-size:14px; font-weight:700;">{{ _('డౌన్‌లోడ్ PDF (ఉత్తమమైనది)') }}</div>
-               <div style="font-size:10px; color:#94a3b8; margin-top:2px;">{{ _('మొబైల్ యాప్ మరియు బ్రౌజర్ కొరకు') }}</div>
-             </div>
-          </button>
-          
-          <!-- Option 2: System print -->
-          <button onclick="triggerSystemPrint()" 
-             style="display:flex; align-items:center; gap:12px; cursor:pointer; background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 16px; width:100%; text-align:left; transition:all 0.2s; color:#a5f3fc; font-family:inherit;">
-             <i class="fas fa-print" style="font-size:18px;"></i>
-             <div>
-               <div style="font-size:14px; font-weight:700;">{{ _('సిస్టమ్ ప్రింట్ / PDF') }}</div>
-               <div style="font-size:10px; color:#94a3b8; margin-top:2px;">{{ _('మొబైల్ ప్రింటర్ ద్వారా ముద్రించు') }}</div>
-             </div>
-          </button>
-        </div>
-        
-        <button onclick="closeMobilePrintModal()"
-            style="width:100%; padding:10px 0; border-radius:10px; border:1px solid rgba(255,255,255,0.2);
-                   background:rgba(255,255,255,0.08); color:#cbd5e1; font-size:14px;
-                   font-family:inherit; cursor:pointer; font-weight:600;">
-            {{ _('రద్దు') }}
-        </button>
-      </div>
-    </div>
 
     <script>
         // Theme Management
@@ -2492,6 +2446,55 @@
             var overlay = document.getElementById('loading-overlay');
             if (overlay) overlay.style.display = 'none';
         });
+
+        window.handleMobilePrintClick = function() {
+            if (window.innerWidth < 768) {
+                window.triggerDirectPDFDownload('chart2');
+            } else {
+                window.print();
+            }
+        };
+
+        window.triggerDirectPDFDownload = function(pageType) {
+            showGananaLoader();
+            
+            let element = document.body;
+            let filename = 'Dasha_Report.pdf';
+            
+            if (pageType === 'chart2') {
+                element = document.querySelector('.glow-container') || document.body;
+            }
+            
+            document.body.classList.add('mobile-pdf-rendering');
+            const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
+            document.documentElement.removeAttribute('data-theme');
+            
+            const opt = {
+                margin:       [8, 8, 8, 8],
+                filename:     filename,
+                image:        { type: 'jpeg', quality: 0.95 },
+                html2canvas:  { scale: 1.8, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                document.body.classList.remove('mobile-pdf-rendering');
+                if (originalTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', originalTheme);
+                }
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.style.display = 'none';
+            }).catch(err => {
+                console.error("PDF generation error:", err);
+                document.body.classList.remove('mobile-pdf-rendering');
+                if (originalTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', originalTheme);
+                }
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.style.display = 'none';
+                alert("PDF generation failed: " + err);
+            });
+        };
     })();
     </script>
 

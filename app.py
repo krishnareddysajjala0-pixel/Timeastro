@@ -1625,7 +1625,7 @@ def transit_chart():
     )
 
 def get_dasha_info(birth_info):
-    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    swe.set_sid_mode(swe.SIDM_FAGAN_BRADLEY)
     dob = birth_info.get('dob', '')
     tob = birth_info.get('tob', '')
     name = birth_info.get('name', '')

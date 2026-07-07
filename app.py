@@ -533,12 +533,23 @@ def is_dasa_favorable(lagna, planet):
     return False  # Fallback
 
 def add_years(dt, years):
-    """Add years to datetime"""
-    return dt + datetime.timedelta(days=int(years * 365.25))
+    """Add calendar years to datetime, handling leap years correctly"""
+    try:
+        return dt.replace(year=dt.year + int(years))
+    except ValueError:
+        # Handle Feb 29 on non-leap years
+        return dt.replace(month=2, day=28, year=dt.year + int(years))
 
 def add_months(dt, months):
-    """Add months to datetime"""
-    return dt + datetime.timedelta(days=int(months * 30.44))
+    """Add calendar months to datetime"""
+    month = dt.month - 1 + months
+    year = dt.year + month // 12
+    month = month % 12 + 1
+    # Number of days in each month of that year
+    day = min(dt.day, [31,
+                       29 if (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)) else 28,
+                       31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1])
+    return dt.replace(year=year, month=month, day=day)
 
 def nak_minutes(h, m):
     """Convert hours and minutes to total minutes"""
@@ -866,6 +877,8 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_d
                     age_start_y = age_start_days // 365
                     age_start_m = (age_start_days % 365) // 30
                     age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+                else:
+                    age_start_str = "0సం, 0నెలలు"
                 
                 age_end_days = (anthara_end - birth_dt).days
                 if age_end_days >= 0:
@@ -877,9 +890,13 @@ def calculate_anthara_periods(maha_name, start_date, end_date, lagna="", birth_d
                 anthara_start = anthara_end
                 continue
 
+            disp_start = anthara_start
+            if birth_dt and anthara_start < birth_dt:
+                disp_start = birth_dt
+
             antharas.append({
                 "anthara": planet,
-                "start": anthara_start.strftime("%d-%m-%Y"),
+                "start": disp_start.strftime("%d-%m-%Y"),
                 "end": anthara_end.strftime("%d-%m-%Y"),
                 "months": months,
                 "color": color,
@@ -1722,11 +1739,14 @@ def get_dasha_info(birth_info):
         age_start_str = ""
         age_end_str = ""
         
-        age_start_days = (start_date - birth_dt).days
-        if age_start_days >= 0:
-            age_start_y = age_start_days // 365
-            age_start_m = (age_start_days % 365) // 30
-            age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+        if is_birth_dasa:
+            age_start_str = "0సం, 0నెలలు"
+        else:
+            age_start_days = (start_date - birth_dt).days
+            if age_start_days >= 0:
+                age_start_y = age_start_days // 365
+                age_start_m = (age_start_days % 365) // 30
+                age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
             
         age_end_days = (end_date - birth_dt).days
         if age_end_days >= 0:
@@ -1734,10 +1754,14 @@ def get_dasha_info(birth_info):
             age_end_m = (age_end_days % 365) // 30
             age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
 
+        disp_start_str = start_str
+        if is_birth_dasa:
+            disp_start_str = birth_dt.strftime("%d-%m-%Y")
+
         # Add this Mahadasha to list
         all_dasas.append({
             "maha": dasa_name,
-            "start": start_str,
+            "start": disp_start_str,
             "end": end_str,
             "years": dasa_years,
             "antharas": antharas,

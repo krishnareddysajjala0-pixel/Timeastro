@@ -2469,15 +2469,21 @@
             const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
             document.documentElement.removeAttribute('data-theme');
 
-            // Temporarily activate print media query rules for screen context capture
+            // Temporarily activate print media query rules and disable mobile responsive rules for screen capture
             const printRules = [];
+            const disabledRules = [];
             for (const sheet of document.styleSheets) {
                 try {
                     const rules = sheet.cssRules || sheet.rules;
                     if (!rules) continue;
                     for (const rule of rules) {
-                        if (rule.media && rule.media.mediaText && rule.media.mediaText.indexOf('print') !== -1) {
-                            printRules.push(rule);
+                        if (rule.media && rule.media.mediaText) {
+                            const text = rule.media.mediaText;
+                            if (text.indexOf('print') !== -1) {
+                                printRules.push(rule);
+                            } else if (text.indexOf('max-width') !== -1 || text.indexOf('768') !== -1) {
+                                disabledRules.push({ rule, originalText: text });
+                            }
                         }
                     }
                 } catch (e) {
@@ -2486,6 +2492,9 @@
             }
             printRules.forEach(rule => {
                 rule.media.mediaText = 'all';
+            });
+            disabledRules.forEach(item => {
+                item.rule.media.mediaText = 'not all';
             });
             
             // Remove images temporarily to avoid SecurityError in WebView/mobile apps
@@ -2510,6 +2519,9 @@
                 printRules.forEach(rule => {
                     rule.media.mediaText = 'print';
                 });
+                disabledRules.forEach(item => {
+                    item.rule.media.mediaText = item.originalText;
+                });
                 // Restore images
                 placeholders.forEach(({ img, placeholder }) => {
                     if (placeholder.parentNode) {
@@ -2527,6 +2539,9 @@
                 // Restore print media rule settings
                 printRules.forEach(rule => {
                     rule.media.mediaText = 'print';
+                });
+                disabledRules.forEach(item => {
+                    item.rule.media.mediaText = item.originalText;
                 });
                 // Restore images
                 placeholders.forEach(({ img, placeholder }) => {

@@ -709,12 +709,14 @@ def log_user_to_github(name, dob, tob, place):
             if os.path.exists(log_file):
                 with open(log_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
-                    if lines:
-                        last_line = lines[-1].strip()
-                        if last_line and ". " in last_line:
+                    for line in reversed(lines):
+                        line = line.strip()
+                        if line and ". " in line:
                             try:
-                                serial_no = int(last_line.split(". ")[0]) + 1
-                            except Exception: pass
+                                serial_no = int(line.split(". ")[0]) + 1
+                                break
+                            except Exception:
+                                pass
             
             timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
             log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
@@ -754,12 +756,14 @@ def log_user_to_github(name, dob, tob, place):
                     # Determine new serial number for remote file
                     lines = current_content.splitlines()
                     remote_serial = 1
-                    if lines:
-                        last_line = lines[-1].strip()
-                        if last_line and ". " in last_line:
+                    for line in reversed(lines):
+                        line = line.strip()
+                        if line and ". " in line:
                             try:
-                                remote_serial = int(last_line.split(". ")[0]) + 1
-                            except: pass
+                                remote_serial = int(line.split(". ")[0]) + 1
+                                break
+                            except Exception:
+                                pass
                     
                     final_serial[0] = remote_serial
                     
@@ -825,10 +829,14 @@ def send_telegram_notification(name, dob, tob, place, serial_no=None):
             if os.path.exists(log_file):
                 with open(log_file, "r", encoding="utf-8") as f:
                     lines = f.readlines()
-                    if lines:
-                        last_line = lines[-1].strip()
-                        if last_line and ". " in last_line:
-                            serial_no = int(last_line.split(". ")[0])
+                    for line in reversed(lines):
+                        line = line.strip()
+                        if line and ". " in line:
+                            try:
+                                serial_no = int(line.split(". ")[0])
+                                break
+                            except Exception:
+                                pass
         except Exception:
             pass
 

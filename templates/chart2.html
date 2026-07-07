@@ -2469,6 +2469,15 @@
             const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
             document.documentElement.removeAttribute('data-theme');
             
+            // Remove images temporarily to avoid SecurityError in WebView/mobile apps
+            const images = Array.from(element.querySelectorAll('img'));
+            const placeholders = images.map(img => {
+                const placeholder = document.createElement('div');
+                placeholder.style.display = 'none';
+                img.parentNode.replaceChild(placeholder, img);
+                return { img, placeholder };
+            });
+            
             const opt = {
                 margin:       [8, 8, 8, 8],
                 filename:     filename,
@@ -2478,6 +2487,12 @@
             };
             
             html2pdf().set(opt).from(element).save().then(() => {
+                // Restore images
+                placeholders.forEach(({ img, placeholder }) => {
+                    if (placeholder.parentNode) {
+                        placeholder.parentNode.replaceChild(img, placeholder);
+                    }
+                });
                 document.body.classList.remove('mobile-pdf-rendering');
                 if (originalTheme !== 'default') {
                     document.documentElement.setAttribute('data-theme', originalTheme);
@@ -2486,6 +2501,12 @@
                 if (overlay) overlay.style.display = 'none';
             }).catch(err => {
                 console.error("PDF generation error:", err);
+                // Restore images
+                placeholders.forEach(({ img, placeholder }) => {
+                    if (placeholder.parentNode) {
+                        placeholder.parentNode.replaceChild(img, placeholder);
+                    }
+                });
                 document.body.classList.remove('mobile-pdf-rendering');
                 if (originalTheme !== 'default') {
                     document.documentElement.setAttribute('data-theme', originalTheme);

@@ -2461,6 +2461,15 @@
           element = document.getElementById('print-wrapper') || document.body;
         }
 
+        // Remove images temporarily to avoid SecurityError in WebView/mobile apps
+        const images = Array.from(element.querySelectorAll('img'));
+        const placeholders = images.map(img => {
+          const placeholder = document.createElement('div');
+          placeholder.style.display = 'none';
+          img.parentNode.replaceChild(placeholder, img);
+          return { img, placeholder };
+        });
+
         const opt = {
           margin:       [8, 8, 8, 8],
           filename:     filename,
@@ -2470,11 +2479,23 @@
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
+          // Restore images
+          placeholders.forEach(({ img, placeholder }) => {
+            if (placeholder.parentNode) {
+              placeholder.parentNode.replaceChild(img, placeholder);
+            }
+          });
           // Restore screen theme and styles
           window.onafterprint();
           if (overlay) overlay.style.display = 'none';
         }).catch(err => {
           console.error("PDF download failed:", err);
+          // Restore images
+          placeholders.forEach(({ img, placeholder }) => {
+            if (placeholder.parentNode) {
+              placeholder.parentNode.replaceChild(img, placeholder);
+            }
+          });
           window.onafterprint();
           if (overlay) overlay.style.display = 'none';
           alert("PDF generation failed: " + err);

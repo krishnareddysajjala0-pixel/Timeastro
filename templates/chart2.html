@@ -1572,10 +1572,6 @@
         }
 
         /* Enforce same print display for jsPDF/html2pdf canvas capture */
-        body.mobile-pdf-rendering {
-            background: #ffffff !important;
-            color: #000000 !important;
-        }
         body.mobile-pdf-rendering .print-hide,
         body.mobile-pdf-rendering .float-btn,
         body.mobile-pdf-rendering .fixed-bottom-bar,
@@ -1585,30 +1581,6 @@
         body.mobile-pdf-rendering #print-options-modal,
         body.mobile-pdf-rendering #mobile-print-modal {
             display: none !important;
-        }
-        body.mobile-pdf-rendering .glow-container {
-            background: #ffffff !important;
-            border: none !important;
-            box-shadow: none !important;
-            color: #000000 !important;
-            padding: 10px !important;
-        }
-        body.mobile-pdf-rendering .cosmic-header {
-            background: #f5f5f5 !important;
-            border: 1px solid #333 !important;
-            color: #000000 !important;
-        }
-        body.mobile-pdf-rendering .maha-dasa-card,
-        body.mobile-pdf-rendering .anthara-card,
-        body.mobile-pdf-rendering .summary-card {
-            background: #ffffff !important;
-            color: #000000 !important;
-            border: 1.5px solid #ccc !important;
-            box-shadow: none !important;
-        }
-        body.mobile-pdf-rendering .text-favorable,
-        body.mobile-pdf-rendering .text-unfavorable {
-            color: #000000 !important;
         }
         /* NOTE: All @media print and @page rules are now consolidated
            in the single block above (around line 756). */
@@ -2466,8 +2438,6 @@
             }
             
             document.body.classList.add('mobile-pdf-rendering');
-            const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
-            document.documentElement.removeAttribute('data-theme');
             
             const opt = {
                 margin:       [8, 8, 8, 8],
@@ -2479,17 +2449,11 @@
             
             html2pdf().set(opt).from(element).save().then(() => {
                 document.body.classList.remove('mobile-pdf-rendering');
-                if (originalTheme !== 'default') {
-                    document.documentElement.setAttribute('data-theme', originalTheme);
-                }
                 const overlay = document.getElementById('loading-overlay');
                 if (overlay) overlay.style.display = 'none';
             }).catch(err => {
                 console.error("PDF generation error:", err);
                 document.body.classList.remove('mobile-pdf-rendering');
-                if (originalTheme !== 'default') {
-                    document.documentElement.setAttribute('data-theme', originalTheme);
-                }
                 const overlay = document.getElementById('loading-overlay');
                 if (overlay) overlay.style.display = 'none';
                 alert("PDF generation failed: " + err);

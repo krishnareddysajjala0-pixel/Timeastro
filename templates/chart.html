@@ -1593,10 +1593,6 @@
     }
 
     /* Enforce same print display for jsPDF/html2pdf canvas capture */
-    body.mobile-pdf-rendering {
-      background: #ffffff !important;
-      color: #000000 !important;
-    }
     body.mobile-pdf-rendering .print-hide,
     body.mobile-pdf-rendering .float-btn,
     body.mobile-pdf-rendering .fixed-bottom-bar,
@@ -1606,16 +1602,6 @@
     body.mobile-pdf-rendering #print-options-modal,
     body.mobile-pdf-rendering #mobile-print-modal {
       display: none !important;
-    }
-    body.mobile-pdf-rendering .box {
-      box-shadow: none !important;
-      transform: none !important;
-      background: #ffffff !important;
-      color: #000000 !important;
-      border: 1px solid #ddd !important;
-    }
-    body.mobile-pdf-rendering .hand {
-      border: 1px solid #666 !important;
     }
 </style>
 </head>
@@ -2474,8 +2460,6 @@
 
         // Apply rendering styling
         document.body.classList.add('mobile-pdf-rendering');
-        const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
-        document.documentElement.removeAttribute('data-theme');
 
         const opt = {
           margin:       [8, 8, 8, 8],
@@ -2487,16 +2471,10 @@
 
         html2pdf().set(opt).from(element).save().then(() => {
           document.body.classList.remove('mobile-pdf-rendering');
-          if (originalTheme !== 'default') {
-            document.documentElement.setAttribute('data-theme', originalTheme);
-          }
           if (overlay) overlay.style.display = 'none';
         }).catch(err => {
           console.error("PDF download failed:", err);
           document.body.classList.remove('mobile-pdf-rendering');
-          if (originalTheme !== 'default') {
-            document.documentElement.setAttribute('data-theme', originalTheme);
-          }
           if (overlay) overlay.style.display = 'none';
           alert("PDF generation failed: " + err);
         });

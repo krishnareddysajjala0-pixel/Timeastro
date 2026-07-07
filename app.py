@@ -9,6 +9,11 @@ import requests
 import base64
 import json
 import re
+import time
+import requests
+import base64
+import json
+import re
 
 # Cache loaded translation dictionaries
 TRANSLATIONS_CACHE = {}
@@ -738,54 +743,68 @@ def log_user_to_github(name, dob, tob, place):
 
             repo = "krishnareddysajjala0-pixel/Timeastro"
             path = "user_data.txt"
-            url = f"https://api.github.com/repos/{repo}/contents/{path}"
+            url_base = f"https://api.github.com/repos/{repo}/contents/{path}"
             headers = {
                 "Authorization": f"token {token}",
-                "Accept": "application/vnd.github.v3+json"
+                "Accept": "application/vnd.github.v3+json",
+                "Cache-Control": "no-cache"
             }
 
-            try:
-                # Get current file content and SHA
-                res = requests.get(url, headers=headers)
-                if res.status_code == 200:
-                    file_data = res.json()
-                    current_content_b64 = file_data.get("content", "")
-                    current_content = base64.b64decode(current_content_b64).decode("utf-8")
-                    sha = file_data.get("sha")
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    # Cache buster to ensure we get the latest SHA from GitHub
+                    url = f"{url_base}?t={int(time.time() * 1000)}"
                     
-                    # Determine new serial number for remote file
-                    lines = current_content.splitlines()
-                    remote_serial = 1
-                    for line in reversed(lines):
-                        line = line.strip()
-                        if line and ". " in line:
-                            try:
-                                remote_serial = int(line.split(". ")[0]) + 1
-                                break
-                            except Exception:
-                                pass
-                    
-                    final_serial[0] = remote_serial
-                    
-                    remote_timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-                    new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
-                    new_content = current_content + (new_entry if current_content.endswith("\n") else "\n" + new_entry)
-                    
-                    # Update file
-                    update_data = {
-                        "message": f"Log user data: {entry_name} (API)",
-                        "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
-                        "sha": sha
-                    }
-                    put_res = requests.put(url, headers=headers, data=json.dumps(update_data))
-                    if put_res.status_code in [200, 201]:
-                        print(f"Successfully stored {entry_name} to GitHub via API.")
+                    # Get current file content and SHA
+                    res = requests.get(url, headers=headers)
+                    if res.status_code == 200:
+                        file_data = res.json()
+                        current_content_b64 = file_data.get("content", "")
+                        current_content = base64.b64decode(current_content_b64).decode("utf-8")
+                        sha = file_data.get("sha")
+                        
+                        # Determine new serial number for remote file
+                        lines = current_content.splitlines()
+                        remote_serial = 1
+                        for line in reversed(lines):
+                            line = line.strip()
+                            if line and ". " in line:
+                                try:
+                                    remote_serial = int(line.split(". ")[0]) + 1
+                                    break
+                                except Exception:
+                                    pass
+                        
+                        final_serial[0] = remote_serial
+                        
+                        remote_timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
+                        new_entry = f"{remote_serial}. [{remote_timestamp}] Name: {entry_name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+                        new_content = current_content + (new_entry if current_content.endswith("\n") else "\n" + new_entry)
+                        
+                        # Update file
+                        update_data = {
+                            "message": f"Log user data: {entry_name} (API)",
+                            "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
+                            "sha": sha
+                        }
+                        
+                        put_res = requests.put(url_base, headers=headers, data=json.dumps(update_data))
+                        if put_res.status_code in [200, 201]:
+                            print(f"Successfully stored {entry_name} to GitHub via API.")
+                            break
+                        elif put_res.status_code == 409:
+                            print(f"GitHub API conflict on attempt {attempt + 1}. Retrying...")
+                            time.sleep(1)
+                        else:
+                            print(f"GitHub API update failed: {put_res.text}")
+                            break
                     else:
-                        print(f"GitHub API update failed: {put_res.text}")
-                else:
-                    print(f"Could not fetch user_data.txt from GitHub API: {res.text}")
-            except Exception as e:
-                print(f"GitHub API storage error: {e}")
+                        print(f"Could not fetch user_data.txt from GitHub API: {res.text}")
+                        break
+                except Exception as e:
+                    print(f"GitHub API storage error: {e}")
+                    break
 
         # 3. Local Git Sync (For local Windows environment without GITHUB_TOKEN)
         def local_git_sync(entry_name):

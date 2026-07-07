@@ -2476,10 +2476,11 @@
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);
 
-        // Apply all print styles dynamically
+        // Apply white background and remove dark theme (same as onbeforeprint does)
         window.onbeforeprint();
 
-        // Temporarily activate print media query rules and disable mobile responsive rules for screen capture
+        // Temporarily activate ALL @media print rules for screen context capture
+        // and disable mobile responsive rules
         const printRules = [];
         const disabledRules = [];
         for (const sheet of document.styleSheets) {
@@ -2497,7 +2498,7 @@
               }
             }
           } catch (e) {
-            // Ignore security errors on cross-origin style sheets
+            // Ignore cross-origin style sheet errors
           }
         }
         printRules.forEach(rule => {
@@ -2507,9 +2508,24 @@
           item.rule.media.mediaText = 'not all';
         });
 
+        // Explicitly show/hide mahadasha section in JS (since html2pdf renders in screen
+        // context and @media print rule promotion may not cover specificity edge cases)
+        const mahadashaSec = document.getElementById('mahadasha-print-section');
+        let mahadashaWasHidden = false;
+        if (mahadashaSec) {
+          if (mode === 'kundali-and-dasha') {
+            mahadashaWasHidden = mahadashaSec.style.display === 'none' || 
+                                  window.getComputedStyle(mahadashaSec).display === 'none';
+            mahadashaSec.style.setProperty('display', 'block', 'important');
+          } else {
+            mahadashaSec.style.setProperty('display', 'none', 'important');
+          }
+        }
+
+        // For kundali-only: capture just the print-wrapper div
+        // For kundali-and-dasha: capture full body so mahadasha section is included
         let element = document.body;
         let filename = 'Kundali_Report.pdf';
-
         if (mode === 'kundali-only') {
           element = document.getElementById('print-wrapper') || document.body;
         }
@@ -2527,50 +2543,39 @@
           margin:       [8, 8, 8, 8],
           filename:     filename,
           image:        { type: 'jpeg', quality: 0.95 },
-          html2canvas:  { scale: 1.8, useCORS: true, logging: false },
+          html2canvas:  { scale: 1.8, useCORS: true, logging: false, windowWidth: 1024 },
           jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-          // Restore print media rule settings
-          printRules.forEach(rule => {
-            rule.media.mediaText = 'print';
-          });
-          disabledRules.forEach(item => {
-            item.rule.media.mediaText = item.originalText;
-          });
+        function restoreAfterPDF() {
+          // Restore print media rules
+          printRules.forEach(rule => { rule.media.mediaText = 'print'; });
+          disabledRules.forEach(item => { item.rule.media.mediaText = item.originalText; });
+          // Restore mahadasha section
+          if (mahadashaSec) mahadashaSec.style.removeProperty('display');
           // Restore images
           placeholders.forEach(({ img, placeholder }) => {
-            if (placeholder.parentNode) {
-              placeholder.parentNode.replaceChild(img, placeholder);
-            }
+            if (placeholder.parentNode) placeholder.parentNode.replaceChild(img, placeholder);
           });
-          // Restore screen theme and styles
+          // Restore theme and styles
           window.onafterprint();
           if (overlay) overlay.style.display = 'none';
+        }
+
+        html2pdf().set(opt).from(element).save().then(() => {
+          restoreAfterPDF();
         }).catch(err => {
           console.error("PDF download failed:", err);
-          // Restore print media rule settings
-          printRules.forEach(rule => {
-            rule.media.mediaText = 'print';
-          });
-          disabledRules.forEach(item => {
-            item.rule.media.mediaText = item.originalText;
-          });
-          // Restore images
-          placeholders.forEach(({ img, placeholder }) => {
-            if (placeholder.parentNode) {
-              placeholder.parentNode.replaceChild(img, placeholder);
-            }
-          });
-          window.onafterprint();
-          if (overlay) overlay.style.display = 'none';
+          restoreAfterPDF();
           alert("PDF generation failed: " + err);
         });
       }
 
       function doPrint() {
-        if (window.innerWidth < 768) {
+        // iPhone/iPad WebViews block window.print() — use html2pdf.js for them
+        // Android WebViews and desktop use native window.print() — same as web browser
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
           doDirectPDFDownload();
           return;
         }
@@ -2583,7 +2588,7 @@
         // Explicitly trigger onbeforeprint logic (Chrome doesn't always fire it with setTimeout)
         window.onbeforeprint();
 
-        // Trigger print synchronously so mobile browsers (iOS Safari/Chrome) do not block it
+        // Trigger print synchronously — opens native print dialog (same as web browser)
         window.print();
 
         // Fallback: some Android WebViews never fire afterprint even after cancel.

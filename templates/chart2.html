@@ -2456,7 +2456,10 @@
         });
 
         window.handleMobilePrintClick = function() {
-            if (window.innerWidth < 768) {
+            // iPhone/iPad WebViews block window.print() — use html2pdf.js for them
+            // Android WebViews and desktop use native window.print() — same as web browser
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
                 window.triggerDirectPDFDownload('chart2');
             } else {
                 window.print();
@@ -2481,7 +2484,8 @@
             const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
             document.documentElement.removeAttribute('data-theme');
 
-            // Temporarily activate print media query rules and disable mobile responsive rules for screen capture
+            // Temporarily activate ALL @media print rules for screen context capture
+            // and disable mobile responsive rules
             const printRules = [];
             const disabledRules = [];
             for (const sheet of document.styleSheets) {
@@ -2499,7 +2503,7 @@
                         }
                     }
                 } catch (e) {
-                    // Ignore security errors on cross-origin style sheets
+                    // Ignore cross-origin style sheet errors
                 }
             }
             printRules.forEach(rule => {
@@ -2522,51 +2526,31 @@
                 margin:       [8, 8, 8, 8],
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.95 },
-                html2canvas:  { scale: 1.8, useCORS: true, logging: false },
+                html2canvas:  { scale: 1.8, useCORS: true, logging: false, windowWidth: 1024 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
+
+            function restoreAfterPDF() {
+                // Restore print media rules
+                printRules.forEach(rule => { rule.media.mediaText = 'print'; });
+                disabledRules.forEach(item => { item.rule.media.mediaText = item.originalText; });
+                // Restore images
+                placeholders.forEach(({ img, placeholder }) => {
+                    if (placeholder.parentNode) placeholder.parentNode.replaceChild(img, placeholder);
+                });
+                document.body.classList.remove('mobile-pdf-rendering');
+                if (originalTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', originalTheme);
+                }
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.style.display = 'none';
+            }
             
             html2pdf().set(opt).from(element).save().then(() => {
-                // Restore print media rule settings
-                printRules.forEach(rule => {
-                    rule.media.mediaText = 'print';
-                });
-                disabledRules.forEach(item => {
-                    item.rule.media.mediaText = item.originalText;
-                });
-                // Restore images
-                placeholders.forEach(({ img, placeholder }) => {
-                    if (placeholder.parentNode) {
-                        placeholder.parentNode.replaceChild(img, placeholder);
-                    }
-                });
-                document.body.classList.remove('mobile-pdf-rendering');
-                if (originalTheme !== 'default') {
-                    document.documentElement.setAttribute('data-theme', originalTheme);
-                }
-                const overlay = document.getElementById('loading-overlay');
-                if (overlay) overlay.style.display = 'none';
+                restoreAfterPDF();
             }).catch(err => {
                 console.error("PDF generation error:", err);
-                // Restore print media rule settings
-                printRules.forEach(rule => {
-                    rule.media.mediaText = 'print';
-                });
-                disabledRules.forEach(item => {
-                    item.rule.media.mediaText = item.originalText;
-                });
-                // Restore images
-                placeholders.forEach(({ img, placeholder }) => {
-                    if (placeholder.parentNode) {
-                        placeholder.parentNode.replaceChild(img, placeholder);
-                    }
-                });
-                document.body.classList.remove('mobile-pdf-rendering');
-                if (originalTheme !== 'default') {
-                    document.documentElement.setAttribute('data-theme', originalTheme);
-                }
-                const overlay = document.getElementById('loading-overlay');
-                if (overlay) overlay.style.display = 'none';
+                restoreAfterPDF();
                 alert("PDF generation failed: " + err);
             });
         };

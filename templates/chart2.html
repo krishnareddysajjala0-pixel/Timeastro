@@ -16,9 +16,17 @@
                 document.body.classList.add('mobile-print-force');
             }
         };
-        window.onafterprint = function() {
+
+        function doAfterPrintChart2() {
             document.body.classList.remove('mobile-print-force');
-        };
+            // Always hide loading overlay after print/cancel (Android WebView fix)
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        window.onafterprint = doAfterPrintChart2;
+        // addEventListener is more reliable on Android WebViews than window.onafterprint
+        window.addEventListener('afterprint', doAfterPrintChart2);
 
         (function () {
             const savedTheme = localStorage.getItem('preferred-theme') || 'default';
@@ -2452,6 +2460,10 @@
                 window.triggerDirectPDFDownload('chart2');
             } else {
                 window.print();
+                // Fallback: some Android WebViews never fire afterprint after cancel
+                setTimeout(function() {
+                    doAfterPrintChart2();
+                }, 1000);
             }
         };
 

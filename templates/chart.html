@@ -2374,7 +2374,7 @@
         if (overlay) overlay.style.display = 'none';
       };
 
-      window.onafterprint = function() {
+      function doAfterPrint() {
         // Restore original theme from localStorage preferred theme
         const savedTheme = localStorage.getItem('preferred-theme') || 'default';
         setTheme(savedTheme);
@@ -2399,10 +2399,15 @@
         // Clean up print mode attribute
         document.body.removeAttribute('data-print-mode');
 
-        // Clean up loading overlay display
+        // Always hide loading overlay after print/cancel
         const overlay = document.getElementById('loading-overlay');
-        if (overlay) overlay.style.display = '';
-      };
+        if (overlay) overlay.style.display = 'none';
+      }
+
+      // Use addEventListener for afterprint — more reliable on Android WebViews
+      // (window.onafterprint may not fire on all WebView versions)
+      window.onafterprint = doAfterPrint;
+      window.addEventListener('afterprint', doAfterPrint);
 
       // ===== TRANSIT TOGGLE =====
       function toggleTransitChart() {
@@ -2580,6 +2585,12 @@
 
         // Trigger print synchronously so mobile browsers (iOS Safari/Chrome) do not block it
         window.print();
+
+        // Fallback: some Android WebViews never fire afterprint even after cancel.
+        // Ensure the page is always restored after a short delay.
+        setTimeout(function() {
+          doAfterPrint();
+        }, 1000);
       }
 
       // Close modal on overlay click

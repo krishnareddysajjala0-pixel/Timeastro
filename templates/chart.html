@@ -2413,6 +2413,15 @@
 
       // Use addEventListener for afterprint — more reliable on Android WebViews
       // (window.onafterprint may not fire on all WebView versions)
+      // Use matchMedia for print — often more reliable on Android WebViews than onafterprint
+      if (window.matchMedia) {
+        const mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+          if (!mql.matches) {
+            doAfterPrint();
+          }
+        });
+      }
       window.onafterprint = doAfterPrint;
       window.addEventListener('afterprint', doAfterPrint);
 
@@ -2634,11 +2643,10 @@
         // Trigger print synchronously — opens native print dialog (same as web browser)
         window.print();
 
-        // Fallback: some Android WebViews never fire afterprint even after cancel.
-        // Ensure the page is always restored after a short delay.
-        setTimeout(function() {
-          doAfterPrint();
-        }, 1000);
+        // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
+        // on Android WebViews, and hiding the DOM elements 1s later causes the print
+        // spooler to miss them. The user can manually click the "Cancel" button in
+        // the modal if afterprint doesn't fire.
       }
 
       // Close modal on overlay click

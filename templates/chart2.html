@@ -2463,12 +2463,26 @@
                 window.triggerDirectPDFDownload('chart2');
             } else {
                 window.print();
-                // Fallback: some Android WebViews never fire afterprint after cancel
-                setTimeout(function() {
-                    doAfterPrintChart2();
-                }, 1000);
+                // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
+                // on Android WebViews. We now use window.matchMedia('print') listener below.
             }
         };
+
+        // Use matchMedia for print — often more reliable on Android WebViews than onafterprint
+        if (window.matchMedia) {
+            const mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function(mql) {
+                if (!mql.matches) {
+                    if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
+                }
+            });
+        }
+        window.onafterprint = function() {
+            if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
+        };
+        window.addEventListener('afterprint', function() {
+            if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
+        });
 
         window.triggerDirectPDFDownload = function(pageType) {
             showGananaLoader();

@@ -2396,12 +2396,10 @@
           hand.style.border = '';
         });
 
-        // Clean up print mode attribute
-        document.body.removeAttribute('data-print-mode');
-
-        // Restore mahadasha section (if it was explicitly shown by doPrint for Android)
-        const mahadashaSec = document.getElementById('mahadasha-print-section');
-        if (mahadashaSec) mahadashaSec.style.removeProperty('display');
+        // We intentionally DO NOT remove data-print-mode here because Android's
+        // window.print() is asynchronous, and removing it immediately causes the
+        // print spooler to render without the Dasa section. Leaving it has no
+        // effect on the screen view.
 
         // Close the print modal (which may still be open showing Cancel button)
         closePrintOptions();
@@ -2598,19 +2596,6 @@
 
         // Explicitly trigger onbeforeprint logic
         window.onbeforeprint();
-
-        // Explicitly show/hide mahadasha section in JS.
-        // Android WebView print renderer may not reliably apply CSS attribute selectors
-        // from @media print (e.g. body[data-print-mode="kundali-and-dasha"]), so we
-        // force visibility in JS to guarantee the Dasa section appears.
-        const mahadashaSec = document.getElementById('mahadasha-print-section');
-        if (mahadashaSec) {
-          if (mode === 'kundali-and-dasha') {
-            mahadashaSec.style.setProperty('display', 'block', 'important');
-          } else {
-            mahadashaSec.style.setProperty('display', 'none', 'important');
-          }
-        }
 
         // Trigger print synchronously — opens native print dialog (same as web browser)
         window.print();

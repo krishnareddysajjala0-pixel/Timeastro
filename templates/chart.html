@@ -2593,29 +2593,8 @@
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);
 
-        // DO NOT close the print modal — transform it into a "Cancel" button so
-        // the user has a visible way to abort before/after the print dialog
-        const modal = document.getElementById('print-options-modal');
-        if (modal) {
-          const inner = modal.querySelector('div');
-          if (inner) {
-            inner.innerHTML = `
-              <div style="font-size:18px;font-weight:800;color:#ffd700;margin-bottom:14px;">
-                🖨️ {{ _('ప్రింట్ సిద్ధమవుతోంది') }}
-              </div>
-              <div style="font-size:12px;color:#94a3b8;margin-bottom:20px;">
-                {{ _('ప్రింట్ డైలాగ్ తెరుచుకుంటోంది...') }}
-              </div>
-              <button onclick="closePrintOptions()" id="cancel-print-btn"
-                style="width:100%;padding:12px 0;border-radius:10px;
-                       border:1px solid rgba(255,100,100,0.5);
-                       background:rgba(255,80,80,0.15);color:#fca5a5;
-                       font-size:15px;font-family:'Noto Sans Telugu',sans-serif;
-                       cursor:pointer;font-weight:700;">
-                ✖ {{ _('రద్దు చేయి') }}
-              </button>`;
-          }
-        }
+        // Close the modal gracefully before printing so it doesn't get stuck
+        closePrintOptions();
 
         // Explicitly trigger onbeforeprint logic
         window.onbeforeprint();

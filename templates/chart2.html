@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>దశా వివరాలు - {{ name }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- PWA settings -->
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
@@ -1569,6 +1570,46 @@
         .theme-toggle-btn, .nav-home i {
             animation: nav-rainbow 3s linear infinite !important;
         }
+
+        /* Enforce same print display for jsPDF/html2pdf canvas capture */
+        body.mobile-pdf-rendering {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+        body.mobile-pdf-rendering .print-hide,
+        body.mobile-pdf-rendering .float-btn,
+        body.mobile-pdf-rendering .fixed-bottom-bar,
+        body.mobile-pdf-rendering #action-bar,
+        body.mobile-pdf-rendering .language-switcher,
+        body.mobile-pdf-rendering .theme-switcher,
+        body.mobile-pdf-rendering #print-options-modal,
+        body.mobile-pdf-rendering #mobile-print-modal {
+            display: none !important;
+        }
+        body.mobile-pdf-rendering .glow-container {
+            background: #ffffff !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: #000000 !important;
+            padding: 10px !important;
+        }
+        body.mobile-pdf-rendering .cosmic-header {
+            background: #f5f5f5 !important;
+            border: 1px solid #333 !important;
+            color: #000000 !important;
+        }
+        body.mobile-pdf-rendering .maha-dasa-card,
+        body.mobile-pdf-rendering .anthara-card,
+        body.mobile-pdf-rendering .summary-card {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1.5px solid #ccc !important;
+            box-shadow: none !important;
+        }
+        body.mobile-pdf-rendering .text-favorable,
+        body.mobile-pdf-rendering .text-unfavorable {
+            color: #000000 !important;
+        }
         /* NOTE: All @media print and @page rules are now consolidated
            in the single block above (around line 756). */
         @page {
@@ -2077,10 +2118,57 @@
             <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="window.print()">
+            onclick="handleMobilePrintClick()">
             <i class="fas fa-file-pdf"></i> PDF
         </button>
 
+    </div>
+
+    <!-- Mobile Print Options Modal -->
+    <div id="mobile-print-modal" style="display:none; position:fixed; inset:0; z-index:999999;
+         background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
+         align-items:center; justify-content:center; padding: 20px;">
+      <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);
+                  border:1px solid rgba(255,215,0,0.35); border-radius:18px;
+                  padding:28px 32px; min-width:300px; max-width:380px; width:100%;
+                  box-shadow:0 0 40px rgba(255,215,0,0.15); text-align:center;
+                  font-family:'Noto Sans Telugu',sans-serif; color:#ffffff;">
+        <div style="font-size:20px; font-weight:800; color:#ffd700; margin-bottom:6px;">
+          {{ _('🖨️ పిడిఎఫ్ / ప్రింట్') }}
+        </div>
+        <div style="font-size:12px; color:#94a3b8; margin-bottom:20px;">
+          {{ _('ఎంపికను ఎంచుకోండి') }}
+        </div>
+        
+        <div style="display:flex; flex-direction:column; gap:12px; text-align:left; margin-bottom:24px;">
+          <!-- Option 1: Direct PDF download -->
+          <button onclick="triggerDirectPDFDownload('chart2')" 
+             style="display:flex; align-items:center; gap:12px; cursor:pointer; background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,215,0,0.4); border-radius:10px; padding:12px 16px; width:100%; text-align:left; transition:all 0.2s; color:#ffd700; font-family:inherit;">
+             <i class="fas fa-download" style="font-size:18px;"></i>
+             <div>
+               <div style="font-size:14px; font-weight:700;">{{ _('డౌన్‌లోడ్ PDF (ఉత్తమమైనది)') }}</div>
+               <div style="font-size:10px; color:#94a3b8; margin-top:2px;">{{ _('మొబైల్ యాప్ మరియు బ్రౌజర్ కొరకు') }}</div>
+             </div>
+          </button>
+          
+          <!-- Option 2: System print -->
+          <button onclick="triggerSystemPrint()" 
+             style="display:flex; align-items:center; gap:12px; cursor:pointer; background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 16px; width:100%; text-align:left; transition:all 0.2s; color:#a5f3fc; font-family:inherit;">
+             <i class="fas fa-print" style="font-size:18px;"></i>
+             <div>
+               <div style="font-size:14px; font-weight:700;">{{ _('సిస్టమ్ ప్రింట్ / PDF') }}</div>
+               <div style="font-size:10px; color:#94a3b8; margin-top:2px;">{{ _('మొబైల్ ప్రింటర్ ద్వారా ముద్రించు') }}</div>
+             </div>
+          </button>
+        </div>
+        
+        <button onclick="closeMobilePrintModal()"
+            style="width:100%; padding:10px 0; border-radius:10px; border:1px solid rgba(255,255,255,0.2);
+                   background:rgba(255,255,255,0.08); color:#cbd5e1; font-size:14px;
+                   font-family:inherit; cursor:pointer; font-weight:600;">
+            {{ _('రద్దు') }}
+        </button>
+      </div>
     </div>
 
     <script>

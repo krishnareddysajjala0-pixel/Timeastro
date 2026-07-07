@@ -2452,8 +2452,8 @@
         // Explicitly trigger onbeforeprint logic (Chrome doesn't always fire it with setTimeout)
         window.onbeforeprint();
 
-        // Delay so DOM updates are applied before print dialog opens
-        setTimeout(() => { window.print(); }, 150);
+        // Trigger print synchronously so mobile browsers (iOS Safari/Chrome) do not block it
+        window.print();
       }
 
       // Close modal on overlay click

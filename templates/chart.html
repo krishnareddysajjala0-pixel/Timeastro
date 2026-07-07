@@ -2454,6 +2454,25 @@
         // Apply all print styles dynamically
         window.onbeforeprint();
 
+        // Temporarily activate print media query rules for screen context capture
+        const printRules = [];
+        for (const sheet of document.styleSheets) {
+          try {
+            const rules = sheet.cssRules || sheet.rules;
+            if (!rules) continue;
+            for (const rule of rules) {
+              if (rule.media && rule.media.mediaText && rule.media.mediaText.indexOf('print') !== -1) {
+                printRules.push(rule);
+              }
+            }
+          } catch (e) {
+            // Ignore security errors on cross-origin style sheets
+          }
+        }
+        printRules.forEach(rule => {
+          rule.media.mediaText = 'all';
+        });
+
         let element = document.body;
         let filename = 'Kundali_Report.pdf';
 
@@ -2479,6 +2498,10 @@
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
+          // Restore print media rule settings
+          printRules.forEach(rule => {
+            rule.media.mediaText = 'print';
+          });
           // Restore images
           placeholders.forEach(({ img, placeholder }) => {
             if (placeholder.parentNode) {
@@ -2490,6 +2513,10 @@
           if (overlay) overlay.style.display = 'none';
         }).catch(err => {
           console.error("PDF download failed:", err);
+          // Restore print media rule settings
+          printRules.forEach(rule => {
+            rule.media.mediaText = 'print';
+          });
           // Restore images
           placeholders.forEach(({ img, placeholder }) => {
             if (placeholder.parentNode) {

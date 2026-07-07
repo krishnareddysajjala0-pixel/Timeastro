@@ -2468,6 +2468,25 @@
             document.body.classList.add('mobile-pdf-rendering');
             const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
             document.documentElement.removeAttribute('data-theme');
+
+            // Temporarily activate print media query rules for screen context capture
+            const printRules = [];
+            for (const sheet of document.styleSheets) {
+                try {
+                    const rules = sheet.cssRules || sheet.rules;
+                    if (!rules) continue;
+                    for (const rule of rules) {
+                        if (rule.media && rule.media.mediaText && rule.media.mediaText.indexOf('print') !== -1) {
+                            printRules.push(rule);
+                        }
+                    }
+                } catch (e) {
+                    // Ignore security errors on cross-origin style sheets
+                }
+            }
+            printRules.forEach(rule => {
+                rule.media.mediaText = 'all';
+            });
             
             // Remove images temporarily to avoid SecurityError in WebView/mobile apps
             const images = Array.from(element.querySelectorAll('img'));
@@ -2487,6 +2506,10 @@
             };
             
             html2pdf().set(opt).from(element).save().then(() => {
+                // Restore print media rule settings
+                printRules.forEach(rule => {
+                    rule.media.mediaText = 'print';
+                });
                 // Restore images
                 placeholders.forEach(({ img, placeholder }) => {
                     if (placeholder.parentNode) {
@@ -2501,6 +2524,10 @@
                 if (overlay) overlay.style.display = 'none';
             }).catch(err => {
                 console.error("PDF generation error:", err);
+                // Restore print media rule settings
+                printRules.forEach(rule => {
+                    rule.media.mediaText = 'print';
+                });
                 // Restore images
                 placeholders.forEach(({ img, placeholder }) => {
                     if (placeholder.parentNode) {

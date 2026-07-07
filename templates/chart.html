@@ -2589,15 +2589,6 @@
       }
 
       function doPrint() {
-        // Use html2pdf.js for ALL mobile devices (iOS and Android) to guarantee 
-        // 100% identical PDF generation and bypass buggy mobile print spoolers.
-        // Desktop uses native window.print().
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-        if (isMobile) {
-          doDirectPDFDownload();
-          return;
-        }
-
         const selected = document.querySelector('input[name="print-mode"]:checked');
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);

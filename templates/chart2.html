@@ -2456,17 +2456,9 @@
         });
 
         window.handleMobilePrintClick = function() {
-            // Use html2pdf.js for ALL mobile devices (iOS and Android) to guarantee 
-            // 100% identical PDF generation and bypass buggy mobile print spoolers.
-            // Desktop uses native window.print().
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-            if (isMobile) {
-                window.triggerDirectPDFDownload('chart2');
-            } else {
-                window.print();
-                // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
-                // on Android WebViews. We now use window.matchMedia('print') listener below.
-            }
+            window.print();
+            // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
+            // on Android WebViews. We now use window.matchMedia('print') listener below.
         };
 
         // Use matchMedia for print — often more reliable on Android WebViews than onafterprint

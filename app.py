@@ -541,15 +541,21 @@ def add_years(dt, years):
         return dt.replace(month=2, day=28, year=dt.year + int(years))
 
 def add_months(dt, months):
-    """Add calendar months to datetime"""
-    month = dt.month - 1 + months
+    """Add calendar months (can be float) to datetime"""
+    whole_months = int(months)
+    fractional_days = int((months - whole_months) * 30.4368)
+    
+    month = dt.month - 1 + whole_months
     year = dt.year + month // 12
     month = month % 12 + 1
     # Number of days in each month of that year
     day = min(dt.day, [31,
                        29 if (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)) else 28,
                        31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1])
-    return dt.replace(year=year, month=month, day=day)
+    dt_new = dt.replace(year=year, month=month, day=day)
+    if fractional_days > 0:
+        dt_new += datetime.timedelta(days=fractional_days)
+    return dt_new
 
 def nak_minutes(h, m):
     """Convert hours and minutes to total minutes"""

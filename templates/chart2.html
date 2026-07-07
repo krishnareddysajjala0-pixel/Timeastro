@@ -9,6 +9,7 @@
     <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1A1A1D">
     <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         window.onbeforeprint = function() {
             if (window.innerWidth < 768) {
@@ -2117,7 +2118,7 @@
             <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
         </button>
         <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-            onclick="window.print()">
+            onclick="handleMobilePrintClick()">
             <i class="fas fa-file-pdf"></i> PDF
         </button>
 
@@ -2446,6 +2447,117 @@
             if (overlay) overlay.style.display = 'none';
         });
 
+        window.handleMobilePrintClick = function() {
+            if (window.innerWidth < 768) {
+                window.triggerDirectPDFDownload('chart2');
+            } else {
+                window.print();
+            }
+        };
+
+        window.triggerDirectPDFDownload = function(pageType) {
+            showGananaLoader();
+            
+            let element = document.body;
+            let filename = 'Dasha_Report.pdf';
+            
+            if (pageType === 'chart2') {
+                element = document.querySelector('.glow-container') || document.body;
+            }
+            
+            document.body.classList.add('mobile-pdf-rendering');
+            const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
+            document.documentElement.removeAttribute('data-theme');
+
+            // Temporarily activate print media query rules and disable mobile responsive rules for screen capture
+            const printRules = [];
+            const disabledRules = [];
+            for (const sheet of document.styleSheets) {
+                try {
+                    const rules = sheet.cssRules || sheet.rules;
+                    if (!rules) continue;
+                    for (const rule of rules) {
+                        if (rule.media && rule.media.mediaText) {
+                            const text = rule.media.mediaText;
+                            if (text.indexOf('print') !== -1) {
+                                printRules.push(rule);
+                            } else if (text.indexOf('max-width') !== -1 || text.indexOf('768') !== -1) {
+                                disabledRules.push({ rule, originalText: text });
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore security errors on cross-origin style sheets
+                }
+            }
+            printRules.forEach(rule => {
+                rule.media.mediaText = 'all';
+            });
+            disabledRules.forEach(item => {
+                item.rule.media.mediaText = 'not all';
+            });
+            
+            // Remove images temporarily to avoid SecurityError in WebView/mobile apps
+            const images = Array.from(element.querySelectorAll('img'));
+            const placeholders = images.map(img => {
+                const placeholder = document.createElement('div');
+                placeholder.style.display = 'none';
+                img.parentNode.replaceChild(placeholder, img);
+                return { img, placeholder };
+            });
+            
+            const opt = {
+                margin:       [8, 8, 8, 8],
+                filename:     filename,
+                image:        { type: 'jpeg', quality: 0.95 },
+                html2canvas:  { scale: 1.8, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore print media rule settings
+                printRules.forEach(rule => {
+                    rule.media.mediaText = 'print';
+                });
+                disabledRules.forEach(item => {
+                    item.rule.media.mediaText = item.originalText;
+                });
+                // Restore images
+                placeholders.forEach(({ img, placeholder }) => {
+                    if (placeholder.parentNode) {
+                        placeholder.parentNode.replaceChild(img, placeholder);
+                    }
+                });
+                document.body.classList.remove('mobile-pdf-rendering');
+                if (originalTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', originalTheme);
+                }
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.style.display = 'none';
+            }).catch(err => {
+                console.error("PDF generation error:", err);
+                // Restore print media rule settings
+                printRules.forEach(rule => {
+                    rule.media.mediaText = 'print';
+                });
+                disabledRules.forEach(item => {
+                    item.rule.media.mediaText = item.originalText;
+                });
+                // Restore images
+                placeholders.forEach(({ img, placeholder }) => {
+                    if (placeholder.parentNode) {
+                        placeholder.parentNode.replaceChild(img, placeholder);
+                    }
+                });
+                document.body.classList.remove('mobile-pdf-rendering');
+                if (originalTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', originalTheme);
+                }
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.style.display = 'none';
+                alert("PDF generation failed: " + err);
+            });
+        };
     })();
     </script>
 

@@ -2417,7 +2417,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.float-btn').forEach(function(btn) {
                 var oc = btn.getAttribute('onclick') || '';
-                if (oc.indexOf('print()') !== -1) return;
+                if (oc.indexOf('print') !== -1 || oc.indexOf('Print') !== -1) return;
                 if (oc.indexOf('fetch') !== -1) return;
                 btn.addEventListener('click', function() {
                     showGananaLoader();

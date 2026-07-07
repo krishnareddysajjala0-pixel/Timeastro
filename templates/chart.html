@@ -2399,6 +2399,13 @@
         // Clean up print mode attribute
         document.body.removeAttribute('data-print-mode');
 
+        // Restore mahadasha section (if it was explicitly shown by doPrint for Android)
+        const mahadashaSec = document.getElementById('mahadasha-print-section');
+        if (mahadashaSec) mahadashaSec.style.removeProperty('display');
+
+        // Close the print modal (which may still be open showing Cancel button)
+        closePrintOptions();
+
         // Always hide loading overlay after print/cancel
         const overlay = document.getElementById('loading-overlay');
         if (overlay) overlay.style.display = 'none';
@@ -2583,10 +2590,46 @@
         const selected = document.querySelector('input[name="print-mode"]:checked');
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);
-        closePrintOptions();
 
-        // Explicitly trigger onbeforeprint logic (Chrome doesn't always fire it with setTimeout)
+        // DO NOT close the print modal — transform it into a "Cancel" button so
+        // the user has a visible way to abort before/after the print dialog
+        const modal = document.getElementById('print-options-modal');
+        if (modal) {
+          const inner = modal.querySelector('div');
+          if (inner) {
+            inner.innerHTML = `
+              <div style="font-size:18px;font-weight:800;color:#ffd700;margin-bottom:14px;">
+                🖨️ {{ _('ప్రింట్ సిద్ధమవుతోంది') }}
+              </div>
+              <div style="font-size:12px;color:#94a3b8;margin-bottom:20px;">
+                {{ _('ప్రింట్ డైలాగ్ తెరుచుకుంటోంది...') }}
+              </div>
+              <button onclick="closePrintOptions()" id="cancel-print-btn"
+                style="width:100%;padding:12px 0;border-radius:10px;
+                       border:1px solid rgba(255,100,100,0.5);
+                       background:rgba(255,80,80,0.15);color:#fca5a5;
+                       font-size:15px;font-family:'Noto Sans Telugu',sans-serif;
+                       cursor:pointer;font-weight:700;">
+                ✖ {{ _('రద్దు చేయి') }}
+              </button>`;
+          }
+        }
+
+        // Explicitly trigger onbeforeprint logic
         window.onbeforeprint();
+
+        // Explicitly show/hide mahadasha section in JS.
+        // Android WebView print renderer may not reliably apply CSS attribute selectors
+        // from @media print (e.g. body[data-print-mode="kundali-and-dasha"]), so we
+        // force visibility in JS to guarantee the Dasa section appears.
+        const mahadashaSec = document.getElementById('mahadasha-print-section');
+        if (mahadashaSec) {
+          if (mode === 'kundali-and-dasha') {
+            mahadashaSec.style.setProperty('display', 'block', 'important');
+          } else {
+            mahadashaSec.style.setProperty('display', 'none', 'important');
+          }
+        }
 
         // Trigger print synchronously — opens native print dialog (same as web browser)
         window.print();

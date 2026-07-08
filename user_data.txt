@@ -262,3 +262,5 @@
 262. [08-Jul-2026 09:35:39] Name: yh, DOB: 2026-07-08, TOB: 09:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 263. [08-Jul-2026 09:36:43] Name: rf, DOB: 2026-07-08, TOB: 09:36, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 264. [08-Jul-2026 09:40:14] Name: rf, DOB: 2026-07-08, TOB: 09:36, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+265. [08-Jul-2026 09:42:06] Name: 1 (Compare 1), DOB: 2026-07-01, TOB: 09:41, Place: Kandukur, Andhra Pradesh, India
+266. [08-Jul-2026 09:42:06] Name: 1 (Compare 2), DOB: 2026-07-08, TOB: 09:41, Place: Kandukur, Andhra Pradesh, India

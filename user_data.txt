@@ -257,3 +257,4 @@
 257. [07-Jul-2026 17:01:09] Name: Harshitha , DOB: 1997-08-31, TOB: 14:00, Place: Guntur, గుంటూరు, Andhra Pradesh, 522001, India
 258. [07-Jul-2026 17:31:33] Name: BHAVIGNA, DOB: 2024-12-26, TOB: 09:42, Place: Warangal, Warangal mandal, Warangal, Telangana, 506002, India
 259. [07-Jul-2026 17:40:13] Name: BHAVIGNA, DOB: 2024-12-26, TOB: 09:42, Place: Warangal, Warangal mandal, Warangal, Telangana, 506002, India
+260. [08-Jul-2026 02:34:31] Name: ok, DOB: 2026-07-08, TOB: 08:03, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

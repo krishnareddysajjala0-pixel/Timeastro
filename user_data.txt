@@ -280,3 +280,4 @@
 280. [09-Jul-2026 02:05:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 281. [09-Jul-2026 02:14:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 282. [09-Jul-2026 02:15:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+283. [09-Jul-2026 02:16:47] Name: uk, DOB: 2026-07-09, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India

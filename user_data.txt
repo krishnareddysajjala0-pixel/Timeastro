@@ -293,3 +293,4 @@
 293. [09-Jul-2026 17:31:04] Name: Ok, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 294. [09-Jul-2026 17:32:58] Name: Ok, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 295. [10-Jul-2026 04:34:08] Name: రాజు , DOB: 1988-03-28, TOB: 04:30, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+296. [10-Jul-2026 04:35:14] Name: సుధీర్ , DOB: 1973-06-11, TOB: 10:04, Place: Jammikunta mandal, కరీంనగర్, Telangana, India

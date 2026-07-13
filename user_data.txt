@@ -310,3 +310,4 @@
 310. [13-Jul-2026 02:51:04] Name: madhu, DOB: 2026-07-13, TOB: 08:20, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 311. [13-Jul-2026 03:36:17] Name: madhu, DOB: 2026-07-13, TOB: 08:20, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 312. [13-Jul-2026 03:36:36] Name: madhu, DOB: 2026-07-13, TOB: 09:06, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+313. [13-Jul-2026 23:11:58] Name: ,, DOB: 2026-07-14, TOB: 04:26, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India

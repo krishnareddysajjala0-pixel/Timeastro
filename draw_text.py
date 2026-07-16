@@ -4,55 +4,67 @@ import numpy as np
 import cv2
 
 def create_circular_logo(image_path, text, out_path):
-    # 1. Load base logo and resize if needed
     base_img = Image.open(image_path).convert("RGBA")
-    
-    # Target size for the logo
     target_logo_size = 800
     base_img = base_img.resize((target_logo_size, target_logo_size), Image.Resampling.LANCZOS)
     
-    # 2. We want the text to wrap around in a circle.
-    font_size = 60
+    font_size = 80
     try:
-        # Use full path to Nirmala.ttc which supports Telugu
         font = ImageFont.truetype(r"C:\Windows\Fonts\Nirmala.ttc", font_size)
-    except Exception as e:
-        print("Failed to load font:", e)
-        return
+    except:
+        font = ImageFont.load_default()
         
-    # Create a large transparent image for the text
     dummy_draw = ImageDraw.Draw(Image.new("RGBA", (1,1)))
     bbox = dummy_draw.textbbox((0, 0), text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
     
-    # The radius of the text circle
-    circumference = max(text_width + 300, target_logo_size * 3.14159 + 400)
-    radius = circumference / (2 * math.pi)
+    # We want text around the outer edge.
+    padding_around_logo = 100
+    radius = (target_logo_size / 2) + padding_around_logo
     
-    wrap_width = int(circumference)
-    wrap_height = int(radius + text_height * 2)
+    # In OpenCV polar mapping:
+    # y-axis corresponds to angle (0 to 360)
+    # x-axis corresponds to radius (0 to max_radius)
+    # Max radius for the output image
+    max_radius = int(radius + text_height + 50)
     
-    text_img = Image.new("RGBA", (wrap_width, wrap_height), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(text_img)
+    # Circumference determines how much the text stretches along the circle.
+    # In OpenCV, y goes from 0 to output_size. 
+    # Let's make the polar image have height = int(2 * pi * max_radius)
+    circumference = int(2 * math.pi * max_radius)
     
-    x_pos = (wrap_width - text_width) // 2
-    y_pos = wrap_height - text_height - 50
-    draw.text((x_pos, y_pos), text, font=font, fill=(255, 215, 0, 255)) # Gold text
+    polar_img = Image.new("RGBA", (max_radius, circumference), (0, 0, 0, 0))
+    polar_draw = ImageDraw.Draw(polar_img)
+    
+    # Draw text. We want it along the y-axis, but PIL draws horizontally.
+    # So we draw it horizontally on a temporary image and rotate it 90 degrees.
+    temp_img = Image.new("RGBA", (circumference, max_radius), (0, 0, 0, 0))
+    temp_draw = ImageDraw.Draw(temp_img)
+    
+    # Center text horizontally, place at the bottom (which maps to outer radius)
+    x_pos = (circumference - text_width) // 2
+    # Place text so it is at distance 'radius' from the top
+    y_pos = int(radius)
+    temp_draw.text((x_pos, y_pos), text, font=font, fill=(255, 215, 0, 255))
+    
+    # OpenCV maps angle 0 to top, sweeping clockwise (depending on flags).
+    # Rotate the image so X becomes Y.
+    polar_img = temp_img.transpose(Image.TRANSPOSE)
     
     # Convert to OpenCV format
-    text_cv = np.array(text_img)
+    polar_cv = np.array(polar_img)
     
-    # Warp Polar
-    center = (wrap_height, wrap_height)
-    max_radius = wrap_height
+    # Warp Polar!
+    final_size = max_radius * 2
+    center = (final_size // 2, final_size // 2)
     
     flags = cv2.WARP_INVERSE_MAP | cv2.INTER_LINEAR | cv2.WARP_FILL_OUTLIERS
-    warped_cv = cv2.warpPolar(text_cv, (wrap_height*2, wrap_height*2), center, max_radius, flags)
+    warped_cv = cv2.warpPolar(polar_cv, (final_size, final_size), center, max_radius, flags)
     
     warped_pil = Image.fromarray(warped_cv, "RGBA")
     
-    final_size = wrap_height * 2
+    # Paste base logo into the center of the warped text image
     final_img = Image.new("RGBA", (final_size, final_size), (0, 0, 0, 0))
     final_img.paste(warped_pil, (0, 0), warped_pil)
     
@@ -60,11 +72,9 @@ def create_circular_logo(image_path, text, out_path):
     offset_y = (final_size - target_logo_size) // 2
     final_img.paste(base_img, (offset_x, offset_y), base_img)
     
-    # Crop to content to remove extra transparent space
-    bbox = final_img.getbbox()
-    if bbox:
-        final_img = final_img.crop(bbox)
-        
+    # Save a debug image to see if text rendered
+    temp_img.save("debug_temp.png")
+    
     final_img.save(out_path)
     print("Saved logo to", out_path)
 

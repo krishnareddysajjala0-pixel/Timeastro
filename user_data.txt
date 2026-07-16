@@ -269,33 +269,86 @@
 269. [08-Jul-2026 09:48:03] Name: rf, DOB: 2026-07-08, TOB: 09:43, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 270. [08-Jul-2026 09:48:20] Name: rf, DOB: 2026-07-08, TOB: 09:43, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 271. [08-Jul-2026 09:50:48] Name: ok, DOB: 2026-07-08, TOB: 09:50, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-272. [16-Jul-2026 18:37:15] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-273. [16-Jul-2026 18:41:34] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-274. [16-Jul-2026 18:45:28] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-275. [16-Jul-2026 18:46:35] Name: ff, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-276. [16-Jul-2026 18:49:42] Name: ff, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-277. [16-Jul-2026 18:51:24] Name: sssss (Compare 1), DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Andhra Pradesh, India
-278. [16-Jul-2026 18:51:24] Name: sssss (Compare 2), DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Andhra Pradesh, India
-279. [16-Jul-2026 18:52:20] Name: ok, DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-280. [16-Jul-2026 18:53:15] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-281. [16-Jul-2026 18:53:28] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-282. [16-Jul-2026 19:00:26] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-283. [16-Jul-2026 19:03:53] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-284. [16-Jul-2026 19:23:42] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-285. [16-Jul-2026 19:25:53] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-286. [16-Jul-2026 19:33:18] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-287. [16-Jul-2026 19:35:21] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-288. [16-Jul-2026 19:41:56] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-289. [16-Jul-2026 19:42:26] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-290. [16-Jul-2026 19:44:08] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-291. [16-Jul-2026 19:48:05] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-292. [16-Jul-2026 19:51:42] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-293. [16-Jul-2026 19:55:33] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-294. [16-Jul-2026 19:57:50] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-295. [16-Jul-2026 19:59:46] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-296. [16-Jul-2026 20:01:37] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-297. [16-Jul-2026 20:05:12] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-298. [16-Jul-2026 20:05:54] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-299. [16-Jul-2026 20:06:50] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-300. [16-Jul-2026 20:08:46] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
-301. [16-Jul-2026 20:13:44] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+272. [08-Jul-2026 04:21:55] Name: ok, DOB: 2026-07-08, TOB: 09:31, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+273. [08-Jul-2026 04:25:14] Name: Ok, DOB: 2026-07-08, TOB: 09:55, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+274. [08-Jul-2026 05:12:00] Name: Ok, DOB: 2026-07-08, TOB: 08:59, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+275. [08-Jul-2026 05:48:51] Name: KRISHNA REDDY SAJJALA, DOB: 1988-10-25, TOB: 01:02, Place: Ongole, Prakasam, Andhra Pradesh, 523002, India
+276. [08-Jul-2026 05:59:50] Name: RAAMA RISHIKA, DOB: 2015-07-23, TOB: 19:15, Place: Tangutur, Prakasam, Andhra Pradesh, India
+277. [08-Jul-2026 06:00:57] Name: PUNARVASU LAKSHMI, DOB: 1996-09-08, TOB: 13:30, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+278. [08-Jul-2026 06:05:18] Name: PUNARVASU LAKSHMI, DOB: 1996-09-08, TOB: 13:30, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+279. [08-Jul-2026 13:41:05] Name: Ok, DOB: 2026-07-08, TOB: 19:11, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+280. [09-Jul-2026 02:05:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+281. [09-Jul-2026 02:14:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+282. [09-Jul-2026 02:15:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+283. [09-Jul-2026 02:16:47] Name: uk, DOB: 2026-07-09, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+284. [09-Jul-2026 02:23:22] Name: uk, DOB: 2026-07-09, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+285. [09-Jul-2026 02:24:40] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
+286. [09-Jul-2026 08:17:21] Name: Chinni, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+287. [09-Jul-2026 08:24:13] Name: Chinni, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+288. [09-Jul-2026 08:24:39] Name: Chinni, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+289. [09-Jul-2026 16:49:31] Name: Kiran, DOB: 1993-03-02, TOB: 04:45, Place: Amalapuram, Konaseema, Andhra Pradesh, 533201, India
+290. [09-Jul-2026 17:01:49] Name: Kiran, DOB: 1993-03-02, TOB: 04:45, Place: Amalapuram, Konaseema, Andhra Pradesh, 533201, India
+291. [09-Jul-2026 17:06:07] Name: Kiran, DOB: 1993-03-02, TOB: 04:45, Place: Amalapuram, Konaseema, Andhra Pradesh, 533201, India
+292. [09-Jul-2026 17:12:04] Name: Ok, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+293. [09-Jul-2026 17:31:04] Name: Ok, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+294. [09-Jul-2026 17:32:58] Name: Ok, DOB: 1992-06-19, TOB: 15:35, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+295. [10-Jul-2026 04:34:08] Name: Raju , DOB: 1988-03-28, TOB: 04:30, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+296. [10-Jul-2026 04:35:14] Name: సుధీర్ , DOB: 1973-06-11, TOB: 10:04, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+297. [10-Jul-2026 08:37:43] Name: Jjjjj, DOB: 2026-07-10, TOB: 14:07, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+298. [10-Jul-2026 17:59:29] Name: Sunitha , DOB: 1993-10-26, TOB: 08:30, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+299. [10-Jul-2026 18:00:18] Name: Sunitha , DOB: 1993-10-26, TOB: 08:30, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+300. [11-Jul-2026 05:01:07] Name: Hh, DOB: 2025-03-28, TOB: 10:30, Place: హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, India
+301. [11-Jul-2026 05:01:27] Name: Hh, DOB: 2025-03-28, TOB: 08:30, Place: హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, India
+302. [11-Jul-2026 05:01:44] Name: Hh, DOB: 2025-03-28, TOB: 06:30, Place: హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, India
+303. [11-Jul-2026 12:07:41] Name: Kotte venkayya, DOB: 2021-11-10, TOB: 16:12, Place: Atchampet, Palnadu, Andhra Pradesh, 522409, India
+304. [11-Jul-2026 12:08:04] Name: Kotte venkayya, DOB: 2021-11-10, TOB: 16:12, Place: Atchampet, Palnadu, Andhra Pradesh, 522409, India
+305. [11-Jul-2026 12:12:29] Name: Kaspa ప్రవీణ్ కుమార్ , DOB: 1999-09-16, TOB: 01:50, Place: Atchampet, Palnadu, Andhra Pradesh, 522409, India
+306. [11-Jul-2026 12:14:35] Name: Kaspa ప్రవీణ్ కుమార్ , DOB: 1999-09-16, TOB: 01:50, Place: Atchampet, Palnadu, Andhra Pradesh, 522409, India
+307. [11-Jul-2026 16:46:35] Name: Aaa, DOB: 2026-05-06, TOB: 20:22, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+308. [13-Jul-2026 02:50:09] Name: madhu, DOB: 2026-07-13, TOB: 08:19, Place: Bengaluru, Karnataka, India
+309. [13-Jul-2026 02:50:41] Name: madhu, DOB: 2026-07-13, TOB: 08:20, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+310. [13-Jul-2026 02:51:04] Name: madhu, DOB: 2026-07-13, TOB: 08:20, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+311. [13-Jul-2026 03:36:17] Name: madhu, DOB: 2026-07-13, TOB: 08:20, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+312. [13-Jul-2026 03:36:36] Name: madhu, DOB: 2026-07-13, TOB: 09:06, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+313. [13-Jul-2026 23:11:58] Name: ,, DOB: 2026-07-14, TOB: 04:26, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India
+314. [14-Jul-2026 07:15:54] Name: MOKSHAA, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+315. [14-Jul-2026 16:38:15] Name: reddy, DOB: 2026-07-14, TOB: 22:08, Place: Zarugumalli, Prakasam, Andhra Pradesh, 523271, India
+316. [14-Jul-2026 16:38:56] Name: Ok, DOB: 2026-07-14, TOB: 22:08, Place: Zarugumalli, Prakasam, Andhra Pradesh, 523271, India
+317. [14-Jul-2026 16:50:09] Name: shashi kanth, DOB: 1989-02-11, TOB: 22:19, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+318. [14-Jul-2026 16:50:15] Name: shashi kanth, DOB: 1989-02-11, TOB: 22:19, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+319. [14-Jul-2026 16:52:51] Name: shashi kanth, DOB: 1989-02-11, TOB: 23:22, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+320. [14-Jul-2026 16:52:55] Name: shashi kanth, DOB: 1989-02-11, TOB: 23:22, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+321. [14-Jul-2026 17:00:42] Name: shashi kanth, DOB: 1989-02-11, TOB: 23:26, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+322. [14-Jul-2026 17:00:45] Name: shashi kanth, DOB: 1989-02-11, TOB: 23:26, Place: Jangoan mandal, Jangaon, Telangana, 506167, India
+323. [16-Jul-2026 03:53:05] Name: Hemendra , DOB: 2005-01-25, TOB: 20:05, Place: Dharmavaram, Andhra Pradesh, India
+324. [16-Jul-2026 06:23:24] Name: Keerthi, DOB: 1990-06-18, TOB: 11:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+325. [16-Jul-2026 18:37:15] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+326. [16-Jul-2026 18:41:34] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+327. [16-Jul-2026 18:45:28] Name: er, DOB: 2026-07-16, TOB: 18:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+328. [16-Jul-2026 18:46:35] Name: ff, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+329. [16-Jul-2026 18:49:42] Name: ff, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+330. [16-Jul-2026 18:51:24] Name: sssss (Compare 1), DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Andhra Pradesh, India
+331. [16-Jul-2026 18:51:24] Name: sssss (Compare 2), DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Andhra Pradesh, India
+332. [16-Jul-2026 18:52:20] Name: ok, DOB: 2026-07-16, TOB: 18:51, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+333. [16-Jul-2026 18:53:15] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+334. [16-Jul-2026 18:53:28] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+335. [16-Jul-2026 19:00:26] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+336. [16-Jul-2026 19:03:53] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+337. [16-Jul-2026 19:23:42] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+338. [16-Jul-2026 19:25:53] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+339. [16-Jul-2026 19:33:18] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+340. [16-Jul-2026 19:35:21] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+341. [16-Jul-2026 19:41:56] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+342. [16-Jul-2026 19:42:26] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+343. [16-Jul-2026 19:44:08] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+344. [16-Jul-2026 19:48:05] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+345. [16-Jul-2026 19:51:42] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+346. [16-Jul-2026 19:55:33] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+347. [16-Jul-2026 19:57:50] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+348. [16-Jul-2026 19:59:46] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+349. [16-Jul-2026 20:01:37] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+350. [16-Jul-2026 20:05:12] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+351. [16-Jul-2026 20:05:54] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+352. [16-Jul-2026 20:06:50] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+353. [16-Jul-2026 20:08:46] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+354. [16-Jul-2026 20:13:44] Name: eed, DOB: 2026-07-16, TOB: 18:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

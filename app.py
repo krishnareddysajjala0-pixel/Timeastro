@@ -1793,14 +1793,19 @@ def get_dasha_info(birth_info):
         age_start_str = ""
         age_end_str = ""
         
-        if is_birth_dasa:
-            age_start_str = "0సం, 0నెలలు"
+        age_start_days = (start_date - birth_dt).days
+        if age_start_days >= 0:
+            age_start_y = age_start_days // 365
+            age_start_m = (age_start_days % 365) // 30
+            age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
         else:
-            age_start_days = (start_date - birth_dt).days
-            if age_start_days >= 0:
-                age_start_y = age_start_days // 365
-                age_start_m = (age_start_days % 365) // 30
-                age_start_str = f"{age_start_y}సం, {age_start_m}నెలలు"
+            abs_days = abs(age_start_days)
+            age_start_y = abs_days // 365
+            age_start_m = (abs_days % 365) // 30
+            if age_start_y == 0 and age_start_m == 0:
+                age_start_str = "0సం, 0నెలలు"
+            else:
+                age_start_str = f"-{age_start_y}సం, {age_start_m}నెలలు"
             
         age_end_days = (end_date - birth_dt).days
         if age_end_days >= 0:

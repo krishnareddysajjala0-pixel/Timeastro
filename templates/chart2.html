@@ -640,7 +640,7 @@
 
         .maha-dasa-period {
             font-size: 16px;
-            color: #ffd700;
+            color: var(--text-muted);
             margin-top: 4px;
             font-weight: 600;
         }
@@ -1983,7 +1983,7 @@
                         <div class="maha-dasa-period">
                             {{ dasa.start }} {{ _('నుండి') }} {{ dasa.end }} {{ _('వరకు') }}
                             <br>
-                            <span style="font-size: 13px; color: #a0a0ff;">
+                            <span style="font-size: 13px; color: var(--text-muted); opacity: 0.95;">
                                 ({{ _('వయసు') }}: {{ dasa.age_start }} {{ _('నుండి') }} {{ dasa.age_end }} {{ _('వరకు') }})
                             </span>
                         </div>

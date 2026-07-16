@@ -1140,6 +1140,11 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     remain_days = jd_end - jd
     remain_h = int(remain_days * 24)
     remain_m = int(((remain_days * 24) % 1) * 60)
+    
+    total_days = jd_end - jd_start
+    total_h = int(total_days * 24)
+    total_m = int(((total_days * 24) % 1) * 60)
+    nak_total_str = f"{total_h}గం {total_m}ని"
 
     # Calculate nak_start and nak_end strings
     ye_k, me_k, de_k, he_k = swe.revjul(jd_end)
@@ -1416,6 +1421,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
         'nak_end': nak_end_str,
         'nak_elapsed': f"{elapsed_h}గం {elapsed_m}ని",
         'nak_remaining': f"{remain_h}గం {remain_m}ని",
+        'nak_total': nak_total_str,
         'elapsed_h': elapsed_h,
         'elapsed_m': elapsed_m,
         'lagna_deg': lagna_degree_str,
@@ -1712,6 +1718,19 @@ def get_dasha_info(birth_info):
     birth_dasa_years = DASA_YEARS.get(birth_dasa, 10)
     elapsed_years_in_birth_dasa = birth_dasa_years * fraction
     
+    elapsed_days_total = int(elapsed_years_in_birth_dasa * 365.25)
+    gata_y = elapsed_days_total // 365
+    gata_m = (elapsed_days_total % 365) // 30
+    gata_d = (elapsed_days_total % 365) % 30
+    gata_str = f"{gata_y}{tr('సం')} {gata_m}{tr('నెలలు')} {gata_d}{tr('రోజులు')}"
+    
+    remain_years_in_birth_dasa = birth_dasa_years - elapsed_years_in_birth_dasa
+    remain_days_total = int(remain_years_in_birth_dasa * 365.25)
+    bhogya_y = remain_days_total // 365
+    bhogya_m = (remain_days_total % 365) // 30
+    bhogya_d = (remain_days_total % 365) % 30
+    bhogya_str = f"{bhogya_y}{tr('సం')} {bhogya_m}{tr('నెలలు')} {bhogya_d}{tr('రోజులు')}"
+    
     # 3. Calculate start date of birth dasa (before birth)
     birth_dasa_start = birth_dt - datetime.timedelta(days=int(elapsed_years_in_birth_dasa * 365.25))
     birth_dasa_end = add_years(birth_dasa_start, birth_dasa_years)
@@ -1732,6 +1751,7 @@ def get_dasha_info(birth_info):
     current_maha_years = 0
     current_maha_age_start = ""
     current_maha_age_end = ""
+    current_anthara_name = ""
     
     # Start from birth dasa and go through all 12
     for i in range(12):
@@ -1818,6 +1838,11 @@ def get_dasha_info(birth_info):
             current_maha_years = dasa_years
             current_maha_age_start = age_start_str
             current_maha_age_end = age_end_str
+            
+            for ant in antharas:
+                if is_date_within_range(today_str, ant["start"], ant["end"]):
+                    current_anthara_name = ant["anthara"]
+                    break
         
         # Move to next Mahadasha start date
         start_date = end_date
@@ -1839,6 +1864,11 @@ def get_dasha_info(birth_info):
         current_dasa_favorable = all_dasas[current_maha_index]["is_favorable"]
         current_maha_age_start = all_dasas[current_maha_index].get("age_start", "")
         current_maha_age_end = all_dasas[current_maha_index].get("age_end", "")
+        
+        for ant in all_dasas[current_maha_index]["antharas"]:
+            if is_date_within_range(today_str, ant["start"], ant["end"]):
+                current_anthara_name = ant["anthara"]
+                break
     else:
         current_dasa_favorable = is_dasa_favorable(lagna, current_maha_name)
     
@@ -1883,7 +1913,11 @@ def get_dasha_info(birth_info):
         "total_cycle_years": total_years_covered,
         "now_date": today_str,
         "dasa_elapsed": dasa_elapsed_str,
-        "dasa_remaining": dasa_remain_str
+        "dasa_remaining": dasa_remain_str,
+        "birth_dasa": birth_dasa,
+        "gata_str": gata_str,
+        "bhogya_str": bhogya_str,
+        "current_anthara": current_anthara_name
     }
 
 @app.route("/chart2", methods=["GET", "POST"])

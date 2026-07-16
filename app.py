@@ -1809,8 +1809,6 @@ def get_dasha_info(birth_info):
             age_end_str = f"{age_end_y}సం, {age_end_m}నెలలు"
 
         disp_start_str = start_str
-        if is_birth_dasa:
-            disp_start_str = birth_dt.strftime("%d-%m-%Y")
 
         # Add this Mahadasha to list
         all_dasas.append({

@@ -419,3 +419,4 @@
 419. [18-Jul-2026 06:23:03] Name: పుష్ప , DOB: 1990-07-19, TOB: 06:55, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
 420. [18-Jul-2026 06:25:42] Name: పుష్ప , DOB: 1990-07-19, TOB: 06:55, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
 421. [18-Jul-2026 06:27:39] Name: పుష్ప , DOB: 1990-07-19, TOB: 06:55, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
+422. [18-Jul-2026 06:33:22] Name: Pelli, DOB: 2008-04-27, TOB: 12:02, Place: హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, India

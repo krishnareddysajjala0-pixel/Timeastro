@@ -431,3 +431,4 @@
 431. [20-Jul-2026 13:49:12] Name: Rohan, DOB: 2026-06-25, TOB: 08:59, Place: Narasaraopet, నరసరావుపేట, పల్నాడు, Andhra Pradesh, 522600, India
 432. [20-Jul-2026 14:04:08] Name: Ok, DOB: 1998-01-09, TOB: 14:53, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 433. [21-Jul-2026 13:38:24] Name: JASWITHA, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, Anantapuram, Andhra Pradesh, 515001, India
+434. [22-Jul-2026 07:41:11] Name: Sandesh, DOB: 1999-09-24, TOB: 17:20, Place: సండూరు, Sanduru taluk, Ballari, Karnataka, 583119, India

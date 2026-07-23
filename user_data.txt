@@ -438,3 +438,4 @@
 438. [22-Jul-2026 09:12:56] Name: ಯುವರಾಜ್ ಎಎನ್, DOB: 2002-02-06, TOB: 16:45, Place: कोलार सोने के खेत, ಕೋಲಾರ ಚಿನ್ನದ ಗಣಿ, ಕೋಲಾರ ಜಿಲ್ಲೆ, Karnataka, 563115, India
 439. [22-Jul-2026 19:01:33] Name: Papa hyd, DOB: 1997-05-19, TOB: 18:45, Place: Hyderabad, Bahadurpura mandal, హైదరాబాదు, Telangana, India
 440. [22-Jul-2026 19:02:59] Name: Papa hyd, DOB: 1997-05-19, TOB: 18:45, Place: malkajigiri, హైదరాబాదు, Telangana, India
+441. [23-Jul-2026 05:18:19] Name: Reddy, DOB: 2026-07-23, TOB: 10:47, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

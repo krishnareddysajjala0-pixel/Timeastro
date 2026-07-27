@@ -482,3 +482,4 @@
 482. [27-Jul-2026 08:43:48] Name: shivakrishna, DOB: 1991-09-25, TOB: 10:00, Place: Macherla, Andhra Pradesh, India
 483. [27-Jul-2026 08:49:57] Name: manaswini, DOB: 2021-08-11, TOB: 11:18, Place: Jammikunta mandal, Karimnagar, Telangana, India
 484. [27-Jul-2026 08:50:01] Name: manaswini, DOB: 2021-08-11, TOB: 11:18, Place: Jammikunta mandal, Karimnagar, Telangana, India
+485. [27-Jul-2026 14:12:36] Name: Redfy, DOB: 1988-10-25, TOB: 01:09, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

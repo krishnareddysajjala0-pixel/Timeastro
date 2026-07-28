@@ -493,3 +493,4 @@
 493. [28-Jul-2026 03:19:11] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 494. [28-Jul-2026 10:48:38] Name: Vijayalakshmi , DOB: 1966-09-20, TOB: 14:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 495. [28-Jul-2026 10:51:37] Name: Vijayalakshmi , DOB: 1966-09-20, TOB: 14:30, Place: Tirupati, Andhra Pradesh, India
+496. [28-Jul-2026 10:54:56] Name: Vijayalakshmi , DOB: 1966-09-20, TOB: 14:30, Place: Tirupati, Andhra Pradesh, India

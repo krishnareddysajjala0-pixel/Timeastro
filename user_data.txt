@@ -498,3 +498,4 @@
 498. [28-Jul-2026 11:00:36] Name: Aradhya , DOB: 2025-03-20, TOB: 07:31, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 499. [28-Jul-2026 14:41:43] Name: Hemendra , DOB: 2026-07-28, TOB: 20:11, Place: Kondapuram, YSR Kadapa, Andhra Pradesh, India
 500. [29-Jul-2026 07:42:36] Name: గణపతి , DOB: 1985-06-09, TOB: 13:11, Place: తాడిపత్రి, అనంతపురం, Andhra Pradesh, India
+501. [29-Jul-2026 09:29:28] Name: Raveendra, DOB: 2000-07-05, TOB: 00:35, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

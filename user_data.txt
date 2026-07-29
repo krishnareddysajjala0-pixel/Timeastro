@@ -503,3 +503,4 @@
 503. [29-Jul-2026 10:10:49] Name: Ravindra  (Compare 1), DOB: 2000-07-05, TOB: 00:45, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 504. [29-Jul-2026 10:10:50] Name: Praveen  (Compare 2), DOB: 2000-07-29, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 505. [29-Jul-2026 10:13:03] Name: జాయికృష్ణ , DOB: 2004-09-18, TOB: 18:40, Place: Hindupur, హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, 515200, India
+506. [29-Jul-2026 10:35:14] Name: గణపతి , DOB: 2026-12-30, TOB: 16:04, Place: తాడిపత్రి, అనంతపురం, Andhra Pradesh, India

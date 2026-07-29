@@ -508,3 +508,4 @@
 508. [29-Jul-2026 10:37:51] Name: గణపతి , DOB: 2027-01-06, TOB: 16:04, Place: తాడిపత్రి, అనంతపురం, Andhra Pradesh, India
 509. [29-Jul-2026 10:38:15] Name: గణపతి , DOB: 2027-01-15, TOB: 17:30, Place: తాడిపత్రి, అనంతపురం, Andhra Pradesh, India
 510. [29-Jul-2026 10:38:31] Name: గణపతి , DOB: 2027-01-15, TOB: 23:30, Place: తాడిపత్రి, అనంతపురం, Andhra Pradesh, India
+511. [29-Jul-2026 14:40:55] Name: Rajiv, DOB: 1944-08-20, TOB: 04:09, Place: Tadpatri, Anantapuram, Andhra Pradesh, India

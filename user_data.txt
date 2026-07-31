@@ -573,3 +573,4 @@
 573. [30-Jul-2026 11:31:29] Name: mokshaa, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, Anantapuram, Andhra Pradesh, 515001, India
 574. [31-Jul-2026 02:25:48] Name: Nagabhushna, DOB: 2025-07-11, TOB: 05:07, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
 575. [31-Jul-2026 05:55:12] Name: Kishore , DOB: 2001-04-16, TOB: 07:00, Place: Chemmumiahpet, Andhra Pradesh, India
+576. [31-Jul-2026 05:56:58] Name: Kishore , DOB: 2001-04-16, TOB: 07:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

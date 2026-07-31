@@ -580,3 +580,4 @@
 580. [31-Jul-2026 06:29:44] Name: Suvarna , DOB: 2003-01-07, TOB: 06:00, Place: Uravakonda, Anantapuram, Andhra Pradesh, 515812, India
 581. [31-Jul-2026 06:33:59] Name: Mokshitha , DOB: 2026-05-23, TOB: 06:00, Place: Kalyanadurgam, Anantapuram, Andhra Pradesh, 515812, India
 582. [31-Jul-2026 06:39:00] Name: Kishor , DOB: 2001-04-16, TOB: 16:00, Place: Tadipatri, Andhra Pradesh, India
+583. [31-Jul-2026 13:48:13] Name: Rani, DOB: 1998-11-27, TOB: 20:30, Place: Kalakada mandal ,gudibanda vlg Andhra Pradesh, India

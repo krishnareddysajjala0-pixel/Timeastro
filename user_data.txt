@@ -582,3 +582,4 @@
 582. [31-Jul-2026 06:39:00] Name: Kishor , DOB: 2001-04-16, TOB: 16:00, Place: Tadipatri, Andhra Pradesh, India
 583. [31-Jul-2026 13:48:13] Name: Rani, DOB: 1998-11-27, TOB: 20:30, Place: Kalakada mandal ,gudibanda vlg Andhra Pradesh, India
 584. [31-Jul-2026 13:57:51] Name: skr, DOB: 2026-07-31, TOB: 19:27, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+585. [31-Jul-2026 14:31:14] Name: Prasad, DOB: 2001-03-12, TOB: 18:00, Place: Tirupati, Tirupati (Urban), Tirupati, Andhra Pradesh, 517500, India

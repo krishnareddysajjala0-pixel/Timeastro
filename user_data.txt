@@ -578,3 +578,4 @@
 578. [31-Jul-2026 06:18:06] Name: Rani sakibanda, DOB: 1998-11-27, TOB: 11:46, Place: Madanapalli, Andhra Pradesh, India
 579. [31-Jul-2026 06:25:27] Name: Suvarna , DOB: 2003-01-07, TOB: 06:00, Place: Uravakonda, Anantapuram, Andhra Pradesh, 515812, India
 580. [31-Jul-2026 06:29:44] Name: Suvarna , DOB: 2003-01-07, TOB: 06:00, Place: Uravakonda, Anantapuram, Andhra Pradesh, 515812, India
+581. [31-Jul-2026 06:33:59] Name: Mokshitha , DOB: 2026-05-23, TOB: 06:00, Place: Kalyanadurgam, Anantapuram, Andhra Pradesh, 515812, India

@@ -587,3 +587,4 @@
 587. [31-Jul-2026 19:02:50] Name: Lucky varshith , DOB: 2015-04-19, TOB: 22:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 588. [31-Jul-2026 19:05:10] Name: Praveen , DOB: 1999-06-05, TOB: 04:05, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 589. [31-Jul-2026 19:05:28] Name: Praveen , DOB: 2000-06-05, TOB: 04:05, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+590. [31-Jul-2026 19:07:52] Name: Praveen , DOB: 2000-06-05, TOB: 04:05, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

@@ -576,3 +576,4 @@
 576. [31-Jul-2026 05:56:58] Name: Kishore , DOB: 2001-04-16, TOB: 07:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 577. [31-Jul-2026 06:05:34] Name: Kishore , DOB: 2001-04-16, TOB: 07:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 578. [31-Jul-2026 06:18:06] Name: Rani sakibanda, DOB: 1998-11-27, TOB: 11:46, Place: Madanapalli, Andhra Pradesh, India
+579. [31-Jul-2026 06:25:27] Name: Suvarna , DOB: 2003-01-07, TOB: 06:00, Place: Uravakonda, Anantapuram, Andhra Pradesh, 515812, India

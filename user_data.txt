@@ -583,3 +583,4 @@
 583. [31-Jul-2026 13:48:13] Name: Rani, DOB: 1998-11-27, TOB: 20:30, Place: Kalakada mandal ,gudibanda vlg Andhra Pradesh, India
 584. [31-Jul-2026 13:57:51] Name: skr, DOB: 2026-07-31, TOB: 19:27, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 585. [31-Jul-2026 14:31:14] Name: Prasad, DOB: 2001-03-12, TOB: 18:00, Place: Tirupati, Tirupati (Urban), Tirupati, Andhra Pradesh, 517500, India
+586. [31-Jul-2026 18:51:16] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

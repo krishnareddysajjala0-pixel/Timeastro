@@ -609,3 +609,4 @@
 609. [01-Aug-2026 19:22:45] Name: Jyothi  (Compare 2), DOB: 1996-03-14, TOB: 15:45, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 610. [01-Aug-2026 19:44:15] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 611. [01-Aug-2026 19:44:19] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+612. [01-Aug-2026 19:45:18] Name: Lucky Varshith , DOB: 2015-04-19, TOB: 09:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

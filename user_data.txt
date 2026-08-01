@@ -591,3 +591,4 @@
 591. [31-Jul-2026 19:19:59] Name: Rangayya, DOB: 2009-02-17, TOB: 09:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 592. [31-Jul-2026 19:39:01] Name: Jyothi , DOB: 1996-06-14, TOB: 03:45, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 593. [31-Jul-2026 19:39:56] Name: Jyothi Bhargavi , DOB: 1996-03-14, TOB: 03:45, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+594. [01-Aug-2026 01:06:01] Name: Jyothi, DOB: 1993-04-04, TOB: 10:15, Place: Nellore, నెల్లూరు, Sri Potti Sriramulu Nellore, Andhra Pradesh, 524001, India

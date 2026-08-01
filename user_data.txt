@@ -599,3 +599,4 @@
 599. [01-Aug-2026 07:45:14] Name: Ok, DOB: 2026-08-01, TOB: 13:15, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 600. [01-Aug-2026 10:38:43] Name: Aradhya , DOB: 2025-03-20, TOB: 07:31, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 601. [01-Aug-2026 10:43:12] Name: Aradhya , DOB: 2025-03-20, TOB: 07:31, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+602. [01-Aug-2026 10:43:52] Name: Jyothi Bhargavi , DOB: 1996-03-14, TOB: 03:45, Place: బంగారుపాళ్యం, चित्तूर, Andhra Pradesh, 517416, India

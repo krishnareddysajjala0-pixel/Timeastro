@@ -1000,14 +1000,14 @@
         placeInput.addEventListener("input", () => {
             const q = placeInput.value.trim();
             if (timeout) clearTimeout(timeout);
-            if (q.length < 3) {
+            if (q.length < 2) {
                 suggestions.style.display = "none";
                 return;
             }
             timeout = setTimeout(async () => {
                 if (controller) controller.abort();
                 controller = new AbortController();
-                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=25&addressdetails=1&countrycodes=in&q=${encodeURIComponent(q)}`;
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&countrycodes=in&q=${encodeURIComponent(q)}`;
                 try {
                 const res = await fetch(url, { signal: controller.signal });
                 const data = await res.json();
@@ -1015,6 +1015,16 @@
                 if (data.length === 0) {
                     suggestions.innerHTML = `<div style="color: #888; font-style: italic;">{{ _('ఫలితాలు లేవు') }}</div>`;
                 } else {
+                    const searchLower = q.toLowerCase();
+                    data.sort((a, b) => {
+                        const titleA = ((a.display_name || "").split(',')[0] || "").trim().toLowerCase();
+                        const titleB = ((b.display_name || "").split(',')[0] || "").trim().toLowerCase();
+                        const startsA = titleA.startsWith(searchLower);
+                        const startsB = titleB.startsWith(searchLower);
+                        if (startsA && !startsB) return -1;
+                        if (!startsA && startsB) return 1;
+                        return 0;
+                    });
                     data.forEach(p => {
                     const div = document.createElement("div");
                     div.innerHTML = `<div style="font-weight: 600; color: #fff;">${p.display_name.split(',')[0]}</div><div style="font-size: 12px; color: #a0a0ff;">${p.display_name.split(',').slice(1).join(',').trim()}</div>`;

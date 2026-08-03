@@ -1383,7 +1383,7 @@
         clearTimeout(suggestionTimeout);
       }
 
-      if (q.length < 3) {
+      if (q.length < 2) {
         suggestions.style.display = "none";
         suggestions.innerHTML = "";
         return;
@@ -1396,15 +1396,15 @@
 
     // Fetch location suggestions
     // Fetch location suggestions (India Villages & Towns)
+    // Fetch location suggestions (India Villages & Towns, starting letter prioritized)
     async function fetchSuggestions(q) {
       if (controller) controller.abort();
       controller = new AbortController();
 
-      // Search specifically in India with countrycodes=in for accurate Indian villages
       const url =
         "https://nominatim.openstreetmap.org/search" +
         "?format=json" +
-        "&limit=25" +
+        "&limit=30" +
         "&addressdetails=1" +
         "&countrycodes=in" +
         "&q=" + encodeURIComponent(q);
@@ -1415,7 +1415,7 @@
           headers: { "Accept": "application/json" }
         });
 
-        const data = await res.json();
+        let data = await res.json();
         suggestions.innerHTML = "";
 
         if (!data || data.length === 0) {
@@ -1426,6 +1426,20 @@
           noResult.style.padding = "10px";
           suggestions.appendChild(noResult);
         } else {
+          // Sort results so places STARTING with the typed letters appear at the VERY TOP
+          const searchLower = q.toLowerCase();
+          data.sort((a, b) => {
+            const titleA = ((a.display_name || "").split(',')[0] || "").trim().toLowerCase();
+            const titleB = ((b.display_name || "").split(',')[0] || "").trim().toLowerCase();
+
+            const startsA = titleA.startsWith(searchLower);
+            const startsB = titleB.startsWith(searchLower);
+
+            if (startsA && !startsB) return -1;
+            if (!startsA && startsB) return 1;
+            return 0;
+          });
+
           data.forEach(p => {
             const displayName = p.display_name || "";
             const parts = displayName.split(',');

@@ -1405,12 +1405,7 @@
       if (controller) controller.abort();
       controller = new AbortController();
 
-      const url =
-        "https://nominatim.openstreetmap.org/search" +
-        "?format=json" +
-        "&limit=30" +
-        "&addressdetails=1" +
-        "&q=" + encodeURIComponent(q);
+      const url = "/api/search_place?q=" + encodeURIComponent(q);
 
       try {
         const res = await fetch(url, {

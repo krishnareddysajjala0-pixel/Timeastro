@@ -976,6 +976,55 @@ def get_planet_icon(planet_name):
     return PLANET_ICONS.get(planet_name, "•")
 
 # ---------------- ROUTES ----------------
+
+@app.route("/api/search_place")
+def api_search_place():
+    import urllib.request
+    import urllib.parse
+    import json
+
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 2:
+        return jsonify([])
+    
+    headers = {"User-Agent": "Timeastro-Astrology-App/2.0 (contact@timeastro.com)"}
+    
+    urls = [
+        f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&countrycodes=in&q={urllib.parse.quote(q)}",
+        f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&q={urllib.parse.quote(q)}"
+    ]
+    
+    if q.lower().endswith("malli"):
+        alt_q = q[:-5] + "milli"
+        urls.append(f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&countrycodes=in&q={urllib.parse.quote(alt_q)}")
+    
+    results = []
+    seen = set()
+    
+    for url in urls:
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=4) as response:
+                if response.status == 200:
+                    data = json.loads(response.read().decode('utf-8'))
+                    for p in data:
+                        display_name = p.get('display_name', '')
+                        if display_name not in seen:
+                            seen.add(display_name)
+                            results.append(p)
+            if len(results) >= 15:
+                break
+        except Exception:
+            continue
+            
+    search_lower = q.lower()
+    def sort_key(item):
+        title = (item.get('display_name', '').split(',')[0] or '').strip().lower()
+        return (0 if title.startswith(search_lower) else 1, title)
+        
+    results.sort(key=sort_key)
+    return jsonify(results)
+
 @app.route("/")
 def index():
     return render_template("index.html")

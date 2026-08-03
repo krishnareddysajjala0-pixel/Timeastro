@@ -1000,14 +1000,14 @@
         placeInput.addEventListener("input", () => {
             const q = placeInput.value.trim();
             if (timeout) clearTimeout(timeout);
-            if (q.length < 2) {
+            if (q.length < 3) {
                 suggestions.style.display = "none";
                 return;
             }
             timeout = setTimeout(async () => {
                 if (controller) controller.abort();
                 controller = new AbortController();
-                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=15&addressdetails=1&q=${encodeURIComponent(q)}`;
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=25&addressdetails=1&countrycodes=in&q=${encodeURIComponent(q)}`;
                 try {
                 const res = await fetch(url, { signal: controller.signal });
                 const data = await res.json();

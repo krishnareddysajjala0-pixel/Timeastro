@@ -1383,7 +1383,7 @@
         clearTimeout(suggestionTimeout);
       }
 
-      if (q.length < 2) {
+      if (q.length < 3) {
         suggestions.style.display = "none";
         suggestions.innerHTML = "";
         return;
@@ -1395,15 +1395,18 @@
     });
 
     // Fetch location suggestions
+    // Fetch location suggestions (India Villages & Towns)
     async function fetchSuggestions(q) {
       if (controller) controller.abort();
       controller = new AbortController();
 
+      // Search specifically in India with countrycodes=in for accurate Indian villages
       const url =
         "https://nominatim.openstreetmap.org/search" +
         "?format=json" +
-        "&limit=15" +
+        "&limit=25" +
         "&addressdetails=1" +
+        "&countrycodes=in" +
         "&q=" + encodeURIComponent(q);
 
       try {
@@ -1417,7 +1420,7 @@
 
         if (!data || data.length === 0) {
           const noResult = document.createElement("div");
-          noResult.textContent = "{{ _('ఫలితాలు లేవు') }}";
+          noResult.textContent = "{{ _('భారతదేశంలో గ్రామ ఫలితాలు లేవు') }}";
           noResult.style.color = "#888";
           noResult.style.fontStyle = "italic";
           noResult.style.padding = "10px";
@@ -1461,7 +1464,7 @@
           });
         }
 
-        suggestions.style.maxHeight = "260px";
+        suggestions.style.maxHeight = "280px";
         suggestions.style.overflowY = "auto";
         suggestions.style.display = "block";
       } catch (e) {

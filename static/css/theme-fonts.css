@@ -1,0 +1,203 @@
+/* Google Fonts Import for Anu Fonts (Telugu) and Multi-Language Theme Font Styles */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Gidugu&family=Gurajada&family=Kalam:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Mallanna&family=Mandali&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Serif+Devanagari:wght@400;700&family=Noto+Serif+Kannada:wght@400;700&family=Noto+Serif+Malayalam:wght@400;700&family=Noto+Serif+Oriya:wght@400;700&family=Noto+Serif+Tamil:wght@400;700&family=Noto+Serif+Telugu:wght@400;700&family=Orbitron:wght@600;800&family=Outfit:wght@400;600;700&family=Peddana&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@400;600&family=Rajdhani:wght@500;700&family=Ramabhadra&family=Rozha+One&family=Sree+Krushnadevaraya&family=Suranna&family=Syne:wght@600;800&family=Teko:wght@500;700&family=Tenali+Ramakrishna&family=Tiro+Devanagari+Hindi&family=Tiro+Kannada&family=Tiro+Malayalam&family=Tiro+Tamil&family=Yatra+One&display=swap');
+
+/* Default Theme (Bright Mode / Standard) */
+:root {
+  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Gautami', 'Segoe UI', serif;
+  --font-en: 'Cinzel', 'Georgia', serif;
+  --font-hi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
+  --font-kn: 'Tiro Kannada', 'Noto Serif Kannada', serif;
+  --font-ta: 'Tiro Tamil', 'Noto Serif Tamil', serif;
+  --font-ml: 'Tiro Malayalam', 'Noto Serif Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Cosmic Mode (Premium Dark) */
+[data-theme="cosmic"] {
+  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', serif;
+  --font-en: 'Philosopher', 'Playfair Display', serif;
+  --font-hi: 'Rozha One', 'Noto Serif Devanagari', serif;
+  --font-kn: 'Noto Serif Kannada', serif;
+  --font-ta: 'Noto Serif Tamil', serif;
+  --font-ml: 'Noto Serif Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Sunset Theme */
+[data-theme="sunset"] {
+  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', serif;
+  --font-en: 'Merriweather', 'Lora', serif;
+  --font-hi: 'Kalam', 'Noto Serif Devanagari', serif;
+  --font-kn: 'Tiro Kannada', serif;
+  --font-ta: 'Tiro Tamil', serif;
+  --font-ml: 'Tiro Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Luxury Obsidian Gold Theme */
+[data-theme="luxury"] {
+  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', serif;
+  --font-en: 'Cinzel Decorative', 'Cinzel', serif;
+  --font-hi: 'Yatra One', 'Noto Serif Devanagari', serif;
+  --font-kn: 'Noto Serif Kannada', serif;
+  --font-ta: 'Noto Serif Tamil', serif;
+  --font-ml: 'Noto Serif Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Neo Cyberpunk Theme */
+[data-theme="cyberpunk"] {
+  --font-te: 'Mandali', 'Noto Sans Telugu', sans-serif;
+  --font-en: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-hi: 'Teko', 'Rajdhani', sans-serif;
+  --font-kn: 'Noto Sans Kannada', sans-serif;
+  --font-ta: 'Noto Sans Tamil', sans-serif;
+  --font-ml: 'Noto Sans Malayalam', sans-serif;
+  --font-or: 'Noto Sans Oriya', sans-serif;
+}
+
+/* Solar Amber Theme */
+[data-theme="solar"] {
+  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', sans-serif;
+  --font-en: 'Outfit', 'Poppins', sans-serif;
+  --font-hi: 'Rajdhani', 'Noto Sans Devanagari', sans-serif;
+  --font-kn: 'Noto Sans Kannada', sans-serif;
+  --font-ta: 'Noto Sans Tamil', sans-serif;
+  --font-ml: 'Noto Sans Malayalam', sans-serif;
+  --font-or: 'Noto Sans Oriya', sans-serif;
+}
+
+/* Royal Mandala Theme */
+[data-theme="mandala"] {
+  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', serif;
+  --font-en: 'Playfair Display', 'Cinzel', serif;
+  --font-hi: 'Rozha One', 'Tiro Devanagari Hindi', serif;
+  --font-kn: 'Tiro Kannada', serif;
+  --font-ta: 'Tiro Tamil', serif;
+  --font-ml: 'Tiro Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Twilight Fusion Theme */
+[data-theme="twilight"] {
+  --font-te: 'Gidugu', 'Noto Sans Telugu', sans-serif;
+  --font-en: 'Syne', 'Quicksand', sans-serif;
+  --font-hi: 'Noto Sans Devanagari', sans-serif;
+  --font-kn: 'Noto Sans Kannada', sans-serif;
+  --font-ta: 'Noto Sans Tamil', sans-serif;
+  --font-ml: 'Noto Sans Malayalam', sans-serif;
+  --font-or: 'Noto Sans Oriya', sans-serif;
+}
+
+/* Divine Aurora Theme */
+[data-theme="aurora"] {
+  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', serif;
+  --font-en: 'Philosopher', 'Lora', serif;
+  --font-hi: 'Tiro Devanagari Hindi', serif;
+  --font-kn: 'Noto Serif Kannada', serif;
+  --font-ta: 'Noto Serif Tamil', serif;
+  --font-ml: 'Noto Serif Malayalam', serif;
+  --font-or: 'Noto Serif Oriya', serif;
+}
+
+/* Fix Theme Switcher expansion to fit all 9 themes comfortably */
+.theme-switcher.expanded {
+  max-width: 520px !important;
+}
+
+.theme-options {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 6px !important;
+  align-items: center !important;
+}
+
+.theme-btn {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, background 0.2s ease !important;
+}
+
+.theme-btn:hover {
+  transform: scale(1.15) !important;
+}
+
+.theme-btn.active {
+  box-shadow: 0 0 8px #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+}
+
+/* Reduced & Compact Input Box Sizes */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="password"],
+input[type="search"],
+select,
+textarea,
+.form-control {
+  padding: 10px 14px 10px 42px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  min-height: 40px !important;
+  max-height: 44px !important;
+}
+
+.input-container input {
+  padding-left: 42px !important;
+}
+
+.input-icon {
+  font-size: 15px !important;
+  left: 14px !important;
+}
+
+.form-group label, .input-group label {
+  margin-bottom: 5px !important;
+  font-size: 13.5px !important;
+}
+
+/* Compact line heights & scale text so fonts fit cleanly without ballooning line spaces */
+html, body {
+  line-height: 1.3 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2 !important;
+}
+
+p, span, div, td, th, label, button, input, select, textarea, li, a {
+  line-height: 1.3 !important;
+}
+
+/* Visual scaling boost so Anu script font glyphs match standard text scale perfectly */
+html[lang="te"] {
+  font-size: 105%;
+}
+
+/* Apply Font Styles per language */
+html[lang="te"] body, html[lang="te"], body.lang-te { font-family: var(--font-te) !important; }
+html[lang="en"] body, html[lang="en"], body.lang-en { font-family: var(--font-en) !important; }
+html[lang="hi"] body, html[lang="hi"], body.lang-hi { font-family: var(--font-hi) !important; }
+html[lang="kn"] body, html[lang="kn"], body.lang-kn { font-family: var(--font-kn) !important; }
+html[lang="ta"] body, html[lang="ta"], body.lang-ta { font-family: var(--font-ta) !important; }
+html[lang="ml"] body, html[lang="ml"], body.lang-ml { font-family: var(--font-ml) !important; }
+html[lang="or"] body, html[lang="or"], body.lang-or { font-family: var(--font-or) !important; }
+
+/* General fallback for body and UI elements */
+body {
+  font-family: var(--font-te);
+}
+
+button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
+  font-family: inherit;
+}

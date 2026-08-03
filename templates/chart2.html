@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="{{ current_lang if current_lang else 'te' }}">
 
 <head>
+  <link rel="stylesheet" href="/static/css/theme-fonts.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>దశా వివరాలు - {{ name }}</title>
@@ -261,7 +262,7 @@
     }
 
         body {
-            font-family: 'Segoe UI', 'Arial', sans-serif;
+            font-family: inherit;
             line-height: 1.6;
             font-size: 13px;
             color: var(--text-main);

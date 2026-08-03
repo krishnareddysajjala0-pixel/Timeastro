@@ -979,6 +979,7 @@ def get_planet_icon(planet_name):
 
 @app.route("/api/search_place")
 def api_search_place():
+    import sqlite3
     import urllib.request
     import urllib.parse
     import json
@@ -986,44 +987,65 @@ def api_search_place():
     q = request.args.get("q", "").strip()
     if not q or len(q) < 2:
         return jsonify([])
-    
-    headers = {"User-Agent": "Timeastro-Astrology-App/2.0 (contact@timeastro.com)"}
-    
-    urls = [
-        f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&countrycodes=in&q={urllib.parse.quote(q)}",
-        f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&q={urllib.parse.quote(q)}"
-    ]
-    
-    if q.lower().endswith("malli"):
-        alt_q = q[:-5] + "milli"
-        urls.append(f"https://nominatim.openstreetmap.org/search?format=json&limit=30&addressdetails=1&countrycodes=in&q={urllib.parse.quote(alt_q)}")
-    
+
     results = []
     seen = set()
-    
-    for url in urls:
+    search_lower = q.lower()
+
+    # 1. Query local 565,737 Indian Places SQLite database
+    db_path = os.path.join(app.root_path, "india_places.db")
+    if os.path.exists(db_path):
         try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+
+            # Priority 1: Places starting with search term (e.g. LIKE 'zarug%')
+            cursor.execute(
+                "SELECT display_name, lat, lon FROM places WHERE search_key LIKE ? LIMIT 30",
+                (search_lower + "%",)
+            )
+            rows = cursor.fetchall()
+            for r in rows:
+                disp, lat, lon = r[0], str(r[1]), str(r[2])
+                if disp not in seen:
+                    seen.add(disp)
+                    results.append({"display_name": disp, "lat": lat, "lon": lon})
+
+            # Priority 2: Places containing search term if less than 15 matches
+            if len(results) < 15:
+                cursor.execute(
+                    "SELECT display_name, lat, lon FROM places WHERE search_key LIKE ? AND search_key NOT LIKE ? LIMIT 20",
+                    ("%" + search_lower + "%", search_lower + "%")
+                )
+                rows = cursor.fetchall()
+                for r in rows:
+                    disp, lat, lon = r[0], str(r[1]), str(r[2])
+                    if disp not in seen:
+                        seen.add(disp)
+                        results.append({"display_name": disp, "lat": lat, "lon": lon})
+            conn.close()
+        except Exception:
+            pass
+
+    # 2. Fallback to OpenStreetMap Nominatim if zero matches found in local DB
+    if not results:
+        try:
+            headers = {"User-Agent": "Timeastro-Astrology-App/2.0 (contact@timeastro.com)"}
+            url = f"https://nominatim.openstreetmap.org/search?format=json&limit=25&addressdetails=1&q={urllib.parse.quote(q)}"
             req = urllib.request.Request(url, headers=headers)
             with urllib.request.urlopen(req, timeout=4) as response:
                 if response.status == 200:
                     data = json.loads(response.read().decode('utf-8'))
                     for p in data:
-                        display_name = p.get('display_name', '')
-                        if display_name not in seen:
-                            seen.add(display_name)
+                        disp = p.get('display_name', '')
+                        if disp not in seen:
+                            seen.add(disp)
                             results.append(p)
-            if len(results) >= 15:
-                break
         except Exception:
-            continue
-            
-    search_lower = q.lower()
-    def sort_key(item):
-        title = (item.get('display_name', '').split(',')[0] or '').strip().lower()
-        return (0 if title.startswith(search_lower) else 1, title)
-        
-    results.sort(key=sort_key)
+            pass
+
     return jsonify(results)
+
 
 @app.route("/")
 def index():

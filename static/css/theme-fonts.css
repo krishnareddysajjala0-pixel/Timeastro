@@ -163,14 +163,50 @@ input#mobile,
   padding-left: 85px !important;
 }
 
-.input-icon {
-  font-size: 15px !important;
-  left: 14px !important;
+/* Keep card visible above animated background layers */
+.container, .card {
+  position: relative !important;
+  z-index: 10 !important;
 }
 
-.form-group label, .input-group label {
-  margin-bottom: 5px !important;
-  font-size: 13.5px !important;
+/* Ensure background overlays stay behind content */
+body::before, [data-theme="aurora"] body::before {
+  z-index: -1 !important;
+}
+
+.input-icon {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1 !important;
+  font-size: 15px !important;
+}
+
+/* Clean Label Formatting & Icon Alignment */
+.form-group label, .input-group label, label {
+  display: block !important;
+  margin-bottom: 6px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+}
+
+.form-group label i, .input-group label i, label i {
+  font-size: 15px !important;
+  margin-right: 6px !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+.required-field::after {
+  content: " *" !important;
+  color: #ef4444 !important;
+  font-weight: bold !important;
+  display: inline-block !important;
 }
 
 /* Compact line heights & scale text so fonts fit cleanly without ballooning line spaces */
@@ -191,19 +227,42 @@ html[lang="te"] {
   font-size: 105%;
 }
 
-/* Universal Font Enforcement Rule across all languages and calendar elements */
-html, body, *,
-html[lang="te"], html[lang="te"] body, html[lang="te"] *, body.lang-te, body.lang-te *,
-.cal-cell, .cal-cell *, .date-number, .date-number *, .tithi-text, .tithi-time, .nakshatra-text, .nakshatra-time, .sun-times, .header-branding, .header-masam, .header-pakshams, .day-header, .search-bar, .nav-item {
+/* Universal Text Font Enforcement (EXCLUDING FontAwesome Icons) */
+html, body, p, span, div, td, th, label, button, input, select, textarea, li, a, h1, h2, h3, h4, h5, h6,
+.cal-cell, .date-number, .tithi-text, .tithi-time, .nakshatra-text, .nakshatra-time, .sun-times, .header-branding, .header-masam, .header-pakshams, .day-header, .search-bar, .nav-item {
   font-family: var(--font-te) !important;
 }
 
-html[lang="en"], html[lang="en"] body, html[lang="en"] *, body.lang-en, body.lang-en * { font-family: var(--font-en) !important; }
-html[lang="hi"], html[lang="hi"] body, html[lang="hi"] *, body.lang-hi, body.lang-hi * { font-family: var(--font-hi) !important; }
-html[lang="kn"], html[lang="kn"] body, html[lang="kn"] *, body.lang-kn, body.lang-kn * { font-family: var(--font-kn) !important; }
-html[lang="ta"], html[lang="ta"] body, html[lang="ta"] *, body.lang-ta, body.lang-ta * { font-family: var(--font-ta) !important; }
-html[lang="ml"], html[lang="ml"] body, html[lang="ml"] *, body.lang-ml, body.lang-ml * { font-family: var(--font-ml) !important; }
-html[lang="or"], html[lang="or"] body, html[lang="or"] *, body.lang-or, body.lang-or * { font-family: var(--font-or) !important; }
+html[lang="en"] body, html[lang="en"] p, html[lang="en"] span, html[lang="en"] div, html[lang="en"] td, html[lang="en"] th, html[lang="en"] label, html[lang="en"] button, html[lang="en"] input, html[lang="en"] select, html[lang="en"] textarea, html[lang="en"] li, html[lang="en"] a { font-family: var(--font-en) !important; }
+html[lang="hi"] body, html[lang="hi"] p, html[lang="hi"] span, html[lang="hi"] div, html[lang="hi"] td, html[lang="hi"] th, html[lang="hi"] label, html[lang="hi"] button, html[lang="hi"] input, html[lang="hi"] select, html[lang="hi"] textarea, html[lang="hi"] li, html[lang="hi"] a { font-family: var(--font-hi) !important; }
+html[lang="kn"] body, html[lang="kn"] p, html[lang="kn"] span, html[lang="kn"] div, html[lang="kn"] td, html[lang="kn"] th, html[lang="kn"] label, html[lang="kn"] button, html[lang="kn"] input, html[lang="kn"] select, html[lang="kn"] textarea, html[lang="kn"] li, html[lang="kn"] a { font-family: var(--font-kn) !important; }
+html[lang="ta"] body, html[lang="ta"] p, html[lang="ta"] span, html[lang="ta"] div, html[lang="ta"] td, html[lang="ta"] th, html[lang="ta"] label, html[lang="ta"] button, html[lang="ta"] input, html[lang="ta"] select, html[lang="ta"] textarea, html[lang="ta"] li, html[lang="ta"] a { font-family: var(--font-ta) !important; }
+html[lang="ml"] body, html[lang="ml"] p, html[lang="ml"] span, html[lang="ml"] div, html[lang="ml"] td, html[lang="ml"] th, html[lang="ml"] label, html[lang="ml"] button, html[lang="ml"] input, html[lang="ml"] select, html[lang="ml"] textarea, html[lang="ml"] li, html[lang="ml"] a { font-family: var(--font-ml) !important; }
+html[lang="or"] body, html[lang="or"] p, html[lang="or"] span, html[lang="or"] div, html[lang="or"] td, html[lang="or"] th, html[lang="or"] label, html[lang="or"] button, html[lang="or"] input, html[lang="or"] select, html[lang="or"] textarea, html[lang="or"] li, html[lang="or"] a { font-family: var(--font-or) !important; }
+
+/* STRICT FONTAWESOME ICON RESTORATION OVERRIDE */
+.fa, .fas, .far, .fal, .fad, .fab, .fa-solid, .fa-regular, .fa-brands, [class^="fa-"], [class*=" fa-"], i.fa, i.fas, i.far, i.fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+}
+
+.fa-solid, .fas {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+.fa-brands, .fab {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+.fa-regular, .far {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 400 !important;
+}
 
 /* General fallback for body and UI elements */
 body, body * {

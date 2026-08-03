@@ -1007,7 +1007,7 @@
             timeout = setTimeout(async () => {
                 if (controller) controller.abort();
                 controller = new AbortController();
-                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=8&addressdetails=1&q=${encodeURIComponent(q)}`;
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=15&addressdetails=1&q=${encodeURIComponent(q)}`;
                 try {
                 const res = await fetch(url, { signal: controller.signal });
                 const data = await res.json();

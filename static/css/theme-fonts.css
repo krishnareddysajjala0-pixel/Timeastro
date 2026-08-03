@@ -156,6 +156,13 @@ textarea,
   padding-left: 42px !important;
 }
 
+/* Prevent overlap with Country Code dropdown (+91 box width 75px) */
+.input-container input#mobile,
+input#mobile,
+#mobile {
+  padding-left: 85px !important;
+}
+
 .input-icon {
   font-size: 15px !important;
   left: 14px !important;

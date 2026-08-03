@@ -193,7 +193,11 @@ html[lang="te"] {
 
 /* Universal Font Enforcement Rule across all languages and calendar elements */
 html, body, *,
-html[lang="te"], html[lang="te"] body, html[lang="te"] *, body.lang-te, body.lang-te * { font-family: var(--font-te) !important; }
+html[lang="te"], html[lang="te"] body, html[lang="te"] *, body.lang-te, body.lang-te *,
+.cal-cell, .cal-cell *, .date-number, .date-number *, .tithi-text, .tithi-time, .nakshatra-text, .nakshatra-time, .sun-times, .header-branding, .header-masam, .header-pakshams, .day-header, .search-bar, .nav-item {
+  font-family: var(--font-te) !important;
+}
+
 html[lang="en"], html[lang="en"] body, html[lang="en"] *, body.lang-en, body.lang-en * { font-family: var(--font-en) !important; }
 html[lang="hi"], html[lang="hi"] body, html[lang="hi"] *, body.lang-hi, body.lang-hi * { font-family: var(--font-hi) !important; }
 html[lang="kn"], html[lang="kn"] body, html[lang="kn"] *, body.lang-kn, body.lang-kn * { font-family: var(--font-kn) !important; }

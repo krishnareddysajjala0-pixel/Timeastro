@@ -2,102 +2,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Gidugu&family=Gurajada&family=Kalam:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Mallanna&family=Mandali&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Serif+Devanagari:wght@400;700&family=Noto+Serif+Kannada:wght@400;700&family=Noto+Serif+Malayalam:wght@400;700&family=Noto+Serif+Oriya:wght@400;700&family=Noto+Serif+Tamil:wght@400;700&family=Noto+Serif+Telugu:wght@400;700&family=Orbitron:wght@600;800&family=Outfit:wght@400;600;700&family=Peddana&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@400;600&family=Rajdhani:wght@500;700&family=Ramabhadra&family=Rozha+One&family=Sree+Krushnadevaraya&family=Suranna&family=Syne:wght@600;800&family=Teko:wght@500;700&family=Tenali+Ramakrishna&family=Tiro+Devanagari+Hindi&family=Tiro+Kannada&family=Tiro+Malayalam&family=Tiro+Tamil&family=Yatra+One&display=swap');
 
 /* Default Theme (Bright Mode / Standard) */
-:root {
-  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', 'Tiro Tamil', 'Tiro Malayalam', 'Noto Serif Oriya', serif;
-  --font-en: 'Cinzel', 'Georgia', serif;
-  --font-hi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
-  --font-kn: 'Tiro Kannada', 'Noto Serif Kannada', serif;
-  --font-ta: 'Tiro Tamil', 'Noto Serif Tamil', serif;
-  --font-ml: 'Tiro Malayalam', 'Noto Serif Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+:root, [data-theme="default"], html[data-theme="default"], body[data-theme="default"] {
+  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', 'Tiro Tamil', 'Tiro Malayalam', 'Noto Serif Oriya', serif !important;
+  --font-en: 'Cinzel', 'Georgia', serif !important;
+  --font-hi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif !important;
+  --font-kn: 'Tiro Kannada', 'Noto Serif Kannada', serif !important;
+  --font-ta: 'Tiro Tamil', 'Noto Serif Tamil', serif !important;
+  --font-ml: 'Tiro Malayalam', 'Noto Serif Malayalam', serif !important;
+  --font-or: 'Noto Serif Oriya', serif !important;
 }
 
 /* Cosmic Mode (Premium Dark) */
-[data-theme="cosmic"] {
-  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Noto Serif Devanagari', 'Noto Serif Tamil', serif;
-  --font-en: 'Philosopher', 'Playfair Display', serif;
-  --font-hi: 'Rozha One', 'Noto Serif Devanagari', serif;
-  --font-kn: 'Noto Serif Kannada', serif;
-  --font-ta: 'Noto Serif Tamil', serif;
-  --font-ml: 'Noto Serif Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+[data-theme="cosmic"], html[data-theme="cosmic"], body[data-theme="cosmic"] {
+  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Noto Serif Devanagari', 'Noto Serif Tamil', serif !important;
+  --font-en: 'Philosopher', 'Playfair Display', serif !important;
+  --font-hi: 'Rozha One', 'Noto Serif Devanagari', serif !important;
+  --font-kn: 'Noto Serif Kannada', serif !important;
 }
 
 /* Sunset Theme */
-[data-theme="sunset"] {
-  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', 'Tiro Kannada', 'Kalam', 'Noto Serif Devanagari', serif;
-  --font-en: 'Merriweather', 'Lora', serif;
-  --font-hi: 'Kalam', 'Noto Serif Devanagari', serif;
-  --font-kn: 'Tiro Kannada', serif;
-  --font-ta: 'Tiro Tamil', serif;
-  --font-ml: 'Tiro Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+[data-theme="sunset"], html[data-theme="sunset"], body[data-theme="sunset"] {
+  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', 'Tiro Kannada', 'Kalam', 'Noto Serif Devanagari', serif !important;
+  --font-en: 'Merriweather', 'Lora', serif !important;
+  --font-hi: 'Kalam', 'Noto Serif Devanagari', serif !important;
+  --font-kn: 'Tiro Kannada', serif !important;
 }
 
 /* Luxury Obsidian Gold Theme */
-[data-theme="luxury"] {
-  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Yatra One', serif;
-  --font-en: 'Cinzel Decorative', 'Cinzel', serif;
-  --font-hi: 'Yatra One', 'Noto Serif Devanagari', serif;
-  --font-kn: 'Noto Serif Kannada', serif;
-  --font-ta: 'Noto Serif Tamil', serif;
-  --font-ml: 'Noto Serif Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+[data-theme="luxury"], html[data-theme="luxury"], body[data-theme="luxury"] {
+  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Yatra One', serif !important;
+  --font-en: 'Cinzel Decorative', 'Cinzel', serif !important;
+  --font-hi: 'Yatra One', 'Noto Serif Devanagari', serif !important;
+  --font-kn: 'Noto Serif Kannada', serif !important;
 }
 
 /* Neo Cyberpunk Theme */
-[data-theme="cyberpunk"] {
-  --font-te: 'Mandali', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Teko', 'Noto Sans Devanagari', sans-serif;
-  --font-en: 'Orbitron', 'Rajdhani', sans-serif;
-  --font-hi: 'Teko', 'Rajdhani', sans-serif;
-  --font-kn: 'Noto Sans Kannada', sans-serif;
-  --font-ta: 'Noto Sans Tamil', sans-serif;
-  --font-ml: 'Noto Sans Malayalam', sans-serif;
-  --font-or: 'Noto Sans Oriya', sans-serif;
+[data-theme="cyberpunk"], html[data-theme="cyberpunk"], body[data-theme="cyberpunk"] {
+  --font-te: 'Mandali', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Teko', 'Noto Sans Devanagari', sans-serif !important;
+  --font-en: 'Orbitron', 'Rajdhani', sans-serif !important;
+  --font-hi: 'Teko', 'Rajdhani', sans-serif !important;
+  --font-kn: 'Noto Sans Kannada', sans-serif !important;
 }
 
 /* Solar Amber Theme */
-[data-theme="solar"] {
-  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Rajdhani', sans-serif;
-  --font-en: 'Outfit', 'Poppins', sans-serif;
-  --font-hi: 'Rajdhani', 'Noto Sans Devanagari', sans-serif;
-  --font-kn: 'Noto Sans Kannada', sans-serif;
-  --font-ta: 'Noto Sans Tamil', sans-serif;
-  --font-ml: 'Noto Sans Malayalam', sans-serif;
-  --font-or: 'Noto Sans Oriya', sans-serif;
+[data-theme="solar"], html[data-theme="solar"], body[data-theme="solar"] {
+  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Rajdhani', sans-serif !important;
+  --font-en: 'Outfit', 'Poppins', sans-serif !important;
+  --font-hi: 'Rajdhani', 'Noto Sans Devanagari', sans-serif !important;
+  --font-kn: 'Noto Sans Kannada', sans-serif !important;
 }
 
 /* Royal Mandala Theme */
-[data-theme="mandala"] {
-  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', 'Tiro Kannada', 'Rozha One', serif;
-  --font-en: 'Playfair Display', 'Cinzel', serif;
-  --font-hi: 'Rozha One', 'Tiro Devanagari Hindi', serif;
-  --font-kn: 'Tiro Kannada', serif;
-  --font-ta: 'Tiro Tamil', serif;
-  --font-ml: 'Tiro Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+[data-theme="mandala"], html[data-theme="mandala"], body[data-theme="mandala"] {
+  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', 'Tiro Kannada', 'Rozha One', serif !important;
+  --font-en: 'Playfair Display', 'Cinzel', serif !important;
+  --font-hi: 'Rozha One', 'Tiro Devanagari Hindi', serif !important;
+  --font-kn: 'Tiro Kannada', serif !important;
 }
 
 /* Twilight Fusion Theme */
-[data-theme="twilight"] {
-  --font-te: 'Gidugu', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;
-  --font-en: 'Syne', 'Quicksand', sans-serif;
-  --font-hi: 'Noto Sans Devanagari', sans-serif;
-  --font-kn: 'Noto Sans Kannada', sans-serif;
-  --font-ta: 'Noto Sans Tamil', sans-serif;
-  --font-ml: 'Noto Sans Malayalam', sans-serif;
-  --font-or: 'Noto Sans Oriya', sans-serif;
+[data-theme="twilight"], html[data-theme="twilight"], body[data-theme="twilight"] {
+  --font-te: 'Gidugu', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif !important;
+  --font-en: 'Syne', 'Quicksand', sans-serif !important;
+  --font-hi: 'Noto Sans Devanagari', sans-serif !important;
+  --font-kn: 'Noto Sans Kannada', sans-serif !important;
 }
 
 /* Divine Aurora Theme */
-[data-theme="aurora"] {
-  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', serif;
-  --font-en: 'Philosopher', 'Lora', serif;
-  --font-hi: 'Tiro Devanagari Hindi', serif;
-  --font-kn: 'Noto Serif Kannada', serif;
-  --font-ta: 'Noto Serif Tamil', serif;
-  --font-ml: 'Noto Serif Malayalam', serif;
-  --font-or: 'Noto Serif Oriya', serif;
+[data-theme="aurora"], html[data-theme="aurora"], body[data-theme="aurora"] {
+  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', serif !important;
+  --font-en: 'Philosopher', 'Lora', serif !important;
+  --font-hi: 'Tiro Devanagari Hindi', serif !important;
+  --font-kn: 'Noto Serif Kannada', serif !important;
 }
 
 /* Fix Theme Switcher expansion to fit all 9 themes comfortably */
@@ -229,9 +205,19 @@ html[lang="te"] {
 
 /* Universal Text Font Enforcement (EXCLUDING FontAwesome Icons) */
 html, body, p, span, div, td, th, label, button, input, select, textarea, li, a, h1, h2, h3, h4, h5, h6,
-.cal-cell, .date-number, .tithi-text, .tithi-time, .nakshatra-text, .nakshatra-time, .sun-times, .header-branding, .header-masam, .header-pakshams, .day-header, .search-bar, .nav-item {
+.cal-cell, .cal-cell *, .date-number, .date-number *, .tithi-text, .tithi-time, .nakshatra-text, .nakshatra-time, .sun-times, .header-branding, .header-masam, .header-pakshams, .day-header, .search-bar, .nav-item {
   font-family: var(--font-te) !important;
 }
+
+/* Specific Theme Font Targets for Calendar Elements */
+[data-theme="luxury"] .cal-cell *, [data-theme="luxury"] .date-number, [data-theme="luxury"] .tithi-text, [data-theme="luxury"] .nakshatra-text, [data-theme="luxury"] .header-masam { font-family: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', serif !important; }
+[data-theme="cosmic"] .cal-cell *, [data-theme="cosmic"] .date-number, [data-theme="cosmic"] .tithi-text, [data-theme="cosmic"] .nakshatra-text, [data-theme="cosmic"] .header-masam { font-family: 'Gurajada', 'Peddana', 'Noto Serif Telugu', serif !important; }
+[data-theme="sunset"] .cal-cell *, [data-theme="sunset"] .date-number, [data-theme="sunset"] .tithi-text, [data-theme="sunset"] .nakshatra-text, [data-theme="sunset"] .header-masam { font-family: 'Peddana', 'Suranna', 'Noto Serif Telugu', serif !important; }
+[data-theme="cyberpunk"] .cal-cell *, [data-theme="cyberpunk"] .date-number, [data-theme="cyberpunk"] .tithi-text, [data-theme="cyberpunk"] .nakshatra-text, [data-theme="cyberpunk"] .header-masam { font-family: 'Mandali', 'Noto Sans Telugu', sans-serif !important; }
+[data-theme="solar"] .cal-cell *, [data-theme="solar"] .date-number, [data-theme="solar"] .tithi-text, [data-theme="solar"] .nakshatra-text, [data-theme="solar"] .header-masam { font-family: 'Tenali Ramakrishna', 'Noto Sans Telugu', sans-serif !important; }
+[data-theme="mandala"] .cal-cell *, [data-theme="mandala"] .date-number, [data-theme="mandala"] .tithi-text, [data-theme="mandala"] .nakshatra-text, [data-theme="mandala"] .header-masam { font-family: 'Suranna', 'Peddana', 'Noto Serif Telugu', serif !important; }
+[data-theme="twilight"] .cal-cell *, [data-theme="twilight"] .date-number, [data-theme="twilight"] .tithi-text, [data-theme="twilight"] .nakshatra-text, [data-theme="twilight"] .header-masam { font-family: 'Gidugu', 'Noto Sans Telugu', sans-serif !important; }
+[data-theme="aurora"] .cal-cell *, [data-theme="aurora"] .date-number, [data-theme="aurora"] .tithi-text, [data-theme="aurora"] .nakshatra-text, [data-theme="aurora"] .header-masam { font-family: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', serif !important; }
 
 html[lang="en"] body, html[lang="en"] p, html[lang="en"] span, html[lang="en"] div, html[lang="en"] td, html[lang="en"] th, html[lang="en"] label, html[lang="en"] button, html[lang="en"] input, html[lang="en"] select, html[lang="en"] textarea, html[lang="en"] li, html[lang="en"] a { font-family: var(--font-en) !important; }
 html[lang="hi"] body, html[lang="hi"] p, html[lang="hi"] span, html[lang="hi"] div, html[lang="hi"] td, html[lang="hi"] th, html[lang="hi"] label, html[lang="hi"] button, html[lang="hi"] input, html[lang="hi"] select, html[lang="hi"] textarea, html[lang="hi"] li, html[lang="hi"] a { font-family: var(--font-hi) !important; }

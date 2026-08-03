@@ -184,17 +184,17 @@ html[lang="te"] {
   font-size: 105%;
 }
 
-/* Apply Font Styles per language */
-html[lang="te"] body, html[lang="te"], body.lang-te { font-family: var(--font-te) !important; }
-html[lang="en"] body, html[lang="en"], body.lang-en { font-family: var(--font-en) !important; }
-html[lang="hi"] body, html[lang="hi"], body.lang-hi { font-family: var(--font-hi) !important; }
-html[lang="kn"] body, html[lang="kn"], body.lang-kn { font-family: var(--font-kn) !important; }
-html[lang="ta"] body, html[lang="ta"], body.lang-ta { font-family: var(--font-ta) !important; }
-html[lang="ml"] body, html[lang="ml"], body.lang-ml { font-family: var(--font-ml) !important; }
-html[lang="or"] body, html[lang="or"], body.lang-or { font-family: var(--font-or) !important; }
+/* Universal Font Enforcement Rule across all languages and calendar elements */
+html[lang="te"], html[lang="te"] body, html[lang="te"] *, body.lang-te, body.lang-te * { font-family: var(--font-te) !important; }
+html[lang="en"], html[lang="en"] body, html[lang="en"] *, body.lang-en, body.lang-en * { font-family: var(--font-en) !important; }
+html[lang="hi"], html[lang="hi"] body, html[lang="hi"] *, body.lang-hi, body.lang-hi * { font-family: var(--font-hi) !important; }
+html[lang="kn"], html[lang="kn"] body, html[lang="kn"] *, body.lang-kn, body.lang-kn * { font-family: var(--font-kn) !important; }
+html[lang="ta"], html[lang="ta"] body, html[lang="ta"] *, body.lang-ta, body.lang-ta * { font-family: var(--font-ta) !important; }
+html[lang="ml"], html[lang="ml"] body, html[lang="ml"] *, body.lang-ml, body.lang-ml * { font-family: var(--font-ml) !important; }
+html[lang="or"], html[lang="or"] body, html[lang="or"] *, body.lang-or, body.lang-or * { font-family: var(--font-or) !important; }
 
 /* General fallback for body and UI elements */
-body {
+body, body * {
   font-family: var(--font-te);
 }
 

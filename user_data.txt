@@ -667,3 +667,4 @@
 667. [03-Aug-2026 15:46:18] Name: Sesha , DOB: 1994-08-05, TOB: 21:55, Place: రాయచోటి, నందవరం, कर्नूल, Andhra Pradesh, India
 668. [03-Aug-2026 15:47:22] Name: Sesha , DOB: 1994-08-05, TOB: 19:20, Place: రాయచోటి, నందవరం, कर्नूल, Andhra Pradesh, India
 669. [03-Aug-2026 15:47:58] Name: Red, DOB: 2026-08-03, TOB: 21:17, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+670. [03-Aug-2026 15:54:23] Name: Rajeswari , DOB: 1991-05-26, TOB: 08:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

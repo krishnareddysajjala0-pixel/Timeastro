@@ -1397,6 +1397,10 @@
     // Fetch location suggestions
     // Fetch location suggestions (India Villages & Towns)
     // Fetch location suggestions (India Villages & Towns, starting letter prioritized)
+    // Global top suggestion holder for auto-selection
+    let topSuggestion = null;
+
+    // Fetch location suggestions (India & Global Villages, starting letter prioritized)
     async function fetchSuggestions(q) {
       if (controller) controller.abort();
       controller = new AbortController();
@@ -1406,7 +1410,6 @@
         "?format=json" +
         "&limit=30" +
         "&addressdetails=1" +
-        "&countrycodes=in" +
         "&q=" + encodeURIComponent(q);
 
       try {
@@ -1417,16 +1420,17 @@
 
         let data = await res.json();
         suggestions.innerHTML = "";
+        topSuggestion = null;
 
         if (!data || data.length === 0) {
           const noResult = document.createElement("div");
-          noResult.textContent = "{{ _('భారతదేశంలో గ్రామ ఫలితాలు లేవు') }}";
-          noResult.style.color = "#888";
+          noResult.textContent = "{{ _('ఫలితాలు లేవు') }}";
+          noResult.style.color = "#fbbf24";
           noResult.style.fontStyle = "italic";
-          noResult.style.padding = "10px";
+          noResult.style.padding = "12px";
           suggestions.appendChild(noResult);
         } else {
-          // Sort results so places STARTING with the typed letters appear at the VERY TOP
+          // Sort results: Places starting with typed search query appear at top
           const searchLower = q.toLowerCase();
           data.sort((a, b) => {
             const titleA = ((a.display_name || "").split(',')[0] || "").trim().toLowerCase();
@@ -1440,6 +1444,9 @@
             return 0;
           });
 
+          // Store top matching suggestion for fallback auto-selection
+          topSuggestion = data[0];
+
           data.forEach(p => {
             const displayName = p.display_name || "";
             const parts = displayName.split(',');
@@ -1447,19 +1454,20 @@
             const subtitle = parts.length > 1 ? parts.slice(1).join(',').trim() : "";
 
             const div = document.createElement("div");
-            div.style.padding = "10px 14px";
+            div.style.padding = "12px 16px";
             div.style.cursor = "pointer";
-            div.style.borderBottom = "1px solid rgba(255, 255, 255, 0.08)";
+            div.style.borderBottom = "1px solid rgba(255, 255, 255, 0.12)";
+            div.style.background = "rgba(15, 23, 42, 0.95)";
             div.style.transition = "background 0.2s";
 
-            div.onmouseenter = () => { div.style.background = "rgba(255, 215, 0, 0.15)"; };
-            div.onmouseleave = () => { div.style.background = "transparent"; };
+            div.onmouseenter = () => { div.style.background = "rgba(234, 179, 8, 0.25)"; };
+            div.onmouseleave = () => { div.style.background = "rgba(15, 23, 42, 0.95)"; };
 
             div.innerHTML = `
-              <div style="font-weight: 600; color: #fff; font-size: 14px;">
-                <i class="fas fa-map-marker-alt" style="color: #ffd700; margin-right: 6px; font-size: 12px;"></i>${title}
+              <div style="font-weight: 700; color: #ffffff; font-size: 15px;">
+                <i class="fas fa-map-marker-alt" style="color: #facc15; margin-right: 8px; font-size: 14px;"></i>${title}
               </div>
-              <div style="font-size: 11.5px; color: #cbd5e1; margin-top: 2px;">${subtitle}</div>
+              <div style="font-size: 12.5px; color: #94a3b8; margin-top: 3px; font-weight: 500;">${subtitle}</div>
             `;
 
             div.onclick = () => {
@@ -1468,7 +1476,7 @@
               lonInput.value = p.lon;
               suggestions.style.display = "none";
 
-              placeInput.style.borderColor = "#6bcf7f";
+              placeInput.style.borderColor = "#10b981";
               setTimeout(() => {
                 placeInput.style.borderColor = "rgba(255, 255, 255, 0.2)";
               }, 1000);
@@ -1478,8 +1486,12 @@
           });
         }
 
-        suggestions.style.maxHeight = "280px";
+        suggestions.style.maxHeight = "300px";
         suggestions.style.overflowY = "auto";
+        suggestions.style.background = "#0f172a";
+        suggestions.style.border = "2px solid #facc15";
+        suggestions.style.borderRadius = "12px";
+        suggestions.style.boxShadow = "0 10px 25px rgba(0,0,0,0.8)";
         suggestions.style.display = "block";
       } catch (e) {
         if (e.name !== 'AbortError') {
@@ -1495,28 +1507,34 @@
       }
     });
 
-    // Form validation and submission
-    mainForm.addEventListener("submit", (e) => {
-      // Check if lat/lon are set
+    // Form validation and auto-selection submission
+    mainForm.addEventListener("submit", async (e) => {
+      if (!latInput.value || !lonInput.value) {
+        if (topSuggestion) {
+          placeInput.value = topSuggestion.display_name;
+          latInput.value = topSuggestion.lat;
+          lonInput.value = topSuggestion.lon;
+        } else if (placeInput.value.trim()) {
+          e.preventDefault();
+          try {
+            const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(placeInput.value.trim()));
+            const data = await res.json();
+            if (data && data[0]) {
+              placeInput.value = data[0].display_name;
+              latInput.value = data[0].lat;
+              lonInput.value = data[0].lon;
+              showLoading();
+              mainForm.submit();
+              return;
+            }
+          } catch(err) {}
+        }
+      }
+
       if (!latInput.value || !lonInput.value) {
         e.preventDefault();
-
         placeInput.style.borderColor = "#ff6b6b";
-        placeInput.style.animation = "shake 0.5s";
-
-        let errorMsg = placeInput.parentNode.querySelector('.location-error');
-        if (!errorMsg) {
-          errorMsg = document.createElement('div');
-          errorMsg.className = 'error-message location-error';
-          errorMsg.style.display = 'block';
-          errorMsg.textContent = 'దయచేసి జాబితా నుండి ఒక స్థలాన్ని ఎంచుకోండి';
-          placeInput.parentNode.appendChild(errorMsg);
-        }
-
-        setTimeout(() => {
-          placeInput.style.animation = "";
-        }, 500);
-
+        alert("దయచేసి జాబితా నుండి ఒక స్థలాన్ని ఎంచుకోండి");
         return;
       }
 

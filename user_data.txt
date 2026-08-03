@@ -622,3 +622,4 @@
 622. [03-Aug-2026 04:32:20] Name: Gshj, DOB: 2026-08-02, TOB: 16:40, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 623. [03-Aug-2026 05:44:10] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
 624. [03-Aug-2026 10:19:08] Name: KRISHNA REDDY, DOB: 2026-08-03, TOB: 15:48, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+625. [03-Aug-2026 10:20:01] Name: KRISHNA REDDY, DOB: 2026-08-03, TOB: 15:48, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

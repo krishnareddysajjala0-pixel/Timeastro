@@ -3,7 +3,7 @@
 
 /* Default Theme (Bright Mode / Standard) */
 :root {
-  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Gautami', 'Segoe UI', serif;
+  --font-te: 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', 'Tiro Tamil', 'Tiro Malayalam', 'Noto Serif Oriya', serif;
   --font-en: 'Cinzel', 'Georgia', serif;
   --font-hi: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
   --font-kn: 'Tiro Kannada', 'Noto Serif Kannada', serif;
@@ -14,7 +14,7 @@
 
 /* Cosmic Mode (Premium Dark) */
 [data-theme="cosmic"] {
-  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', serif;
+  --font-te: 'Gurajada', 'Peddana', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Noto Serif Devanagari', 'Noto Serif Tamil', serif;
   --font-en: 'Philosopher', 'Playfair Display', serif;
   --font-hi: 'Rozha One', 'Noto Serif Devanagari', serif;
   --font-kn: 'Noto Serif Kannada', serif;
@@ -25,7 +25,7 @@
 
 /* Sunset Theme */
 [data-theme="sunset"] {
-  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', serif;
+  --font-te: 'Peddana', 'Suranna', 'Noto Serif Telugu', 'Tiro Kannada', 'Kalam', 'Noto Serif Devanagari', serif;
   --font-en: 'Merriweather', 'Lora', serif;
   --font-hi: 'Kalam', 'Noto Serif Devanagari', serif;
   --font-kn: 'Tiro Kannada', serif;
@@ -36,7 +36,7 @@
 
 /* Luxury Obsidian Gold Theme */
 [data-theme="luxury"] {
-  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', serif;
+  --font-te: 'Sree Krushnadevaraya', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Yatra One', serif;
   --font-en: 'Cinzel Decorative', 'Cinzel', serif;
   --font-hi: 'Yatra One', 'Noto Serif Devanagari', serif;
   --font-kn: 'Noto Serif Kannada', serif;
@@ -47,7 +47,7 @@
 
 /* Neo Cyberpunk Theme */
 [data-theme="cyberpunk"] {
-  --font-te: 'Mandali', 'Noto Sans Telugu', sans-serif;
+  --font-te: 'Mandali', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Teko', 'Noto Sans Devanagari', sans-serif;
   --font-en: 'Orbitron', 'Rajdhani', sans-serif;
   --font-hi: 'Teko', 'Rajdhani', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -58,7 +58,7 @@
 
 /* Solar Amber Theme */
 [data-theme="solar"] {
-  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', sans-serif;
+  --font-te: 'Tenali Ramakrishna', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Rajdhani', sans-serif;
   --font-en: 'Outfit', 'Poppins', sans-serif;
   --font-hi: 'Rajdhani', 'Noto Sans Devanagari', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -69,7 +69,7 @@
 
 /* Royal Mandala Theme */
 [data-theme="mandala"] {
-  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', serif;
+  --font-te: 'Suranna', 'Peddana', 'Noto Serif Telugu', 'Tiro Kannada', 'Rozha One', serif;
   --font-en: 'Playfair Display', 'Cinzel', serif;
   --font-hi: 'Rozha One', 'Tiro Devanagari Hindi', serif;
   --font-kn: 'Tiro Kannada', serif;
@@ -80,7 +80,7 @@
 
 /* Twilight Fusion Theme */
 [data-theme="twilight"] {
-  --font-te: 'Gidugu', 'Noto Sans Telugu', sans-serif;
+  --font-te: 'Gidugu', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;
   --font-en: 'Syne', 'Quicksand', sans-serif;
   --font-hi: 'Noto Sans Devanagari', sans-serif;
   --font-kn: 'Noto Sans Kannada', sans-serif;
@@ -91,7 +91,7 @@
 
 /* Divine Aurora Theme */
 [data-theme="aurora"] {
-  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', serif;
+  --font-te: 'Mallanna', 'Ramabhadra', 'Noto Serif Telugu', 'Noto Serif Kannada', 'Tiro Devanagari Hindi', serif;
   --font-en: 'Philosopher', 'Lora', serif;
   --font-hi: 'Tiro Devanagari Hindi', serif;
   --font-kn: 'Noto Serif Kannada', serif;
@@ -192,6 +192,7 @@ html[lang="te"] {
 }
 
 /* Universal Font Enforcement Rule across all languages and calendar elements */
+html, body, *,
 html[lang="te"], html[lang="te"] body, html[lang="te"] *, body.lang-te, body.lang-te * { font-family: var(--font-te) !important; }
 html[lang="en"], html[lang="en"] body, html[lang="en"] *, body.lang-en, body.lang-en * { font-family: var(--font-en) !important; }
 html[lang="hi"], html[lang="hi"] body, html[lang="hi"] *, body.lang-hi, body.lang-hi * { font-family: var(--font-hi) !important; }

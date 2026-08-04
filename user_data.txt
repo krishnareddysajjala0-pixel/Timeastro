@@ -711,3 +711,4 @@
 711. [04-Aug-2026 14:26:46] Name: Vishnu Vardhan , DOB: 1983-05-26, TOB: 08:18, Place: Tirupati, Andhra Pradesh, India
 712. [04-Aug-2026 14:47:07] Name: Laxmi Prasanna , DOB: 1990-10-08, TOB: 08:30, Place: Adhoni,Andhra Pradesh, India
 713. [04-Aug-2026 16:26:27] Name: Y విజయ రాజు , DOB: 2005-11-23, TOB: 10:35, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+714. [04-Aug-2026 16:34:25] Name: రఘురామ్ , DOB: 1977-06-26, TOB: 02:00, Place: వెంకటగిరికోట చిత్తూరు జిల్లా 

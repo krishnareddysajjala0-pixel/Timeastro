@@ -708,3 +708,4 @@
 708. [04-Aug-2026 12:28:25] Name: ok, DOB: 2026-08-04, TOB: 17:13, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 709. [04-Aug-2026 13:04:22] Name: Lakshmi reddy, DOB: 1986-11-14, TOB: 18:32, Place: Gummepalli,singanamala mandal,anantpuram district
 710. [04-Aug-2026 13:05:58] Name: Lakshmi reddy, DOB: 1986-11-14, TOB: 05:30, Place: Gummepalli,singanamala mandal,anantpuram district andrapradesh.
+711. [04-Aug-2026 14:26:46] Name: Vishnu Vardhan , DOB: 1983-05-26, TOB: 08:18, Place: Tirupati, Andhra Pradesh, India

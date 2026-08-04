@@ -673,3 +673,4 @@
 673. [03-Aug-2026 16:36:10] Name: మనోహర్ కొడుకు , DOB: 2026-08-02, TOB: 19:10, Place: Kuppam chittoor 
 674. [03-Aug-2026 17:30:12] Name: Kishore , DOB: 2001-04-16, TOB: 11:00, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
 675. [04-Aug-2026 03:18:52] Name: Sesha , DOB: 1994-08-05, TOB: 19:20, Place: Tirupati, Andhra Pradesh, India
+676. [04-Aug-2026 03:21:12] Name: Sesha , DOB: 1994-08-05, TOB: 19:20, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

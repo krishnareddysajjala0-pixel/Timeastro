@@ -777,7 +777,7 @@
         <div class="mana-pandugalu-container">
             <div style="font-weight: bold; margin-bottom: 5px; text-decoration: underline;">{{ _('ముఖ్యమైన పండుగలు:') }}</div>
             {% for f in festivals %}
-            <div class="festival-item-list"><b>{{ f.day }} {{ f.month_en }}</b>: {{ f.name }}</div>
+            <div class="festival-item-list"><b>{{ f.day }} {% if f.month_en %}{{ f.month_en }}{% else %}{{ f.month }}{% endif %}</b>: {{ f.name }}</div>
             {% endfor %}
         </div>
     </div>

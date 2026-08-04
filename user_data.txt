@@ -703,3 +703,4 @@
 703. [04-Aug-2026 11:57:24] Name: Jagan, DOB: 2009-02-23, TOB: 02:30, Place: ఉరవకొండ, अनन्तपुर, Andhra Pradesh, 515812, India
 704. [04-Aug-2026 11:57:30] Name: హేమతేజశ్వి , DOB: 2008-01-23, TOB: 10:05, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India
 705. [04-Aug-2026 11:57:32] Name: Ayyappa, DOB: 1999-06-10, TOB: 17:00, Place: Venkatagiri, Tirupati, Andhra Pradesh, 524132, India
+706. [04-Aug-2026 12:04:16] Name: చరణ్ తేజ , DOB: 2010-10-22, TOB: 13:30, Place: కుప్పం, చిత్తూరు, Andhra Pradesh, 517425, India

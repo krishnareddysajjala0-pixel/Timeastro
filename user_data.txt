@@ -679,3 +679,4 @@
 679. [04-Aug-2026 05:00:39] Name: KRISHNA REDDY, DOB: 1988-10-25, TOB: 01:11, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 680. [04-Aug-2026 05:25:47] Name: KRISHNA REDDY, DOB: 2014-05-15, TOB: 10:55, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 681. [04-Aug-2026 06:04:57] Name: Sesha , DOB: 1994-08-05, TOB: 19:20, Place: Tirupati, Andhra Pradesh, India
+682. [04-Aug-2026 06:40:38] Name: Reddy, DOB: 2026-08-20, TOB: 12:09, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

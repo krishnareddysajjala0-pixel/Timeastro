@@ -672,3 +672,4 @@
 672. [03-Aug-2026 16:00:16] Name: Rajeswari , DOB: 1991-05-26, TOB: 08:10, Place: Tirupati, Andhra Pradesh, India
 673. [03-Aug-2026 16:36:10] Name: మనోహర్ కొడుకు , DOB: 2026-08-02, TOB: 19:10, Place: Kuppam chittoor 
 674. [03-Aug-2026 17:30:12] Name: Kishore , DOB: 2001-04-16, TOB: 11:00, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
+675. [04-Aug-2026 03:18:52] Name: Sesha , DOB: 1994-08-05, TOB: 19:20, Place: Tirupati, Andhra Pradesh, India

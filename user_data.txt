@@ -710,3 +710,4 @@
 710. [04-Aug-2026 13:05:58] Name: Lakshmi reddy, DOB: 1986-11-14, TOB: 05:30, Place: Gummepalli,singanamala mandal,anantpuram district andrapradesh.
 711. [04-Aug-2026 14:26:46] Name: Vishnu Vardhan , DOB: 1983-05-26, TOB: 08:18, Place: Tirupati, Andhra Pradesh, India
 712. [04-Aug-2026 14:47:07] Name: Laxmi Prasanna , DOB: 1990-10-08, TOB: 08:30, Place: Adhoni,Andhra Pradesh, India
+713. [04-Aug-2026 16:26:27] Name: Y విజయ రాజు , DOB: 2005-11-23, TOB: 10:35, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India

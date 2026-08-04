@@ -685,3 +685,4 @@
 685. [04-Aug-2026 07:58:10] Name: Rajeswari , DOB: 1991-05-26, TOB: 08:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 686. [04-Aug-2026 10:33:35] Name: Ajay , DOB: 2002-03-29, TOB: 04:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 687. [04-Aug-2026 10:51:52] Name: Pallavi , DOB: 2007-09-09, TOB: 08:15, Place: Ballari,Karnataka, Andhra Pradesh, India
+688. [04-Aug-2026 10:52:22] Name: హృతిక్ , DOB: 2002-10-29, TOB: 13:45, Place: Vellore tamilnadu 

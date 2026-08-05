@@ -733,3 +733,4 @@
 733. [05-Aug-2026 04:24:32] Name: Sai keerthana, DOB: 2006-04-24, TOB: 07:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 734. [05-Aug-2026 04:28:06] Name: krishna meera, DOB: 2023-10-13, TOB: 10:30, Place: Tirupati, Andhra Pradesh, India
 735. [05-Aug-2026 06:20:00] Name: Sai keerthana, DOB: 2006-04-24, TOB: 07:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+736. [05-Aug-2026 07:21:47] Name: Krishna teja , DOB: 2021-06-25, TOB: 12:50, Place: Anantapur Andhra Pradesh, India

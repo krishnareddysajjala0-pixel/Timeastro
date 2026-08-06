@@ -1288,8 +1288,10 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     jd_start = find_amavasya(jd - days_since)
     jd_end = find_amavasya(jd + days_to)
     
-    # Calculate exact month name mapping based on the Amavasya's Solar intersection
-    amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    # Calculate exact month name mapping based on the Amavasya's Solar Sidereal intersection
+    amavasya_trop_sun = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    amavasya_ayan = swe.get_ayanamsa_ut(jd_start)
+    amavasya_sun_lon = (amavasya_trop_sun - amavasya_ayan) % 360
     lagna_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
@@ -2673,8 +2675,10 @@ def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_
     jd_start = find_amavasya(jd - days_since)
     jd_end = find_amavasya(jd + days_to)
 
-    # Masam is determined by Sun's Rasi at the preceding Amavasya (Amanta system)
-    amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN, PLANET_FLAGS)[0][0]
+    # Masam is determined by Sun's Sidereal Rasi at the preceding Amavasya (Amanta system)
+    amavasya_trop_sun = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    amavasya_ayan = swe.get_ayanamsa_ut(jd_start)
+    amavasya_sun_lon = (amavasya_trop_sun - amavasya_ayan) % 360
     lagna_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]
@@ -3165,7 +3169,9 @@ def calendar_view():
     krishna_start_dt = purnima_dt + datetime.timedelta(days=1)
     krishna_range = f"{krishna_start_dt.day} {tr_month(EN_MONTHS_TELUGU[krishna_start_dt.month-1])} - {end_dt.day} {tr_month(EN_MONTHS_TELUGU[end_dt.month-1])}"
 
-    amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    amavasya_trop_sun = swe.calc_ut(jd_start, swe.SUN)[0][0]
+    amavasya_ayan = swe.get_ayanamsa_ut(jd_start)
+    amavasya_sun_lon = (amavasya_trop_sun - amavasya_ayan) % 360
     lagna_idx = int((amavasya_sun_lon % 360) / 30)
     masam_index = (lagna_idx + 1) % 12
     telugu_masam_name = TELUGU_MASALU[masam_index]

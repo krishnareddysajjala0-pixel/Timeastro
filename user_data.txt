@@ -763,3 +763,4 @@
 763. [06-Aug-2026 06:08:45] Name: Chandrika , DOB: 2005-10-17, TOB: 18:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 764. [06-Aug-2026 06:09:05] Name: Chandrika , DOB: 2005-10-17, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 765. [06-Aug-2026 10:32:29] Name: Anitha , DOB: 1996-05-06, TOB: 07:15, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
+766. [06-Aug-2026 12:00:06] Name: Saranya, DOB: 2010-02-17, TOB: 06:30, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India

@@ -762,3 +762,4 @@
 762. [06-Aug-2026 05:39:01] Name: Mokshith, DOB: 2019-08-03, TOB: 05:17, Place: Tirupati, Andhra Pradesh, India
 763. [06-Aug-2026 06:08:45] Name: Chandrika , DOB: 2005-10-17, TOB: 18:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 764. [06-Aug-2026 06:09:05] Name: Chandrika , DOB: 2005-10-17, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+765. [06-Aug-2026 10:32:29] Name: Anitha , DOB: 1996-05-06, TOB: 07:15, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India

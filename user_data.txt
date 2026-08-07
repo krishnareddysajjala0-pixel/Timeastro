@@ -773,3 +773,4 @@
 773. [07-Aug-2026 05:28:11] Name: సాత్విక, DOB: 2014-08-21, TOB: 23:20, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 774. [07-Aug-2026 08:37:17] Name: Praveen , DOB: 2002-12-15, TOB: 18:25, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 775. [07-Aug-2026 09:24:34] Name: Naveen , DOB: 2000-10-01, TOB: 02:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+776. [07-Aug-2026 14:09:45] Name: Jyothi, DOB: 1996-03-14, TOB: 03:45, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India

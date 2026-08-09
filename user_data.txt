@@ -799,3 +799,4 @@
 799. [09-Aug-2026 02:51:27] Name: MOKSHAA, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 800. [09-Aug-2026 03:22:06] Name: jaswitha, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 801. [09-Aug-2026 03:23:37] Name: jaswitha, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+802. [09-Aug-2026 04:58:01] Name: Vamsi , DOB: 2002-10-20, TOB: 10:10, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

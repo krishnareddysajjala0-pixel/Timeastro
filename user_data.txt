@@ -838,3 +838,4 @@
 838. [09-Aug-2026 14:04:41] Name: Thanusha , DOB: 2010-07-20, TOB: 04:20, Place: Madanapalli
 839. [09-Aug-2026 14:17:05] Name: MANJUNATH, DOB: 1985-12-19, TOB: 18:00, Place: Jolarpet, Tirupathur, Tirupattur, Tamil Nadu, 635851, India
 840. [09-Aug-2026 14:18:56] Name: MANJUNATH, DOB: 1985-12-19, TOB: 18:00, Place: Jolarpet, Tirupathur, Tirupattur, Tamil Nadu, 635851, India
+841. [09-Aug-2026 16:25:40] Name: Anjineyulu, DOB: 2006-12-10, TOB: 21:55, Place: నల్లచెరువు, శ్రీ సత్యసాయి, Andhra Pradesh, 515551, India

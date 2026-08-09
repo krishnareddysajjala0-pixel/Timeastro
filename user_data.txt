@@ -847,3 +847,4 @@
 847. [09-Aug-2026 17:08:21] Name: Hemendra, DOB: 2005-01-25, TOB: 20:30, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
 848. [09-Aug-2026 17:25:59] Name: Hemendra, DOB: 2005-01-25, TOB: 20:30, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
 849. [09-Aug-2026 17:31:46] Name: Hemendra (Compare 1), DOB: 2005-01-25, TOB: 20:30, Place: ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, India
+850. [09-Aug-2026 17:31:47] Name: Thanusha (Compare 2), DOB: 2010-07-20, TOB: 04:20, Place: Madanapalli, కదపల్లె, శాంతిపురం, చిత్తూరు, Andhra Pradesh, 517423, India

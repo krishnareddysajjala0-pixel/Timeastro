@@ -833,3 +833,4 @@
 833. [09-Aug-2026 12:20:52] Name: Hemendra, DOB: 2005-01-25, TOB: 20:30, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
 834. [09-Aug-2026 12:21:01] Name: Ok, DOB: 2026-08-09, TOB: 17:50, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 835. [09-Aug-2026 12:21:21] Name: Hemendra, DOB: 2005-01-25, TOB: 20:30, Place: Dharmavaram, ధర్మవరం, శ్రీ సత్యసాయి, Andhra Pradesh, 515671, India
+836. [09-Aug-2026 12:24:19] Name: Anjineyulu, DOB: 2006-12-10, TOB: 17:54, Place: నల్లచెరువు, శ్రీ సత్యసాయి, Andhra Pradesh, 515551, India

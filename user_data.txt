@@ -901,3 +901,4 @@
 901. [12-Aug-2026 05:52:25] Name: Pelli, DOB: 2002-08-28, TOB: 20:21, Place: Hassan, Karnataka, India
 902. [12-Aug-2026 06:06:34] Name: Pelli, DOB: 2002-08-28, TOB: 02:35, Place: Hassan, Karnataka, India
 903. [12-Aug-2026 11:01:49] Name: Vasantha, DOB: 1999-12-27, TOB: 19:45, Place: Tirupati, Andhra Pradesh, India
+904. [12-Aug-2026 11:05:21] Name: Vasantha, DOB: 1999-12-27, TOB: 19:45, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India

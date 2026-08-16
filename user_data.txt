@@ -919,3 +919,4 @@
 919. [16-Aug-2026 00:11:10] Name: Kotireddy , DOB: 2026-08-16, TOB: 05:40, Place: Kondapuram, YSR Kadapa, Andhra Pradesh, India
 920. [16-Aug-2026 01:41:08] Name: jaswitha, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 921. [16-Aug-2026 01:41:46] Name: jaswitha, DOB: 2011-10-06, TOB: 16:45, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+922. [16-Aug-2026 08:08:27] Name: Bharathi, DOB: 2001-03-16, TOB: 04:00, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India

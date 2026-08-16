@@ -922,3 +922,4 @@
 922. [16-Aug-2026 08:08:27] Name: Bharathi, DOB: 2001-03-16, TOB: 04:00, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
 923. [16-Aug-2026 08:20:10] Name: Bharathi, DOB: 2001-03-16, TOB: 04:45, Place: Tirupati, Andhra Pradesh, India
 924. [16-Aug-2026 08:22:15] Name: Krishnaveeni, DOB: 2006-10-18, TOB: 04:29, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
+925. [16-Aug-2026 09:45:06] Name: Thrinath, DOB: 1994-07-21, TOB: 12:30, Place: Kanigiri, Andhra Pradesh, India

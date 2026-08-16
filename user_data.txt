@@ -932,3 +932,4 @@
 932. [16-Aug-2026 17:14:01] Name: Aradhya  (Compare 2), DOB: 2025-03-20, TOB: 07:32, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 933. [16-Aug-2026 17:16:37] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Anantapur, Andhra Pradesh, India
 934. [16-Aug-2026 17:21:59] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Anantapur, Andhra Pradesh, India
+935. [16-Aug-2026 17:44:06] Name: Jyothi , DOB: 1996-03-14, TOB: 03:45, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India

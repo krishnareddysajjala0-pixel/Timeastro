@@ -924,3 +924,4 @@
 924. [16-Aug-2026 08:22:15] Name: Krishnaveeni, DOB: 2006-10-18, TOB: 04:29, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
 925. [16-Aug-2026 09:45:06] Name: Thrinath, DOB: 1994-07-21, TOB: 12:30, Place: Kanigiri, Andhra Pradesh, India
 926. [16-Aug-2026 09:51:52] Name: Mb, DOB: 1975-08-09, TOB: 12:00, Place: Chennai, Tamil Nadu, India
+927. [16-Aug-2026 10:45:58] Name: Pranitha , DOB: 1999-11-28, TOB: 17:05, Place: నాగర్ కర్నూల్, Telangana, India

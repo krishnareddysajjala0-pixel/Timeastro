@@ -947,3 +947,4 @@
 947. [17-Aug-2026 05:57:28] Name: Sreeja, DOB: 2000-01-23, TOB: 17:24, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 948. [17-Aug-2026 05:59:19] Name: Sreeja, DOB: 2000-01-23, TOB: 17:24, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 949. [17-Aug-2026 05:59:29] Name: Sreeja, DOB: 2000-01-23, TOB: 17:24, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+950. [17-Aug-2026 06:00:16] Name: లక్ష్మయ్య , DOB: 1949-07-01, TOB: 16:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India

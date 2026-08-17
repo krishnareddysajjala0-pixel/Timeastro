@@ -950,3 +950,4 @@
 950. [17-Aug-2026 06:00:16] Name: లక్ష్మయ్య , DOB: 1949-07-01, TOB: 16:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 951. [17-Aug-2026 06:04:10] Name: వైష్ణవి , DOB: 2003-04-07, TOB: 11:00, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 952. [17-Aug-2026 06:10:45] Name: వైష్ణవి , DOB: 2003-04-07, TOB: 11:00, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+953. [17-Aug-2026 06:11:52] Name: ప్రజ్ఞ , DOB: 2005-01-26, TOB: 20:00, Place: Jammikunta mandal, కరీంనగర్, Telangana, India

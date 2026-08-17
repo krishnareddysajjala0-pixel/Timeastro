@@ -957,3 +957,4 @@
 957. [17-Aug-2026 11:01:35] Name: Peddanna, DOB: 1949-04-05, TOB: 05:00, Place: Anantapur, అనంతపురం, अनन्तपुर, Andhra Pradesh, 515001, India
 958. [17-Aug-2026 11:02:08] Name: Peddanna, DOB: 1949-04-05, TOB: 21:00, Place: Anantapur, అనంతపురం, अनन्तपुर, Andhra Pradesh, 515001, India
 959. [17-Aug-2026 13:32:04] Name: Raveendra, DOB: 2000-07-05, TOB: 23:42, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+960. [17-Aug-2026 15:33:29] Name: Kishor , DOB: 2001-04-16, TOB: 21:02, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India

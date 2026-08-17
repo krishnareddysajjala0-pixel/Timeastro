@@ -959,3 +959,4 @@
 959. [17-Aug-2026 13:32:04] Name: Raveendra, DOB: 2000-07-05, TOB: 23:42, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 960. [17-Aug-2026 15:33:29] Name: Kishor , DOB: 2001-04-16, TOB: 21:02, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
 961. [17-Aug-2026 15:35:30] Name: Kishore , DOB: 2001-04-16, TOB: 11:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+962. [17-Aug-2026 22:09:39] Name: Krishna , DOB: 2026-08-18, TOB: 03:37, Place: Tirupati, Andhra Pradesh, India

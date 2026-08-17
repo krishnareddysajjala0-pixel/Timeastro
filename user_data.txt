@@ -952,3 +952,4 @@
 952. [17-Aug-2026 06:10:45] Name: వైష్ణవి , DOB: 2003-04-07, TOB: 11:00, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 953. [17-Aug-2026 06:11:52] Name: ప్రజ్ఞ , DOB: 2005-01-26, TOB: 20:00, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 954. [17-Aug-2026 06:21:36] Name: Sree, DOB: 2000-01-23, TOB: 05:40, Place: Hyderabad, Telangana, India
+955. [17-Aug-2026 10:58:39] Name: Peddanna, DOB: 1949-04-05, TOB: 00:00, Place: Anantapur, అనంతపురం, अनन्तपुर, Andhra Pradesh, 515001, India

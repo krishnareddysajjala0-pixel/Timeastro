@@ -975,3 +975,4 @@
 975. [19-Aug-2026 01:27:22] Name: పునీత్ , DOB: 2007-08-16, TOB: 20:20, Place: Madanapalli, chittoor 
 976. [19-Aug-2026 03:20:14] Name: Sree, DOB: 2000-01-23, TOB: 05:40, Place: Hyderabad, Telangana, India
 977. [19-Aug-2026 03:20:59] Name: శ్రీను , DOB: 1984-05-24, TOB: 09:50, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+978. [19-Aug-2026 04:00:10] Name: Dheeraj , DOB: 1994-04-09, TOB: 02:45, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India

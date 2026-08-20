@@ -999,3 +999,4 @@
 999. [20-Aug-2026 13:24:59] Name: అశోక్ బాబు , DOB: 1981-08-13, TOB: 23:29, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India
 1000. [20-Aug-2026 13:28:52] Name: అశోక్ బాబు , DOB: 1981-08-20, TOB: 23:29, Place: Amudalavalasa, Andhra Pradesh, India
 1001. [20-Aug-2026 13:31:20] Name: అశోక్ బాబు , DOB: 1981-08-20, TOB: 23:29, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India
+1002. [20-Aug-2026 15:43:20] Name: ఫఫ, DOB: 2026-08-20, TOB: 21:12, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India

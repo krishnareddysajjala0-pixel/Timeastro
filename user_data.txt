@@ -1008,3 +1008,4 @@
 1008. [20-Aug-2026 18:12:38] Name: 1, DOB: 1966-09-20, TOB: 14:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1009. [20-Aug-2026 18:12:50] Name: 1, DOB: 1966-09-20, TOB: 14:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1010. [20-Aug-2026 20:02:39] Name: Praveen , DOB: 2000-06-05, TOB: 04:05, Place: Tirupati, Andhra Pradesh, India
+1011. [20-Aug-2026 20:18:18] Name: Adhya  (Compare 1), DOB: 2026-08-20, TOB: 01:48, Place: Tirupati, Andhra Pradesh, India

@@ -980,3 +980,4 @@
 980. [19-Aug-2026 15:01:27] Name: Unknown , DOB: 2026-08-19, TOB: 20:31, Place: Bengaluru, Karnataka, India
 981. [20-Aug-2026 09:42:42] Name: Mangaluru , DOB: 2026-08-20, TOB: 15:10, Place: Mangaluru, Mangaluru taluk, Dakshina Kannada, Karnataka, 575001, India
 982. [20-Aug-2026 12:37:07] Name: మోహన్ బాబు , DOB: 1978-09-10, TOB: 00:30, Place: వెంకటగిరి కోట, చిత్తూరు, Andhra Pradesh, 517424, India
+983. [20-Aug-2026 12:41:23] Name: మోహన్ బాబు , DOB: 1978-09-10, TOB: 01:30, Place: Amudalavalasa, Andhra Pradesh, India

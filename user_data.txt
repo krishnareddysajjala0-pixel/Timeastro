@@ -1024,3 +1024,4 @@
 1024. [21-Aug-2026 15:20:20] Name: Sankar , DOB: 1998-01-04, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1025. [21-Aug-2026 15:33:03] Name: Sankar , DOB: 1998-01-04, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1026. [21-Aug-2026 15:33:08] Name: Sankar , DOB: 1998-01-04, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+1027. [21-Aug-2026 17:35:48] Name: Imran khan, DOB: 1952-11-25, TOB: 06:30, Place: Lahore, Lahore City Tehsil, Lahore District, Lahore Division, Punjab, 54100, Pakistan

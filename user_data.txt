@@ -1021,3 +1021,4 @@
 1021. [21-Aug-2026 14:46:11] Name: Sreenu, DOB: 1974-11-15, TOB: 04:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1022. [21-Aug-2026 14:58:17] Name: Sreenu, DOB: 1974-11-16, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1023. [21-Aug-2026 15:05:01] Name: Sreenu, DOB: 1974-11-14, TOB: 04:00, Place: Tirupati, Andhra Pradesh, India
+1024. [21-Aug-2026 15:20:20] Name: Sankar , DOB: 1998-01-04, TOB: 06:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

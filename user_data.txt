@@ -1027,3 +1027,4 @@
 1027. [21-Aug-2026 17:35:48] Name: Imran khan, DOB: 1952-11-25, TOB: 06:30, Place: Lahore, Lahore City Tehsil, Lahore District, Lahore Division, Punjab, 54100, Pakistan
 1028. [21-Aug-2026 22:29:41] Name: Imran khan, DOB: 1952-11-25, TOB: 06:28, Place: Lahore, Lahore City Tehsil, Lahore District, Lahore Division, Punjab, 54100, Pakistan
 1029. [22-Aug-2026 02:15:30] Name: శ్రీను , DOB: 1984-05-24, TOB: 09:50, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+1030. [22-Aug-2026 02:19:16] Name: Sudheer, DOB: 1994-04-12, TOB: 19:30, Place: Naniyala, Ramakuppam, Chittoor, Andhra Pradesh, India

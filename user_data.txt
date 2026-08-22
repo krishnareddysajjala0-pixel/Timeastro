@@ -1033,3 +1033,4 @@
 1033. [22-Aug-2026 04:14:52] Name: Satish , DOB: 1982-09-06, TOB: 12:30, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
 1034. [22-Aug-2026 04:31:38] Name: Satish , DOB: 1982-09-06, TOB: 12:30, Place: Tirupati, తిరుపతి పట్టణ, తిరుపతి, Andhra Pradesh, 517500, India
 1035. [22-Aug-2026 09:48:22] Name: Krishnakumari, DOB: 1986-08-13, TOB: 03:45, Place: Tallaproddatur, కొండాపురం, YSR Kadapa, Andhra Pradesh, India
+1036. [22-Aug-2026 11:12:03] Name: Naresh, DOB: 1988-10-25, TOB: 21:15, Place: Jammikunta mandal, కరీంనగర్, Telangana, India

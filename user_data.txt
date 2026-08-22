@@ -1035,3 +1035,4 @@
 1035. [22-Aug-2026 09:48:22] Name: Krishnakumari, DOB: 1986-08-13, TOB: 03:45, Place: Tallaproddatur, కొండాపురం, YSR Kadapa, Andhra Pradesh, India
 1036. [22-Aug-2026 11:12:03] Name: Naresh, DOB: 1988-10-25, TOB: 21:15, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 1037. [22-Aug-2026 13:01:41] Name: Vamsi, DOB: 1986-12-31, TOB: 03:00, Place: Dharmavaram, Sri Sathya Sai, Andhra Pradesh, 515671, India
+1038. [22-Aug-2026 15:35:27] Name: Eswadi, DOB: 1999-08-03, TOB: 21:20, Place: Kurnool, కర్నూలు, Andhra Pradesh, 518001, India

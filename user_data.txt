@@ -1048,3 +1048,4 @@
 1048. [24-Aug-2026 09:37:19] Name: Charan tej, DOB: 2010-10-22, TOB: 13:10, Place: Kuppam, Chittoor, Andhra Pradesh, 517425, India
 1049. [24-Aug-2026 10:19:49] Name: CHARAN TEJ, DOB: 2010-10-22, TOB: 13:10, Place: Kuppam, Chittoor, Andhra Pradesh, 517425, India
 1050. [24-Aug-2026 10:28:18] Name: CHARAN TEJ, DOB: 2010-10-22, TOB: 13:10, Place: Kuppam, Chittoor, Andhra Pradesh, 517425, India
+1051. [24-Aug-2026 12:58:08] Name: Imran khan, DOB: 1952-11-25, TOB: 06:28, Place: Lahore, Lahore City Tehsil, Lahore District, Lahore Division, Punjab, 54100, Pakistan

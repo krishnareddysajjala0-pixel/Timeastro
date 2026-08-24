@@ -1042,3 +1042,4 @@
 1042. [23-Aug-2026 04:35:18] Name: దీపక్ , DOB: 2001-11-17, TOB: 09:30, Place: కోలార్ బంగారు పొలాలు, Kolar Gold Field taluk, Kolar, Karnataka, 563115, India
 1043. [24-Aug-2026 01:36:25] Name: Upendra , DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 1044. [24-Aug-2026 07:56:47] Name: Gadhi, DOB: 1869-10-02, TOB: 13:26, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+1045. [24-Aug-2026 07:59:26] Name: Gan, DOB: 1869-10-02, TOB: 01:28, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

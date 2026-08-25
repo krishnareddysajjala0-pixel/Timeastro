@@ -1065,3 +1065,4 @@
 1065. [25-Aug-2026 02:26:03] Name: Anup, DOB: 1999-09-03, TOB: 08:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
 1066. [25-Aug-2026 03:07:28] Name: Krishna Reddy sajjala, DOB: 2026-08-25, TOB: 08:37, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 1067. [25-Aug-2026 06:00:48] Name: Anup, DOB: 1999-09-03, TOB: 08:35, Place: Jammikunta mandal, కరీంనగర్, Telangana, India
+1068. [25-Aug-2026 06:01:35] Name: మనీషా , DOB: 1998-12-18, TOB: 04:15, Place: Jammikunta mandal, కరీంనగర్, Telangana, India

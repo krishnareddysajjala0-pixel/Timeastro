@@ -1089,3 +1089,4 @@
 1089. [28-Aug-2026 07:45:09] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: YSR Kadapa, Andhra Pradesh, India
 1090. [28-Aug-2026 08:55:23] Name: Nagendra, DOB: 1982-08-07, TOB: 19:24, Place: Tadpatri, Anantapuram, Andhra Pradesh, India
 1091. [28-Aug-2026 08:59:11] Name: Nagendra, DOB: 1982-08-07, TOB: 19:24, Place: Tadpatri, Anantapuram, Andhra Pradesh, India
+1092. [28-Aug-2026 09:02:59] Name: THIRUMLA NAGENDRA BABU , DOB: 1982-08-07, TOB: 19:35, Place: Tadpatri, Anantapuram, Andhra Pradesh, India

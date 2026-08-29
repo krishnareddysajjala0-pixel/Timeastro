@@ -2129,7 +2129,7 @@ def results():
         # Check if password was submitted
         submitted_password = request.form.get('password')
         if submitted_password:
-            if submitted_password == '666':
+            if submitted_password == '050450':
                 session['results_authorized'] = True
             else:
                 return render_template("results_password.html", error=True)

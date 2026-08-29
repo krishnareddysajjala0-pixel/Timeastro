@@ -1119,3 +1119,4 @@
 1119. [29-Aug-2026 08:03:38] Name: Prem, DOB: 1987-02-08, TOB: 10:10, Place: Bengaluru, Karnataka, India
 1120. [29-Aug-2026 08:04:07] Name: Prem, DOB: 1987-02-08, TOB: 10:20, Place: Bengaluru, Karnataka, India
 1121. [29-Aug-2026 08:04:23] Name: Prem, DOB: 1987-02-08, TOB: 10:05, Place: Bengaluru, Karnataka, India
+1122. [29-Aug-2026 09:13:09] Name: Jagan, DOB: 1972-12-21, TOB: 01:30, Place: జమ్మలమడుగు, YSR Kadapa, Andhra Pradesh, 516434, India

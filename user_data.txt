@@ -1115,3 +1115,4 @@
 1115. [29-Aug-2026 05:12:19] Name: శివాలక్మి దేవి , DOB: 1986-12-22, TOB: 13:55, Place: పులివెందుల 
 1116. [29-Aug-2026 05:25:55] Name: తాటిపర్తి చిన్న , DOB: 1991-10-15, TOB: 22:05, Place: మద్రాస్ 
 1117. [29-Aug-2026 05:44:46] Name: శివాలక్మి దేవి , DOB: 1986-12-15, TOB: 02:00, Place: పులివెందుల 
+1118. [29-Aug-2026 07:57:56] Name: Prem, DOB: 1987-02-08, TOB: 10:30, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India

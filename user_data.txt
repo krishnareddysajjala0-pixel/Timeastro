@@ -1137,3 +1137,4 @@
 1137. [29-Aug-2026 10:30:01] Name: Prm, DOB: 1987-02-08, TOB: 11:30, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 1138. [29-Aug-2026 11:27:16] Name: ok, DOB: 2026-08-29, TOB: 16:55, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 1139. [30-Aug-2026 01:33:13] Name: Reddy, DOB: 2026-08-30, TOB: 07:03, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
+1140. [30-Aug-2026 13:19:19] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India

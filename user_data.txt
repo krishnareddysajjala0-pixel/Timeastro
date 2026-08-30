@@ -1140,3 +1140,4 @@
 1140. [30-Aug-2026 13:19:19] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 1141. [30-Aug-2026 13:45:19] Name: thraitha, DOB: 2026-08-30, TOB: 04:20, Place: nandikotkuru
 1142. [30-Aug-2026 13:47:30] Name: thraitha, DOB: 2007-05-18, TOB: 04:21, Place: nandikotkur, nandyal dist. andhrapradesh 
+1143. [30-Aug-2026 13:57:05] Name: mokshaa, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India

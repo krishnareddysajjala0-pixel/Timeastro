@@ -1141,3 +1141,4 @@
 1141. [30-Aug-2026 13:45:19] Name: thraitha, DOB: 2026-08-30, TOB: 04:20, Place: nandikotkuru
 1142. [30-Aug-2026 13:47:30] Name: thraitha, DOB: 2007-05-18, TOB: 04:21, Place: nandikotkur, nandyal dist. andhrapradesh 
 1143. [30-Aug-2026 13:57:05] Name: mokshaa, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
+1144. [30-Aug-2026 21:58:48] Name: BORA SANDYA , DOB: 1994-11-21, TOB: 04:30, Place: బీమడోలు

@@ -1143,3 +1143,4 @@
 1143. [30-Aug-2026 13:57:05] Name: mokshaa, DOB: 2020-06-25, TOB: 19:20, Place: Anantapur, అనంతపురం, Andhra Pradesh, 515001, India
 1144. [30-Aug-2026 21:58:48] Name: BORA SANDYA , DOB: 1994-11-21, TOB: 04:30, Place: బీమడోలు
 1145. [30-Aug-2026 22:02:00] Name: BORA SANDYA , DOB: 1994-11-21, TOB: 04:30, Place: బీమడోలు
+1146. [31-Aug-2026 00:31:49] Name: Prm, DOB: 2026-08-31, TOB: 06:01, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India

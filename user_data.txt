@@ -1163,3 +1163,4 @@
 1163. [01-Sep-2026 13:38:37] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 1164. [01-Sep-2026 13:48:50] Name: Ok, DOB: 2026-09-01, TOB: 19:18, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India
 1165. [02-Sep-2026 02:03:22] Name: PUSHPA, DOB: 1998-07-01, TOB: 20:04, Place: Tadipatri, తాడిపత్రి, అనంతపురం, Andhra Pradesh, 515400, India
+1166. [02-Sep-2026 02:57:00] Name: UPENDRA KUMAR, DOB: 2026-09-02, TOB: 08:26, Place: కోటనందూరు, కాకినాడ, Andhra Pradesh, 533407, India

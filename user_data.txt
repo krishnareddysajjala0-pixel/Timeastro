@@ -1170,3 +1170,4 @@
 1170. [02-Sep-2026 11:47:11] Name: Pawan Kalyan , DOB: 1971-09-02, TOB: 17:14, Place: Vijayawada Andhra Pradesh, India
 1171. [02-Sep-2026 11:47:28] Name: Pawan Kalyan , DOB: 1971-09-02, TOB: 11:20, Place: Vijayawada Andhra Pradesh, India
 1172. [02-Sep-2026 11:52:36] Name: Pawan Kalyan , DOB: 1971-09-02, TOB: 14:30, Place: Bapatla Andhra Pradesh, India
+1173. [02-Sep-2026 13:46:06] Name: మణి , DOB: 2001-12-31, TOB: 20:00, Place: Warangal, Telangana, India

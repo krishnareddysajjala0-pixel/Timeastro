@@ -1173,3 +1173,4 @@
 1173. [02-Sep-2026 13:46:06] Name: మణి , DOB: 2001-12-31, TOB: 20:00, Place: Warangal, Telangana, India
 1174. [03-Sep-2026 04:30:29] Name: Mounika , DOB: 1967-09-20, TOB: 14:30, Place: Chelur, Karnataka, India
 1175. [03-Sep-2026 04:35:17] Name: Vijaylaxmi , DOB: 1967-09-20, TOB: 14:30, Place: Chelur, Karnataka, India
+1176. [03-Sep-2026 05:14:52] Name: Prem, DOB: 2026-09-03, TOB: 10:44, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India

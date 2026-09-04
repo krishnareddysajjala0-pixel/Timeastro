@@ -1179,3 +1179,4 @@
 1179. [04-Sep-2026 07:21:27] Name: Siddharath, DOB: 2025-10-10, TOB: 05:30, Place: Hyderabad, Telangana, India
 1180. [04-Sep-2026 07:28:44] Name: Siddharath, DOB: 2025-10-10, TOB: 17:30, Place: Hyderabad, Telangana, India
 1181. [04-Sep-2026 14:01:59] Name: Vrushik , DOB: 2022-09-28, TOB: 06:26, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+1182. [04-Sep-2026 16:11:18] Name: Sid, DOB: 2003-06-06, TOB: 15:45, Place: Kandukur, Prakasam, Andhra Pradesh, 523105, India

@@ -1192,3 +1192,4 @@
 1192. [05-Sep-2026 14:35:32] Name: Ganesh, DOB: 1989-06-21, TOB: 05:00, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 1193. [05-Sep-2026 14:36:03] Name: Ganesh, DOB: 1989-06-21, TOB: 05:00, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
 1194. [05-Sep-2026 14:46:44] Name: Ganesh, DOB: 1989-06-21, TOB: 05:00, Place: Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India
+1195. [06-Sep-2026 03:52:25] Name: Susmitha, DOB: 2011-08-31, TOB: 23:40, Place:  Aallagadda, India

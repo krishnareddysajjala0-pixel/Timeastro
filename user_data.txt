@@ -1225,3 +1225,4 @@
 1225. [08-Sep-2026 11:36:25] Name: maharsha, DOB: 2008-12-10, TOB: 20:30, Place: nandikotkuru, nandyala dist, andhrapradesh
 1226. [08-Sep-2026 11:37:15] Name: maharsha, DOB: 2008-10-16, TOB: 20:30, Place: nandikotkuru, nandyala dist, andhrapradesh
 1227. [08-Sep-2026 11:43:05] Name: thraitha, DOB: 2007-05-18, TOB: 04:21, Place: Nandikotkur, Nandyal, Andhra Pradesh, 518400, India
+1228. [08-Sep-2026 14:54:23] Name: Moksha, DOB: 2021-08-28, TOB: 18:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

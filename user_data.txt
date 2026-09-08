@@ -1227,3 +1227,4 @@
 1227. [08-Sep-2026 11:43:05] Name: thraitha, DOB: 2007-05-18, TOB: 04:21, Place: Nandikotkur, Nandyal, Andhra Pradesh, 518400, India
 1228. [08-Sep-2026 14:54:23] Name: Moksha, DOB: 2021-08-28, TOB: 18:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1229. [08-Sep-2026 14:58:20] Name: Chakradhar , DOB: 2023-05-21, TOB: 09:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+1230. [08-Sep-2026 15:23:18] Name: Papa, DOB: 2026-09-16, TOB: 10:30, Place: Khaazipet mandal, హనుమకొండ, Telangana, India

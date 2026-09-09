@@ -15,15 +15,15 @@
   <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}" style="background: rgba(255, 255, 255, 0.02);">
     <div class="nak-box-header">
       <span class="house-badge">{{ b.house_no }}</span>
-      <span class="rashi-title-text">{{ b.rashi_name }}</span>
-      <span class="karma-badge-small">{{ b.karma_label }}</span>
+      <span class="rashi-title-text">{{ _(b.rashi_name) }}</span>
+      <span class="karma-badge-small">{{ _(b.karma_label) }}</span>
     </div>
 
     <div class="nak-padas-container">
       {% for nak in b.nakshatras %}
       <div class="nak-group-row">
         <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
-          <span class="nak-name-text">{{ nak.short_nakshatra_name if nak.short_nakshatra_name else nak.nakshatra_name }}</span>
+          <span class="nak-name-text">{{ _(nak.short_nakshatra_name) if nak.short_nakshatra_name else _(nak.nakshatra_name) }}</span>
         </div>
         <div class="padas-list-cell">
           {% for p in nak.padas %}
@@ -36,9 +36,9 @@
                   {% if occ.is_lagna %}
                     <span class="occupant-pill lagna-occupant">🚩 గోచార లగ్నం</span>
                   {% elif occ.is_hand %}
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ occ.name }}</span>
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}</span>
                   {% else %}
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ occ.name }}</span>
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}</span>
                   {% endif %}
                 {% endfor %}
               </span>

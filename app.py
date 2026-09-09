@@ -3603,6 +3603,7 @@ def nakshatra_chart():
 
     return render_template(
         "nakshatra_chart.html",
+        current_lang=session.get("lang", "te"),
         **data,
         **dasha_data,
         nakshatra_boxes=nakshatra_boxes

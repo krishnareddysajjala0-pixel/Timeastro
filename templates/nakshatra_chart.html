@@ -967,7 +967,74 @@
         margin-top: 4px !important;
       }
     }
-  </style>
+  
+    .language-switcher {
+      position: relative;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 6px;
+      background: var(--card-bg, rgba(15, 23, 42, 0.9));
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border, rgba(99, 102, 241, 0.3));
+      box-shadow: 0 4px 15px var(--shadow-color, rgba(0,0,0,0.5));
+      transition: max-width 0.3s ease;
+      overflow: hidden;
+      max-width: 42px;
+      vertical-align: middle;
+    }
+
+    .language-switcher.expanded {
+      max-width: 480px;
+    }
+
+    .lang-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+    }
+
+    .lang-options {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      align-items: center;
+    }
+
+    .language-switcher.expanded .lang-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .lang-btn.active, .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--header-bg, #fbbf24);
+    }
+
+</style>
 </head>
 
 <body>
@@ -984,6 +1051,23 @@
       </button>
 
       <!-- Theme Switcher -->
+      
+      <!-- Language Switcher -->
+      <div class="language-switcher print-hide me-2">
+        <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+          <i class="fas fa-language"></i>
+        </button>
+        <div class="lang-options">
+          <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+          <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+          <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+          <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+          <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+          <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+          <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+        </div>
+      </div>
+
       <div class="theme-switcher">
         <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Theme">
           <i class="fas fa-palette"></i>

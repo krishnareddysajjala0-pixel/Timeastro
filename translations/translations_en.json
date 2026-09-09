@@ -570,7 +570,7 @@
   "గురు పార్టీ": "Guru Party",
   "ఆయువు": "Life expectancy",
   "జన్మ దశ": "Birth Stage",
-  "జ్యేష్ఠ": "Jyeshtha",
+  "జ్యేష్ఠ": "Jyes",
   "చతుర్దశి": "Chaturdashi",
   "బహుధాన్య": "Bahudhanya",
   "చింత పులుపు": "Tamarind sour",
@@ -692,8 +692,8 @@
   "पंचमी": "Panchami",
   "పూర్ణిమ": "Full Moon",
   "ఆరుద్ర": "Arudra",
-  "పుబ్బ": "Purva Phalguni",
-  "ఉత్తర": "U.Ph",
+  "పుబ్బ": "Purva",
+  "ఉత్తర": "Uttara",
   "చిత్రా": "Chitra",
   "అనురాధ": "Anuradha",
   "జ్యేష్ట": "Jyeshtha",
@@ -808,5 +808,9 @@
   "ఈ రోజు గోచార కుండలి దాచు": "Hide Today's Transit Chart",
   "ఈ రోజు గోచార కుండలి చూడు": "Show Today's Transit Chart",
   "కుండలుల సరిపోలిక": "Kundali Comparison",
-  "త్రైత సిద్ధాంత నక్షత్ర పాద జాఫతక చక్రము": "Thraitha Siddhanta Nakshatra Pada Chart"
+  "త్రైత సిద్ధాంత నక్షత్ర పాద జాఫతక చక్రము": "Thraitha Siddhanta Nakshatra Pada Chart",
+  "త్రైత సిద్ధాంత నక్షత్ర పాద జాతక చక్రము": "Thraitha Siddhanta Nakshatra Pada Chart",
+  "రోహి": "Rohi",
+  "ఆరు": "Arud",
+  "పునర్వ": "Puna"
 }

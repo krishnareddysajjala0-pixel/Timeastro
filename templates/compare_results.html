@@ -1530,6 +1530,94 @@
     }
 </style>
   <link rel="stylesheet" href="/static/css/theme-fonts.css">
+
+  <!-- Nakshatra Grid Comparison Styles -->
+  <style>
+    .nak-grid-wrapper { display: flex !important; flex-direction: column !important; gap: 35px; width: 100%; max-width: 1100px; margin: 0 auto; }
+    @media print {
+      .nak-grid-wrapper { display: block !important; }
+      .nak-person-1 { page-break-after: always !important; break-after: page !important; margin-bottom: 0 !important; }
+      .nak-person-2 { page-break-before: always !important; break-before: page !important; margin-top: 0 !important; }
+    }
+    .nak-box { border: 1.5px solid var(--box-border, #334155); border-radius: 10px; background: rgba(255, 255, 255, 0.02); display: flex; flex-direction: column; overflow: hidden; min-height: 185px; }
+    .house-green { border: 1.8px solid #059669 !important; border-top: 4px solid #059669 !important; }
+    .house-red { border: 1.8px solid #dc2626 !important; border-top: 4px solid #dc2626 !important; }
+    .house-mixed { border: 1.8px solid #ca8a04 !important; border-top: 4px solid #ca8a04 !important; }
+    .nak-box.lagna-box { border: 3.5px solid #fbbf24 !important; box-shadow: 0 0 18px rgba(251, 191, 36, 0.45) !important; }
+    .nak-box-header { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: rgba(120, 120, 120, 0.1); border-bottom: 1px solid var(--box-border, #334155); }
+    .house-badge { font-weight: 800; font-size: 11px; padding: 1px 5px; border-radius: 4px; background: var(--house-no-bg, rgba(255,255,255,0.1)); color: var(--house-no-text, #fff); }
+    .rashi-title-text { font-weight: 800; font-size: 13px; color: var(--text-main, #fff); }
+    .karma-badge-small { font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 4px; }
+    .nak-padas-container { display: flex; flex-direction: column; gap: 2px; padding: 4px; flex: 1; }
+    .nak-group-row { display: flex; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); padding-bottom: 2px; margin-bottom: 2px; }
+    .nak-group-row:last-child { border-bottom: none; }
+    .nak-name-cell { width: 42px; font-weight: 700; font-size: 10.5px; color: var(--text-muted, #ffd700); display: flex; align-items: center; padding-right: 2px; }
+    .padas-list-cell { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+    .pada-row { display: flex; align-items: center; gap: 3px; font-size: 10px; padding: 1px 3px; border-radius: 3px; }
+    .pada-row.has-occupant { background: rgba(255, 255, 255, 0.06); }
+    .pada-num { font-weight: 700; color: var(--text-muted, #94a3b8); min-width: 10px; }
+    .pada-arrow { font-size: 8px; opacity: 0.5; }
+    .occupants-wrap { display: inline-flex; flex-wrap: wrap; gap: 2px; align-items: center; }
+    .occupant-pill { font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 8px; display: inline-flex; align-items: center; }
+    .lagna-occupant { background: #b45309; color: #ffffff; border: 1px solid #fbbf24; }
+    .planet-name-pill { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .center-box { grid-column: 2 / 4; grid-row: 2 / 4; display: flex; align-items: center; justify-content: center; text-align: center; border: 2px solid var(--box-border, #334155); border-radius: 12px; background: var(--card-bg, rgba(15, 23, 42, 0.9)); padding: 10px; }
+    .compare-tab-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 18px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; }
+    .compare-tab-btn.active { background: linear-gradient(135deg, #b45309, #d97706); border-color: #fbbf24; color: #fff; box-shadow: 0 0 12px rgba(251,191,36,0.4); }
+  </style>
+
+  <!-- Isolated Print & PDF View CSS Rules -->
+  <style>
+    /* Default screen view rules */
+    body[data-active-view="nakshatra"] #standard-compare-wrapper { display: none !important; }
+    body[data-active-view="nakshatra"] #nakshatra-compare-wrapper { display: flex !important; }
+    body[data-active-view="standard"] #standard-compare-wrapper { display: flex !important; }
+    body[data-active-view="standard"] #nakshatra-compare-wrapper { display: none !important; }
+
+    /* Print & PDF Isolation Rules */
+    @media print {
+      /* When Standard View is active, completely hide Nakshatra compare */
+      body[data-active-view="standard"] #nakshatra-compare-wrapper,
+      body:not([data-active-view="nakshatra"]) #nakshatra-compare-wrapper {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+      }
+      body[data-active-view="standard"] #standard-compare-wrapper,
+      body:not([data-active-view="nakshatra"]) #standard-compare-wrapper {
+        display: flex !important;
+        visibility: visible !important;
+      }
+
+      /* When Nakshatra View is active, completely hide Standard compare */
+      body[data-active-view="nakshatra"] #standard-compare-wrapper {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+      }
+      body[data-active-view="nakshatra"] #nakshatra-compare-wrapper {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+      }
+      body[data-active-view="nakshatra"] .nak-person-1 {
+        page-break-after: always !important;
+        break-after: page !important;
+        margin-bottom: 0 !important;
+      }
+      body[data-active-view="nakshatra"] .nak-person-2 {
+        page-break-before: always !important;
+        break-before: page !important;
+        margin-top: 0 !important;
+      }
+      #compare-action-bar, .no-print, .fixed-bottom-bar-nav {
+        display: none !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1585,7 +1673,40 @@
 
   <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 14px;"><i class="fas fa-print"></i> {{ _('ప్రింట్') }}</button>
   
-  <div class="compare-wrapper">
+  
+
+
+  
+  <script>
+    function switchCompareView(viewType) {
+      document.body.setAttribute('data-active-view', viewType);
+
+      const stdWrapper = document.getElementById('standard-compare-wrapper');
+      const nakWrapper = document.getElementById('nakshatra-compare-wrapper');
+      const btnStd = document.getElementById('btn-view-standard');
+      const btnNak = document.getElementById('btn-view-nakshatra');
+
+      if (viewType === 'nakshatra') {
+        if (stdWrapper) stdWrapper.style.display = 'none';
+        if (nakWrapper) nakWrapper.style.display = 'flex';
+        if (btnStd) btnStd.classList.remove('active');
+        if (btnNak) btnNak.classList.add('active');
+      } else {
+        if (stdWrapper) stdWrapper.style.display = 'flex';
+        if (nakWrapper) nakWrapper.style.display = 'none';
+        if (btnStd) btnStd.classList.add('active');
+        if (btnNak) btnNak.classList.remove('active');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const initialView = "{% if chart_type == 'nakshatra' %}nakshatra{% else %}standard{% endif %}";
+      switchCompareView(initialView);
+    });
+  </script>
+
+
+  <div class="compare-wrapper" id="standard-compare-wrapper" style="{% if chart_type == 'nakshatra' %}display: none;{% endif %}">
 <div class="chart-container-wrapper">
 <div class="compare-person-header">{{ p1.name }}</div>
 {# ===== VARIABLES ===== #}
@@ -1968,12 +2089,21 @@
 
   </div>
 
-  <div class="bottom-content-btns text-center print-hide" style="text-align: center; margin-top: 30px; margin-bottom: 100px; display: flex; justify-content: center;">
-    <button onclick="goToCompareDasha()" class="btn btn-show">
-      <span style="font-size: 20px;">⚖️</span> 
-      {{ _('దశాచార పోలిక') }}
+    <!-- Single Line Bottom Action Bar -->
+  <div class="no-print" id="compare-action-bar" style="position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 35px; padding: 6px 14px; backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0,0,0,0.6); max-width: 95%; flex-wrap: nowrap; overflow-x: auto;">
+    <button type="button" onclick="switchCompareView('standard')" id="btn-view-standard" class="compare-tab-btn {% if chart_type != 'nakshatra' %}active{% endif %}" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
+      ⚖️ {{ _('సాధారణ కుండలుల పోలిక') }}
     </button>
-  </div>  <div class="fixed-bottom-bar-nav">
+
+    <button type="button" onclick="switchCompareView('nakshatra')" id="btn-view-nakshatra" class="compare-tab-btn {% if chart_type == 'nakshatra' %}active{% endif %}" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
+      ✨ {{ _('నక్షత్ర పాద కుండలుల పోలిక') }}
+    </button>
+
+    <button type="button" onclick="goToCompareDasha()" class="compare-tab-btn" style="white-space: nowrap; font-size: 13px; padding: 7px 14px; background: linear-gradient(135deg, #f59e0b, #b45309); color: #fff; border: 1px solid #fbbf24;">
+      📊 {{ _('దశాచార పోలిక') }}
+    </button>
+  </div>
+  <div class="fixed-bottom-bar-nav">
       <a href="/" class="nav-item nav-home">
           <i class="fas fa-home"></i>
           <span>{{ _('హోమ్') }}</span>
@@ -2181,5 +2311,1167 @@
         });
     })();
     </script>
+
+<!-- Macro for Nakshatra Box in Comparison View -->
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: transparent;
+    }
+
+    :root {
+      --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --card-bg: rgba(255, 255, 255, 0.98);
+      --card-border: rgba(15, 23, 42, 0.15);
+      --box-border: #334155;
+      --box-border-hover: #b45309;
+      --header-bg: linear-gradient(45deg, #b45309, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --color-pos: #059669;
+      --color-neg: #dc2626;
+      --label-bg: rgba(15, 23, 42, 0.05);
+      --label-text: #0f172a;
+      --house-no-bg: rgba(15, 23, 42, 0.1);
+      --house-no-text: #0f172a;
+      --nak-title-color: #b45309;
+      --pada-num-color: #475569;
+      --pada-active-color: #0284c7;
+    }
+
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 60%), linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(15, 23, 42, 0.92);
+      --card-border: rgba(99, 102, 241, 0.25);
+      --box-border: rgba(255, 255, 255, 0.25);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(0, 0, 0, 0.5);
+      --label-text: #ffffff;
+      --house-no-bg: rgba(255, 255, 255, 0.12);
+      --house-no-text: #ffffff;
+      --nak-title-color: #ffd700;
+      --pada-num-color: #94a3b8;
+      --pada-active-color: #38bdf8;
+    }
+
+    [data-theme="sunset"] {
+      --bg-primary: linear-gradient(to top, #450a0a 0%, #991b1b 50%, #f97316 100%);
+      --text-main: #ffffff;
+      --text-muted: #fca5a5;
+      --label-text: #ffffff;
+      --house-no-text: #ffffff;
+      --card-bg: rgba(69, 10, 10, 0.88);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --box-border: rgba(255, 255, 255, 0.3);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fbbf24, #f97316);
+      --shadow-color: rgba(0, 0, 0, 0.7);
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --label-bg: rgba(69, 10, 10, 0.7);
+      --house-no-bg: rgba(255, 255, 255, 0.12);
+      --nak-title-color: #fde047;
+      --pada-num-color: #fca5a5;
+      --pada-active-color: #fef08a;
+    }
+
+    [data-theme="luxury"] {
+      --bg-primary: radial-gradient(ellipse at 30% 20%, #2a1f00 0%, #0a0908 60%, #1a0f00 100%);
+      --text-main: #f5f5f4;
+      --text-muted: #d97706;
+      --card-bg: rgba(28, 25, 23, 0.96);
+      --card-border: rgba(217, 119, 6, 0.45);
+      --box-border: rgba(217, 119, 6, 0.5);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #f5f5f4, #fbbf24, #d97706);
+      --shadow-color: rgba(0, 0, 0, 0.92);
+      --label-bg: rgba(12, 10, 9, 0.82);
+      --label-text: #fbbf24;
+      --house-no-bg: rgba(217, 119, 6, 0.25);
+      --house-no-text: #fbbf24;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #fbbf24;
+      --pada-num-color: #d97706;
+      --pada-active-color: #fde68a;
+    }
+
+    [data-theme="cyberpunk"] {
+      --bg-primary: linear-gradient(170deg, #04080f 0%, #090d18 60%, #0a0512 100%);
+      --text-main: #f0fdfa;
+      --text-muted: #ff007f;
+      --card-bg: rgba(8, 12, 22, 0.97);
+      --card-border: rgba(255, 0, 127, 0.55);
+      --box-border: rgba(0, 255, 204, 0.42);
+      --box-border-hover: #ff007f;
+      --header-bg: linear-gradient(45deg, #00ffcc, #ff007f);
+      --shadow-color: rgba(0, 0, 0, 0.88);
+      --label-bg: rgba(4, 8, 15, 0.85);
+      --label-text: #00ffcc;
+      --house-no-bg: rgba(255, 0, 127, 0.18);
+      --house-no-text: #ff007f;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #00ffcc;
+      --pada-num-color: #ff007f;
+      --pada-active-color: #38bdf8;
+    }
+
+    [data-theme="solar"] {
+      --bg-primary: linear-gradient(150deg, #fffbeb 0%, #fef3c7 45%, #fff7ed 100%);
+      --text-main: #451a03;
+      --text-muted: #92400e;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(217, 119, 6, 0.32);
+      --box-border: rgba(217, 119, 6, 0.35);
+      --box-border-hover: #b45309;
+      --header-bg: linear-gradient(45deg, #451a03, #b45309);
+      --shadow-color: rgba(120, 53, 15, 0.12);
+      --label-bg: rgba(254, 243, 199, 0.8);
+      --label-text: #78350f;
+      --house-no-bg: rgba(245, 158, 11, 0.22);
+      --house-no-text: #451a03;
+      --color-pos: #059669;
+      --color-neg: #dc2626;
+      --nak-title-color: #b45309;
+      --pada-num-color: #92400e;
+      --pada-active-color: #ea580c;
+    }
+
+    [data-theme="mandala"] {
+      --bg-primary: radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.22) 0%, transparent 55%),
+                    radial-gradient(circle at 20% 80%, rgba(217, 119, 6, 0.18) 0%, transparent 50%),
+                    linear-gradient(160deg, #1a0800 0%, #2d0f00 40%, #1a0005 100%);
+      --text-main: #fef3c7;
+      --text-muted: #fca5a5;
+      --card-bg: rgba(30, 10, 0, 0.94);
+      --card-border: rgba(220, 38, 38, 0.4);
+      --box-border: rgba(251, 191, 36, 0.4);
+      --box-border-hover: #fbbf24;
+      --header-bg: linear-gradient(45deg, #fef3c7, #f97316, #dc2626);
+      --shadow-color: rgba(0, 0, 0, 0.9);
+      --label-bg: rgba(20, 5, 0, 0.8);
+      --label-text: #fbbf24;
+      --house-no-bg: rgba(220, 38, 38, 0.2);
+      --house-no-text: #fef3c7;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #fbbf24;
+      --pada-num-color: #fca5a5;
+      --pada-active-color: #ffd700;
+    }
+
+    [data-theme="twilight"] {
+      --bg-primary: linear-gradient(160deg, #fde68a 0%, #fca5a5 35%, #c4b5fd 70%, #a5b4fc 100%);
+      --text-main: #f0eeff;
+      --text-muted: #ddd6fe;
+      --card-bg: rgba(17, 12, 46, 0.94);
+      --card-border: rgba(196, 181, 253, 0.45);
+      --box-border: rgba(196, 181, 253, 0.4);
+      --box-border-hover: #a78bfa;
+      --header-bg: linear-gradient(45deg, #1e1b4b, #7c3aed, #c4b5fd);
+      --shadow-color: rgba(30, 27, 75, 0.25);
+      --label-bg: rgba(10, 8, 30, 0.85);
+      --label-text: #ddd6fe;
+      --house-no-bg: rgba(196, 181, 253, 0.2);
+      --house-no-text: #f0eeff;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #c4b5fd;
+      --pada-num-color: #a5b4fc;
+      --pada-active-color: #fde68a;
+    }
+
+    [data-theme="aurora"] {
+      --bg-primary: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+      --text-main: #f0fdf4;
+      --text-muted: #34d399;
+      --card-bg: rgba(2, 6, 23, 0.88);
+      --card-border: rgba(52, 211, 153, 0.35);
+      --box-border: rgba(52, 211, 153, 0.4);
+      --box-border-hover: #34d399;
+      --header-bg: linear-gradient(45deg, #34d399, #38bdf8, #818cf8);
+      --shadow-color: rgba(0, 0, 0, 0.9);
+      --label-bg: rgba(2, 6, 23, 0.82);
+      --label-text: #34d399;
+      --house-no-bg: rgba(52, 211, 153, 0.14);
+      --house-no-text: #34d399;
+      --color-pos: #10b981;
+      --color-neg: #f43f5e;
+      --nak-title-color: #34d399;
+      --pada-num-color: #6ee7b7;
+      --pada-active-color: #38bdf8;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 10px 100px 10px;
+      transition: all 0.3s ease;
+    }
+
+    .page-header {
+      text-align: center;
+      margin: 10px auto 20px auto;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .main-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      background: var(--header-bg);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-shadow: 0 2px 10px var(--shadow-color);
+    }
+
+    .sub-title {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    /* Top Action Bar */
+    .top-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .action-btn-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px var(--shadow-color);
+      text-decoration: none;
+    }
+
+    .action-btn-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--box-border-hover);
+      color: var(--box-border-hover);
+    }
+
+    .action-btn-primary {
+      background: var(--header-bg);
+      color: #0f172a !important;
+      border: none;
+    }
+
+    /* Theme Switcher Widget */
+    .theme-switcher {
+      position: relative;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 6px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 15px var(--shadow-color);
+      transition: max-width 0.3s ease;
+      overflow: hidden;
+      max-width: 42px;
+    }
+
+    .theme-switcher.expanded {
+      max-width: 320px;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+    }
+
+    .theme-options {
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .theme-switcher.expanded .theme-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      padding: 6px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+
+    .theme-btn:hover {
+      transform: scale(1.15);
+      background: rgba(120, 120, 120, 0.2);
+    }
+
+    /* Chart Grid Layout */
+    .chart-container {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--card-bg);
+      padding: 12px;
+      border-radius: 16px;
+      border: 2px solid var(--box-border);
+      box-shadow: 0 10px 30px var(--shadow-color);
+      margin: 0 auto 30px auto;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Nakshatra Box */
+    .nak-box {
+      border: 1.5px solid var(--box-border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      min-height: 185px;
+    }
+
+    .nak-box:hover {
+      border-color: var(--box-border-hover);
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    /* Punyam, Papam, Mixed, Lagna styles */
+    .house-green {
+      border: 1.8px solid #059669 !important;
+      border-top: 4px solid #059669 !important;
+    }
+    .house-green .nak-box-header {
+      background: rgba(16, 185, 129, 0.15) !important;
+    }
+    .house-green .karma-badge-small {
+      background: rgba(16, 185, 129, 0.25) !important;
+      color: #10b981 !important;
+      border: 1px solid #10b981 !important;
+    }
+
+    .house-red {
+      border: 1.8px solid #dc2626 !important;
+      border-top: 4px solid #dc2626 !important;
+    }
+    .house-red .nak-box-header {
+      background: rgba(239, 68, 68, 0.15) !important;
+    }
+    .house-red .karma-badge-small {
+      background: rgba(239, 68, 68, 0.25) !important;
+      color: #ef4444 !important;
+      border: 1px solid #ef4444 !important;
+    }
+
+    .house-mixed {
+      border: 1.8px solid #ca8a04 !important;
+      border-top: 4px solid #ca8a04 !important;
+    }
+    .house-mixed .nak-box-header {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.14) 0%, rgba(239, 68, 68, 0.14) 100%) !important;
+    }
+    .house-mixed .karma-badge-small {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.3) 0%, rgba(239, 68, 68, 0.3) 100%) !important;
+      color: var(--text-main) !important;
+      border: 1px solid #ca8a04 !important;
+    }
+
+    /* Lagna Box: Distinct Color & Thick Border */
+    .nak-box.lagna-box {
+      border: 3.5px solid #fbbf24 !important;
+      box-shadow: 0 0 18px rgba(251, 191, 36, 0.45) !important;
+    }
+    .nak-box.lagna-box .nak-box-header {
+      background: rgba(251, 191, 36, 0.25) !important;
+      border-bottom: 2px solid #fbbf24 !important;
+    }
+    .nak-box.lagna-box .rashi-title-text {
+      color: #fbbf24 !important;
+      font-weight: 900 !important;
+    }
+
+    .nak-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      background: rgba(120, 120, 120, 0.08);
+      border-bottom: 1.5px solid var(--box-border);
+    }
+
+    .house-badge {
+      background: var(--house-no-bg);
+      color: var(--house-no-text);
+      font-weight: 800;
+      font-size: 11.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--card-border);
+    }
+
+    .rashi-title-text {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    .karma-badge-small {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--label-bg);
+      color: var(--label-text);
+    }
+
+    /* Nakshatras & Padas inner grid */
+    .nak-padas-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .nak-group-row {
+      display: flex;
+      border-bottom: 1px solid var(--card-border);
+      flex: 1;
+    }
+
+    .nak-group-row:last-child {
+      border-bottom: none;
+    }
+
+    .nak-name-cell {
+      width: 24%;
+      min-width: 38px;
+      max-width: 52px;
+      padding: 2px 3px;
+      background: rgba(0, 0, 0, 0.05);
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .nak-name-text {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--nak-title-color);
+      line-height: 1.15;
+      letter-spacing: -0.2px;
+      word-break: break-word;
+    }
+
+    .padas-list-cell {
+      width: 76%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 2px 4px;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .pada-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 3px;
+      font-size: 11.5px;
+      line-height: 1.35;
+      padding: 1.5px 0;
+    }
+
+    .pada-num {
+      font-weight: 800;
+      color: var(--pada-num-color);
+      min-width: 12px;
+      display: inline-block;
+      text-align: right;
+      line-height: 1.35;
+    }
+
+    .pada-row.has-occupant .pada-num {
+      color: var(--pada-active-color);
+      font-weight: 900;
+    }
+
+    .pada-arrow {
+      color: var(--pada-active-color);
+      font-size: 11px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1.35;
+      margin-right: 1px;
+    }
+
+    .occupants-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3px 5px;
+      flex: 1;
+    }
+
+    .occupant-pill {
+      font-weight: 800;
+      font-size: 11.5px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      line-height: 1.25;
+    }
+
+    .planet-name-pill {
+      font-weight: 900 !important;
+    }
+
+    .lagna-occupant {
+      color: #fbbf24 !important;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+
+    .hide-hands .aspect-hand {
+      display: none !important;
+    }
+
+    /* Center Box */
+    .center-box {
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+      border: 2px solid var(--box-border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .center-box::before {
+      content: 'త్రైత సిద్ధాంతం';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      font-size: 38px;
+      font-weight: 900;
+      color: rgba(255, 215, 0, 0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .center-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .center-badge {
+      display: inline-block;
+      background: var(--label-bg);
+      color: var(--label-text);
+      border: 1px solid var(--card-border);
+      padding: 4px 14px;
+      border-radius: 15px;
+      font-size: 12.5px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .center-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 4px 0;
+      text-align: left;
+    }
+
+    .center-table td {
+      padding: 3.5px 5px;
+      color: var(--text-main);
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .chart-grid {
+        gap: 5px;
+      }
+      .nak-name-text {
+        font-size: 10.5px;
+      }
+      .pada-row {
+        font-size: 10px;
+      }
+      .rashi-title-text {
+        font-size: 12px;
+      }
+      .center-table {
+        font-size: 10.5px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nak-box {
+        min-height: 145px;
+      }
+      .nak-name-cell {
+        width: 46%;
+        padding: 2px;
+      }
+      .nak-name-text {
+        font-size: 9.5px;
+      }
+      .pada-row {
+        font-size: 9px;
+        gap: 2px;
+      }
+      .occupant-pill {
+        font-size: 9.5px;
+      }
+      .rashi-title-text {
+        font-size: 10.5px;
+      }
+    }
+
+    .center-label {
+      color: #ffd700;
+      width: 38%;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .center-value {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    [data-theme="solar"] .center-label {
+      color: #92400e;
+    }
+
+    /* Print Styles */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 6mm 8mm;
+      }
+      html, body {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        min-height: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+      }
+      [data-theme] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+      }
+      .top-action-bar, .no-print, .fixed-bottom-bar-nav, #transit-toggle-bar, #transit-btn, #transit-loading, .location-buttons {
+        display: none !important;
+      }
+      .page-header {
+        margin: 0 auto 4px auto !important;
+      }
+      .main-title {
+        color: #09090b !important;
+        background: none !important;
+        -webkit-text-fill-color: #09090b !important;
+        font-size: 20px !important;
+      }
+      .sub-title {
+        color: #334155 !important;
+        font-size: 12px !important;
+        margin-top: 2px !important;
+      }
+      .chart-container {
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        padding: 2px !important;
+        margin: 0 auto !important;
+        max-width: 100% !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .nak-box {
+        border: 1.5px solid #222 !important;
+        background: #ffffff !important;
+        break-inside: avoid !important;
+        min-height: 160px !important;
+      }
+      .center-box {
+        border: 2px solid #222 !important;
+        background: #fafafa !important;
+        padding: 6px !important;
+      }
+      .center-box::before {
+        display: none !important;
+      }
+      .center-label {
+        color: #713f12 !important; /* Dark golden bronze for clear readability in print/PDF */
+        font-weight: 800 !important;
+        font-size: 11px !important;
+      }
+      .center-value {
+        color: #09090b !important; /* Deep dark black for clear reading */
+        font-weight: 800 !important;
+        font-size: 11px !important;
+      }
+      .nak-box-header {
+        background: #f1f5f9 !important;
+        border-bottom: 1px solid #333 !important;
+        padding: 4px 6px !important;
+      }
+      .rashi-title-text {
+        color: #09090b !important;
+        font-weight: 900 !important;
+      }
+      .nak-name-cell {
+        width: 23% !important;
+        min-width: 32px !important;
+        max-width: 48px !important;
+        border-right: 1px solid #333 !important;
+        background: #f8fafc !important;
+        padding: 1px 2px !important;
+      }
+      .nak-name-text {
+        color: #713f12 !important; /* Dark amber/brown in print for clear reading */
+        font-weight: 800 !important;
+        font-size: 9.5px !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.2px !important;
+      }
+      .padas-list-cell {
+        width: 77% !important;
+        padding: 1px 2px !important;
+      }
+      .nak-group-row {
+        border-bottom: 1px solid #ccc !important;
+      }
+      .pada-row {
+        align-items: flex-start !important;
+        font-size: 10.5px !important;
+        gap: 2px !important;
+        padding: 0.5px 0 !important;
+        line-height: 1.25 !important;
+      }
+      .pada-num {
+        color: #475569 !important;
+        font-weight: 800 !important;
+        font-size: 10px !important;
+        line-height: 1.25 !important;
+      }
+      .pada-arrow {
+        color: #0284c7 !important;
+        font-size: 9.5px !important;
+        font-weight: 900 !important;
+        line-height: 1.25 !important;
+      }
+      .occupants-wrap {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 2px 4px !important;
+      }
+      /* PRESERVE EXACT PLANET COLORS IN PRINT / PDF */
+      .occupant-pill {
+        font-weight: 900 !important;
+        font-size: 10.5px !important;
+        padding: 0 2.5px !important;
+        line-height: 1.2 !important;
+        text-shadow: none !important;
+      }
+      .aspect-hand {
+        font-weight: 800 !important;
+        font-size: 9.5px !important;
+      }
+      .lagna-occupant {
+        color: #b45309 !important;
+        background: #fef3c7 !important;
+        border: 1px solid #d97706 !important;
+        font-weight: 900 !important;
+        font-size: 9.5px !important;
+        padding: 0 2px !important;
+      }
+
+      /* Print Colors: Punyam (Green), Papam (Red), Mixed (Green+Red), Lagna (Gold + Thick Border) */
+      .house-green {
+        border: 1.5px solid #059669 !important;
+        border-top: 4.5px solid #059669 !important;
+        background: #f0fdf4 !important;
+      }
+      .house-green .nak-box-header {
+        background: #dcfce7 !important;
+        border-bottom: 1.5px solid #059669 !important;
+      }
+      .house-green .karma-badge-small {
+        color: #047857 !important;
+        background: #bbf7d0 !important;
+        border: 1px solid #86efac !important;
+        font-weight: 800 !important;
+      }
+
+      .house-red {
+        border: 1.5px solid #dc2626 !important;
+        border-top: 4.5px solid #dc2626 !important;
+        background: #fef2f2 !important;
+      }
+      .house-red .nak-box-header {
+        background: #fee2e2 !important;
+        border-bottom: 1.5px solid #dc2626 !important;
+      }
+      .house-red .karma-badge-small {
+        color: #b91c1c !important;
+        background: #fecaca !important;
+        border: 1px solid #fca5a5 !important;
+        font-weight: 800 !important;
+      }
+
+      .house-mixed {
+        border: 1.5px solid #d97706 !important;
+        border-top: 4.5px solid #ca8a04 !important;
+        background: #ffffff !important;
+      }
+      .house-mixed .nak-box-header {
+        background: linear-gradient(90deg, #dcfce7 0%, #fee2e2 100%) !important;
+        border-bottom: 1.5px solid #d97706 !important;
+      }
+      .house-mixed .karma-badge-small {
+        background: linear-gradient(90deg, #bbf7d0 0%, #fecaca 100%) !important;
+        color: #0f172a !important;
+        border: 1px solid #d97706 !important;
+        font-weight: 800 !important;
+      }
+
+      /* Lagnam Box: Thick Border & Golden Highlight */
+      .nak-box.lagna-box {
+        border: 3.5px solid #b45309 !important;
+        background: #fffbeb !important;
+        box-shadow: none !important;
+      }
+      .nak-box.lagna-box .nak-box-header {
+        background: #fef3c7 !important;
+        border-bottom: 2.5px solid #b45309 !important;
+      }
+      .nak-box.lagna-box .house-badge {
+        background: #b45309 !important;
+        color: #ffffff !important;
+        font-weight: 900 !important;
+      }
+      .nak-box.lagna-box .rashi-title-text {
+        color: #78350f !important;
+        font-weight: 900 !important;
+      }
+
+      .transit-nakshatra-wrapper {
+        page-break-before: always !important;
+        break-before: page !important;
+        margin: 0 auto !important;
+        padding-top: 6mm !important;
+        width: 100% !important;
+        background: #ffffff !important;
+      }
+      .transit-nakshatra-wrapper .chart-container {
+        margin-top: 4px !important;
+      }
+    }
+  </style>
+<style>
+  .nak-grid-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 35px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
+  }
+  .nak-chart-container {
+    width: 100%;
+    max-width: 1100px;
+    background: var(--card-bg, rgba(15, 23, 42, 0.92));
+    padding: 12px;
+    border-radius: 16px;
+    border: 2px solid var(--box-border, #334155);
+    box-shadow: 0 10px 30px var(--shadow-color, rgba(0,0,0,0.5));
+    margin: 0 auto;
+    box-sizing: border-box !important;
+  }
+  .nak-chart-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-rows: repeat(4, auto) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  @media print {
+    .nak-grid-wrapper { display: block !important; }
+    .nak-person-1 { page-break-after: always !important; break-after: page !important; margin-bottom: 0 !important; }
+    .nak-person-2 { page-break-before: always !important; break-before: page !important; margin-top: 0 !important; }
+  }
+</style>
+
+  <!-- Macro for Nakshatra Box in Comparison View -->
+  {% macro render_nak_box_compare(boxes, rashi_name) %}
+  {% set b = boxes[rashi_name] %}
+  <div class="nak-box {{ b.karma_class }} {% if b.is_lagna %}lagna-box{% endif %}">
+    <div class="nak-box-header">
+      <span class="house-badge">{{ b.house_no }}</span>
+      <span class="rashi-title-text">{{ b.rashi_name }}</span>
+      <span class="karma-badge-small">{{ b.karma_label }}</span>
+    </div>
+    <div class="nak-padas-container">
+      {% for nak in b.nakshatras %}
+      <div class="nak-group-row">
+        <div class="nak-name-cell" title="{{ nak.nakshatra_name }}">
+          <span class="nak-name-text">{{ nak.short_nakshatra_name if nak.short_nakshatra_name else nak.nakshatra_name }}</span>
+        </div>
+        <div class="padas-list-cell">
+          {% for p in nak.padas %}
+          <div class="pada-row {% if p.occupants %}has-occupant{% endif %}">
+            <span class="pada-num">{{ p.rashi_pada }}</span>
+            {% if p.occupants %}
+              <span class="pada-arrow">➔</span>
+              <span class="occupants-wrap">
+                {% for occ in p.occupants %}
+                  {% if occ.is_lagna %}
+                    <span class="occupant-pill lagna-occupant">🚩 లగ్నం</span>
+                  {% elif occ.is_hand %}
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ occ.name }}</span>
+                  {% else %}
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ occ.name }}</span>
+                  {% endif %}
+                {% endfor %}
+              </span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endmacro %}
+
+  {% macro render_nak_grid(boxes, p_data) %}
+  <div class="nak-chart-container">
+    <div class="nak-chart-grid">
+      <!-- Row 1 -->
+      {{ render_nak_box_compare(boxes, "మీనం") }}
+      {{ render_nak_box_compare(boxes, "మేషం") }}
+      {{ render_nak_box_compare(boxes, "వృషభం") }}
+      {{ render_nak_box_compare(boxes, "మిథునం") }}
+
+      <!-- Row 2 -->
+      {{ render_nak_box_compare(boxes, "కుంభం") }}
+
+      <!-- Complete Center Box (Matching Single Nakshatra Chart) -->
+      <div class="center-box">
+        <div class="center-content">
+          <table style="width: 100%; border-collapse: separate; border-spacing: 0 3.5px; font-size: 12px; text-align: left; margin: 0 auto;">
+            <tr>
+              <td class="center-label">{{ _('వర్గము:') }}</td>
+              <td class="center-value" style="font-weight: bold; animation: nav-rainbow 3s linear infinite !important;">
+                {% if p_data.lagna in ["మేషం", "కర్కాటకం", "సింహం", "వృశ్చికం", "ధనస్సు", "మీనం"] %}
+                  <span style="color: var(--color-pos);">{{ _('గురు పార్టీ') }}</span>
+                {% else %}
+                  <span style="color: var(--color-neg);">{{ _('శని పార్టీ') }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td class="center-label">{{ _('పేరు:') }}</td>
+              <td class="center-value pdf-person-name" style="font-weight: bold;">{{ p_data.name }}</td>
+            </tr>
+            <tr>
+              <td class="center-label"><i class="fas fa-calendar-alt"></i> {{ _('తేదీ:') }}</td>
+              <td class="center-value">{{ p_data.dob }} ({% if p_data.day_name %}{{ p_data.day_name }}{% endif %})</td>
+            </tr>
+            <tr>
+              <td class="center-label"><i class="fas fa-clock"></i> {{ _('సమయం:') }}</td>
+              <td class="center-value">{{ p_data.tob }}</td>
+            </tr>
+            <tr>
+              <td class="center-label"><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం:') }}</td>
+              <td class="center-value">{{ p_data.place.split(',')[0] if ',' in p_data.place else p_data.place }}</td>
+            </tr>
+            <tr>
+              <td class="center-label"><i class="fas fa-compass"></i> {{ _('లగ్నం:') }}</td>
+              <td class="center-value">
+                {{ p_data.lagna }} 
+                {% if p_data.lagna_deg is defined and p_data.lagna_deg %}
+                  (<span class="full-deg">{{ p_data.lagna_deg }}</span>)
+                {% endif %}
+              </td>
+            </tr>
+            {% if p_data.tithi_name is defined and p_data.tithi_name %}
+            <tr>
+              <td class="center-label"><i class="fas fa-certificate"></i> {{ _('తిథి:') }}</td>
+              <td class="center-value">{{ _(p_data.tithi_paksha) }} - {{ _(p_data.tithi_name) }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.nakshatra is defined and p_data.nakshatra %}
+            <tr>
+              <td class="center-label"><i class="fas fa-star"></i> {{ _('నక్షత్రం:') }}</td>
+              <td class="center-value">
+                {{ p_data.nakshatra }} ({{ p_data.padam }} {{ _('పాదం') }})
+              </td>
+            </tr>
+            {% endif %}
+            {% if p_data.nak_total is defined and p_data.nak_total %}
+            <tr>
+              <td class="center-label">{{ _('పూర్తి నక్షత్ర పరిమాణం:') }}</td>
+              <td class="center-value">{{ p_data.nak_total }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.nak_elapsed is defined and p_data.nak_elapsed %}
+            <tr>
+              <td class="center-label">{{ _('నక్షత్ర భుక్తి:') }}</td>
+              <td class="center-value">{{ p_data.nak_elapsed }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.nak_remaining is defined and p_data.nak_remaining %}
+            <tr>
+              <td class="center-label">{{ _('నక్షత్ర భోగ్యం:') }}</td>
+              <td class="center-value">{{ p_data.nak_remaining }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.birth_dasa is defined and p_data.birth_dasa %}
+            <tr>
+              <td class="center-label">{{ _('జన్మ దశ:') }}</td>
+              <td class="center-value">{{ p_data.birth_dasa }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.gata_str is defined and p_data.gata_str %}
+            <tr>
+              <td class="center-label">{{ _('దశ భుక్తి:') }}</td>
+              <td class="center-value">{{ p_data.gata_str }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.bhogya_str is defined and p_data.bhogya_str %}
+            <tr>
+              <td class="center-label">{{ _('దశ భోగ్యం:') }}</td>
+              <td class="center-value">{{ p_data.bhogya_str }}</td>
+            </tr>
+            {% endif %}
+            {% if p_data.maha is defined and p_data.maha %}
+            <tr>
+              <td class="center-label">{{ _('ప్రస్తుత దశ - అంతర్దశ:') }}</td>
+              <td class="center-value">{{ p_data.maha }} - {{ p_data.current_anthara }}</td>
+            </tr>
+            {% endif %}
+          </table>
+        </div>
+      </div>
+
+      {{ render_nak_box_compare(boxes, "కర్కాటకం") }}
+
+      <!-- Row 3 -->
+      {{ render_nak_box_compare(boxes, "మకరం") }}
+      {{ render_nak_box_compare(boxes, "సింహం") }}
+
+      <!-- Row 4 -->
+      {{ render_nak_box_compare(boxes, "ధనస్సు") }}
+      {{ render_nak_box_compare(boxes, "వృశ్చికం") }}
+      {{ render_nak_box_compare(boxes, "తులా") }}
+      {{ render_nak_box_compare(boxes, "కన్య") }}
+    </div>
+  </div>
+  {% endmacro %}
+
+  <!-- Nakshatra Comparison Wrapper (Vertical Stack & 2-Page Print) -->
+  <div class="nak-grid-wrapper" id="nakshatra-compare-wrapper" style="{% if chart_type != 'nakshatra' %}display: none;{% endif %} margin-bottom: 30px;">
+    <div class="chart-container-wrapper nak-person-1">
+      <div class="compare-person-header">✨ {{ p1.name }} (నక్షత్ర పాద చక్రము)</div>
+      {{ render_nak_grid(nakshatra_boxes1, p1) }}
+    </div>
+    <div class="chart-container-wrapper nak-person-2">
+      <div class="compare-person-header">✨ {{ p2.name }} (నక్షత్ర పాద చక్రము)</div>
+      {{ render_nak_grid(nakshatra_boxes2, p2) }}
+    </div>
+  </div>
+
 </body>
 </html>

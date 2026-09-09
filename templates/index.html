@@ -1231,10 +1231,15 @@
         <input type="hidden" name="lon" id="lon">
 
         <!-- Main Action Buttons -->
-        <div class="btn-container">
-          <button type="submit" class="btn btn-show" onclick="showLoading()">
-            <span class="btn-icon">🌀</span>
-            {{ _('కుండలి చూపించండి') }}
+        <div class="btn-container" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+          <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #fff; box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);">
+            <span class="btn-icon">☸️</span>
+            {{ _('సాధారణ కుండలి') }}
+          </button>
+          
+          <button type="submit" formaction="/nakshatra_chart" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #b45309 0%, #d97706 100%); color: #fff; box-shadow: 0 4px 15px rgba(180, 83, 9, 0.4);">
+            <span class="btn-icon">✨</span>
+            {{ _('నక్షత్ర పాద కుండలి') }}
           </button>
         </div>
       </form>

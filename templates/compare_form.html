@@ -941,10 +941,16 @@
           </div>
         </div>
 
-        <div class="btn-container">
-          <button type="submit" class="btn btn-show">
+        <!-- Main Action Buttons -->
+        <div class="btn-container" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+          <button type="submit" name="chart_type" value="standard" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #fff; box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);">
             <span class="btn-icon">⚖️</span>
-            {{ _('కుండలి పోల్చండి') }}
+            {{ _('సాధారణ కుండలి పోల్చండి') }}
+          </button>
+          
+          <button type="submit" name="chart_type" value="nakshatra" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #b45309 0%, #d97706 100%); color: #fff; box-shadow: 0 4px 15px rgba(180, 83, 9, 0.4);">
+            <span class="btn-icon">✨</span>
+            {{ _('నక్షత్ర పాద కుండలి పోల్చండి') }}
           </button>
         </div>
       </form>

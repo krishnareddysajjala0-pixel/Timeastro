@@ -1512,9 +1512,12 @@ def compare_results():
         lat2 = request.form.get("lat2")
         lon2 = request.form.get("lon2")
         
+        chart_type = request.form.get("chart_type", "standard")
+        
         session['compare_form'] = {
             'name1': name1, 'dob1': dob1, 'tob1': tob1, 'place1': place1, 'lat1': lat1, 'lon1': lon1,
-            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2
+            'name2': name2, 'dob2': dob2, 'tob2': tob2, 'place2': place2, 'lat2': lat2, 'lon2': lon2,
+            'chart_type': chart_type
         }
     else:
         form_data = session.get('compare_form', {})
@@ -1532,16 +1535,34 @@ def compare_results():
         lat2 = form_data.get('lat2')
         lon2 = form_data.get('lon2')
 
+        chart_type = request.args.get("chart_type", form_data.get('chart_type', 'standard'))
+
     if not name1 or not dob1 or not lat1 or not lon1 or not name2 or not dob2 or not lat2 or not lon2:
         return redirect(url_for('compare_kundali'))
 
     data1 = get_kundali_data(name1, dob1, tob1, place1, float(lat1), float(lon1))
     data2 = get_kundali_data(name2, dob2, tob2, place2, float(lat2), float(lon2))
 
+    nakshatra_boxes1 = build_nakshatra_pada_boxes(data1)
+    nakshatra_boxes2 = build_nakshatra_pada_boxes(data2)
+
     log_user_to_github(name1 + " (Compare 1)", dob1, tob1, place1)
     log_user_to_github(name2 + " (Compare 2)", dob2, tob2, place2)
 
-    return render_template("compare_results.html", p1=data1, p2=data2)
+    dasha_data1 = get_dasha_info(data1) if isinstance(data1, dict) else {}
+    dasha_data2 = get_dasha_info(data2) if isinstance(data2, dict) else {}
+
+    p1_full = {**data1, **dasha_data1}
+    p2_full = {**data2, **dasha_data2}
+
+    return render_template(
+        "compare_results.html",
+        p1=p1_full,
+        p2=p2_full,
+        nakshatra_boxes1=nakshatra_boxes1,
+        nakshatra_boxes2=nakshatra_boxes2,
+        chart_type=chart_type
+    )
 
 
 @app.route("/transit_chart", methods=["POST"])
@@ -3322,6 +3343,305 @@ def calendar_view():
         start_dt_str=f"{start_dt.day} {tr(EN_MONTHS_TELUGU[start_dt.month - 1])}",
         end_dt_str=f"{end_dt.day} {tr(EN_MONTHS_TELUGU[end_dt.month - 1])}"
     )
+
+
+
+
+
+# ==========================================
+# NAKSHATRA PADA KUNDALI GENERATION
+# ==========================================
+
+RASHI_NAKSHATRA_PADA_MAP = {
+    "మేషం": [
+        {"nakshatra": "అశ్విని", "padas": [1, 2, 3, 4], "rashi_padas": [1, 2, 3, 4]},
+        {"nakshatra": "భరణి", "padas": [1, 2, 3, 4], "rashi_padas": [5, 6, 7, 8]},
+        {"nakshatra": "కృత్తిక", "padas": [1], "rashi_padas": [9]}
+    ],
+    "వృషభం": [
+        {"nakshatra": "కృత్తిక", "padas": [2, 3, 4], "rashi_padas": [1, 2, 3]},
+        {"nakshatra": "రోహిణి", "padas": [1, 2, 3, 4], "rashi_padas": [4, 5, 6, 7]},
+        {"nakshatra": "మృగశిర", "padas": [1, 2], "rashi_padas": [8, 9]}
+    ],
+    "మిథునం": [
+        {"nakshatra": "మృగశిర", "padas": [3, 4], "rashi_padas": [1, 2]},
+        {"nakshatra": "ఆరుద్ర", "padas": [1, 2, 3, 4], "rashi_padas": [3, 4, 5, 6]},
+        {"nakshatra": "పునర్వసు", "padas": [1, 2, 3], "rashi_padas": [7, 8, 9]}
+    ],
+    "కర్కాటకం": [
+        {"nakshatra": "పునర్వసు", "padas": [4], "rashi_padas": [1]},
+        {"nakshatra": "పుష్యమి", "padas": [1, 2, 3, 4], "rashi_padas": [2, 3, 4, 5]},
+        {"nakshatra": "ఆశ్లేష", "padas": [1, 2, 3, 4], "rashi_padas": [6, 7, 8, 9]}
+    ],
+    "సింహం": [
+        {"nakshatra": "మఖ", "padas": [1, 2, 3, 4], "rashi_padas": [1, 2, 3, 4]},
+        {"nakshatra": "పుబ్బ", "padas": [1, 2, 3, 4], "rashi_padas": [5, 6, 7, 8]},
+        {"nakshatra": "ఉత్తర", "padas": [1], "rashi_padas": [9]}
+    ],
+    "కన్య": [
+        {"nakshatra": "ఉత్తర", "padas": [2, 3, 4], "rashi_padas": [1, 2, 3]},
+        {"nakshatra": "హస్త", "padas": [1, 2, 3, 4], "rashi_padas": [4, 5, 6, 7]},
+        {"nakshatra": "చిత్త", "padas": [1, 2], "rashi_padas": [8, 9]}
+    ],
+    "తులా": [
+        {"nakshatra": "చిత్త", "padas": [3, 4], "rashi_padas": [1, 2]},
+        {"nakshatra": "స్వాతి", "padas": [1, 2, 3, 4], "rashi_padas": [3, 4, 5, 6]},
+        {"nakshatra": "విశాఖ", "padas": [1, 2, 3], "rashi_padas": [7, 8, 9]}
+    ],
+    "వృశ్చికం": [
+        {"nakshatra": "విశాఖ", "padas": [4], "rashi_padas": [1]},
+        {"nakshatra": "అనూరాధ", "padas": [1, 2, 3, 4], "rashi_padas": [2, 3, 4, 5]},
+        {"nakshatra": "జ్యేష్ఠ", "padas": [1, 2, 3, 4], "rashi_padas": [6, 7, 8, 9]}
+    ],
+    "ధనస్సు": [
+        {"nakshatra": "మూల", "padas": [1, 2, 3, 4], "rashi_padas": [1, 2, 3, 4]},
+        {"nakshatra": "పూర్వాషాఢ", "padas": [1, 2, 3, 4], "rashi_padas": [5, 6, 7, 8]},
+        {"nakshatra": "ఉత్తరాషాఢ", "padas": [1], "rashi_padas": [9]}
+    ],
+    "మకరం": [
+        {"nakshatra": "ఉత్తరాషాఢ", "padas": [2, 3, 4], "rashi_padas": [1, 2, 3]},
+        {"nakshatra": "శ్రవణం", "padas": [1, 2, 3, 4], "rashi_padas": [4, 5, 6, 7]},
+        {"nakshatra": "ధనిష్ఠ", "padas": [1, 2], "rashi_padas": [8, 9]}
+    ],
+    "కుంభం": [
+        {"nakshatra": "ధనిష్ఠ", "padas": [3, 4], "rashi_padas": [1, 2]},
+        {"nakshatra": "శతభిషం", "padas": [1, 2, 3, 4], "rashi_padas": [3, 4, 5, 6]},
+        {"nakshatra": "పూర్వాభాద్ర", "padas": [1, 2, 3], "rashi_padas": [7, 8, 9]}
+    ],
+    "మీనం": [
+        {"nakshatra": "పూర్వాభాద్ర", "padas": [4], "rashi_padas": [1]},
+        {"nakshatra": "ఉత్తరాభాద్ర", "padas": [1, 2, 3, 4], "rashi_padas": [2, 3, 4, 5]},
+        {"nakshatra": "రేవతి", "padas": [1, 2, 3, 4], "rashi_padas": [6, 7, 8, 9]}
+    ]
+}
+
+SHORT_NAKSHATRAS_TELUGU = {
+    "అశ్విని": "అశ్వి",
+    "భరణి": "భరణి",
+    "కృత్తిక": "కృత్తి",
+    "రోహిణి": "రోహి",
+    "మృగశిర": "మృగ",
+    "ఆరుద్ర": "ఆరు",
+    "పునర్వసు": "పునర్వ",
+    "పుష్యమి": "పుష్య",
+    "ఆశ్లేష": "ఆశ్లే",
+    "మఖ": "మఖ",
+    "పుబ్బ": "పుబ్బ",
+    "ఉత్తర": "ఉత్తర",
+    "హస్త": "హస్త",
+    "చిత్త": "చిత్త",
+    "స్వాతి": "స్వాతి",
+    "విశాఖ": "విశా",
+    "అనూరాధ": "అనూ",
+    "జ్యేష్ఠ": "జ్యేష్ఠ",
+    "మూల": "మూల",
+    "పూర్వాషాఢ": "పూ.షా",
+    "ఉత్తరాషాఢ": "ఉ.షా",
+    "శ్రవణం": "శ్రవ",
+    "ధనిష్ఠ": "ధని",
+    "శతభిషం": "శత",
+    "పూర్వాభాద్ర": "పూ.భా",
+    "ఉత్తరాభాద్ర": "ఉ.భా",
+    "రేవతి": "రేవతి"
+}
+
+def build_nakshatra_pada_boxes(data):
+    """
+    Builds the 12 boxes mapping each Rashi's 3 Nakshatras & 9 Padas
+    along with direct planets, Lagna, and aspect hands situated in each exact pada.
+    """
+    planet_positions = data.get('planet_positions', [])
+    lagna_name = data.get('lagna', '')
+    lagna_deg_str = data.get('lagna_deg', '')
+    houses = data.get('houses', {})
+
+    lagna_pada_in_rashi = None
+    if lagna_deg_str:
+        try:
+            deg_part = float(lagna_deg_str.split('°')[0])
+            min_part = float(lagna_deg_str.split('°')[1].replace('′','').replace("'", "")) if '°' in lagna_deg_str and '′' in lagna_deg_str else 0.0
+            total_rashi_deg = deg_part + min_part / 60.0
+            lagna_pada_in_rashi = int(total_rashi_deg / 3.3333333333333335) + 1
+            if lagna_pada_in_rashi > 9: lagna_pada_in_rashi = 9
+        except Exception:
+            lagna_pada_in_rashi = 1
+
+    boxes = {}
+    for rashi, nak_list in RASHI_NAKSHATRA_PADA_MAP.items():
+        h_no = houses.get(rashi, 1)
+        is_lagna_box = (rashi == lagna_name)
+
+        if h_no in [1, 5, 9]:
+            karma_label = "పుణ్యం"
+            karma_class = "house-green"
+        elif h_no in [3, 7, 11]:
+            karma_label = "పాపం"
+            karma_class = "house-red"
+        else:
+            karma_label = "పుణ్యం + పాపం"
+            karma_class = "house-mixed"
+
+        nakshatras_data = []
+        for nak_group in nak_list:
+            nak_name = nak_group["nakshatra"]
+            padas_data = []
+            for pada_idx, r_pada in enumerate(nak_group["rashi_padas"]):
+                nak_pada_num = nak_group["padas"][pada_idx]
+
+                occupants = []
+                # Lagna Point in this pada
+                if is_lagna_box and r_pada == lagna_pada_in_rashi:
+                    occupants.append({
+                        "name": "లగ్నం",
+                        "degree": lagna_deg_str,
+                        "is_lagna": True,
+                        "is_hand": False,
+                        "color": "gold"
+                    })
+
+                # Planets in this rashi & pada
+                for p in planet_positions:
+                    if p["lagna"] == rashi:
+                        try:
+                            p_deg = float(p["degree"].split('°')[0])
+                            p_min = float(p["degree"].split('°')[1].replace('′','').replace("'", "")) if '°' in p["degree"] else 0.0
+                            p_total_deg = p_deg + p_min / 60.0
+                            p_pada_calc = int(p_total_deg / 3.3333333333333335) + 1
+                            if p_pada_calc > 9: p_pada_calc = 9
+                        except Exception:
+                            p_pada_calc = 1
+
+                        if p_pada_calc == r_pada:
+                            occupants.append({
+                                "name": p["name"],
+                                "degree": p["degree"],
+                                "is_lagna": False,
+                                "is_hand": p.get("is_hand", False),
+                                "color": p.get("color", "#38bdf8")
+                            })
+
+                padas_data.append({
+                    "rashi_pada": r_pada,
+                    "nak_pada_num": nak_pada_num,
+                    "occupants": occupants
+                })
+
+            nakshatras_data.append({
+                "nakshatra_name": nak_name,
+                "short_nakshatra_name": SHORT_NAKSHATRAS_TELUGU.get(nak_name, nak_name),
+                "padas": padas_data
+            })
+
+        boxes[rashi] = {
+            "rashi_name": rashi,
+            "house_no": h_no,
+            "karma_label": karma_label,
+            "karma_class": karma_class,
+            "is_lagna": is_lagna_box,
+            "nakshatras": nakshatras_data
+        }
+
+    return boxes
+
+@app.route("/nakshatra_chart", methods=["GET", "POST"])
+def nakshatra_chart():
+    if request.method == "POST":
+        name = request.form.get("name", "")
+        dob = request.form.get("dob", "")
+        tob = request.form.get("tob", "")
+        place = request.form.get("place", "")
+        lat = request.form.get("lat")
+        lon = request.form.get("lon")
+        mobile_num = request.form.get("mobile", "")
+        country_code = request.form.get("countryCode", "+91")
+        mobile = f"{country_code} {mobile_num}" if mobile_num else ""
+        req_telegram = request.form.get("req_telegram", "no")
+        
+        session['chart_form'] = {
+            'name': name, 'dob': dob, 'tob': tob, 'place': place,
+            'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
+        }
+    else:
+        name = request.args.get("name")
+        dob = request.args.get("dob")
+        tob = request.args.get("tob")
+        place = request.args.get("place")
+        lat = request.args.get("lat")
+        lon = request.args.get("lon")
+
+        if not (name and dob and lat and lon):
+            form_data = session.get('chart_form', {})
+            if not form_data:
+                birth_data = session.get('birth_info', {})
+                if birth_data:
+                    form_data = {
+                        'name': birth_data.get('name', ''),
+                        'dob': birth_data.get('dob', ''),
+                        'tob': birth_data.get('tob', ''),
+                        'place': birth_data.get('place', ''),
+                        'lat': birth_data.get('lat'),
+                        'lon': birth_data.get('lon')
+                    }
+            name = form_data.get('name', '')
+            dob = form_data.get('dob', '')
+            tob = form_data.get('tob', '')
+            place = form_data.get('place', '')
+            lat = form_data.get('lat')
+            lon = form_data.get('lon')
+
+    if not name or not dob or not lat or not lon:
+        return render_template("nakshatra_form.html", page_title="నక్షత్ర పాద కుండలి - జననం వివరాలు")
+
+    lat = float(lat)
+    lon = float(lon)
+
+    data = get_kundali_data(name, dob, tob, place, lat, lon)
+    session['birth_info'] = data
+
+    dasha_data = get_dasha_info(data)
+    nakshatra_boxes = build_nakshatra_pada_boxes(data)
+
+    return render_template(
+        "nakshatra_chart.html",
+        **data,
+        **dasha_data,
+        nakshatra_boxes=nakshatra_boxes
+    )
+
+@app.route("/nakshatra_transit_chart", methods=["POST"])
+def nakshatra_transit_chart():
+    lat = request.form.get("lat")
+    lon = request.form.get("lon")
+    timezone_str = request.form.get("timezone", "Asia/Kolkata")
+    place = request.form.get("place", "ప్రస్తుత స్థానం")
+
+    if not lat or not lon:
+        birth_info = session.get('birth_info', {})
+        lat = birth_info.get('lat', 17.3850)
+        lon = birth_info.get('lon', 78.4867)
+        place = birth_info.get('place', 'హైదరాబాద్')
+        timezone_str = birth_info.get('timezone_str', 'Asia/Kolkata')
+
+    lat = float(lat)
+    lon = float(lon)
+
+    local_tz = pytz.timezone(timezone_str)
+    local_dt = datetime.datetime.now(local_tz)
+    today_dob = local_dt.strftime("%Y-%m-%d")
+    today_tob = local_dt.strftime("%H:%M")
+
+    transit_data = get_kundali_data("ఈ రోజు గోచారం", today_dob, today_tob, place, lat, lon)
+    transit_dasha = get_dasha_info(transit_data)
+    transit_boxes = build_nakshatra_pada_boxes(transit_data)
+
+    return render_template(
+        "nakshatra_transit_partial.html",
+        **transit_data,
+        **transit_dasha,
+        nakshatra_boxes=transit_boxes,
+        today_formatted=local_dt.strftime("%d-%m-%Y %I:%M %p")
+    )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)

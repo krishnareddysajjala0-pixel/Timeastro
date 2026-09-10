@@ -1264,3 +1264,4 @@
 1264. [10-Sep-2026 07:46:42] Name: samarth, DOB: 2007-09-27, TOB: 09:08, Place: Kurnool, Andhra Pradesh, 518001, India
 1265. [10-Sep-2026 15:29:50] Name: Advith , DOB: 2017-11-03, TOB: 23:04, Place: Kurnool Andhra Pradesh, India
 1266. [10-Sep-2026 15:32:59] Name: Advith , DOB: 2014-07-25, TOB: 08:50, Place: Kurnool Andhra Pradesh, India
+1267. [10-Sep-2026 16:29:16] Name: Nikhil , DOB: 2012-10-19, TOB: 06:00, Place: Uravakonda, Anantapuram, Andhra Pradesh, 515812, India

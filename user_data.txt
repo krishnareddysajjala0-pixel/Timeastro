@@ -1268,3 +1268,4 @@
 1268. [10-Sep-2026 17:07:10] Name: Akshaya, DOB: 2014-07-25, TOB: 08:50, Place: Kurnool Andhra Pradesh, India
 1269. [10-Sep-2026 17:11:06] Name: Ashok , DOB: 2008-11-01, TOB: 14:24, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1270. [11-Sep-2026 06:17:23] Name: జాగృతి , DOB: 2000-06-19, TOB: 19:45, Place: Mahbubabad, Telangana, India
+1271. [11-Sep-2026 11:40:22] Name: Kishore, DOB: 2001-04-16, TOB: 11:00, Place: Penukonda, Andhra Pradesh, India

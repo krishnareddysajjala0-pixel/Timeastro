@@ -1296,3 +1296,4 @@
 1296. [12-Sep-2026 13:49:54] Name: ok, DOB: 2023-02-24, TOB: 11:00, Place: Darsi, Prakasam, Andhra Pradesh, 523247, India
 1297. [12-Sep-2026 13:52:20] Name: gopal reddy, DOB: 1972-08-02, TOB: 06:30, Place: Vennuru, Kondapi, Prakasam, Andhra Pradesh, 523279, India
 1298. [12-Sep-2026 13:55:38] Name: gopal reddy, DOB: 1972-08-02, TOB: 06:30, Place: Vennuru, Kondapi, Prakasam, Andhra Pradesh, 523279, India
+1299. [12-Sep-2026 13:58:42] Name: ok, DOB: 2027-02-12, TOB: 19:28, Place: Nalgonda, Nalgonda mandal, Nalgonda, Telangana, 508001, India

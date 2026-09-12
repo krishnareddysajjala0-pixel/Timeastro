@@ -1282,3 +1282,4 @@
 1282. [12-Sep-2026 10:34:30] Name: Deepti, DOB: 1998-01-06, TOB: 08:39, Place: Chittoor, Andhra Pradesh, India
 1283. [12-Sep-2026 10:38:04] Name: Deepti, DOB: 1998-01-06, TOB: 08:39, Place: Chittoor, Andhra Pradesh, India
 1284. [12-Sep-2026 12:04:07] Name: Revansh, DOB: 2024-08-11, TOB: 10:15, Place: కందుకూరు, Prakasam, Andhra Pradesh, 523105, India
+1285. [12-Sep-2026 13:01:01] Name: gopal reddy, DOB: 1972-08-02, TOB: 06:30, Place: Vennuru, Kondapi, Prakasam, Andhra Pradesh, 523279, India

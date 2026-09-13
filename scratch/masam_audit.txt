@@ -1,0 +1,50 @@
+[def get_am_pm_str(dt):] Line 485: TELUGU_MASALU = [
+[def get_am_pm_str(dt):] Line 497: # Rutuvulu mappings
+[def get_am_pm_str(dt):] Line 498: TELUGU_RUTUVULU = [
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1065: TELUGU_MASALU = [
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1077: # Rutuvulu mappings
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1078: TELUGU_RUTUVULU = [
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1222: # Telugu Year is calculated later after Telugu Masam is determined.
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1260: # 6. Ayanam, Rutuvu, & Telugu Masam
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1267: # Rutuvu: 6 seasons, each spanning 60 degrees of solar longitude starting from 0 (Vasantha)
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1269: rutuvu = TELUGU_RUTUVULU[rutu_index]
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1271: # Masam (Month): Exact Telugu Lunar Month mapped to Sun/Moon Amavasya boundaries
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1272: def find_amavasya(jd_guess):
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1288: jd_start = find_amavasya(jd - days_since)
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1289: jd_end = find_amavasya(jd + days_to)
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1291: # Calculate exact month name mapping based on the Amavasya's Solar intersection
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1292: amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1293: lagna_idx = int((amavasya_sun_lon % 360) / 30)
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1294: masam_index = (lagna_idx + 1) % 12
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1295: telugu_masam_name = TELUGU_MASALU[masam_index]
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1312: telugu_masam = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1324: # If the Gregorian month is before July and Masam is Pushya(9), Magha(10), or Phalguna(11),
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1326: if month <= 6 and masam_index >= 9:
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1441: 'rutuvu': rutuvu,
+[def get_kundali_data(name, dob, tob, place, lat, lon):] Line 1442: 'telugu_masam': telugu_masam,
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2655: # Ayanam & Rutuvu
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2657: rutuvu = TELUGU_RUTUVULU[int((sun_lon % 360) / 60)]
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2659: # Masam & Year
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2661: masam_index = (lagna_idx + 1) % 12
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2662: telugu_masam_name = TELUGU_MASALU[masam_index]
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2664: # Calculate exact month name mapping based on Amavasya boundaries
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2665: def find_amavasya(jd_guess):
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2678: jd_start = find_amavasya(jd - days_since)
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2679: jd_end = find_amavasya(jd + days_to)
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2695: telugu_masam_full = f"{masam_index+1}. {tr(telugu_masam_name)} {tr('మాసం')} ({format_jd(jd_start)} {tr('నుంచి')} {format_jd(jd_end)} {tr('వరకు')})"
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2699: adj_year = year - 1 if (month_cal <= 6 and masam_index >= 9) else year
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2791: "rutuvu": rutuvu,
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2792: "masam": telugu_masam_name,
+[def get_daily_panchangam_basic(jd, lat, lon, local_tz, local_midnight, calc_end_times=True):] Line 2793: "masam_full": telugu_masam_full,
+[def calendar_view():] Line 3104: def find_amavasya(jd_guess):
+[def calendar_view():] Line 3120: jd_start = find_amavasya(jd_input - days_since)
+[def calendar_view():] Line 3121: jd_end = find_amavasya(jd_input + (360 - diff)/12.190749)
+[def calendar_view():] Line 3167: amavasya_sun_lon = swe.calc_ut(jd_start, swe.SUN)[0][0]
+[def calendar_view():] Line 3168: lagna_idx = int((amavasya_sun_lon % 360) / 30)
+[def calendar_view():] Line 3169: masam_index = (lagna_idx + 1) % 12
+[def calendar_view():] Line 3170: telugu_masam_name = TELUGU_MASALU[masam_index]
+[def calendar_view():] Line 3171: translated_masam_name = tr(telugu_masam_name)
+[def calendar_view():] Line 3173: # Accurate Telugu Festival Mapping: (Masam, Paksham, Tithi_Name) -> Festival
+[def calendar_view():] Line 3280: m_name = panch["masam"]
+[def calendar_view():] Line 3319: "is_amavasya": "అమావాస్య" in panch["tithi_full"],
+[def calendar_view():] Line 3334: telugu_masam=translated_masam_name if view_type == "telugu" else f"{tr(EN_MONTHS_TELUGU[date_obj.month - 1])} ({translated_masam_name})",

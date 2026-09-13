@@ -986,7 +986,56 @@ def set_lang(lang):
         session['lang'] = lang
     return redirect(request.referrer or url_for('index'))
 
+
+def get_timezone_str(lat, lon):
+    try:
+        lat = float(lat)
+        lon = float(lon)
+        if 6.0 <= lat <= 38.0 and 68.0 <= lon <= 98.0:
+            return "Asia/Kolkata"
+        try:
+            from timezonefinder import TimezoneFinder
+            tf = TimezoneFinder()
+            if hasattr(tf, 'timezone_at'):
+                tz = tf.timezone_at(lat=lat, lng=lon) or tf.timezone_at(lng=lon, lat=lat)
+            elif hasattr(tf, 'certain_timezone_at'):
+                tz = tf.certain_timezone_at(lat=lat, lng=lon)
+            else:
+                tz = None
+            if tz:
+                return tz
+        except Exception:
+            pass
+        try:
+            import timezonefinderL
+            tf = timezonefinderL.TimezoneFinder()
+            tz = tf.timezone_at(lng=lon, lat=lat)
+            if tz:
+                return tz
+        except Exception:
+            pass
+    except Exception as e:
+        print("[get_timezone_str error]:", e)
+    return "Asia/Kolkata"
+
+
 def get_kundali_data(name, dob, tob, place, lat, lon):
+    try:
+        lat = float(lat) if lat is not None else 17.3850
+    except (ValueError, TypeError):
+        lat = 17.3850
+
+    try:
+        lon = float(lon) if lon is not None else 78.4867
+    except (ValueError, TypeError):
+        lon = 78.4867
+
+    if not dob or len(str(dob).strip()) < 8:
+        dob = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    if not tob or len(str(tob).strip()) < 3:
+        tob = datetime.datetime.now().strftime("%H:%M")
+
     # Ensure standard Lahiri Ayanamsa is used for all calculations
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     
@@ -995,14 +1044,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     day_name = DAY_TELUGU.get(day_eng, day_eng)
 
     # Determine Timezone based on Latitude and Longitude
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon)
-        if not timezone_str:
-            timezone_str = "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    timezone_str = get_timezone_str(lat, lon)
 
     # Time: Local Time → UTC
     local_tz = pytz.timezone(timezone_str)
@@ -2864,12 +2906,8 @@ def daily_panchangam():
     lat = float(lat_str) if lat_str else 17.3850
     lon = float(lon_str) if lon_str else 78.4867
     
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon) or "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    # Determine Timezone based on Latitude and Longitude
+    timezone_str = get_timezone_str(lat, lon)
         
     local_tz = pytz.timezone(timezone_str)
     try:

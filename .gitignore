@@ -9,10 +9,18 @@ env/
 # Database
 kundali.db
 
-# Windows App Build Folders
+# Windows & Android Build Folders
 winapp/bin/
 winapp/obj/
 publish/
+.agents/
+android_app/app/build/
+android_app/app/.cxx/
+android_app/.gradle/
+build-output/
+ios/
+www/
+node_modules/
 
 # IDE
 .vscode/

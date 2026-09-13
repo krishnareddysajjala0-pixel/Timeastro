@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang if current_lang else 'te' }}" class="notranslate">
+<head>
+  <meta name="google" content="notranslate">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ _('నక్షత్ర పాద కుండలి') }}</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1A1A1D">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      if (savedTheme !== 'default') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background-color: #0c0c0c; }
+    :root {
+      --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --card-bg: rgba(255, 255, 255, 0.98);
+      --card-border: rgba(15, 23, 42, 0.15);
+      --box-border: #1e293b;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+    [data-theme="cosmic"] {
+      --bg-primary: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 60%), linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+      --text-main: #ffffff;
+      --text-muted: #c7d2fe;
+      --card-bg: rgba(15, 23, 42, 0.92);
+      --card-border: rgba(99, 102, 241, 0.25);
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 15px 100px 15px;
+    }
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px 25px;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      margin-top: 20px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      font-size: 14.5px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      border-color: #fbbf24;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #b45309, #fbbf24);
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+      transition: transform 0.2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <div style="text-align: center; margin-bottom: 10px;">
+    <h1 style="color: #fbbf24; font-size: 24px; font-weight: 800;">
+      📜 {{ _('నక్షత్ర పాద కుండలి') }}
+    </h1>
+    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">
+      {{ _('నక్షత్రాలు మరియు 9 పాదాలతో కూడిన త్రైత సిద్ధాంత సంపూర్ణ చక్రం') }}
+    </p>
+  </div>
+
+  <div class="form-card">
+    <form action="/nakshatra_chart" method="POST">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> {{ _('పేరు') }}</label>
+        <input type="text" name="name" class="form-control" required placeholder="{{ _('మీ పేరు') }}">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label><i class="fas fa-calendar-alt"></i> {{ _('పుట్టిన తేదీ') }}</label>
+          <input type="date" name="dob" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-clock"></i> {{ _('పుట్టిన సమయం') }}</label>
+          <input type="time" name="tob" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fas fa-map-marker-alt"></i> {{ _('జన్మ స్థలం') }}</label>
+        <input type="text" id="place" name="place" class="form-control" required placeholder="{{ _('ఉదా: హైదరాబాద్, కందుకూరు, మొదలగునవి') }}">
+      </div>
+
+      <input type="hidden" name="lat" id="lat" value="17.3850">
+      <input type="hidden" name="lon" id="lon" value="78.4867">
+
+      <button type="submit" class="btn-submit">
+        <span>🌟</span> {{ _('నక్షత్ర పాద కుండలి జనరేట్ చేయండి') }}
+      </button>
+    </form>
+  </div>
+</body>
+</html>

@@ -35,7 +35,9 @@ jobs:
       - name: Prepare Assets & Capacitor iOS Project
         run: |
           mkdir -p www
+          cp templates/index.html www/index.html
           cp -r templates static translations *.py *.json *.txt www/ 2>/dev/null || true
+          npx cap init "Ravan Astro" "com.ravanastro.app" --web-dir www || true
           npx cap add ios || true
           npx cap sync ios
 

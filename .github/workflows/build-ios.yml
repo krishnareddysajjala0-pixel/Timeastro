@@ -42,7 +42,8 @@ jobs:
       - name: Build iOS App with Xcode
         run: |
           cd ios/App
-          xcodebuild -project App.xcodeproj \
+          pod install || true
+          xcodebuild -workspace App.xcworkspace \
                      -scheme App \
                      -sdk iphoneos \
                      -configuration Release \
@@ -50,7 +51,8 @@ jobs:
                      CODE_SIGNING_ALLOWED=NO \
                      CODE_SIGNING_REQUIRED=NO \
                      CODE_SIGN_IDENTITY="" \
-                     build
+                     PROVISIONING_PROFILE_SPEC="" \
+                     build || xcodebuild -project App.xcodeproj -scheme App -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
 
           mkdir -p ../../build-output/Payload
           cp -r build/Build/Products/Release-iphoneos/App.app ../../build-output/Payload/

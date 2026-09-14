@@ -1300,3 +1300,4 @@
 1300. [13-Sep-2026 01:52:22] Name: Deepti , DOB: 1998-01-06, TOB: 08:39, Place: Chittoor, చిత్తూరు, Andhra Pradesh, 517001, India
 1301. [13-Sep-2026 03:39:26] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: కడప, YSR Kadapa, Andhra Pradesh, 516001, India
 1302. [13-Sep-2026 06:34:47] Name: Gggnn, DOB: 2026-09-13, TOB: 12:04, Place: Hosakote taluk, Bengaluru North, Karnataka, India
+1303. [14-Sep-2026 14:04:09] Name: Rajashekar , DOB: 1980-09-07, TOB: 18:00, Place: Tadpatri, Anantapuram, Andhra Pradesh, India

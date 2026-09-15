@@ -1310,3 +1310,4 @@
 1310. [15-Sep-2026 06:07:45] Name: Mahalakhmi, DOB: 2002-10-10, TOB: 03:30, Place: Ramapuram, తుగ్గలి, कर्नूल, Andhra Pradesh, India
 1311. [15-Sep-2026 14:19:13] Name: Praveen , DOB: 2000-06-05, TOB: 04:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1312. [15-Sep-2026 14:20:20] Name: Praveen , DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
+1313. [15-Sep-2026 14:38:59] Name: Kishore , DOB: 2001-04-16, TOB: 10:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India

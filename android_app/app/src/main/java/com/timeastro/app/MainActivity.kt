@@ -4,6 +4,10 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.content.Context
+import android.print.PrintAttributes
+import android.print.PrintManager
+import android.webkit.JavascriptInterface
 import android.webkit.GeolocationPermissions
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
@@ -21,6 +25,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
+    inner class WebAppInterface {
+        @JavascriptInterface
+        fun printPage() {
+            runOnUiThread {
+                try {
+                    val printManager = getSystemService(Context.PRINT_SERVICE) as PrintManager
+                    val jobName = "RavanAstro_Kundali"
+                    val printAdapter = webView.createPrintDocumentAdapter(jobName)
+                    printManager.print(jobName, printAdapter, PrintAttributes.Builder().build())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         settings.databaseEnabled = true
         settings.allowFileAccess = true
         settings.setGeolocationEnabled(true)
+
+        webView.addJavascriptInterface(WebAppInterface(), "AndroidPrint")
 
         webView.webChromeClient = object : WebChromeClient() {
             override fun onGeolocationPermissionsShowPrompt(

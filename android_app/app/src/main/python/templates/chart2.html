@@ -2459,9 +2459,11 @@
         });
 
         window.handleMobilePrintClick = function() {
-            window.print();
-            // Removed the 1000ms setTimeout fallback because window.print() is asynchronous
-            // on Android WebViews. We now use window.matchMedia('print') listener below.
+            if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+                window.AndroidPrint.printPage();
+            } else {
+                window.print();
+            }
         };
 
         // Use matchMedia for print — often more reliable on Android WebViews than onafterprint
@@ -2557,13 +2559,18 @@
                 if (overlay) overlay.style.display = 'none';
             }
             
-            html2pdf().set(opt).from(element).save().then(() => {
+            if (typeof html2pdf !== 'undefined') {
+                html2pdf().set(opt).from(element).save().then(() => {
+                    restoreAfterPDF();
+                }).catch(err => {
+                    console.warn("PDF generation error, falling back to print:", err);
+                    restoreAfterPDF();
+                    window.handleMobilePrintClick();
+                });
+            } else {
                 restoreAfterPDF();
-            }).catch(err => {
-                console.error("PDF generation error:", err);
-                restoreAfterPDF();
-                alert("PDF generation failed: " + err);
-            });
+                window.handleMobilePrintClick();
+            }
         };
     })();
     </script>

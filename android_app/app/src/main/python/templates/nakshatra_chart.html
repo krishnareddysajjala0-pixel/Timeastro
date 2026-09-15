@@ -1085,7 +1085,7 @@
         </div>
       </div>
 
-      <button onclick="window.print()" class="action-btn-pill action-btn-primary">
+      <button onclick="if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') { window.AndroidPrint.printPage(); } else { window.print(); }" class="action-btn-pill action-btn-primary">
         <i class="fas fa-print"></i> {{ _('ప్రింట్ / PDF') }}
       </button>
     </div>

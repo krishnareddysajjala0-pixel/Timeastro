@@ -828,8 +828,19 @@ def log_user_to_github(name, dob, tob, place):
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
         send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
         
+@app.route('/log_user_data', methods=['POST'])
+def log_user_data_endpoint():
+    try:
+        data = request.get_json(silent=True) or {}
+        name = data.get('name', '')
+        dob = data.get('dob', '')
+        tob = data.get('tob', '')
+        place = data.get('place', '')
+        if name and dob:
+            log_user_to_github(name, dob, tob, place)
+        return jsonify({'status': 'success'})
     except Exception as e:
-        print(f"Critical logging error: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 400
 
 
 def send_telegram_notification(name, dob, tob, place, serial_no=None):

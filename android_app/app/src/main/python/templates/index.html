@@ -1293,15 +1293,61 @@
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lon" id="lon">
 
-        <!-- Main Action Button -->
-        <div class="btn-container" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-          <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5); font-size: 18px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 20px;">
-            {{ _('కుండలి చూపండి') }}
+        <!-- Main Action Buttons -->
+        <div class="btn-container" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 24px;">
+          <!-- 1. Show Kundali Button -->
+          <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 2; min-width: 200px; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5); font-size: 17px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 18px;">
+            <i class="fas fa-chart-pie"></i> {{ _('కుండలి చూపండి') }}
+          </button>
+
+          <!-- 2. Save User Info Button -->
+          <button type="button" onclick="saveUserProfile()" class="btn" style="flex: 1; min-width: 160px; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4); font-size: 15px; font-weight: 700; border-radius: 12px; border: none; padding: 14px 16px;">
+            <i class="fas fa-save"></i> {{ _('వివరాలు దాచు') }}
+          </button>
+
+          <!-- 3. Show Saved User Data & Edit Button -->
+          <button type="button" onclick="openSavedProfilesModal()" class="btn" style="flex: 1; min-width: 180px; background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); font-size: 15px; font-weight: 700; border-radius: 12px; border: none; padding: 14px 16px;">
+            <i class="fas fa-folder-open"></i> {{ _('దాచిన వివరాలు') }} <span id="saved-profiles-count">(0)</span>
           </button>
         </div>
       </form>
     </div>
   </div>
+  </div>
+
+  <!-- Saved User Profiles Modal -->
+  <div id="saved-profiles-modal" style="display:none; position:fixed; inset:0; z-index:999999;
+       background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+       align-items:center; justify-content:center; padding: 16px;" class="print-hide">
+    <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);
+                border:1.5px solid rgba(255,215,0,0.4); border-radius:20px;
+                padding:24px; width:100%; max-width:500px; max-height:85vh;
+                display:flex; flex-direction:column;
+                box-shadow:0 10px 40px rgba(0,0,0,0.6); font-family:inherit;">
+      
+      <!-- Modal Header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:12px;">
+        <div style="font-size:18px; font-weight:800; color:#ffd700; display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-folder-open"></i> {{ _('దాచిన వివరములు') }}
+        </div>
+        <button type="button" onclick="closeSavedProfilesModal()" style="background:transparent; border:none; color:#cbd5e1; font-size:22px; cursor:pointer; padding: 0 4px;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Profiles Scrollable List -->
+      <div id="saved-profiles-list" style="overflow-y:auto; flex:1; padding-right:4px;">
+        <!-- Dynamic Profile Cards rendered here via JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="margin-top:16px; text-align:right;">
+        <button type="button" onclick="closeSavedProfilesModal()" style="padding:10px 22px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#fff; font-size:14px; font-weight:bold; cursor:pointer;">
+          {{ _('మూసివేయి') }}
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <script>
@@ -1690,6 +1736,179 @@
     function goToPlanetDetails() {
       window.location.href = '/chart3';
     }
+
+    // ===== SAVED PROFILES MANAGEMENT (LOCAL & MOBILE PERSISTENCE) =====
+    const PROFILES_STORAGE_KEY = 'ravanastro_saved_user_profiles';
+
+    function getSavedProfiles() {
+      try {
+        const data = localStorage.getItem(PROFILES_STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      } catch (e) {
+        console.error('Error reading saved profiles:', e);
+        return [];
+      }
+    }
+
+    function saveProfilesList(profiles) {
+      try {
+        localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(profiles));
+        updateSavedProfilesCount();
+      } catch (e) {
+        console.error('Error saving profiles:', e);
+      }
+    }
+
+    function updateSavedProfilesCount() {
+      const profiles = getSavedProfiles();
+      const countEl = document.getElementById('saved-profiles-count');
+      if (countEl) {
+        countEl.textContent = `(${profiles.length})`;
+      }
+    }
+
+    function saveUserProfile() {
+      const name = nameInput ? nameInput.value.trim() : '';
+      const dob = dobInput ? dobInput.value : '';
+      const tob = tobInput ? tobInput.value : '';
+      const place = placeInput ? placeInput.value.trim() : '';
+      const lat = latInput ? latInput.value : '';
+      const lon = lonInput ? lonInput.value : '';
+      const mobileEl = document.getElementById('mobile');
+      const mobile = mobileEl ? mobileEl.value.trim() : '';
+
+      if (!name) {
+        alert("{{ _('దయచేసి పేరు నమోదు చేయండి') }}");
+        if (nameInput) nameInput.focus();
+        return;
+      }
+      if (!dob) {
+        alert("{{ _('దయచేసి జన్మ తేది ఎంచుకోండి') }}");
+        if (dobInput) dobInput.focus();
+        return;
+      }
+
+      const profiles = getSavedProfiles();
+      const existingIndex = profiles.findIndex(p => p.name.toLowerCase() === name.toLowerCase() && p.dob === dob);
+
+      const profileData = {
+        id: existingIndex >= 0 ? profiles[existingIndex].id : Date.now(),
+        name: name,
+        dob: dob,
+        tob: tob,
+        place: place,
+        lat: lat,
+        lon: lon,
+        mobile: mobile,
+        savedAt: new Date().toLocaleDateString()
+      };
+
+      if (existingIndex >= 0) {
+        profiles[existingIndex] = profileData;
+      } else {
+        profiles.unshift(profileData);
+      }
+
+      saveProfilesList(profiles);
+
+      // Notify backend to record to user_data.txt
+      try {
+        fetch('/log_user_data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(profileData)
+        }).catch(err => console.log('Backend log sync silent catch:', err));
+      } catch (e) {}
+
+      alert("{{ _('వివరాలు విజయవంతంగా దాచబడ్డాయి!') }}");
+    }
+
+    function openSavedProfilesModal() {
+      const modal = document.getElementById('saved-profiles-modal');
+      renderSavedProfilesList();
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeSavedProfilesModal() {
+      const modal = document.getElementById('saved-profiles-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function renderSavedProfilesList() {
+      const container = document.getElementById('saved-profiles-list');
+      if (!container) return;
+
+      const profiles = getSavedProfiles();
+
+      if (profiles.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; color: #94a3b8; padding: 30px 10px;">
+            <i class="fas fa-folder-open" style="font-size: 36px; margin-bottom: 12px; opacity: 0.4;"></i>
+            <div style="font-size: 15px; font-weight: 600;">{{ _('దాచిన వివరాలు ఏవీ లేవు') }}</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 4px;">{{ _('ఫారమ్‌లో వివరాలు నింపి "వివరాలు దాచు" నొక్కండి') }}</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      profiles.forEach(p => {
+        html += `
+          <div style="background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,215,0,0.25); border-radius: 14px; padding: 14px; margin-bottom: 12px; text-align: left;">
+            <div style="font-size: 16px; font-weight: 800; color: #ffd700; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+              <span><i class="fas fa-user-circle"></i> ${p.name}</span>
+              <span style="font-size: 11px; color: #94a3b8; font-weight: normal;">${p.savedAt || ''}</span>
+            </div>
+            <div style="font-size: 13px; color: #cbd5e1; display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px;">
+              <span>📅 <b>{{ _('తేదీ:') }}</b> ${p.dob}</span>
+              <span>⏰ <b>{{ _('సమయం:') }}</b> ${p.tob || '--:--'}</span>
+              <span>📍 <b>{{ _('స్థలం:') }}</b> ${p.place || '---'}</span>
+            </div>
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              <button type="button" onclick="loadSavedProfile(${p.id})" style="padding: 7px 14px; border-radius: 8px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">
+                <i class="fas fa-edit"></i> {{ _('ఎంచుకో / సవరించు') }}
+              </button>
+              <button type="button" onclick="deleteSavedProfile(${p.id})" style="padding: 7px 12px; border-radius: 8px; border: 1px solid rgba(239,68,68,0.4); background: rgba(239,68,68,0.15); color: #f87171; font-size: 13px; font-weight: 700; cursor: pointer;">
+                <i class="fas fa-trash-alt"></i> {{ _('తొలగించు') }}
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function loadSavedProfile(id) {
+      const profiles = getSavedProfiles();
+      const profile = profiles.find(p => p.id === id);
+      if (!profile) return;
+
+      if (nameInput) nameInput.value = profile.name || '';
+      if (dobInput) dobInput.value = profile.dob || '';
+      if (tobInput) tobInput.value = profile.tob || '';
+      if (placeInput) placeInput.value = profile.place || '';
+      if (latInput) latInput.value = profile.lat || '';
+      if (lonInput) lonInput.value = profile.lon || '';
+      const mobileEl = document.getElementById('mobile');
+      if (mobileEl) mobileEl.value = profile.mobile || '';
+
+      closeSavedProfilesModal();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteSavedProfile(id) {
+      if (!confirm("{{ _('ఈ వివరాలను నిజంగా తొలగించాలా?') }}")) return;
+      let profiles = getSavedProfiles();
+      profiles = profiles.filter(p => p.id !== id);
+      saveProfilesList(profiles);
+      renderSavedProfilesList();
+    }
+
+    // Initialize saved count on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateSavedProfilesCount();
+    });
 
     // Keyboard shortcuts
     document.addEventListener('keydown', function (e) {

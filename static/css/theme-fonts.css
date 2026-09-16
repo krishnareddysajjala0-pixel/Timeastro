@@ -265,11 +265,11 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: nowrap !important;
-  gap: 6px !important;
+  gap: 4px !important;
   width: 100% !important;
   max-width: 900px !important;
   margin: 0 auto 16px auto !important;
-  padding: 6px 10px !important;
+  padding: 6px 8px !important;
   background: var(--card-bg, rgba(15, 23, 42, 0.9)) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 16px !important;
@@ -286,16 +286,32 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 5px !important;
-  padding: 7px 12px !important;
+  gap: 4px !important;
+  padding: 6px 8px !important;
   border-radius: 10px !important;
-  font-size: 13px !important;
+  font-size: 12px !important;
   font-weight: 700 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   white-space: nowrap !important;
-  flex: 1 !important;
+  flex: 1 1 0px !important;
   min-width: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+@media (max-width: 480px) {
+  .top-control-bar {
+    padding: 4px 4px !important;
+    gap: 3px !important;
+  }
+  .top-control-bar .ctrl-btn,
+  .top-control-bar .lang-toggle-btn,
+  .top-control-bar .theme-toggle-btn {
+    padding: 6px 4px !important;
+    font-size: 11px !important;
+    gap: 2px !important;
+  }
 }
 
 /* Distinct Button Colors */

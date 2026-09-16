@@ -259,17 +259,17 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   font-family: inherit;
 }
 
-/* ===== UNIFIED TOP CONTROL BAR ===== */
+/* ===== UNIFIED TOP CONTROL BAR (STRICT SINGLE LINE) ===== */
 .top-control-bar {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  flex-wrap: wrap !important;
-  gap: 10px !important;
+  justify-content: space-between !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
   width: 100% !important;
   max-width: 900px !important;
   margin: 0 auto 16px auto !important;
-  padding: 8px 14px !important;
+  padding: 6px 10px !important;
   background: var(--card-bg, rgba(15, 23, 42, 0.9)) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 16px !important;
@@ -277,6 +277,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   box-shadow: 0 4px 20px var(--shadow-color, rgba(0, 0, 0, 0.4)) !important;
   z-index: 10000 !important;
   position: relative !important;
+  overflow: visible !important;
 }
 
 .top-control-bar .ctrl-btn,
@@ -285,24 +286,54 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 6px !important;
-  padding: 8px 14px !important;
-  border-radius: 12px !important;
-  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.2)) !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: var(--text-main, #ffffff) !important;
-  font-size: 14px !important;
+  gap: 5px !important;
+  padding: 7px 12px !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
   font-weight: 700 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   white-space: nowrap !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+/* Distinct Button Colors */
+.top-btn-theme,
+.top-control-bar .theme-toggle-btn {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(199, 210, 254, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4) !important;
+}
+
+.top-btn-karma {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 164, 175, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.4) !important;
+}
+
+.top-btn-hands {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4) !important;
+}
+
+.top-btn-lang,
+.top-control-bar .lang-toggle-btn {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(153, 246, 228, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.4) !important;
 }
 
 .top-control-bar .ctrl-btn:hover,
 .top-control-bar .lang-toggle-btn:hover,
 .top-control-bar .theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.22) !important;
   transform: translateY(-2px) !important;
+  filter: brightness(1.15) !important;
 }
 
 .top-control-bar .language-switcher,
@@ -320,17 +351,20 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   padding: 0 !important;
   border-radius: 0 !important;
   overflow: visible !important;
+  flex: 1 !important;
+  min-width: 0 !important;
 }
 
 .top-control-bar .lang-options {
   position: absolute !important;
   top: calc(100% + 6px) !important;
-  left: 0 !important;
+  right: 0 !important;
+  left: auto !important;
   background: var(--card-bg, #0f172a) !important;
-  border: 1.5px solid var(--card-border, #ffd700) !important;
+  border: 1.5px solid var(--card-border, #0d9488) !important;
   border-radius: 14px !important;
   padding: 8px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
   z-index: 999999 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -341,13 +375,14 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
 .top-control-bar .theme-options {
   position: absolute !important;
   top: calc(100% + 6px) !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
   background: var(--card-bg, #0f172a) !important;
-  border: 1.5px solid var(--card-border, #ffd700) !important;
+  border: 1.5px solid var(--card-border, #4f46e5) !important;
   border-radius: 14px !important;
   padding: 8px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
   z-index: 999999 !important;
   display: flex !important;
   flex-direction: row !important;

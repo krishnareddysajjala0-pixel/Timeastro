@@ -1638,28 +1638,11 @@
 
 <body>
 
-  <!-- Top Control Row Bar (Language, Theme, Karma, Hands) -->
+  <!-- Top Control Row Bar (Theme First, Karma, Hands, Language Last in Single Line) -->
   <div class="top-control-bar print-hide">
-    <!-- 1. Language Switcher -->
-    <div class="language-switcher">
-      <button class="lang-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
-        <i class="fas fa-language"></i>
-        <span>{{ _('భాష') }}</span>
-      </button>
-      <div class="lang-options">
-        <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
-        <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-        <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
-        <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
-        <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
-        <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
-        <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
-      </div>
-    </div>
-
-    <!-- 2. Theme Switcher -->
-    <div class="theme-switcher">
-      <button class="theme-toggle-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Theme">
+    <!-- 1. Theme Switcher (FIRST / LEFT) -->
+    <div class="theme-switcher" id="theme-switcher-container">
+      <button class="top-btn-theme ctrl-btn" onclick="toggleThemeMenu(event)" title="Change Theme">
         <i class="fas fa-palette"></i>
         <span>{{ _('థీమ్') }}</span>
       </button>
@@ -1676,20 +1659,88 @@
       </div>
     </div>
 
-    <!-- 3. Karma Toggle Button -->
-    <button class="ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
+    <!-- 2. Karma Toggle Button -->
+    <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
       <i class="fas fa-yin-yang"></i>
       <span>{{ _('కర్మ') }}</span>
     </button>
 
-    <!-- 4. Hands/Aspects Toggle Button -->
-    <button class="ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
+    <!-- 3. Hands/Aspects Toggle Button -->
+    <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
       <span>👆</span>
       <span>{{ _('చూపులు') }}</span>
     </button>
+
+    <!-- 4. Language Switcher (LAST / RIGHT) -->
+    <div class="language-switcher">
+      <button class="top-btn-lang ctrl-btn" onclick="this.parentElement.classList.toggle('expanded')" title="Change Language">
+        <i class="fas fa-language"></i>
+        <span>{{ _('భాష') }}</span>
+      </button>
+      <div class="lang-options">
+        <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
+        <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+        <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+        <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+        <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+        <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+        <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
+      </div>
+    </div>
   </div>
 
   <script>
+    let themeTimeout = null;
+
+    function toggleThemeMenu(e) {
+      if (e) e.stopPropagation();
+      const switcher = document.getElementById('theme-switcher-container');
+      if (!switcher) return;
+      const isExpanded = switcher.classList.toggle('expanded');
+
+      if (themeTimeout) {
+        clearTimeout(themeTimeout);
+        themeTimeout = null;
+      }
+
+      if (isExpanded) {
+        themeTimeout = setTimeout(function () {
+          collapseThemeMenu();
+        }, 5000);
+      }
+    }
+
+    function collapseThemeMenu() {
+      const switcher = document.getElementById('theme-switcher-container');
+      if (switcher) {
+        switcher.classList.remove('expanded');
+      }
+      if (themeTimeout) {
+        clearTimeout(themeTimeout);
+        themeTimeout = null;
+      }
+    }
+
+    function setTheme(themeName) {
+      if (themeName === 'default') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', themeName);
+      }
+      localStorage.setItem('preferred-theme', themeName);
+
+      // Update UI buttons
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-theme-btn') === themeName) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Auto-collapse theme menu on selection
+      collapseThemeMenu();
+    }
+
     function toggleKarma() {
       document.body.classList.toggle('hide-karma');
       const isHidden = document.body.classList.contains('hide-karma');
@@ -1730,8 +1781,10 @@
       }
     }
 
-    // Initialize toggles on load
+    // Initialize toggles and theme on load
     (function() {
+      const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+      setTheme(savedTheme);
       if (localStorage.getItem('hide-karma') === 'true') {
         document.body.classList.add('hide-karma');
       }

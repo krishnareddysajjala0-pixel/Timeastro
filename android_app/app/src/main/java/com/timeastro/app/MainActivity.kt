@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             var connected = false
             var attempts = 0
-            while (!connected && attempts < 30) {
+            while (!connected && attempts < 60) {
                 try {
                     val socket = java.net.Socket("127.0.0.1", 5000)
                     socket.close()

@@ -822,12 +822,12 @@ def log_user_to_github(name, dob, tob, place):
         
         # 3. Local Git Sync (Run in background thread since it is local only)
         git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        git_thread.daemon = True
-        git_thread.start()
-        
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
         send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
         
+    except Exception as e:
+        print(f"Critical logging error: {e}")
+
 @app.route('/log_user_data', methods=['POST'])
 def log_user_data_endpoint():
     try:

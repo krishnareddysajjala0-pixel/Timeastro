@@ -1323,3 +1323,4 @@
 1323. [16-Sep-2026 08:40:51] Name: Khasim, DOB: 1985-04-10, TOB: 02:00, Place: Ongole, ఒంగోలు, Prakasam, Andhra Pradesh, 523002, India
 1324. [16-Sep-2026 08:41:14] Name: Khasim, DOB: 1985-04-10, TOB: 02:00, Place: Ongole, ఒంగోలు, Prakasam, Andhra Pradesh, 523002, India
 1325. [16-Sep-2026 08:41:48] Name: Khasim, DOB: 1985-04-10, TOB: 02:00, Place: Ongole, ఒంగోలు, Prakasam, Andhra Pradesh, 523002, India
+1326. [16-Sep-2026 12:20:01] Name: Knife, DOB: 2023-09-21, TOB: 17:49, Place: Bangalore East, Bengaluru Urban, Karnataka, India

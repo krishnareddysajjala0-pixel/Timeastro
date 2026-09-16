@@ -1345,3 +1345,4 @@
 1345. [16-Sep-2026 14:40:52] Name: ci rajasekar, DOB: 1982-06-30, TOB: 19:30, Place: Hindupur, హిందూపురం, శ్రీ సత్యసాయి, Andhra Pradesh, 515200, India
 1346. [16-Sep-2026 14:44:27] Name: Javidh, DOB: 1988-10-23, TOB: 08:30, Place: Anantapur, Anantapuram, Andhra Pradesh, 515001, India
 1347. [16-Sep-2026 14:52:45] Name: Shafiya, DOB: 1996-07-05, TOB: 12:30, Place: Kurnool, Andhra Pradesh, 518001, India
+1348. [16-Sep-2026 16:02:19] Name: Sunil, DOB: 1982-09-09, TOB: 09:00, Place: Nellore, నెల్లూరు, Sri Potti Sriramulu Nellore, Andhra Pradesh, 524001, India

@@ -371,7 +371,16 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   min-width: 0 !important;
 }
 
-.top-control-bar .lang-options {
+/* Dropdown Menus Default State: HIDDEN by default */
+.top-control-bar .lang-options,
+.top-control-bar .theme-options {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Expanded State: VISIBLE ONLY when parent container has .expanded class */
+.top-control-bar .language-switcher.expanded .lang-options {
   position: absolute !important;
   top: calc(100% + 6px) !important;
   right: 0 !important;
@@ -386,9 +395,11 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   flex-direction: column !important;
   gap: 4px !important;
   min-width: 140px !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
-.top-control-bar .theme-options {
+.top-control-bar .theme-switcher.expanded .theme-options {
   position: absolute !important;
   top: calc(100% + 6px) !important;
   left: 0 !important;
@@ -405,6 +416,8 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, table, th, td {
   gap: 6px !important;
   flex-wrap: wrap !important;
   max-width: 280px !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 .hide-karma .karma-label {

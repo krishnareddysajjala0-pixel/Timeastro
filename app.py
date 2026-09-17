@@ -21,18 +21,14 @@ TRANSLATIONS_CACHE = {}
 def get_translations_dict(lang):
     if lang == 'te':
         return {}
-    if lang not in TRANSLATIONS_CACHE:
-        path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
-        if os.path.exists(path):
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    TRANSLATIONS_CACHE[lang] = json.load(f)
-            except Exception as e:
-                print(f"Error loading vocabulary {lang}: {e}")
-                TRANSLATIONS_CACHE[lang] = {}
-        else:
-            TRANSLATIONS_CACHE[lang] = {}
-    return TRANSLATIONS_CACHE[lang]
+    path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
+    if os.path.exists(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading vocabulary {lang}: {e}")
+    return {}
 
 def tr(text, lang=None):
     if not text:
@@ -222,47 +218,10 @@ def inject_translation():
     if has_request_context():
         lang = session.get('lang', 'te')
     
-    mapping = get_translations_dict(lang)
-    
     def translate_text(text):
         if not text or lang == 'te':
             return text
-        if text == 'భాష':
-            return {
-                'en': 'Language',
-                'kn': 'ಭಾಷೆ',
-                'hi': 'भाषा',
-                'ta': 'மொழி',
-                'ml': 'ഭാഷ',
-                'or': 'ଭାଷା'
-            }.get(lang, 'Language')
-        if isinstance(text, str):
-            if text in mapping:
-                return mapping[text]
-            
-            # Suffix matching
-            import re
-            tithi_match = re.match(r'^(\d+)వ తిథి$', text)
-            if tithi_match:
-                num = tithi_match.group(1)
-                suffix = mapping.get("వ తిథి", " Tithi")
-                return f"{num}{suffix}"
-                
-            padam_match = re.match(r'^(\d+)వ పాదం$', text)
-            if padam_match:
-                num = padam_match.group(1)
-                suffix = mapping.get("వ పాదం", " Pada")
-                return f"{num}{suffix}"
-                
-            # Handle combined times
-            if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
-                translated_text = text
-                for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
-                    if te_word in translated_text:
-                        translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
-                return translated_text
-                
-        return text
+        return tr(text, lang)
     return dict(_=translate_text, current_lang=lang)
 
 # ---------------- Swiss Ephemeris ----------------
@@ -990,6 +949,12 @@ def get_planet_icon(planet_name):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.before_request
+def check_lang_query_param():
+    lang = request.args.get('lang')
+    if lang and lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
+        session['lang'] = lang
 
 @app.route("/set_lang/<lang>")
 def set_lang(lang):

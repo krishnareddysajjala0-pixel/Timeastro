@@ -46,7 +46,7 @@
 
 
 
-    <title>{{ _('ద్వాదశ గ్రహముల ఫలితాలు - Cosmic Astrology') }}</title>
+    <title>{% if title %}{{ title }}{% else %}{% if name %}{{ name }} {% endif %}{{ _('ద్వాదశ గ్రహములు') }}{% endif %}</title>
 
 
 
@@ -5178,7 +5178,7 @@
   html, body {
     background: #ffffff !important;
     color: #000000 !important;
-    font-size: 9pt !important;
+    font-size: 11.3pt !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
@@ -5213,17 +5213,22 @@
     break-before: page !important;
   }
 
+  #chart3-page-3, .print-page-container:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
   /* Page 1 Header & Tables */
   .header {
     padding: 2px 4px !important;
     margin-bottom: 4px !important;
   }
   .header h1 {
-    font-size: 13pt !important;
+    font-size: 16.3pt !important;
     margin-bottom: 0 !important;
   }
   .header-subtitle {
-    font-size: 9pt !important;
+    font-size: 11.3pt !important;
   }
 
   .party-info-box {
@@ -5231,7 +5236,7 @@
     padding: 3px 8px !important;
   }
   .party-info-box p, .party-info-box strong {
-    font-size: 9pt !important;
+    font-size: 11.3pt !important;
     margin: 0 !important;
   }
 
@@ -5240,13 +5245,13 @@
     padding: 2px 4px !important;
   }
   .section-title {
-    font-size: 11pt !important;
+    font-size: 13.8pt !important;
     margin: 4px 0 4px 0 !important;
     padding-left: 6px !important;
     border-left: 4px solid #000000 !important;
   }
   .section-subtitle {
-    font-size: 8.5pt !important;
+    font-size: 10.7pt !important;
   }
 
   .table-container {
@@ -5255,21 +5260,21 @@
   }
 
   .data-table {
-    font-size: 8.5pt !important;
+    font-size: 10.7pt !important;
     table-layout: fixed !important;
     width: 100% !important;
   }
   .data-table th {
-    font-size: 9pt !important;
+    font-size: 11.3pt !important;
     padding: 3px 2px !important;
   }
   .data-table td {
     padding: 2px 2px !important;
-    font-size: 8pt !important;
+    font-size: 10.1pt !important;
   }
 
   .disease-list li {
-    font-size: 8pt !important;
+    font-size: 10.1pt !important;
     padding: 1px 0 !important;
   }
 
@@ -5291,21 +5296,21 @@
     background: #f1f5f9 !important;
     color: #000000 !important;
     border: 1.5px solid #000000 !important;
-    font-size: 10.5pt !important;
+    font-size: 13.3pt !important;
     padding: 2px 10px !important;
     border-radius: 10px !important;
     font-weight: bold !important;
   }
   .party-info div[style*="font-size: 14px"] {
-    font-size: 9pt !important;
+    font-size: 11.3pt !important;
     margin-top: 2px !important;
   }
 
   .results-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 6px 8px !important;
-    margin-top: 4px !important;
+    gap: 4px 6px !important;
+    margin-top: 2px !important;
     justify-content: center !important;
   }
 
@@ -5314,7 +5319,7 @@
     border: 1.5px solid #000000 !important;
     color: #000000 !important;
     box-shadow: none !important;
-    padding: 5px 6px !important;
+    padding: 4px 5px !important;
     border-radius: 5px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -5337,13 +5342,13 @@
     background: #f1f5f9 !important;
     color: #000000 !important;
     font-weight: bold !important;
-    font-size: 7.5pt !important;
+    font-size: 9.5pt !important;
     padding: 1px 3px !important;
     border-radius: 3px !important;
   }
 
   .planet-name {
-    font-size: 10pt !important;
+    font-size: 12.6pt !important;
     padding-bottom: 2px !important;
     margin-bottom: 3px !important;
     font-weight: bold !important;
@@ -5355,7 +5360,7 @@
   }
   .info-row {
     margin-bottom: 1.5px !important;
-    font-size: 8pt !important;
+    font-size: 10.1pt !important;
   }
   .info-row .label {
     color: #334155 !important;
@@ -5364,7 +5369,7 @@
     color: #000000 !important;
   }
   .info-row .val[style*="font-size: 12px"] {
-    font-size: 7.5pt !important;
+    font-size: 9.5pt !important;
     color: #000000 !important;
     line-height: 1.25 !important;
     margin-top: 2px !important;
@@ -5379,7 +5384,7 @@
     margin-top: 3px !important;
   }
   .status-msg {
-    font-size: 8pt !important;
+    font-size: 10.1pt !important;
     padding-top: 2px !important;
   }
   .status-msg.msg-positive {
@@ -5389,7 +5394,7 @@
     color: #475569 !important;
   }
   .bitter-enemy-alert {
-    font-size: 7.5pt !important;
+    font-size: 9.5pt !important;
     margin-top: 2px !important;
     padding: 1.5px 3px !important;
     border-radius: 3px !important;
@@ -5402,14 +5407,20 @@
   }
 
   .disclaimer {
-    font-size: 8pt !important;
-    padding: 3px 6px !important;
-    margin-top: 4px !important;
+    font-size: 9.5pt !important;
+    padding: 2px 4px !important;
+    margin-top: 2px !important;
   }
 
   .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
     display: none !important;
   }
+}
+
+.mobile-print-force {
+  width: 750px !important;
+  max-width: 750px !important;
+  margin: 0 auto !important;
 }
 
 
@@ -5480,6 +5491,315 @@
     gap: 4px !important;
   }
 }
+
+/* Top Control Bar & Theme / Language Dropdowns for chart3 */
+.top-control-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 6px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 99999 !important;
+  margin-bottom: 12px !important;
+}
+
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.top-control-bar .ctrl-btn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 6px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.2s ease !important;
+  height: 38px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  outline: none !important;
+}
+
+.top-btn-theme {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-lang {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  border: 1px solid rgba(45, 212, 191, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-control-bar .ctrl-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+  filter: brightness(1.1) !important;
+}
+
+.theme-options,
+.lang-options,
+.top-control-bar .theme-options,
+.top-control-bar .lang-options {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.theme-switcher.expanded .theme-options,
+.top-control-bar .theme-switcher.expanded .theme-options {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  right: auto !important;
+  width: 220px !important;
+  min-width: 200px !important;
+  max-width: 90vw !important;
+  background: #0f172a !important;
+  border: 1.5px solid #6366f1 !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95) !important;
+  z-index: 999999 !important;
+  gap: 4px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.language-switcher.expanded .lang-options,
+.top-control-bar .language-switcher.expanded .lang-options {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 180px !important;
+  min-width: 160px !important;
+  max-width: 90vw !important;
+  background: #0f172a !important;
+  border: 1.5px solid #0d9488 !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95) !important;
+  z-index: 999999 !important;
+  gap: 4px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.theme-options .theme-btn,
+.lang-options .lang-btn {
+  width: 100% !important;
+  min-width: 100% !important;
+  height: 36px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  
+  border: none !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+}
+
+.theme-options .theme-btn span,
+.lang-options .lang-btn span {
+  display: inline-block !important;
+  color: #ffffff !important;
+}
+
+.theme-options .theme-btn:hover,
+.lang-options .lang-btn:hover,
+.theme-options .theme-btn.active,
+.lang-options .lang-btn.active {
+  background: rgba(99, 102, 241, 0.45) !important;
+  color: #ffd700 !important;
+  transform: translateX(3px) !important;
+}
+</style>
+  <link rel="stylesheet" href="/static/css/theme-fonts.css">
+<style>
+
+/* ===== DISTINCT INDIVIDUAL COLORS FOR THEME LIST ITEMS ===== */
+.theme-options .theme-btn[data-theme-btn="default"],
+.theme-options .theme-btn[onclick*="'default'"] {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 240, 138, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="cosmic"],
+.theme-options .theme-btn[onclick*="'cosmic'"] {
+  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(199, 210, 254, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="sunset"],
+.theme-options .theme-btn[onclick*="'sunset'"] {
+  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 205, 211, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="luxury"],
+.theme-options .theme-btn[onclick*="'luxury'"] {
+  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="cyberpunk"],
+.theme-options .theme-btn[onclick*="'cyberpunk'"] {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(240, 230, 254, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="solar"],
+.theme-options .theme-btn[onclick*="'solar'"] {
+  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="mandala"],
+.theme-options .theme-btn[onclick*="'mandala'"] {
+  background: linear-gradient(135deg, #ea580c 0%, #991b1b 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 215, 170, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="twilight"],
+.theme-options .theme-btn[onclick*="'twilight'"] {
+  background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(233, 213, 255, 0.4) !important;
+}
+.theme-options .theme-btn[data-theme-btn="aurora"],
+.theme-options .theme-btn[onclick*="'aurora'"] {
+  background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(153, 246, 228, 0.4) !important;
+}
+
+/* ===== DISTINCT INDIVIDUAL COLORS FOR LANGUAGE LIST ITEMS ===== */
+.lang-options a.lang-btn[href*="/set_lang/te"],
+.lang-options .lang-btn[data-lang="te"],
+.lang-options .lang-btn[onclick*="'te'"] {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(254, 202, 202, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/en"],
+.lang-options .lang-btn[data-lang="en"],
+.lang-options .lang-btn[onclick*="'en'"] {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(191, 219, 254, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/kn"],
+.lang-options .lang-btn[data-lang="kn"],
+.lang-options .lang-btn[onclick*="'kn'"] {
+  background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(253, 230, 138, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/hi"],
+.lang-options .lang-btn[data-lang="hi"],
+.lang-options .lang-btn[onclick*="'hi'"] {
+  background: linear-gradient(135deg, #059669 0%, #065f46 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(167, 243, 208, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/ta"],
+.lang-options .lang-btn[data-lang="ta"],
+.lang-options .lang-btn[onclick*="'ta'"] {
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(221, 214, 254, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/ml"],
+.lang-options .lang-btn[data-lang="ml"],
+.lang-options .lang-btn[onclick*="'ml'"] {
+  background: linear-gradient(135deg, #0891b2 0%, #155e75 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(165, 243, 252, 0.4) !important;
+}
+.lang-options a.lang-btn[href*="/set_lang/or"],
+.lang-options .lang-btn[data-lang="or"],
+.lang-options .lang-btn[onclick*="'or'"] {
+  background: linear-gradient(135deg, #db2777 0%, #9d174d 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(251, 207, 232, 0.4) !important;
+}
+
+</style>
+<style>
+
+/* Guaranteed NO underline on language buttons and theme buttons across all states */
+.lang-options,
+.lang-options *,
+.lang-options a,
+.lang-options .lang-btn,
+.lang-options a.lang-btn,
+.lang-options a:link,
+.lang-options a:visited,
+.lang-options a:hover,
+.lang-options a:active,
+.lang-options a:focus,
+.lang-options span,
+.lang-btn,
+.lang-btn:link,
+.lang-btn:visited,
+.lang-btn:hover,
+.lang-btn:active,
+.lang-btn:focus,
+.theme-options,
+.theme-options *,
+.theme-options button,
+.theme-options .theme-btn,
+.theme-options span,
+.theme-btn,
+.top-control-bar a,
+.top-control-bar button {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  -webkit-text-decoration-line: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+}
+
 </style>
 </head>
 
@@ -5564,50 +5884,20 @@
 
 
       <!-- 2. Language Switcher (LAST / RIGHT) -->
-
-
-      <div class="language-switcher">
-
-
+      <div class="language-switcher" id="language-switcher-container">
         <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
-
-
           <i class="fas fa-language"></i>
-
-
           <span>{{ _('భాష') }}</span>
-
-
         </button>
-
-
-        <div class="lang-options">
-
-
-          <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' %}active{% endif %}">తెలుగు</a>
-
-
-          <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-
-
-          <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
-
-
-          <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
-
-
-          <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
-
-
-          <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
-
-
-          <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
-
-
+        <div class="lang-options" id="lang-options-dropdown">
+          <a href="javascript:void(0)" onclick="setLanguageDirect('te')" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('en')" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('kn')" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('hi')" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">हिन्दी</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ta')" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">தமிழ்</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ml')" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">മലയാളം</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('or')" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ଓଡ଼ିଆ</a>
         </div>
-
-
       </div>
 
 
@@ -5617,7 +5907,7 @@
 
 
 
-    <div class="print-page-container">
+    <div class="print-page-container" id="chart3-page-1">
 <div class="header">
 
 
@@ -7520,7 +7810,7 @@
 
 
 
-        <div class="print-page-container print-page-break">
+        <div class="print-page-container print-page-break" id="chart3-page-2">
 
 
 
@@ -7874,7 +8164,7 @@
 
 
 
-        <div class="print-page-container print-page-break">
+        <div class="print-page-container print-page-break" id="chart3-page-3">
 
 
 
@@ -8402,7 +8692,7 @@
 
 
 
-            onclick="if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') { window.AndroidPrint.printPage(); } else { window.print(); }">
+            onclick="handleChart3Print()">
 
 
 
@@ -9789,17 +10079,8 @@
 
 
                 var oc = btn.getAttribute('onclick') || '';
-
-
-
-
-
-                if (oc.indexOf('print()') !== -1) return;
-
-
-
-
-
+                var ocLower = oc.toLowerCase();
+                if (ocLower.indexOf('print') !== -1 || ocLower.indexOf('pdf') !== -1 || btn.classList.contains('print-hide')) return;
                 if (oc.indexOf('fetch') !== -1) return;
 
 
@@ -10029,18 +10310,28 @@
     })();
 
     function toggleLangMenu(e) {
-      if (e) e.stopPropagation();
-      const ls = document.querySelector('.language-switcher');
+      if (e) {
+        if (e.stopPropagation) e.stopPropagation();
+        if (e.preventDefault) e.preventDefault();
+      }
+      const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
+      const ls = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
+      if (switcher) switcher.classList.remove('expanded');
       if (ls) ls.classList.toggle('expanded');
     }
 
+    function setLanguageDirect(langCode) {
+      document.cookie = "lang=" + langCode + "; path=/; max-age=2592000";
+      window.location.href = "/set_lang/" + langCode + "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
+    }
+
     document.addEventListener('click', function(e) {
-      if (!e.target.closest('.theme-switcher')) {
+      if (!e.target.closest('#theme-switcher-container') && !e.target.closest('.theme-switcher')) {
         const ts = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
         if (ts) ts.classList.remove('expanded');
       }
-      if (!e.target.closest('.language-switcher')) {
-        const ls = document.querySelector('.language-switcher');
+      if (!e.target.closest('#language-switcher-container') && !e.target.closest('.language-switcher')) {
+        const ls = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
         if (ls) ls.classList.remove('expanded');
       }
     });
@@ -10135,6 +10426,43 @@
       window.showCustomAlert(msg);
     };
   })();
+</script>
+<script>
+  window.handleChart3Print = function() {
+    var overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    var uName = "{{ name|default('') }}".trim();
+    var pTitle = "{{ title if title else _('ద్వాదశ గ్రహములు') }}";
+    document.title = (uName && pTitle.indexOf(uName) === -1) ? (uName + ' ' + pTitle) : pTitle;
+
+    if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+      window.AndroidPrint.printPage();
+    } else {
+      window.print();
+    }
+  };
+
+  function doAfterPrintChart3() {
+    var overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  window.onafterprint = doAfterPrintChart3;
+  window.addEventListener('afterprint', doAfterPrintChart3);
+
+  if (window.matchMedia) {
+    var mql = window.matchMedia('print');
+    if (typeof mql.addListener === 'function') {
+      mql.addListener(function(m) {
+        if (!m.matches) doAfterPrintChart3();
+      });
+    } else if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', function(m) {
+        if (!m.matches) doAfterPrintChart3();
+      });
+    }
+  }
 </script>
 </body>
 

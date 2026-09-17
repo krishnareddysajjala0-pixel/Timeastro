@@ -15,20 +15,27 @@ import base64
 import json
 import re
 
-# Cache loaded translation dictionaries
+# Cache loaded translation dictionaries in memory
 TRANSLATIONS_CACHE = {}
+TR_STRING_CACHE = {}
+TIME_KEYWORDS = ["ఉ: ", "సా: ", "ఉ:", "సా:", "గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న", "ముగింపు", "మొదలు"]
+TIME_KEYWORDS.sort(key=len, reverse=True)
 
 def get_translations_dict(lang):
-    if lang == 'te':
+    if not lang or lang == 'te':
         return {}
-    path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
-    if os.path.exists(path):
-        try:
-            with open(path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error loading vocabulary {lang}: {e}")
-    return {}
+    if lang not in TRANSLATIONS_CACHE:
+        path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    TRANSLATIONS_CACHE[lang] = json.load(f)
+            except Exception as e:
+                print(f"Error loading vocabulary {lang}: {e}")
+                TRANSLATIONS_CACHE[lang] = {}
+        else:
+            TRANSLATIONS_CACHE[lang] = {}
+    return TRANSLATIONS_CACHE[lang]
 
 def tr(text, lang=None):
     if not text:
@@ -40,6 +47,10 @@ def tr(text, lang=None):
     if lang == 'te':
         return text
         
+    cache_key = (text, lang)
+    if cache_key in TR_STRING_CACHE:
+        return TR_STRING_CACHE[cache_key]
+        
     mapping = get_translations_dict(lang)
     
     # Centralized stripped check to match keys like "ఉ:" and "సా:" even with trailing spaces
@@ -50,6 +61,7 @@ def tr(text, lang=None):
             translated = ' ' + translated
         if text.endswith(' '):
             translated = translated + ' '
+        TR_STRING_CACHE[cache_key] = translated
         return translated
         
     # Suffix matching
@@ -57,22 +69,22 @@ def tr(text, lang=None):
     if tithi_match:
         num = tithi_match.group(1)
         suffix = mapping.get("వ తిథి", " Tithi")
-        return f"{num}{suffix}"
+        res = f"{num}{suffix}"
+        TR_STRING_CACHE[cache_key] = res
+        return res
         
     padam_match = re.match(r'^(\d+)వ పాదం$', text)
     if padam_match:
         num = padam_match.group(1)
         suffix = mapping.get("వ పాదం", " Pada")
-        return f"{num}{suffix}"
+        res = f"{num}{suffix}"
+        TR_STRING_CACHE[cache_key] = res
+        return res
         
     # Handle combined times (e.g. "నిన్న సా: 03:12")
-    time_keywords = ["ఉ: ", "సా: ", "ఉ:", "సా:", "గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న", "ముగింపు", "మొదలు"]
-    # Sort by length descending to match longer keywords first (e.g. 'నిన్న' before 'ని')
-    time_keywords.sort(key=len, reverse=True)
-    
-    if any(k in text for k in time_keywords):
+    if any(k in text for k in TIME_KEYWORDS):
         translated_text = text
-        for te_word in time_keywords:
+        for te_word in TIME_KEYWORDS:
             if te_word in translated_text:
                 stripped_word = te_word.strip()
                 replacement = mapping.get(stripped_word)
@@ -82,8 +94,10 @@ def tr(text, lang=None):
                     if te_word.endswith(' '):
                         replacement = replacement + ' '
                     translated_text = translated_text.replace(te_word, replacement)
+        TR_STRING_CACHE[cache_key] = translated_text
         return translated_text
         
+    TR_STRING_CACHE[cache_key] = text
     return text
 
 
@@ -129,19 +143,29 @@ def render_template(template_name_or_list, **context):
     context['current_lang'] = 'te'
     return flask_render_template(template_name_or_list, **context)
 
-def load_rules(filename):
+RULES_CACHE = {}
+
+def load_rules(filename, lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
+
+    cache_key = (filename, lang)
+    if cache_key in RULES_CACHE:
+        return RULES_CACHE[cache_key]
+
     if filename == 'astro_constants.json':
         path = os.path.join(os.path.dirname(__file__), filename)
         try:
             with open(path, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                RULES_CACHE[cache_key] = data
+                return data
         except Exception as e:
             print(f"Error loading {filename}: {e}")
             return {}
 
-    lang = 'te'
-    if has_request_context():
-        lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang != 'te':
         base, ext = os.path.splitext(filename)
         localized_filename = f"{base}_{lang}{ext}"
@@ -149,22 +173,32 @@ def load_rules(filename):
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    RULES_CACHE[cache_key] = data
+                    return data
             except Exception as e:
                 print(f"Error loading localized {localized_filename}: {e}")
                 
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            RULES_CACHE[cache_key] = data
+            return data
     except Exception as e:
         print(f"Error loading {filename}: {e}")
         return {}
 
-def load_localized_constants():
-    lang = 'te'
-    if has_request_context():
-        lang = session.get('lang') or request.cookies.get('lang') or 'te'
+def load_localized_constants(lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
+
+    cache_key = ('astro_constants_localized', lang)
+    if cache_key in RULES_CACHE:
+        return RULES_CACHE[cache_key]
+
     filename = 'astro_constants.json'
     if lang != 'te':
         base, ext = os.path.splitext(filename)
@@ -173,16 +207,35 @@ def load_localized_constants():
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    RULES_CACHE[cache_key] = data
+                    return data
             except Exception as e:
                 print(f"Error loading localized {localized_filename}: {e}")
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            RULES_CACHE[cache_key] = data
+            return data
     except Exception as e:
         print(f"Error loading {filename}: {e}")
         return {}
+
+def prewarm_caches():
+    languages = ['en', 'kn', 'hi', 'ta', 'ml', 'or']
+    for l in languages:
+        get_translations_dict(l)
+        for rule_file in ['bhava_lord_rules.json', 'detailed_bhava_meanings.json', 'astro_constants.json']:
+            load_rules(rule_file, l)
+        load_localized_constants(l)
+    for rule_file in ['bhava_lord_rules.json', 'detailed_bhava_meanings.json', 'astro_constants.json']:
+        load_rules(rule_file, 'te')
+    load_localized_constants('te')
+
+prewarm_caches()
+
+
 
 def format_lord_placement(lord_house_num, lord_planet, p_house, lang):
     translated_planet = tr(lord_planet, lang)
@@ -2128,7 +2181,12 @@ def chart3():
         friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
         enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
 
+    name = birth_info.get('name', '') if birth_info else ''
+    selected_lang = session.get('lang') or request.cookies.get('lang') or 'te'
+    title = f"{name} {tr('ద్వాదశ గ్రహములు', selected_lang)}".strip() if name else tr('ద్వాదశ గ్రహములు', selected_lang)
     return render_template("chart3.html", 
+                           name=name,
+                           title=title,
                            current_year=current_year, 
                            lagna=lagna,
                            native_party=native_party,

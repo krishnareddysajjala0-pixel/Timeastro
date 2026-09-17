@@ -9613,29 +9613,13 @@
 
 
         window.handleMobilePrintClick = function() {
-
-
-
-            if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
-
-
-
+            if (typeof doSharePDF === 'function') {
+                doSharePDF();
+            } else if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
                 window.AndroidPrint.printPage();
-
-
-
             } else {
-
-
-
                 window.print();
-
-
-
             }
-
-
-
         };
 
 

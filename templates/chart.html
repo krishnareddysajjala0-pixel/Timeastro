@@ -10409,69 +10409,20 @@
 
 
       function doPrint() {
-
-
-
         const selected = document.querySelector('input[name="print-mode"]:checked');
-
-
-
         const mode = selected ? selected.value : 'kundali-only';
-
-
-
         document.body.setAttribute('data-print-mode', mode);
 
-
-
-
-
-
-
-        // Close the modal gracefully before printing so it doesn't get stuck
-
-
-
         closePrintOptions();
-
-
-
-
-
-
-
-        // Explicitly trigger onbeforeprint logic
-
-
-
         window.onbeforeprint();
 
-
-
-
-
-
-
-        if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
-
-
-
-          window.AndroidPrint.printPage();
-
-
-
+        if (typeof doSharePDF === 'function') {
+            doSharePDF();
+        } else if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+            window.AndroidPrint.printPage();
         } else {
-
-
-
-          window.print();
-
-
-
+            window.print();
         }
-
-
-
       }
 
 

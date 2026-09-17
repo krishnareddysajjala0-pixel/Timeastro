@@ -9954,21 +9954,56 @@
   })();
 </script>
 <script>
+
 window.doSharePDF = function() {
     if (typeof closePrintOptions === 'function') closePrintOptions();
+
+    // 1. Android App Native PDF File Share (via FileProvider Intent)
     if (window.AndroidPrint && typeof window.AndroidPrint.sharePdf === 'function') {
         window.AndroidPrint.sharePdf();
         return;
     }
+
+    // 2. Client-side PDF File Generation (HTML to PDF File Blob)
     if (typeof html2pdf !== 'undefined') {
+        document.body.classList.add('mobile-pdf-rendering');
         const element = document.querySelector('.container') || document.body;
         const opt = {
             margin:       [5, 5, 5, 5],
-            filename:     'Kundali_Report.pdf',
+            filename:     'RavanAstro_Kundali_Report.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, logging: false },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
+
+        html2pdf().set(opt).from(element).output('blob').then(function(blob) {
+            document.body.classList.remove('mobile-pdf-rendering');
+            const pdfFile = new File([blob], 'RavanAstro_Kundali_Report.pdf', { type: 'application/pdf' });
+            
+            // Strictly share PDF file object via Web Share API
+            if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+                navigator.share({
+                    files: [pdfFile],
+                    title: 'RavanAstro Kundali PDF'
+                }).catch(function(err) { console.log('Share canceled', err); });
+            } else {
+                // Download PDF file directly if browser cannot share raw files
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'RavanAstro_Kundali_Report.pdf';
+                link.click();
+            }
+        }).catch(function(err) {
+            document.body.classList.remove('mobile-pdf-rendering');
+            console.error('PDF generation error:', err);
+            if (typeof doPrint === 'function') { doPrint(); } else { window.print(); }
+        });
+    } else {
+        // Fallback: Trigger Print-to-PDF dialog (never share URL or page text)
+        if (typeof doPrint === 'function') { doPrint(); } else { window.print(); }
+    }
+};
+
         html2pdf().set(opt).from(element).output('blob').then(function(blob) {
             const pdfFile = new File([blob], 'Kundali_Report.pdf', { type: 'application/pdf' });
             if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {

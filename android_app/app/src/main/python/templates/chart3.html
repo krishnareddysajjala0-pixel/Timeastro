@@ -8229,6 +8229,10 @@
 
         </button>
 
+<button class="float-btn print-hide" style="background: linear-gradient(135deg, #25D366, #128C7E);" onclick="doSharePDF()">
+<i class="fas fa-share-alt"></i> {{ _('షేర్ PDF') }}
+</button>
+
 
 
 
@@ -9948,6 +9952,55 @@
       window.showCustomAlert(msg);
     };
   })();
+</script>
+<script>
+window.doSharePDF = function() {
+    if (typeof closePrintOptions === 'function') closePrintOptions();
+    if (window.AndroidPrint && typeof window.AndroidPrint.sharePdf === 'function') {
+        window.AndroidPrint.sharePdf();
+        return;
+    }
+    if (typeof html2pdf !== 'undefined') {
+        const element = document.querySelector('.container') || document.body;
+        const opt = {
+            margin:       [5, 5, 5, 5],
+            filename:     'Kundali_Report.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).output('blob').then(function(blob) {
+            const pdfFile = new File([blob], 'Kundali_Report.pdf', { type: 'application/pdf' });
+            if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+                navigator.share({
+                    files: [pdfFile],
+                    title: 'RavanAstro Kundali PDF',
+                    text: 'RavanAstro Kundali Report PDF'
+                }).catch(function(err) { console.log('Share canceled', err); });
+            } else if (navigator.share) {
+                const pdfUrl = URL.createObjectURL(blob);
+                navigator.share({
+                    title: 'RavanAstro Kundali PDF',
+                    url: pdfUrl
+                }).catch(function(err) { console.log('Share canceled', err); });
+            } else {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Kundali_Report.pdf';
+                link.click();
+            }
+        });
+    } else if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            url: window.location.href
+        }).catch(function(err) { console.log('Share canceled', err); });
+    } else if (typeof doPrint === 'function') {
+        doPrint();
+    } else {
+        window.print();
+    }
+};
 </script>
 </body>
 

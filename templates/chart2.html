@@ -6559,7 +6559,7 @@
 
 
 <style>
-/* Fix Top Control Bar & Prevent Button Overlapping on Mobile */
+/* Fix Top Control Bar - Expand Buttons to Fill Screen Space on Mobile */
 .top-control-bar {
   display: flex !important;
   flex-direction: row !important;
@@ -6569,7 +6569,7 @@
   gap: 6px !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding: 8px 10px !important;
+  padding: 8px 6px !important;
   box-sizing: border-box !important;
   position: relative !important;
   top: auto !important;
@@ -6579,11 +6579,20 @@
   margin-bottom: 8px !important;
 }
 
+/* Make every direct child container / button of top-control-bar expand equally */
+.top-control-bar > * {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
 .top-control-bar .ctrl-btn,
 .top-control-bar #karmaBtn,
 .top-control-bar #chupuluBtn,
 .top-control-bar .top-btn-theme,
 .top-control-bar .top-btn-lang {
+  width: 100% !important;
+  box-sizing: border-box !important;
   position: static !important;
   top: auto !important;
   left: auto !important;
@@ -6595,16 +6604,17 @@
   align-items: center !important;
   justify-content: center !important;
   gap: 4px !important;
-  padding: 6px 10px !important;
-  font-size: 13px !important;
+  padding: 7px 4px !important;
+  font-size: 12.5px !important;
   font-weight: 700 !important;
   border-radius: 20px !important;
   white-space: nowrap !important;
   cursor: pointer !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   transition: all 0.2s ease !important;
-  height: 34px !important;
+  height: 36px !important;
   line-height: 1 !important;
+  text-align: center !important;
 }
 
 .theme-switcher, .language-switcher {
@@ -6618,8 +6628,7 @@
 @media screen and (max-width: 768px) {
   .top-control-bar {
     padding: 6px 4px !important;
-    gap: 4px !important;
-    justify-content: space-between !important;
+    gap: 5px !important;
   }
 
   .top-control-bar .ctrl-btn,
@@ -6634,11 +6643,11 @@
     left: auto !important;
     right: auto !important;
     bottom: auto !important;
-    padding: 5px 8px !important;
+    padding: 6px 2px !important;
     font-size: 11px !important;
     border-radius: 14px !important;
-    height: 30px !important;
-    width: auto !important;
+    height: 32px !important;
+    width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
     margin: 0 !important;
@@ -6651,8 +6660,9 @@
   .top-control-bar #chupuluBtn,
   .top-control-bar .top-btn-theme,
   .top-control-bar .top-btn-lang {
-    padding: 4px 6px !important;
+    padding: 5px 2px !important;
     font-size: 10px !important;
+    height: 30px !important;
   }
 }
 </style>

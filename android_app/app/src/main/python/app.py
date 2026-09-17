@@ -1,4 +1,4 @@
-from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, make_response, g
 import swisseph as swe
 import datetime
 import pytz

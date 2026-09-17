@@ -558,7 +558,7 @@
 
       text-align: center;
 
-      margin-bottom: 30px;
+      margin-bottom: 12px ;
 
       padding-bottom: 20px;
 
@@ -2944,6 +2944,17 @@
 
 
 
+<style>
+/* Position Floating Bottom Bar Downside Close to Bottom Edge */
+.fixed-bottom-bar {
+  bottom: 12px !important;
+}
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar {
+    bottom: 10px !important;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -6563,7 +6574,7 @@
 
   <!-- Nakshatra Comparison Wrapper (Vertical Stack & 2-Page Print) -->
 
-  <div class="nak-grid-wrapper" id="nakshatra-compare-wrapper" style="{% if chart_type != 'nakshatra' %}display: none;{% endif %} margin-bottom: 30px;">
+  <div class="nak-grid-wrapper" id="nakshatra-compare-wrapper" style="{% if chart_type != 'nakshatra' %}display: none;{% endif %} margin-bottom: 12px ;">
 
     <div class="chart-container-wrapper nak-person-1">
 

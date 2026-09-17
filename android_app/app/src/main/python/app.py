@@ -36,7 +36,7 @@ def tr(text, lang=None):
     if not lang:
         lang = 'te'
         if has_request_context():
-            lang = session.get('lang', 'te')
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang == 'te':
         return text
         
@@ -91,7 +91,7 @@ def translate_html_string(html_str, lang=None):
     if not lang:
         lang = 'te'
         if has_request_context():
-            lang = session.get('lang', 'te')
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang == 'te':
         return html_str
         
@@ -119,7 +119,7 @@ def translate_data(val, lang):
 def render_template(template_name_or_list, **context):
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
+        lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang != 'te':
         translated_context = {}
         for k, v in context.items():
@@ -141,7 +141,7 @@ def load_rules(filename):
 
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
+        lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang != 'te':
         base, ext = os.path.splitext(filename)
         localized_filename = f"{base}_{lang}{ext}"
@@ -164,7 +164,7 @@ def load_rules(filename):
 def load_localized_constants():
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
+        lang = session.get('lang') or request.cookies.get('lang') or 'te'
     filename = 'astro_constants.json'
     if lang != 'te':
         base, ext = os.path.splitext(filename)
@@ -2302,7 +2302,7 @@ def results():
                                 p_color = p['color']
                                 break
                         
-                        lang = session.get('lang', 'te') if has_request_context() else 'te'
+                        lang = session.get('lang') or request.cookies.get('lang') or 'te' if has_request_context() else 'te'
                         header_text = format_lord_placement(lord_house_num, lord_planet, p_house, lang)
                         placed_rules_map[p_house].append(
                             f"<br><br><span style='color: {p_color};'><strong>{header_text}</strong> {rule_text}</span>"

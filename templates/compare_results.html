@@ -3128,13 +3128,13 @@
           <span>{{ _('భాష') }}</span>
         </button>
         <div class="lang-options">
-          <a href="/set_lang/te?next=/compare_results" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
-          <a href="/set_lang/en?next=/compare_results" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-          <a href="/set_lang/kn?next=/compare_results" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
-          <a href="/set_lang/hi?next=/compare_results" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
-          <a href="/set_lang/ta?next=/compare_results" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
-          <a href="/set_lang/ml?next=/compare_results" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
-          <a href="/set_lang/or?next=/compare_results" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('te')" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('en')" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('kn')" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('hi')" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ta')" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ml')" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('or')" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
         </div>
       </div>
     </div>
@@ -6759,8 +6759,15 @@
 
   function toggleLangMenu(e) {
     if (e) e.stopPropagation();
-    const ls = document.querySelector('.language-switcher');
-    if (ls) ls.classList.toggle('expanded');
+    const ls = document.querySelector('.language-switcher') || document.getElementById('language-switcher-container');
+    if (ls) {
+      ls.classList.toggle('expanded');
+    }
+  }
+
+  function setLanguageDirect(langCode) {
+    document.cookie = "lang=" + langCode + "; path=/; max-age=2592000";
+    window.location.href = "/set_lang/" + langCode + "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
   }
 
   document.addEventListener('click', function(e) {

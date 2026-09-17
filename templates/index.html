@@ -5304,7 +5304,7 @@
 
 
 
-        alert("ఈ బ్రౌజర్ జియోలొకేషన్ మద్దతు ఇవ్వదు");
+        alert("{{ _('ఈ బ్రౌజర్ జియోలొకేషన్ మద్దతు ఇవ్వదు') }}");
 
 
 
@@ -5408,7 +5408,7 @@
 
 
 
-            alert("స్థానం పొందడంలో లోపం");
+            alert("{{ _('స్థానం పొందడంలో లోపం') }}");
 
 
 
@@ -5440,7 +5440,7 @@
 
 
 
-          let message = "స్థానం పొందడంలో లోపం";
+          let message = "{{ _('స్థానం పొందడంలో లోపం') }}";
 
 
 
@@ -5452,7 +5452,7 @@
 
 
 
-              message = "స్థానం అనుమతి నిరాకరించబడింది";
+              message = "{{ _('స్థానం అనుమతి నిరాకరించబడింది') }}";
 
 
 
@@ -5464,7 +5464,7 @@
 
 
 
-              message = "స్థాన సమాచారం అందుబాటులో లేదు";
+              message = "{{ _('స్థాన సమాచారం అందుబాటులో లేదు') }}";
 
 
 
@@ -5476,7 +5476,7 @@
 
 
 
-              message = "స్థానం అభ్యర్థన సమయం ముగిసింది";
+              message = "{{ _('స్థానం అభ్యర్థన సమయం ముగిసింది') }}";
 
 
 
@@ -5980,7 +5980,7 @@
 
 
 
-          errorMsg.textContent = 'దయచేసి జాబితా నుండి ఒక స్థలాన్ని ఎంచుకోండి';
+          errorMsg.textContent = '{{ _("దయచేసి జాబితా నుండి ఒక స్థలాన్ని ఎంచుకోండి") }}';
 
 
 
@@ -7187,11 +7187,11 @@
 
     function getEditCurrentLocation() {
       if (!navigator.geolocation) {
-        alert("ఈ బ్రౌజర్ జియోలొకేషన్ మద్దతు ఇవ్వదు");
+        alert("{{ _('ఈ బ్రౌజర్ జియోలొకేషన్ మద్దతు ఇవ్వదు') }}");
         return;
       }
       const placeEl = document.getElementById('edit-place');
-      if (placeEl) placeEl.placeholder = "లొకేషన్ సేకరిస్తోంది...";
+      if (placeEl) placeEl.placeholder = "{{ _('లొకేషన్ సేకరిస్తోంది...') }}";
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const lat = position.coords.latitude;
@@ -7206,7 +7206,7 @@
           if (placeEl) placeEl.placeholder = "{{ _('గ్రామం, నగరం, రాష్ట్రం') }}";
         },
         (error) => {
-          alert("స్థానం పొందడంలో లోపం");
+          alert("{{ _('స్థానం పొందడంలో లోపం') }}");
           if (placeEl) placeEl.placeholder = "{{ _('గ్రామం, నగరం, రాష్ట్రం') }}";
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -8885,7 +8885,7 @@
           <div style="background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%); border:2px solid #ffd700; border-radius:18px; padding:24px 28px; max-width:420px; width:92%; box-shadow:0 12px 40px rgba(0,0,0,0.85); text-align:center; color:#ffffff; font-family:inherit; box-sizing:border-box;">
             <div id="custom-astro-dialog-msg" style="font-size:16px; font-weight:700; line-height:1.5; margin-bottom:22px; color:#ffffff; word-break:break-word;"></div>
             <div style="display:flex; gap:12px; justify-content:center; align-items:center;">
-              <button id="custom-astro-dialog-cancel" style="display:none; padding:10px 22px; border-radius:10px; font-size:14.5px; font-weight:700; border:none; cursor:pointer; min-width:90px; background:linear-gradient(135deg,#475569 0%,#334155 100%); color:#ffffff; box-shadow:0 4px 12px rgba(0,0,0,0.3);">రద్దు</button>
+              <button id="custom-astro-dialog-cancel" style="display:none; padding:10px 22px; border-radius:10px; font-size:14.5px; font-weight:700; border:none; cursor:pointer; min-width:90px; background:linear-gradient(135deg,#475569 0%,#334155 100%); color:#ffffff; box-shadow:0 4px 12px rgba(0,0,0,0.3);">{{ _('రద్దు') }}</button>
               <button id="custom-astro-dialog-ok" style="padding:10px 22px; border-radius:10px; font-size:14.5px; font-weight:700; border:none; cursor:pointer; min-width:90px; background:linear-gradient(135deg,#059669 0%,#047857 100%); color:#ffffff; box-shadow:0 4px 12px rgba(5,150,105,0.4);">OK</button>
             </div>
           </div>
@@ -8925,7 +8925,7 @@
 
       msgEl.innerHTML = String(msg).replace(/\n/g, '<br>');
       cancelBtn.style.display = 'inline-block';
-      cancelBtn.textContent = 'రద్దు';
+      cancelBtn.textContent = '{{ _("రద్దు") }}';
       okBtn.textContent = 'OK';
       overlay.style.display = 'flex';
 

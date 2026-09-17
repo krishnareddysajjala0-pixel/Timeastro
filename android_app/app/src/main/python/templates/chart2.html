@@ -30,7 +30,7 @@
 
 
 
-    <title>దశా వివరాలు - {{ name }}</title>
+    <title>{{ _('దశా వివరాలు') }} - {{ name }}</title>
 
 
 
@@ -7515,7 +7515,7 @@
                     white-space: nowrap;
                 ">
                     <i class="fas fa-list-ul"></i>
-                    <span>{{ _('అంతర్ దశలు') }}</span>
+                    <span>{{ _('అంతర్దశలు') }}</span>
                 </button>
             </div>
 
@@ -7641,7 +7641,7 @@
 
 
 
-                            {{ dasa.stiti }}
+                            {{ _(dasa.stiti) }}
 
 
 
@@ -7701,7 +7701,7 @@
 
 
 
-                            {{ _('అంతర్దశ') }}లు ({{ dasa.antharas|sum(attribute='months')|round(1) }} నెలలు)
+                            {{ _('అంతర్దశలు') }} ({{ dasa.antharas|sum(attribute='months')|round(1) }} {{ _('నెలలు') }})
 
 
 
@@ -8665,7 +8665,7 @@
 
 
 
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF తయారు చేస్తోంది...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {{ _('PDF తయారు చేస్తోంది...') }}';
 
 
 
@@ -8685,7 +8685,7 @@
 
 
 
-                alert('PDF డౌన్‌లోడ్ చేయడానికి {{ _('ప్రింట్') }} ఎంపికను ఉపయోగించండి.');
+                alert('{{ _("PDF డౌన్‌లోడ్ చేయడానికి ప్రింట్ ఎంపికను ఉపయోగించండి.") }}');
 
 
 
@@ -8721,7 +8721,7 @@
 
 
 
-            alert('రిమైండర్లు: ఈ దశ చివరి {{ _('తేదీ:') }} {{ maha_end }}');
+            alert('{{ _("రిమైండర్లు: ఈ దశ చివరి తేదీ:") }} ' + maha_end);
 
 
 

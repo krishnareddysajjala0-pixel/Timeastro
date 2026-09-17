@@ -5283,6 +5283,32 @@
 
 
 <style>
+
+/* Compact Floating Bottom Bar & Buttons (Reduced Height matching chart/chart2) */
+.fixed-bottom-bar {
+  bottom: 10px !important;
+  padding: 6px 12px !important;
+  gap: 8px !important;
+}
+
+.float-btn {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  border-radius: 16px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar {
+    bottom: 8px !important;
+    padding: 4px 8px !important;
+    gap: 6px !important;
+  }
+  .float-btn {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+  }
+}
+
 /* Position Floating Bottom Bar Downside Close to Bottom Edge */
 .fixed-bottom-bar {
   bottom: 12px !important;

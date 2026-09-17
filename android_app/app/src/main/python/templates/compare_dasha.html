@@ -400,8 +400,7 @@
         
         .theme-toggle-btn { background: transparent; border: none; color: gold; font-size: 20px; cursor: pointer; min-width: 30px; animation: rainbow-glow 3s infinite linear; }
         
-        .theme-switcher.expanded 
-        .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
+        /* .theme-switcher.expanded */ .theme-btn { background: transparent; border: none; font-size: 16px; color: white; cursor: pointer; opacity: 0.6; }
         .theme-btn:hover { opacity: 1; transform: scale(1.1); }
 
         @keyframes rainbow-glow {
@@ -805,51 +804,12 @@
 <script>
   let themeTimeout = null;
 
-  function toggleThemeMenu(e) {
+    function toggleThemeMenu(e) {
     if (e) e.stopPropagation();
     const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
-    if (!switcher) return;
-    const isExpanded = switcher.classList.toggle('expanded');
-
-    if (themeTimeout) {
-      clearTimeout(themeTimeout);
-      themeTimeout = null;
-    }
-
-    if (isExpanded) {
-      themeTimeout = setTimeout(function () {
-        collapseThemeMenu();
-      }, 5000);
-    }
-  }
-
-  function collapseThemeMenu() {
-    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
     if (switcher) {
-      switcher.classList.remove('expanded');
+      switcher.classList.toggle('expanded');
     }
-    if (themeTimeout) {
-      clearTimeout(themeTimeout);
-      themeTimeout = null;
-    }
-  }
-
-  function setTheme(themeName) {
-    if (themeName === 'default') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', themeName);
-    }
-    localStorage.setItem('preferred-theme', themeName);
-
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.classList.remove('active');
-      if (btn.getAttribute('data-theme-btn') === themeName) {
-        btn.classList.add('active');
-      }
-    });
-
-    collapseThemeMenu();
   }
 
   function toggleLangMenu(e) {
@@ -858,6 +818,7 @@
     if (ls) {
       ls.classList.toggle('expanded');
     }
+  }
   }
 
   function setLanguageDirect(langCode) {

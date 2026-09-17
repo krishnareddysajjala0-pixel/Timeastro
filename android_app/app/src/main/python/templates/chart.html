@@ -6214,6 +6214,207 @@
 }
 
 </style>
+<style>
+
+/* Ensure container and top control bar never clip dropdowns */
+body, .container, .top-control-bar, .theme-switcher, .language-switcher {
+  overflow: visible !important;
+}
+
+</style>
+
+<style>
+/* Guaranteed Top Bar & High-Contrast Theme/Language Dropdown Styles */
+body {
+  overflow-x: hidden !important;
+}
+
+body, .container, .top-control-bar, .theme-switcher, .language-switcher {
+  overflow: visible !important;
+}
+
+.top-control-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 10px 12px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 99999 !important;
+  margin-bottom: 12px !important;
+}
+
+.top-control-bar > *,
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.top-control-bar .ctrl-btn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang,
+.top-control-bar .top-btn-back,
+.top-control-bar .top-btn-print {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 6px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.2s ease !important;
+  height: 38px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  outline: none !important;
+}
+
+/* Distinct Vibrant Button Gradients */
+.top-btn-theme {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-lang {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  border: 1px solid rgba(45, 212, 191, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-back {
+  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%) !important;
+  border: 1px solid rgba(244, 114, 182, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-print {
+  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
+  border: 1px solid rgba(199, 210, 254, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-control-bar .ctrl-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+  filter: brightness(1.1) !important;
+}
+
+/* Dropdown Base Hidden */
+.theme-options,
+.lang-options,
+.top-control-bar .theme-options,
+.top-control-bar .lang-options {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Theme Options Dropdown (Expanded State) */
+.theme-switcher.expanded .theme-options,
+.top-control-bar .theme-switcher.expanded .theme-options {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  right: auto !important;
+  width: 220px !important;
+  min-width: 200px !important;
+  max-width: 90vw !important;
+  background: #0f172a !important; /* Solid dark background for crisp high contrast */
+  border: 1.5px solid #6366f1 !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95) !important;
+  z-index: 999999 !important;
+  gap: 4px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Language Options Dropdown (Expanded State) */
+.language-switcher.expanded .lang-options,
+.top-control-bar .language-switcher.expanded .lang-options {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 180px !important;
+  min-width: 160px !important;
+  max-width: 90vw !important;
+  background: #0f172a !important; /* Solid dark background for crisp high contrast */
+  border: 1.5px solid #0d9488 !important;
+  border-radius: 14px !important;
+  padding: 8px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95) !important;
+  z-index: 999999 !important;
+  gap: 4px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Dropdown Item Styling - Always Visible High Contrast White Text */
+.theme-options .theme-btn,
+.lang-options .lang-btn {
+  width: 100% !important;
+  min-width: 100% !important;
+  height: 36px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: none !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+}
+
+.theme-options .theme-btn span,
+.lang-options .lang-btn span {
+  display: inline-block !important;
+  color: #ffffff !important;
+}
+
+.theme-options .theme-btn:hover,
+.lang-options .lang-btn:hover,
+.theme-options .theme-btn.active,
+.lang-options .lang-btn.active {
+  background: rgba(99, 102, 241, 0.45) !important;
+  color: #ffd700 !important;
+  transform: translateX(3px) !important;
+}
+</style>
+
 </head>
 
 
@@ -6223,6 +6424,58 @@
 
 
 <body>
+
+    <!-- Top Control Row Bar (Theme, Back, Print, Language in Single Line at Top) -->
+    <div class="top-control-bar print-hide">
+      <!-- 1. Theme Switcher (LEFT) -->
+      <div class="theme-switcher" id="theme-switcher-container">
+        <button class="top-btn-theme ctrl-btn" onclick="toggleThemeMenu(event)" title="Change Theme">
+          <i class="fas fa-palette"></i>
+          <span>{{ _('ర్థీమ్') if _('ర్థీమ్') != 'ర్థీమ్' else _('థీమ్') }}</span>
+        </button>
+        <div class="theme-options" id="theme-options-dropdown">
+          <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i> <span>Bright Mode</span></button>
+          <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i> <span>Cosmic Mode</span></button>
+          <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i> <span>Sunset</span></button>
+          <button class="theme-btn" data-theme-btn="luxury" onclick="setTheme('luxury')" title="Obsidian Gold"><i class="fas fa-gem"></i> <span>Obsidian Gold</span></button>
+          <button class="theme-btn" data-theme-btn="cyberpunk" onclick="setTheme('cyberpunk')" title="Neo Cyber"><i class="fas fa-bolt"></i> <span>Neo Cyber</span></button>
+          <button class="theme-btn" data-theme-btn="solar" onclick="setTheme('solar')" title="Solar Amber"><i class="fas fa-fire-alt"></i> <span>Solar Amber</span></button>
+          <button class="theme-btn" data-theme-btn="mandala" onclick="setTheme('mandala')" title="Royal Mandala"><i class="fas fa-dharmachakra"></i> <span>Royal Mandala</span></button>
+          <button class="theme-btn" data-theme-btn="twilight" onclick="setTheme('twilight')" title="Twilight Fusion"><i class="fas fa-adjust"></i> <span>Twilight Fusion</span></button>
+          <button class="theme-btn" data-theme-btn="aurora" onclick="setTheme('aurora')" title="Divine Aurora"><i class="fas fa-magic"></i> <span>Divine Aurora</span></button>
+        </div>
+      </div>
+
+      <!-- 2. Back Button -->
+      <a href="javascript:history.back()" class="ctrl-btn top-btn-back" style="text-decoration: none; color: #fff;">
+        <i class="fas fa-arrow-left"></i>
+        <span>{{ _('వెనుకకు') }}</span>
+      </a>
+
+      <!-- 3. Print Button -->
+      <button class="ctrl-btn top-btn-print" onclick="window.print()">
+        <i class="fas fa-print"></i>
+        <span>{{ _('ప్రింట్') }}</span>
+      </button>
+
+      <!-- 4. Language Switcher (RIGHT) -->
+      <div class="language-switcher" id="language-switcher-container">
+        <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
+          <i class="fas fa-language"></i>
+          <span>{{ _('భాష') }}</span>
+        </button>
+        <div class="lang-options" id="lang-options-dropdown">
+          <a href="javascript:void(0)" onclick="setLanguageDirect('te')" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('en')" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('kn')" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('hi')" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ta')" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('ml')" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
+          <a href="javascript:void(0)" onclick="setLanguageDirect('or')" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
+        </div>
+      </div>
+    </div>
+
 
 
 
@@ -6234,49 +6487,7 @@
 
 
 
-  <div class="top-control-bar print-hide">
-
-
-
-    <!-- 1. Theme Switcher (FIRST / LEFT) -->
-
-
-
-    <div class="theme-switcher" id="theme-switcher-container">
-
-
-
-      <button class="top-btn-theme ctrl-btn" onclick="toggleThemeMenu(event)" title="Change Theme">
-
-
-
-        <i class="fas fa-palette"></i>
-
-
-
-        <span>{{ _('థీమ్') }}</span>
-
-
-
-      </button>
-
-
-
-      <div class="theme-options" id="theme-options-dropdown">
-          <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i> <span>Bright Mode</span></button>
-          <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i> <span>Cosmic Mode</span></button>
-          <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i> <span>Sunset</span></button>
-          <button class="theme-btn" data-theme-btn="luxury" onclick="setTheme('luxury')" title="Obsidian Gold"><i class="fas fa-gem"></i> <span>Obsidian Gold</span></button>
-          <button class="theme-btn" data-theme-btn="cyberpunk" onclick="setTheme('cyberpunk')" title="Neo Cyber"><i class="fas fa-bolt"></i> <span>Neo Cyber</span></button>
-          <button class="theme-btn" data-theme-btn="solar" onclick="setTheme('solar')" title="Solar Amber"><i class="fas fa-fire-alt"></i> <span>Solar Amber</span></button>
-          <button class="theme-btn" data-theme-btn="mandala" onclick="setTheme('mandala')" title="Royal Mandala"><i class="fas fa-dharmachakra"></i> <span>Royal Mandala</span></button>
-          <button class="theme-btn" data-theme-btn="twilight" onclick="setTheme('twilight')" title="Twilight Fusion"><i class="fas fa-adjust"></i> <span>Twilight Fusion</span></button>
-          <button class="theme-btn" data-theme-btn="aurora" onclick="setTheme('aurora')" title="Divine Aurora"><i class="fas fa-magic"></i> <span>Divine Aurora</span></button>
-        </div>
-
-
-
-    </div>
+  </div>
 
 
 
@@ -6404,86 +6615,7 @@
 
 
 
-  <script>
-  let themeTimeout = null;
-
-  function toggleThemeMenu(e) {
-    if (e) {
-      e.stopPropagation();
-      if (e.preventDefault) e.preventDefault();
-    }
-    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
-    const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
-    
-    if (langSwitcher) langSwitcher.classList.remove('expanded');
-    
-    if (switcher) {
-      switcher.classList.toggle('expanded');
-    }
-  }
-
-  function collapseThemeMenu() {
-    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
-    if (switcher) {
-      switcher.classList.remove('expanded');
-    }
-    if (themeTimeout) {
-      clearTimeout(themeTimeout);
-      themeTimeout = null;
-    }
-  }
-
-  function setTheme(themeName) {
-    if (themeName === 'default') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', themeName);
-    }
-    localStorage.setItem('preferred-theme', themeName);
-
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.classList.remove('active');
-      if (btn.getAttribute('data-theme-btn') === themeName) {
-        btn.classList.add('active');
-      }
-    });
-
-    collapseThemeMenu();
-  }
-
-  function toggleLangMenu(e) {
-    if (e) {
-      e.stopPropagation();
-      if (e.preventDefault) e.preventDefault();
-    }
-    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
-    const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
-    
-    if (switcher) switcher.classList.remove('expanded');
-    
-    if (langSwitcher) {
-      langSwitcher.classList.toggle('expanded');
-    }
-  }
-
-  function setLanguageDirect(langCode) {
-    document.cookie = "lang=" + langCode + "; path=/; max-age=2592000";
-    window.location.href = "/set_lang/" + langCode + "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
-  }
-
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.theme-switcher')) {
-      collapseThemeMenu();
-    }
-    if (!e.target.closest('.language-switcher')) {
-      const ls = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
-      if (ls) ls.classList.remove('expanded');
-    }
-  });
-
-  const savedTheme = localStorage.getItem('preferred-theme') || 'default';
-  setTheme(savedTheme);
-</script>
+  
 
 
 
@@ -10995,6 +11127,80 @@
     };
   })();
 </script>
+
+<script>
+  function toggleThemeMenu(e) {
+    if (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+    }
+    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
+    const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
+    
+    if (langSwitcher) langSwitcher.classList.remove('expanded');
+    if (switcher) switcher.classList.toggle('expanded');
+  }
+
+  function toggleLangMenu(e) {
+    if (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+    }
+    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
+    const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
+    
+    if (switcher) switcher.classList.remove('expanded');
+    if (langSwitcher) langSwitcher.classList.toggle('expanded');
+  }
+
+  function collapseThemeMenu() {
+    const switcher = document.getElementById('theme-switcher-container') || document.querySelector('.theme-switcher');
+    if (switcher) switcher.classList.remove('expanded');
+  }
+
+  function collapseLangMenu() {
+    const langSwitcher = document.getElementById('language-switcher-container') || document.querySelector('.language-switcher');
+    if (langSwitcher) langSwitcher.classList.remove('expanded');
+  }
+
+  function setTheme(themeName) {
+    if (themeName === 'default') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', themeName);
+    }
+    localStorage.setItem('preferred-theme', themeName);
+
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.getAttribute('data-theme-btn') === themeName) {
+        btn.classList.add('active');
+      }
+    });
+
+    collapseThemeMenu();
+  }
+
+  function setLanguageDirect(langCode) {
+    document.cookie = "lang=" + langCode + "; path=/; max-age=2592000";
+    window.location.href = "/set_lang/" + langCode + "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('#theme-switcher-container') && !e.target.closest('.theme-switcher')) {
+      collapseThemeMenu();
+    }
+    if (!e.target.closest('#language-switcher-container') && !e.target.closest('.language-switcher')) {
+      collapseLangMenu();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('preferred-theme') || 'default';
+    setTheme(savedTheme);
+  });
+</script>
+
 </body>
 
 

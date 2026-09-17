@@ -216,7 +216,7 @@ app.secret_key = 'astrology-secret-key-2024'  # Required for session
 def inject_translation():
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
+        lang = request.args.get('lang') or session.get('lang') or request.cookies.get('lang') or 'te'
     
     def translate_text(text):
         if not text or lang == 'te':
@@ -952,7 +952,7 @@ def index():
 
 @app.before_request
 def check_lang_query_param():
-    lang = request.args.get('lang')
+    lang = request.args.get('lang') or request.cookies.get('lang')
     if lang and lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
         session['lang'] = lang
 
@@ -960,7 +960,9 @@ def check_lang_query_param():
 def set_lang(lang):
     if lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
         session['lang'] = lang
-    return redirect(request.referrer or url_for('index'))
+    resp = make_response(redirect(request.referrer or url_for('index')))
+    resp.set_cookie('lang', lang, max_age=30*24*3600)
+    return resp
 
 
 def get_timezone_str(lat, lon):

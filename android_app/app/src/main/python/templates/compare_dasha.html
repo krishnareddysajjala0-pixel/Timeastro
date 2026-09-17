@@ -448,6 +448,65 @@
   }
 }
 </style>
+<style>
+
+/* Fix Top Control Bar - Expand ALL Buttons to Fill Screen Space on Mobile */
+.top-control-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 6px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  margin-bottom: 8px !important;
+}
+
+.top-control-bar > *,
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.top-control-bar .ctrl-btn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 7px 4px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
+  height: 36px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+.theme-switcher, .language-switcher {
+  position: relative !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+</style>
 </head>
 <body>
 <div class="container">
@@ -480,14 +539,14 @@
           <span>{{ _('భాష') }}</span>
         </button>
         <div class="lang-options">
-          <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
-          <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-          <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
-          <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
-          <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
-          <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
-          <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
-        </div>
+<a href="javascript:void(0)" onclick="setLanguageDirect('te')" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('en')" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('kn')" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('hi')" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('ta')" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('ml')" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
+<a href="javascript:void(0)" onclick="setLanguageDirect('or')" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
+</div>
       </div>
     </div>
 
@@ -495,7 +554,7 @@
   
 
     <div class="top-nav print-hide">
-        <a href="javascript:history.back()" class="top-btn"><i class="fas fa-arrow-left"></i> {{ _('వెనుకకు') }}</a>
+        <a href="/compare_results" class="top-btn"><i class="fas fa-arrow-left"></i> {{ _('వెనుకకు') }}</a>
         <button onclick="window.print()" class="top-btn"><i class="fas fa-print"></i> {{ _('ప్రింట్') }}</button>
     </div>
 
@@ -795,8 +854,15 @@
 
   function toggleLangMenu(e) {
     if (e) e.stopPropagation();
-    const ls = document.querySelector('.language-switcher');
-    if (ls) ls.classList.toggle('expanded');
+    const ls = document.querySelector('.language-switcher') || document.getElementById('language-switcher-container');
+    if (ls) {
+      ls.classList.toggle('expanded');
+    }
+  }
+
+  function setLanguageDirect(langCode) {
+    document.cookie = "lang=" + langCode + "; path=/; max-age=2592000";
+    window.location.href = "/set_lang/" + langCode + "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
   }
 
   document.addEventListener('click', function(e) {

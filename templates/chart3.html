@@ -5009,7 +5009,7 @@
 
 
         
-        /* Results Grid & Planet Cards (Screen Mode) */
+                /* Results Grid & Planet Cards (Screen Mode) */
         .party-info {
             border-radius: 12px;
             padding: 12px 18px;
@@ -5148,22 +5148,12 @@
             gap: 6px;
         }
 
-        /* ===== PRINT ===== */
-
-
-
-
-
         /* ===== PRINT OPTIMIZATIONS ===== */
-
-
-
-
-
         @media print {
   :root, [data-theme] {
     --bg-primary: #ffffff !important;
     --text-main: #000000 !important;
+    --text-bright: #000000 !important;
     --text-muted: #333333 !important;
     --card-bg: #ffffff !important;
     --card-border: #000000 !important;
@@ -5213,8 +5203,7 @@
     display: block !important;
     box-sizing: border-box !important;
     width: 100% !important;
-    max-height: 275mm !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -5334,6 +5323,10 @@
     justify-content: space-between !important;
   }
 
+  .result-card * {
+    color: #000000 !important;
+  }
+
   .result-card.is-own-house {
     border: 2px solid #000000 !important;
     background: #ffffff !important;
@@ -5354,6 +5347,7 @@
     padding-bottom: 2px !important;
     margin-bottom: 3px !important;
     font-weight: bold !important;
+    color: #000000 !important;
   }
 
   .info-body {
@@ -5363,8 +5357,22 @@
     margin-bottom: 1.5px !important;
     font-size: 8pt !important;
   }
+  .info-row .label {
+    color: #334155 !important;
+  }
+  .info-row .val {
+    color: #000000 !important;
+  }
   .info-row .val[style*="font-size: 12px"] {
     font-size: 7.5pt !important;
+    color: #000000 !important;
+    line-height: 1.25 !important;
+    margin-top: 2px !important;
+    display: block !important;
+  }
+  .info-row .val.own-val {
+    color: #92400e !important;
+    font-weight: bold !important;
   }
 
   .card-footer {
@@ -5374,11 +5382,23 @@
     font-size: 8pt !important;
     padding-top: 2px !important;
   }
+  .status-msg.msg-positive {
+    color: #15803d !important;
+  }
+  .status-msg.msg-neutral {
+    color: #475569 !important;
+  }
   .bitter-enemy-alert {
     font-size: 7.5pt !important;
     margin-top: 2px !important;
     padding: 1.5px 3px !important;
     border-radius: 3px !important;
+    background: #fef2f2 !important;
+    border: 1px solid #fca5a5 !important;
+    color: #991b1b !important;
+  }
+  .bitter-enemy-alert * {
+    color: #991b1b !important;
   }
 
   .disclaimer {
@@ -5392,62 +5412,6 @@
   }
 }
 
-</style>
-
-
-
-
-
-<style>
-
-
-
-
-
-    
-
-
-
-
-
-</style>
-
-
-
-
-
-  <link rel="stylesheet" href="/static/css/theme-fonts.css">
-
-
-
-
-
-<style>
-
-/* Compact Floating Bottom Bar & Buttons (Reduced Height matching chart/chart2) */
-.fixed-bottom-bar {
-  bottom: 10px !important;
-  padding: 6px 12px !important;
-  gap: 8px !important;
-}
-
-.float-btn {
-  padding: 6px 12px !important;
-  font-size: 12px !important;
-  border-radius: 16px !important;
-}
-
-@media screen and (max-width: 768px) {
-  .fixed-bottom-bar {
-    bottom: 8px !important;
-    padding: 4px 8px !important;
-    gap: 6px !important;
-  }
-  .float-btn {
-    padding: 5px 10px !important;
-    font-size: 11px !important;
-  }
-}
 
 /* Position Floating Bottom Bar Downside Close to Bottom Edge */
 .fixed-bottom-bar {

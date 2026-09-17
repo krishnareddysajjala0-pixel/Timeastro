@@ -5021,239 +5021,4728 @@
 
 
         @media print {
-  :root, [data-theme] {
-    --bg-primary: #ffffff !important;
-    --text-main: #000000 !important;
-    --text-muted: #333333 !important;
-    --card-bg: #ffffff !important;
-    --card-border: #000000 !important;
-    --table-row-bg: #ffffff !important;
-    --table-row-alt-bg: #f8fafc !important;
-    --table-header-bg: #f1f5f9 !important;
-  }
 
-  @page {
-    size: A4 portrait;
-    margin: 5mm 6mm;
-  }
 
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    text-shadow: none !important;
-    box-shadow: none !important;
-    animation: none !important;
-  }
 
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 9.5pt !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
 
-  body::before { display: none !important; }
 
-  .container {
-    max-width: 100% !important;
-    width: 100% !important;
-    min-width: unset !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    zoom: 1 !important;
-  }
+            /* ===== Override ALL theme CSS variables to print-safe values =====
 
-  .print-page-container {
-    page-break-after: always !important;
-    break-after: page !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-height: 278mm !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
 
-  .print-page-break {
-    page-break-before: always !important;
-    break-before: page !important;
-  }
 
-  /* Header & Page 1 */
-  .header {
-    padding: 2px 4px !important;
-    margin-bottom: 4px !important;
-  }
-  .header h1 {
-    font-size: 13pt !important;
-    margin-bottom: 0 !important;
-  }
-  .header-subtitle {
-    font-size: 9pt !important;
-  }
 
-  .party-info-box {
-    margin-bottom: 4px !important;
-    padding: 3px 8px !important;
-  }
-  .party-info-box p, .party-info-box strong {
-    font-size: 9.5pt !important;
-    margin: 0 !important;
-  }
 
-  .section-header {
-    margin: 3px 0 2px !important;
-    padding: 2px 4px !important;
-  }
-  .section-title {
-    font-size: 11pt !important;
-    margin: 4px 0 4px 0 !important;
-    padding-left: 6px !important;
-    border-left: 4px solid #000000 !important;
-  }
-  .section-subtitle {
-    font-size: 9pt !important;
-  }
+               Without this, dark/cosmic themes keep --text-main:#ffffff which
 
-  .table-container {
-    padding: 0 !important;
-    margin-bottom: 4px !important;
-  }
 
-  .data-table {
-    font-size: 9pt !important;
-    table-layout: fixed !important;
-    width: 100% !important;
-  }
-  .data-table th {
-    font-size: 9.5pt !important;
-    padding: 3px 2px !important;
-  }
-  .data-table td {
-    padding: 2px 2px !important;
-    font-size: 8.5pt !important;
-  }
 
-  .disease-list li {
-    font-size: 8.5pt !important;
-    padding: 1px 0 !important;
-  }
 
-  /* Page 2 & 3 Party Badges & Planet Grids */
-  .party-info {
-    background: #ffffff !important;
-    border: 1.5px solid #000000 !important;
-    color: #000000 !important;
-    margin: 4px 0 6px 0 !important;
-    padding: 6px 10px !important;
-    border-radius: 6px !important;
-    text-align: center !important;
-  }
-  .party-info * {
-    color: #000000 !important;
-  }
-  .party-badge {
-    display: inline-block !important;
-    background: #f1f5f9 !important;
-    color: #000000 !important;
-    border: 1.5px solid #000000 !important;
-    font-size: 11pt !important;
-    padding: 2px 12px !important;
-    border-radius: 12px !important;
-    font-weight: bold !important;
-  }
-  .party-info div[style*="font-size: 14px"] {
-    font-size: 9.5pt !important;
-    margin-top: 3px !important;
-  }
 
-  .results-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px 10px !important;
-    margin-top: 4px !important;
-    justify-content: center !important;
-  }
+               makes cell text invisible (white-on-white) in the PDF. */
 
-  .result-card {
-    background: #ffffff !important;
-    border: 1.5px solid #000000 !important;
-    color: #000000 !important;
-    box-shadow: none !important;
-    padding: 6px 8px !important;
-    border-radius: 6px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-  }
 
-  .result-card.is-own-house {
-    border: 2.5px solid #000000 !important;
-    background: #ffffff !important;
-  }
 
-  .own-house-badge {
-    border: 1px solid #000000 !important;
-    background: #f1f5f9 !important;
-    color: #000000 !important;
-    font-weight: bold !important;
-    font-size: 8pt !important;
-    padding: 1px 4px !important;
-    border-radius: 4px !important;
-  }
 
-  .planet-name {
-    font-size: 10.5pt !important;
-    padding-bottom: 2px !important;
-    margin-bottom: 4px !important;
-    font-weight: bold !important;
-  }
 
-  .info-body {
-    margin-bottom: 2px !important;
-  }
-  .info-row {
-    margin-bottom: 2px !important;
-    font-size: 8.5pt !important;
-  }
-  .info-row .val[style*="font-size: 12px"] {
-    font-size: 8pt !important;
-  }
+            :root, [data-theme] {
 
-  .card-footer {
-    margin-top: 4px !important;
-  }
-  .status-msg {
-    font-size: 8.5pt !important;
-    padding-top: 2px !important;
-  }
-  .bitter-enemy-alert {
-    font-size: 8pt !important;
-    margin-top: 3px !important;
-    padding: 2px 4px !important;
-    border-radius: 4px !important;
-  }
 
-  .disclaimer {
-    font-size: 8.5pt !important;
-    padding: 4px 6px !important;
-    margin-top: 6px !important;
-  }
 
-  .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
-    display: none !important;
-  }
-}
 
-</style>
+
+                --bg-primary: #ffffff !important;
+
+
+
+
+
+                --text-main: #000000 !important;
+
+
+
+
+
+                --text-muted: #333333 !important;
+
+
+
+
+
+                --card-bg: #ffffff !important;
+
+
+
+
+
+                --card-border: #000000 !important;
+
+
+
+
+
+                --table-row-bg: #ffffff !important;
+
+
+
+
+
+                --table-row-alt-bg: #f8fafc !important;
+
+
+
+
+
+                --table-header-bg: #f1f5f9 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            @page {
+
+
+
+
+
+                size: A4 portrait;
+
+
+
+
+
+                margin: 4mm 3mm;
+
+
+
+
+
+            }
+
+
+
+
+
+            
+
+
+
+
+
+            * {
+
+
+
+
+
+                -webkit-print-color-adjust: exact !important;
+
+
+
+
+
+                print-color-adjust: exact !important;
+
+
+
+
+
+                text-shadow: none !important;
+
+
+
+
+
+                box-shadow: none !important;
+
+
+
+
+
+                animation: none !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            body {
+
+
+
+
+
+                background: #fff !important;
+
+
+
+
+
+                color: #000 !important;
+
+
+
+
+
+                padding: 0 !important;
+
+
+
+
+
+                margin: 0 !important;
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                opacity: 1 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            body::before { display: none !important; }
+
+
+
+
+
+
+
+
+
+
+
+            .container {
+
+
+
+
+
+                max-width: 100% !important;
+
+
+
+
+
+                width: 100% !important;
+
+
+
+
+
+                min-width: unset !important;
+
+
+
+
+
+                margin: 0 !important;
+
+
+
+
+
+                padding: 0 !important;
+
+
+
+
+
+                zoom: 1 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .header {
+
+
+
+
+
+                padding: 4px 8px !important;
+
+
+
+
+
+                margin-bottom: 4px !important;
+
+
+
+
+
+                background: #f8f9fa !important;
+
+
+
+
+
+                border: 1px solid #ddd !important;
+
+
+
+
+
+                border-radius: 6px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .header h1 {
+
+
+
+
+
+font-size: 14pt !important;
+
+
+
+
+
+                margin-bottom: 0 !important;
+
+
+
+
+
+                background: none !important;
+
+
+
+
+
+                -webkit-text-fill-color: #000 !important;
+
+
+
+
+
+                color: #000 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .header-subtitle {
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                color: #555 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .party-info-box {
+
+
+
+
+
+                margin-bottom: 4px !important;
+
+
+
+
+
+                padding: 4px 10px !important;
+
+
+
+
+
+                border-radius: 6px !important;
+
+
+
+
+
+                background: #f8fafc !important;
+
+
+
+
+
+                border: 1px solid #cbd5e1 !important;
+
+
+
+
+
+                box-shadow: none !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .party-info-box p {
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                line-height: 1.25 !important;
+
+
+
+
+
+                margin: 0 !important;
+
+
+
+
+
+                color: #000 !important;
+
+
+
+
+
+                text-shadow: none !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .party-info-box strong {
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                color: #000 !important;
+
+
+
+
+
+                text-shadow: none !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-header {
+
+
+
+
+
+                margin: 4px 0 2px !important;
+
+
+
+
+
+                padding: 2px 4px !important;
+
+
+
+
+
+                background: #f1f5f9 !important;
+
+
+
+
+
+                border: 1px solid #cbd5e1 !important;
+
+
+
+
+
+                border-radius: 4px !important;
+
+
+
+
+
+                page-break-inside: avoid;
+
+
+
+
+
+            }
+
+
+
+
+
+            
+
+
+
+
+
+            #shani-section {
+
+
+
+
+
+                margin-top: 6px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-title {
+
+
+
+
+
+                font-size: 12pt !important;
+
+
+
+
+
+                margin-bottom: 0 !important;
+
+
+
+
+
+                background: none !important;
+
+
+
+
+
+                -webkit-text-fill-color: #0f172a !important;
+
+
+
+
+
+                color: #0f172a !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-subtitle {
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                color: #475569 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .table-container {
+
+
+
+
+
+                padding: 0 !important;
+
+
+
+
+
+                margin-bottom: 4px !important;
+
+
+
+
+
+                border: none !important;
+
+
+
+
+
+                background: transparent !important;
+
+
+
+
+
+                box-shadow: none !important;
+
+
+
+
+
+                width: 100% !important;
+
+
+
+
+
+                max-width: 100% !important;
+
+
+
+
+
+                overflow: visible !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table {
+
+
+
+
+
+                font-size: 10pt !important;
+
+
+
+
+
+                width: 100% !important;
+
+
+
+
+
+                border: 2px solid #000000 !important;
+
+
+
+
+
+                border-collapse: collapse !important;
+
+
+
+
+
+                table-layout: fixed !important;
+
+
+
+
+
+                color: #000000 !important; /* Force black — overrides white from dark themes */
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table th {
+
+
+
+
+
+                background-color: #f1f5f9 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-weight: 700 !important;
+
+
+
+
+
+                border: 1.5px solid #000000 !important;
+
+
+
+
+
+                font-size: 10pt !important; /* th — 15.2pt */
+
+
+
+
+
+                padding: 4px 2px !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+                vertical-align: middle !important;
+
+
+
+
+
+                width: 15% !important;
+
+
+
+
+
+                white-space: normal !important;
+
+
+
+
+
+                word-wrap: break-word !important;
+
+
+
+
+
+                -webkit-print-color-adjust: exact !important;
+
+
+
+
+
+                print-color-adjust: exact !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table td {
+
+
+
+
+
+                padding: 3px 2px !important;
+
+
+
+
+
+                border: 1.5px solid #000000 !important;
+
+
+
+
+
+                line-height: 1.25 !important;
+
+
+
+
+
+                vertical-align: middle !important;
+
+
+
+
+
+                width: 15% !important;
+
+
+
+
+
+                white-space: normal !important;
+
+
+
+
+
+                word-wrap: break-word !important;
+
+
+
+
+
+                word-break: break-word !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+                color: #000000 !important; /* Force black — overrides white from dark themes */
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table tbody tr:nth-child(even) td {
+
+
+
+
+
+                background-color: #f8fafc !important;
+
+
+
+
+
+                -webkit-print-color-adjust: exact !important;
+
+
+
+
+
+                print-color-adjust: exact !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table tbody tr:nth-child(odd) td {
+
+
+
+
+
+                background-color: #ffffff !important;
+
+
+
+
+
+                -webkit-print-color-adjust: exact !important;
+
+
+
+
+
+                print-color-adjust: exact !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table th:first-child,
+
+
+
+
+
+            .data-table td:first-child {
+
+
+
+
+
+                position: static !important;
+
+
+
+
+
+                background: #f1f5f9 !important;
+
+
+
+
+
+                width: 10% !important;
+
+
+
+
+
+                white-space: nowrap !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                text-align: left !important;
+
+
+
+
+
+                padding-left: 4px !important;
+
+
+
+
+
+                border-right: 2px solid #000000 !important;
+
+
+
+
+
+                box-shadow: none !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Planet-specific bold colors in print */
+
+
+
+
+
+            .guru-planet {
+
+
+
+
+
+                color: #b45309 !important;
+
+
+
+
+
+                border-left: 3px solid #eab308 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .surya-planet {
+
+
+
+
+
+                color: #c2410c !important;
+
+
+
+
+
+                border-left: 3px solid #ea580c !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .chandra-planet {
+
+
+
+
+
+                color: #475569 !important;
+
+
+
+
+
+                border-left: 3px solid #64748b !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .kuja-planet {
+
+
+
+
+
+                color: #b91c1c !important;
+
+
+
+
+
+                border-left: 3px solid #ef4444 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .ketu-planet {
+
+
+
+
+
+                color: #6d28d9 !important;
+
+
+
+
+
+                border-left: 3px solid #8b5cf6 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .bhoomi-planet {
+
+
+
+
+
+                color: #0369a1 !important;
+
+
+
+
+
+                border-left: 3px solid #0284c7 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .shani-planet {
+
+
+
+
+
+                color: #1e293b !important;
+
+
+
+
+
+                border-left: 3px solid #334155 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .mitra-planet {
+
+
+
+
+
+                color: #713f12 !important;
+
+
+
+
+
+                border-left: 3px solid #a16207 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .chitra-planet {
+
+
+
+
+
+                color: #db2777 !important;
+
+
+
+
+
+                border-left: 3px solid #f472b6 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .budha-planet {
+
+
+
+
+
+                color: #047857 !important;
+
+
+
+
+
+                border-left: 3px solid #10b981 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .shukra-planet {
+
+
+
+
+
+                color: #be185d !important;
+
+
+
+
+
+                border-left: 3px solid #ec4899 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .rahu-planet {
+
+
+
+
+
+                color: #334155 !important;
+
+
+
+
+
+                border-left: 3px solid #475569 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Gender Specific bold colors in print */
+
+
+
+
+
+            .gender-cell.male {
+
+
+
+
+
+                color: #0284c7 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .gender-cell.female {
+
+
+
+
+
+                color: #db2777 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .gender-cell.neutral {
+
+
+
+
+
+                color: #7c3aed !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Direction Colors in print */
+
+
+
+
+
+            .direction-cell {
+
+
+
+
+
+                color: #0369a1 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Gemstones in print */
+
+
+
+
+
+            .gemstone-cell {
+
+
+
+
+
+                color: #15803d !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Diseases Cell layout */
+
+
+
+
+
+            .disease-cell {
+
+
+
+
+
+                width: 15% !important;
+
+
+
+
+
+                white-space: normal !important;
+
+
+
+
+
+                text-align: left !important;
+
+
+
+
+
+                vertical-align: top !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .disease-list {
+
+
+
+
+
+                background: none !important;
+
+
+
+
+
+                border: none !important;
+
+
+
+
+
+                padding: 0 !important;
+
+
+
+
+
+                margin: 0 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .disease-list li {
+
+
+
+
+
+                font-size: 10pt !important; /* disease list — 15.2pt */
+
+
+
+
+
+                padding: 1px 0 !important;
+
+
+
+
+
+                color: #991b1b !important;
+
+
+
+
+
+                list-style-type: none !important;
+
+
+
+
+
+                word-wrap: break-word !important;
+
+
+
+
+
+                word-break: break-word !important;
+
+
+
+
+
+                white-space: normal !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Footer & Disclaimer */
+
+
+
+
+
+            .footer {
+
+
+
+
+
+                position: absolute !important;
+
+
+
+
+
+                bottom: 10px !important;
+
+
+
+
+
+                left: 0 !important;
+
+
+
+
+
+                width: 100% !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+                page-break-inside: avoid !important;
+
+
+
+
+
+                margin: 0 !important;
+
+
+
+
+
+                padding: 0 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .disclaimer {
+
+
+
+
+
+                font-size: 10pt !important; /* disclaimer — 15.2pt */
+
+
+
+
+
+                padding: 4px !important;
+
+
+
+
+
+                margin-top: 5px !important;
+
+
+
+
+
+                background: #fef2f2 !important;
+
+
+
+
+
+                border: 1px solid #fee2e2 !important;
+
+
+
+
+
+                border-left: 3px solid #ef4444 !important;
+
+
+
+
+
+                color: #991b1b !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .fixed-bottom-bar, .scrolling-footer, .theme-switcher, .float-btn, .print-hide, .fixed-bottom-bar-nav, #action-bar, #loading-overlay {
+
+
+
+
+
+                display: none !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            html, body {
+
+
+
+
+
+                background-color: #ffffff !important;
+
+
+
+
+
+                background: #ffffff !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                position: relative !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .container {
+
+
+
+
+
+                background: #ffffff !important;
+
+
+
+
+
+                position: relative !important;
+
+
+
+
+
+                min-height: 100% !important;
+
+
+
+
+
+                padding-bottom: 0 !important;
+
+
+
+
+
+                box-sizing: border-box !important;
+
+
+
+
+
+                margin: 0 auto !important;
+
+
+
+
+
+                max-width: 95% !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .print-page-break {
+
+
+
+
+
+                break-before: page !important;
+
+
+
+
+
+                page-break-before: always !important;
+
+
+
+
+
+                display: block !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Print layout & sizing for friends/enemies/party section cards */
+
+
+
+
+
+            .party-info {
+
+
+
+
+
+                background: #ffffff !important;
+
+
+
+
+
+                border: 2px solid #000000 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                margin-top: 10px !important;
+
+
+
+
+
+                margin-bottom: 10px !important;
+
+
+
+
+
+                padding: 10px !important;
+
+
+
+
+
+                border-radius: 8px !important;
+
+
+
+
+
+                text-align: center !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            
+
+
+
+
+
+            .party-info * {
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .party-badge {
+
+
+
+
+
+                display: inline-block !important;
+
+
+
+
+
+                background: #f1f5f9 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                border: 2px solid #000000 !important;
+
+
+
+
+
+font-size: 13pt !important;
+
+
+
+
+
+                padding: 4px 16px !important;
+
+
+
+
+
+                border-radius: 20px !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .party-info div[style*="font-size: 14px"] {
+
+
+
+
+
+                font-size: 10.5pt !important;
+
+
+
+
+
+                margin-top: 5px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-title {
+
+
+
+
+
+                font-size: 12pt !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                border-left: 6px solid #000000 !important;
+
+
+
+
+
+                margin: 15px 0 10px !important;
+
+
+
+
+
+                padding-left: 10px !important;
+
+
+
+
+
+                display: flex !important;
+
+
+
+
+
+                align-items: center !important;
+
+
+
+
+
+                gap: 8px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .results-grid {
+
+
+
+
+
+                display: grid !important;
+
+
+
+
+
+                grid-template-columns: repeat(3, 1fr) !important;
+
+
+
+
+
+                gap: 12px !important;
+
+
+
+
+
+                margin-top: 10px !important;
+
+
+
+
+
+                justify-content: center !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .result-card {
+
+
+
+
+
+                background: #ffffff !important;
+
+
+
+
+
+                border: 2px solid #000000 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                box-shadow: none !important;
+
+
+
+
+
+                padding: 12px !important;
+
+
+
+
+
+                border-radius: 8px !important;
+
+
+
+
+
+                page-break-inside: avoid !important;
+
+
+
+
+
+                break-inside: avoid !important;
+
+
+
+
+
+                display: flex !important;
+
+
+
+
+
+                flex-direction: column !important;
+
+
+
+
+
+                justify-content: space-between !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .result-card.is-own-house {
+
+
+
+
+
+                border: 3px solid #000000 !important;
+
+
+
+
+
+                background: #ffffff !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .own-house-badge {
+
+
+
+
+
+                border: 1.5px solid #000000 !important;
+
+
+
+
+
+                background: #f1f5f9 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                font-size: 9pt !important;
+
+
+
+
+
+                padding: 2px 6px !important;
+
+
+
+
+
+                border-radius: 4px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .planet-name {
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-size: 11.5pt !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                border-bottom: 2px solid #000000 !important;
+
+
+
+
+
+                padding-bottom: 4px !important;
+
+
+
+
+
+                margin-bottom: 8px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .info-body {
+
+
+
+
+
+                margin-bottom: 5px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .info-row {
+
+
+
+
+
+                display: flex !important;
+
+
+
+
+
+                justify-content: space-between !important;
+
+
+
+
+
+                margin-bottom: 5px !important;
+
+
+
+
+
+                font-size: 9.5pt !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .info-row .label {
+
+
+
+
+
+                color: #475569 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .info-row .val {
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-weight: normal !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .info-row .own-val {
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                text-decoration: underline !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .val[style*="font-size: 12px"] {
+
+
+
+
+
+                font-size: 8.5pt !important;
+
+
+
+
+
+                line-height: 1.3 !important;
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .card-footer {
+
+
+
+
+
+                margin-top: 8px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .status-msg {
+
+
+
+
+
+                color: #000000 !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                font-size: 9pt !important;
+
+
+
+
+
+                border-top: 1.5px solid #000000 !important;
+
+
+
+
+
+                padding-top: 5px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .bitter-enemy-alert {
+
+
+
+
+
+                color: #b91c1c !important;
+
+
+
+
+
+                background: #fef2f2 !important;
+
+
+
+
+
+                border: 2px solid #b91c1c !important;
+
+
+
+
+
+                font-weight: bold !important;
+
+
+
+
+
+                font-size: 8.5pt !important;
+
+
+
+
+
+                margin-top: 6px !important;
+
+
+
+
+
+                padding: 3px 6px !important;
+
+
+
+
+
+                border-radius: 4px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .print-page-container {
+
+
+
+
+
+                display: flex !important;
+
+
+
+
+
+                flex-direction: column !important;
+
+
+
+
+
+                justify-content: center !important;
+
+
+
+
+
+                min-height: 162vh !important; /* Compensates zoom: 0.58 to achieve full A4 page height (162 * 0.58 = 94vh) */
+
+
+
+
+
+                box-sizing: border-box !important;
+
+
+
+
+
+                page-break-inside: avoid !important;
+
+
+
+
+
+                break-inside: avoid !important;
+
+
+
+
+
+                position: relative !important;
+
+
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Responsive Design */
+
+
+
+
+
+        @media screen and (max-width: 1200px) {
+
+
+
+
+
+            .container {
+
+
+
+
+
+                padding: 10px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .header h1 {
+
+
+
+
+
+                font-size: 32px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-title {
+
+
+
+
+
+                font-size: 28px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table {
+
+
+
+
+
+                font-size: 13px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .planet-name-cell {
+
+
+
+
+
+                font-size: 16px;
+
+
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        @media screen and (max-width: 768px) {
+
+
+
+
+
+            .header h1 {
+
+
+
+
+
+                font-size: 28px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .section-title {
+
+
+
+
+
+                font-size: 24px;
+
+
+
+
+
+                flex-direction: column;
+
+
+
+
+
+                gap: 10px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .data-table th,
+
+
+
+
+
+            .data-table td {
+
+
+
+
+
+                padding: 10px 8px;
+
+
+
+
+
+                font-size: 12px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .nav-buttons {
+
+
+
+
+
+                flex-direction: column;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .nav-btn {
+
+
+
+
+
+                width: 100%;
+
+
+
+
+
+                justify-content: center;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .disease-list li {
+
+
+
+
+
+                font-size: 11px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            .float-buttons {
+
+
+
+
+
+                bottom: 15px;
+
+
+
+
+
+                right: 15px;
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /* Optimized Bottom Bar for Mobile */
+
+
+
+
+
+            .fixed-bottom-bar {
+
+
+
+
+
+                padding: 8px 10px !important;
+
+
+
+
+
+                gap: 6px !important;
+
+
+
+
+
+                bottom: 12px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .float-btn {
+
+
+
+
+
+                padding: 8px 16px !important;
+
+
+
+
+
+                font-size: 15px !important;
+
+
+
+
+
+                min-width: 45px !important;
+
+
+
+
+
+                width: auto !important;
+
+
+
+
+
+                height: auto !important;
+
+
+
+
+
+                justify-content: center !important;
+
+
+
+
+
+                border-radius: 12px !important;
+
+
+
+
+
+                white-space: nowrap !important;
+
+
+
+
+
+            }
+
+
+
+
+
+            .float-btn i {
+
+
+
+
+
+                margin-right: 5px !important;
+
+
+
+
+
+                font-size: 16px !important;
+
+
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+    /* Scrolling Footer */
+
+
+
+
+
+    .scrolling-footer {
+
+
+
+
+
+      position: fixed;
+
+
+
+
+
+      bottom: 0;
+
+
+
+
+
+      left: 0;
+
+
+
+
+
+      width: 100%;
+
+
+
+
+
+      background: rgba(0, 0, 0, 0.85);
+
+
+
+
+
+      color: #ffd700;
+
+
+
+
+
+      padding: 8px 0;
+
+
+
+
+
+      overflow: hidden;
+
+
+
+
+
+      white-space: nowrap;
+
+
+
+
+
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+
+
+
+
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+
+
+
+
+
+      z-index: 10000;
+
+
+
+
+
+      backdrop-filter: blur(5px);
+
+
+
+
+
+    }
+
+
+
+
+
+    .scrolling-footer-text {
+
+
+
+
+
+      display: inline-block;
+
+
+
+
+
+      animation: scrollLeft 20s linear infinite;
+
+
+
+
+
+      font-size: 15px;
+
+
+
+
+
+      font-weight: bold;
+
+
+
+
+
+      padding-left: 100%;
+
+
+
+
+
+    }
+
+
+
+
+
+    @keyframes scrollLeft {
+
+
+
+
+
+      0% { transform: translateX(0); }
+
+
+
+
+
+      100% { transform: translateX(-100%); }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /* styles for friends/enemies/party section moved from results page */
+
+
+
+
+
+    .party-info {
+
+
+
+
+
+        text-align: center;
+
+
+
+
+
+        padding: 15px;
+
+
+
+
+
+        margin-top: 30px;
+
+
+
+
+
+        margin-bottom: 12px ;
+
+
+
+
+
+        border-radius: 12px;
+
+
+
+
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .guru-bg {
+
+
+
+
+
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.2));
+
+
+
+
+
+        border-color: rgba(34, 197, 94, 0.3);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .shani-bg {
+
+
+
+
+
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2));
+
+
+
+
+
+        border-color: rgba(59, 130, 246, 0.3);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .party-badge {
+
+
+
+
+
+        display: inline-block;
+
+
+
+
+
+        padding: 6px 16px;
+
+
+
+
+
+        border-radius: 20px;
+
+
+
+
+
+        font-weight: 800;
+
+
+
+
+
+        font-size: 18px;
+
+
+
+
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+
+
+
+
+        margin-bottom: 5px;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .guru-bg .party-badge {
+
+
+
+
+
+        background: #22c55e;
+
+
+
+
+
+        color: white;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .shani-bg .party-badge {
+
+
+
+
+
+        background: #3b82f6;
+
+
+
+
+
+        color: white;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .section-title {
+
+
+
+
+
+        font-size: 22px;
+
+
+
+
+
+        margin: 40px 0 20px;
+
+
+
+
+
+        padding-left: 15px;
+
+
+
+
+
+        border-left: 5px solid #ffd700;
+
+
+
+
+
+        color: #ffd700;
+
+
+
+
+
+        display: flex;
+
+
+
+
+
+        align-items: center;
+
+
+
+
+
+        gap: 10px;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .results-grid {
+
+
+
+
+
+        display: grid;
+
+
+
+
+
+        grid-template-columns: repeat(3, 1fr);
+
+
+
+
+
+        gap: 20px;
+
+
+
+
+
+        margin-top: 20px;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    @media (max-width: 1024px) {
+
+
+
+
+
+        .results-grid {
+
+
+
+
+
+            grid-template-columns: repeat(2, 1fr);
+
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    @media (max-width: 768px) {
+
+
+
+
+
+        .results-grid {
+
+
+
+
+
+            grid-template-columns: 1fr;
+
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .result-card {
+
+
+
+
+
+        background: rgba(40, 40, 60, 0.5);
+
+
+
+
+
+        border-radius: 15px;
+
+
+
+
+
+        padding: 20px;
+
+
+
+
+
+        border: 1px solid var(--card-border);
+
+
+
+
+
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
+
+
+
+        position: relative;
+
+
+
+
+
+        overflow: hidden;
+
+
+
+
+
+        display: flex;
+
+
+
+
+
+        flex-direction: column;
+
+
+
+
+
+        justify-content: space-between;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .result-card:hover {
+
+
+
+
+
+        transform: translateY(-5px);
+
+
+
+
+
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .result-card.is-own-house {
+
+
+
+
+
+        border: 2px solid #22c55e;
+
+
+
+
+
+        box-shadow: 0 0 15px var(--own-house-glow, rgba(16, 185, 129, 0.4));
+
+
+
+
+
+        background: rgba(34, 197, 94, 0.1);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .planet-name {
+
+
+
+
+
+        font-size: 20px;
+
+
+
+
+
+        font-weight: 800;
+
+
+
+
+
+        margin-bottom: 15px;
+
+
+
+
+
+        display: flex;
+
+
+
+
+
+        align-items: center;
+
+
+
+
+
+        gap: 10px;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .own-house-badge {
+
+
+
+
+
+        position: absolute;
+
+
+
+
+
+        top: 10px;
+
+
+
+
+
+        right: 10px;
+
+
+
+
+
+        background: #22c55e;
+
+
+
+
+
+        color: white;
+
+
+
+
+
+        font-size: 11px;
+
+
+
+
+
+        padding: 4px 8px;
+
+
+
+
+
+        border-radius: 10px;
+
+
+
+
+
+        font-weight: 700;
+
+
+
+
+
+        text-transform: uppercase;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .info-row {
+
+
+
+
+
+        display: flex;
+
+
+
+
+
+        justify-content: space-between;
+
+
+
+
+
+        margin-bottom: 8px;
+
+
+
+
+
+        font-size: 14px;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .label {
+
+
+
+
+
+        color: var(--text-muted);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .val {
+
+
+
+
+
+        font-weight: 700;
+
+
+
+
+
+        color: #fff;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .own-val {
+
+
+
+
+
+        color: #ffd700;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .status-msg {
+
+
+
+
+
+        margin-top: 15px;
+
+
+
+
+
+        padding-top: 10px;
+
+
+
+
+
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+
+
+
+
+        font-size: 14px;
+
+
+
+
+
+        font-weight: 600;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .msg-positive {
+
+
+
+
+
+        color: #22c55e;
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .msg-neutral {
+
+
+
+
+
+        color: var(--text-muted);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .bitter-enemy-alert {
+
+
+
+
+
+        margin-top: 10px;
+
+
+
+
+
+        font-size: 12px;
+
+
+
+
+
+        color: #ff4d4d;
+
+
+
+
+
+        background: rgba(255, 77, 77, 0.1);
+
+
+
+
+
+        padding: 5px 10px;
+
+
+
+
+
+        border-radius: 5px;
+
+
+
+
+
+        border: 1px solid rgba(255, 77, 77, 0.2);
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+  </style>
 
 
 
@@ -5430,8 +9919,7 @@
 
 
 
-    <div class="print-page-container">
-<div class="header">
+    <div class="header">
 
 
 
@@ -8209,7 +12697,31 @@
 
 
 
-        </div>
+        <button class="float-btn print-hide" style="background: linear-gradient(135deg, #e91e63, #c2185b);"
+
+
+
+
+
+            onclick="if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') { window.AndroidPrint.printPage(); } else { window.print(); }">
+
+
+
+
+
+            <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
+
+
+
+
+
+        </button>
+
+
+
+
+
+    </div>
 
 
 

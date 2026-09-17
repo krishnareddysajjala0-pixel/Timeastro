@@ -42,63 +42,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         @JavascriptInterface
-        fun sharePdf() {
+        fun sharePdfData(base64Data: String, fileName: String) {
             runOnUiThread {
                 try {
-                    val pdfFile = java.io.File(cacheDir, "RavanAstro_Kundali.pdf")
-                    if (pdfFile.exists()) { pdfFile.delete() }
+                    val cleanBase64 = if (base64Data.contains(",")) {
+                        base64Data.substringAfter(",")
+                    } else {
+                        base64Data
+                    }
+                    val pdfBytes = android.util.Base64.decode(cleanBase64, android.util.Base64.DEFAULT)
+                    val pdfFile = java.io.File(cacheDir, if (fileName.isEmpty()) "RavanAstro_Kundali.pdf" else fileName)
+                    pdfFile.writeBytes(pdfBytes)
 
-                    val printAdapter = webView.createPrintDocumentAdapter("RavanAstro_Kundali")
-                    val fileDescriptor = android.os.ParcelFileDescriptor.open(
-                        pdfFile,
-                        android.os.ParcelFileDescriptor.MODE_READ_WRITE or android.os.ParcelFileDescriptor.MODE_CREATE or android.os.ParcelFileDescriptor.MODE_TRUNCATE
+                    val uri = androidx.core.content.FileProvider.getUriForFile(
+                        this@MainActivity,
+                        "${packageName}.fileprovider",
+                        pdfFile
                     )
-
-                    val printAttributes = PrintAttributes.Builder()
-                        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 300, 300))
-                        .setMinMargins(PrintAttributes.Margins.ZERO)
-                        .build()
-
-                    printAdapter.onLayout(
-                        null,
-                        printAttributes,
-                        null,
-                        object : android.print.PrintDocumentAdapter.LayoutResultCallback() {
-                            override fun onLayoutFinished(info: android.print.PrintFileInfo?, changed: Boolean) {
-                                printAdapter.onWrite(
-                                    arrayOf(android.print.PageRange.ALL_PAGES),
-                                    fileDescriptor,
-                                    null,
-                                    object : android.print.PrintDocumentAdapter.WriteResultCallback() {
-                                        override fun onWriteFinished(pages: Array<out android.print.PageRange>?) {
-                                            try {
-                                                fileDescriptor.close()
-                                                val uri = androidx.core.content.FileProvider.getUriForFile(
-                                                    this@MainActivity,
-                                                    "${packageName}.fileprovider",
-                                                    pdfFile
-                                                )
-                                                val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                                                    type = "application/pdf"
-                                                    putExtra(android.content.Intent.EXTRA_STREAM, uri)
-                                                    addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                                }
-                                                startActivity(android.content.Intent.createChooser(shareIntent, "Share Kundali PDF..."))
-                                            } catch (e: Exception) {
-                                                e.printStackTrace()
-                                            }
-                                        }
-                                    }
-                                )
-                            }
-                        },
-                        null
-                    )
+                    val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                        type = "application/pdf"
+                        putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                        addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    startActivity(android.content.Intent.createChooser(shareIntent, "Share Kundali PDF..."))
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
+        }
+
+        @JavascriptInterface
+        fun sharePdf() {
+            printPage()
         }
     }
 

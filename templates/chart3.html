@@ -9955,26 +9955,95 @@
 </script>
 <script>
 
+
 window.doSharePDF = function() {
     if (typeof closePrintOptions === 'function') closePrintOptions();
 
-    // 1. Android App Native PDF File Share (via FileProvider Intent)
-    if (window.AndroidPrint && typeof window.AndroidPrint.sharePdf === 'function') {
-        window.AndroidPrint.sharePdf();
-        return;
+    var shareBtns = document.querySelectorAll('button[onclick*="doSharePDF"]');
+    shareBtns.forEach(function(btn) {
+        btn.dataset.origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF...';
+        btn.disabled = true;
+    });
+
+    function restoreBtns() {
+        shareBtns.forEach(function(btn) {
+            if (btn.dataset.origHtml) btn.innerHTML = btn.dataset.origHtml;
+            btn.disabled = false;
+        });
+        document.body.classList.remove('mobile-pdf-rendering');
     }
 
-    // 2. Client-side PDF File Generation (HTML to PDF File Blob)
-    if (typeof html2pdf !== 'undefined') {
+    try {
         document.body.classList.add('mobile-pdf-rendering');
-        const element = document.querySelector('.container') || document.body;
-        const opt = {
+        var element = document.querySelector('.container') || document.body;
+        var filename = 'RavanAstro_Kundali_Report.pdf';
+
+        var opt = {
             margin:       [5, 5, 5, 5],
-            filename:     'RavanAstro_Kundali_Report.pdf',
+            filename:     filename,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, logging: false },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
+
+        if (typeof html2pdf !== 'undefined') {
+            html2pdf().set(opt).from(element).output('blob').then(function(blob) {
+                restoreBtns();
+
+                // 1. Android App Native Share Interface (passes PDF Base64 string to Kotlin Intent Chooser)
+                if (window.AndroidPrint && typeof window.AndroidPrint.sharePdfData === 'function') {
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                        var base64data = reader.result;
+                        window.AndroidPrint.sharePdfData(base64data, filename);
+                    };
+                    reader.readAsDataURL(blob);
+                    return;
+                }
+
+                // 2. Web Browser File Share API
+                var pdfFile = new File([blob], filename, { type: 'application/pdf' });
+                if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+                    navigator.share({
+                        files: [pdfFile],
+                        title: 'RavanAstro Kundali PDF'
+                    }).catch(function(err) { console.log('Share canceled', err); });
+                } else {
+                    // Direct PDF file download fallback
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                }
+            }).catch(function(err) {
+                restoreBtns();
+                console.error('PDF error:', err);
+                if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+                    window.AndroidPrint.printPage();
+                } else {
+                    window.print();
+                }
+            });
+        } else {
+            restoreBtns();
+            if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+                window.AndroidPrint.printPage();
+            } else {
+                window.print();
+            }
+        }
+    } catch (e) {
+        restoreBtns();
+        console.error('Share PDF error:', e);
+        if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+            window.AndroidPrint.printPage();
+        } else {
+            window.print();
+        }
+    }
+};
+
 
         html2pdf().set(opt).from(element).output('blob').then(function(blob) {
             document.body.classList.remove('mobile-pdf-rendering');

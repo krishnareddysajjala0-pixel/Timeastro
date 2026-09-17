@@ -3394,11 +3394,25 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
 }
 </style>
 
+
+<style>
+.top-btn-karma {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-hands {
+  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
+  border: 1px solid rgba(244, 114, 182, 0.6) !important;
+  color: #ffffff !important;
+}
+</style>
+
 </head>
 
 <body>
-
-    <!-- Top Control Row Bar (Theme, Back, Print, Language in Single Line at Top) -->
+    <!-- Top Control Row Bar (Theme, Back, Print, Karma, Aspects, Language in Single Line at Top) -->
     <div class="top-control-bar print-hide">
       <!-- 1. Theme Switcher (LEFT) -->
       <div class="theme-switcher" id="theme-switcher-container">
@@ -3431,7 +3445,19 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
         <span>{{ _('ప్రింట్') }}</span>
       </button>
 
-      <!-- 4. Language Switcher (RIGHT) -->
+      <!-- 4. Karma Button -->
+      <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
+        <i class="fas fa-yin-yang"></i>
+        <span>{{ _('కర్మ') }}</span>
+      </button>
+
+      <!-- 5. Aspects Button -->
+      <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
+        <i class="fas fa-eye"></i>
+        <span>{{ _('చూపులు') }}</span>
+      </button>
+
+      <!-- 6. Language Switcher (RIGHT) -->
       <div class="language-switcher" id="language-switcher-container">
         <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
           <i class="fas fa-language"></i>
@@ -3448,54 +3474,7 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
         </div>
       </div>
     </div>
-
-        <!-- Top Control Row Bar (Theme First, Karma, Hands, Language Last in Single Line at Top) -->
-    </div>
-
-      <!-- 2. Karma Toggle Button -->
-      <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
-        <i class="fas fa-yin-yang"></i>
-        <span>{{ _('కర్మ') }}</span>
-      </button>
-
-      <!-- 3. Hands/Aspects Toggle Button -->
-      <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
-        <span>👆</span>
-        <span>{{ _('చూపులు') }}</span>
-      </button>
-
-      <!-- 4. Language Switcher (LAST / RIGHT) -->
-      <div class="language-switcher">
-        <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
-          <i class="fas fa-language"></i>
-          <span>{{ _('భాష') }}</span>
-        </button>
-        <div class="lang-options">
-          <a href="javascript:void(0)" onclick="setLanguageDirect('te')" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('en')" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('kn')" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('hi')" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('ta')" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('ml')" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
-          <a href="javascript:void(0)" onclick="setLanguageDirect('or')" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
-        </div>
-      </div>
-    </div>
-      </div>
-    </div>
-
-
-
-
-  
-
-
-
-
-
-  <!-- Header -->
-
-  <div class="header" style="margin-top: 20px;">
+<div class="header" style="margin-top: 20px;">
 
     <h2 class="page-title" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
 

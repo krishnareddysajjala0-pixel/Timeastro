@@ -3779,7 +3779,7 @@
 
 
 <style>
-/* Fix Top Control Bar - Expand Buttons to Fill Screen Space on Mobile */
+/* Fix Top Control Bar - Expand ALL Buttons (including Theme) to Fill Screen Space on Mobile */
 .top-control-bar {
   display: flex !important;
   flex-direction: row !important;
@@ -3800,10 +3800,13 @@
 }
 
 /* Make every direct child container / button of top-control-bar expand equally */
-.top-control-bar > * {
+.top-control-bar > *,
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
   flex: 1 1 0% !important;
   min-width: 0 !important;
-  width: auto !important;
+  max-width: none !important;
+  width: 100% !important;
 }
 
 .top-control-bar .ctrl-btn,
@@ -3812,6 +3815,7 @@
 .top-control-bar .top-btn-theme,
 .top-control-bar .top-btn-lang {
   width: 100% !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
   position: static !important;
   top: auto !important;
@@ -3843,12 +3847,19 @@
   left: auto !important;
   right: auto !important;
   margin: 0 !important;
+  max-width: none !important;
 }
 
 @media screen and (max-width: 768px) {
   .top-control-bar {
     padding: 6px 4px !important;
     gap: 5px !important;
+  }
+
+  .theme-switcher,
+  .theme-switcher.expanded {
+    max-width: none !important;
+    width: 100% !important;
   }
 
   .top-control-bar .ctrl-btn,

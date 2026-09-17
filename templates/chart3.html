@@ -5008,6 +5008,146 @@
 
 
 
+        
+        /* Results Grid & Planet Cards (Screen Mode) */
+        .party-info {
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .guru-bg {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(202, 138, 4, 0.3));
+            border: 1px solid rgba(234, 179, 8, 0.4);
+        }
+        .shani-bg {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.3));
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+        .party-badge {
+            font-weight: 700;
+            font-size: 14px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        @media screen and (max-width: 992px) {
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+        .result-card {
+            background: var(--card-bg, rgba(30, 27, 75, 0.85));
+            border: 1px solid var(--card-border, rgba(120, 119, 198, 0.3));
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        .result-card.is-own-house {
+            border: 2px solid #22c55e;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .own-house-badge {
+            background: #22c55e;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .planet-name {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-body {
+            margin-bottom: 10px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 13.5px;
+        }
+        .info-row .label {
+            color: var(--text-muted, #a5b4fc);
+        }
+        .info-row .val {
+            font-weight: 600;
+            color: var(--text-bright, #ffffff);
+        }
+        .info-row .val.own-val {
+            color: #ffd700;
+        }
+        .card-footer {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .status-msg {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .msg-positive {
+            color: #22c55e;
+        }
+        .msg-neutral {
+            color: #94a3b8;
+        }
+        .bitter-enemy-alert {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* ===== PRINT ===== */
 
 
@@ -5316,6 +5456,64 @@
 @media screen and (max-width: 768px) {
   .fixed-bottom-bar {
     bottom: 10px !important;
+  }
+}
+</style>
+<style id="compact-bottom-bar-style">
+/* Compact Floating Bottom Bar & Buttons (Reduced Height) */
+.fixed-bottom-bar {
+  position: fixed !important;
+  bottom: 10px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  background: rgba(20, 19, 50, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(120, 119, 198, 0.3) !important;
+  border-radius: 24px !important;
+  padding: 5px 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  gap: 8px !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  z-index: 9999 !important;
+  max-width: 95vw !important;
+}
+
+.float-btn {
+  flex: 0 0 auto !important;
+  padding: 5px 12px !important;
+  height: 32px !important;
+  border-radius: 16px !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-family: 'Segoe UI', 'Noto Serif Telugu', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: white !important;
+  white-space: nowrap !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
+  transition: transform 0.2s ease, filter 0.2s ease !important;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar {
+    bottom: 8px !important;
+    padding: 4px 8px !important;
+    gap: 6px !important;
+    border-radius: 20px !important;
+  }
+  .float-btn {
+    padding: 4px 8px !important;
+    height: 28px !important;
+    font-size: 10.5px !important;
+    border-radius: 14px !important;
+    gap: 4px !important;
   }
 }
 </style>

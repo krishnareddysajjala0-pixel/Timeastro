@@ -1203,6 +1203,74 @@
   }
 }
 </style>
+<style>
+/* Language Switcher & Theme Switcher Dropdown Styles for Calendar View */
+.language-switcher, .theme-switcher {
+  position: relative !important;
+  display: inline-block !important;
+}
+
+.language-switcher .lang-options {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  background: var(--card-bg, #0f172a) !important;
+  border: 1.5px solid var(--card-border, #0d9488) !important;
+  border-radius: 12px !important;
+  padding: 6px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  z-index: 10000 !important;
+  min-width: 130px !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.language-switcher.expanded .lang-options {
+  display: flex !important;
+}
+
+.language-switcher .lang-btn {
+  display: flex !important;
+  align-items: center !important;
+  padding: 8px 12px !important;
+  color: var(--text-color, #ffffff) !important;
+  text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.language-switcher .lang-btn:hover,
+.language-switcher .lang-btn.active {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffd700 !important;
+}
+
+.theme-switcher .theme-options {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  right: auto !important;
+  background: var(--card-bg, #0f172a) !important;
+  border: 1.5px solid var(--card-border, #4f46e5) !important;
+  border-radius: 12px !important;
+  padding: 6px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  z-index: 10000 !important;
+  min-width: 160px !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.theme-switcher.expanded .theme-options {
+  display: flex !important;
+}
+</style>
 </head>
 
 <body>

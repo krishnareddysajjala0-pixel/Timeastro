@@ -960,7 +960,8 @@ def check_lang_query_param():
 def set_lang(lang):
     if lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
         session['lang'] = lang
-    resp = make_response(redirect(request.referrer or url_for('index')))
+    next_page = request.args.get('next') or request.referrer or url_for('index')
+    resp = make_response(redirect(next_page))
     resp.set_cookie('lang', lang, max_age=30*24*3600)
     return resp
 

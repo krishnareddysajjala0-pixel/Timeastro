@@ -2955,12 +2955,121 @@
   }
 }
 </style>
+<style>
+
+/* Fix Top Control Bar - Expand ALL Buttons to Fill Screen Space on Mobile matching Kundali page */
+.top-control-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 6px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1000 !important;
+  margin-bottom: 8px !important;
+}
+
+.top-control-bar > *,
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.top-control-bar .ctrl-btn,
+.top-control-bar #karmaBtn,
+.top-control-bar #chupuluBtn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  float: none !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 7px 4px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
+  height: 36px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+.theme-switcher, .language-switcher {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .top-control-bar {
+    padding: 6px 4px !important;
+    gap: 5px !important;
+  }
+
+  .theme-switcher,
+  .theme-switcher.expanded {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .top-control-bar .ctrl-btn,
+  .top-control-bar #karmaBtn,
+  .top-control-bar #chupuluBtn,
+  .top-control-bar .top-btn-theme,
+  .top-control-bar .top-btn-lang,
+  #karmaBtn,
+  #chupuluBtn {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    padding: 6px 2px !important;
+    font-size: 11px !important;
+    border-radius: 14px !important;
+    height: 32px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
 <div class="container">
 
     <!-- Top Control Row Bar (Theme First, Language Last in Single Line at Top) -->
+        <!-- Top Control Row Bar (Theme First, Karma, Hands, Language Last in Single Line at Top) -->
     <div class="top-control-bar print-hide">
       <!-- 1. Theme Switcher (FIRST / LEFT) -->
       <div class="theme-switcher" id="theme-switcher-container">
@@ -2981,21 +3090,35 @@
         </div>
       </div>
 
-      <!-- 2. Language Switcher (LAST / RIGHT) -->
+      <!-- 2. Karma Toggle Button -->
+      <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
+        <i class="fas fa-yin-yang"></i>
+        <span>{{ _('కర్మ') }}</span>
+      </button>
+
+      <!-- 3. Hands/Aspects Toggle Button -->
+      <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
+        <span>👆</span>
+        <span>{{ _('చూపులు') }}</span>
+      </button>
+
+      <!-- 4. Language Switcher (LAST / RIGHT) -->
       <div class="language-switcher">
         <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
           <i class="fas fa-language"></i>
           <span>{{ _('భాష') }}</span>
         </button>
         <div class="lang-options">
-          <a href="/set_lang/te" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
-          <a href="/set_lang/en" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
-          <a href="/set_lang/kn" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">కನ್ನಡ</a>
-          <a href="/set_lang/hi" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
-          <a href="/set_lang/ta" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
-          <a href="/set_lang/ml" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
-          <a href="/set_lang/or" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
+          <a href="/set_lang/te?next=/compare_results" class="lang-btn {% if current_lang == 'te' or not current_lang %}active{% endif %}">తెలుగు</a>
+          <a href="/set_lang/en?next=/compare_results" class="lang-btn {% if current_lang == 'en' %}active{% endif %}">English</a>
+          <a href="/set_lang/kn?next=/compare_results" class="lang-btn {% if current_lang == 'kn' %}active{% endif %}">ಕನ್ನಡ</a>
+          <a href="/set_lang/hi?next=/compare_results" class="lang-btn {% if current_lang == 'hi' %}active{% endif %}">హిందీ</a>
+          <a href="/set_lang/ta?next=/compare_results" class="lang-btn {% if current_lang == 'ta' %}active{% endif %}">తమిళ్</a>
+          <a href="/set_lang/ml?next=/compare_results" class="lang-btn {% if current_lang == 'ml' %}active{% endif %}">మలయాళం</a>
+          <a href="/set_lang/or?next=/compare_results" class="lang-btn {% if current_lang == 'or' %}active{% endif %}">ఒడియా</a>
         </div>
+      </div>
+    </div>
       </div>
     </div>
 
@@ -3026,17 +3149,7 @@
 
   
 
-  <div class="top-button-stack">
-
-    <button class="header-toggle-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">👆</button>
-
-    <button class="header-toggle-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">{{ _('కర్మ') }}</button>
-
-    
-
-    
-
-  </div>
+  
 
 
 
@@ -3054,54 +3167,43 @@
 
   <script>
 
-    function switchCompareView(viewType) {
+    let currentCompareView = "{% if chart_type == 'nakshatra' %}nakshatra{% else %}standard{% endif %}";
 
-      document.body.setAttribute('data-active-view', viewType);
-
-
-
-      const stdWrapper = document.getElementById('standard-compare-wrapper');
-
-      const nakWrapper = document.getElementById('nakshatra-compare-wrapper');
-
-      const btnStd = document.getElementById('btn-view-standard');
-
-      const btnNak = document.getElementById('btn-view-nakshatra');
-
-
-
-      if (viewType === 'nakshatra') {
-
-        if (stdWrapper) stdWrapper.style.display = 'none';
-
-        if (nakWrapper) nakWrapper.style.display = 'flex';
-
-        if (btnStd) btnStd.classList.remove('active');
-
-        if (btnNak) btnNak.classList.add('active');
-
+    function toggleCompareView() {
+      if (currentCompareView === 'standard') {
+        switchCompareView('nakshatra');
       } else {
-
-        if (stdWrapper) stdWrapper.style.display = 'flex';
-
-        if (nakWrapper) nakWrapper.style.display = 'none';
-
-        if (btnStd) btnStd.classList.add('active');
-
-        if (btnNak) btnNak.classList.remove('active');
-
+        switchCompareView('standard');
       }
-
     }
 
+    function switchCompareView(viewType) {
+      currentCompareView = viewType;
+      document.body.setAttribute('data-active-view', viewType);
 
+      const stdWrapper = document.getElementById('standard-compare-wrapper');
+      const nakWrapper = document.getElementById('nakshatra-compare-wrapper');
+      const toggleBtn = document.getElementById('btn-view-toggle');
+
+      if (viewType === 'nakshatra') {
+        if (stdWrapper) stdWrapper.style.display = 'none';
+        if (nakWrapper) nakWrapper.style.display = 'flex';
+        if (toggleBtn) {
+          toggleBtn.innerHTML = "⚖️ {{ _('సాధారణ కుండలుల పొంతన') }}";
+          toggleBtn.classList.add('active');
+        }
+      } else {
+        if (stdWrapper) stdWrapper.style.display = 'flex';
+        if (nakWrapper) nakWrapper.style.display = 'none';
+        if (toggleBtn) {
+          toggleBtn.innerHTML = "✨ {{ _('నక్షత్ర పాద కుండలుల పొంతన') }}";
+          toggleBtn.classList.remove('active');
+        }
+      }
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
-
-      const initialView = "{% if chart_type == 'nakshatra' %}nakshatra{% else %}standard{% endif %}";
-
-      switchCompareView(initialView);
-
+      switchCompareView(currentCompareView);
     });
 
   </script>
@@ -3878,30 +3980,18 @@
 
     <!-- Single Line Bottom Action Bar -->
 
-  <div class="no-print" id="compare-action-bar" style="position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 35px; padding: 6px 14px; backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0,0,0,0.6); max-width: 95%; flex-wrap: nowrap; overflow-x: auto;">
-
-    <button type="button" onclick="switchCompareView('standard')" id="btn-view-standard" class="compare-tab-btn {% if chart_type != 'nakshatra' %}active{% endif %}" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
-
-      ⚖️ {{ _('సాధారణ కుండలుల పొంతన') }}
-
+    <div class="no-print" id="compare-action-bar" style="position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 35px; padding: 6px 14px; backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0,0,0,0.6); max-width: 95%; flex-wrap: nowrap; overflow-x: auto;">
+    <button type="button" onclick="toggleCompareView()" id="btn-view-toggle" class="compare-tab-btn" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
+      {% if chart_type == 'nakshatra' %}
+        ⚖️ {{ _('సాధారణ కుండలుల పొంతన') }}
+      {% else %}
+        ✨ {{ _('నక్షత్ర పాద కుండలుల పొంతన') }}
+      {% endif %}
     </button>
-
-
-
-    <button type="button" onclick="switchCompareView('nakshatra')" id="btn-view-nakshatra" class="compare-tab-btn {% if chart_type == 'nakshatra' %}active{% endif %}" style="white-space: nowrap; font-size: 13px; padding: 7px 14px;">
-
-      ✨ {{ _('నక్షత్ర పాద కుండలుల పొంతన') }}
-
-    </button>
-
-
 
     <button type="button" onclick="goToCompareDasha()" class="compare-tab-btn" style="white-space: nowrap; font-size: 13px; padding: 7px 14px; background: linear-gradient(135deg, #f59e0b, #b45309); color: #fff; border: 1px solid #fbbf24;">
-
       📊 {{ _('దశాచార పొంతన') }}
-
     </button>
-
   </div>
 
   <div class="fixed-bottom-bar-nav">

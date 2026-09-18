@@ -2211,6 +2211,7 @@
 .top-control-bar .ctrl-btn,
 .top-control-bar .top-btn-theme,
 .top-control-bar .top-btn-lang,
+.top-control-bar .top-btn-home,
 .top-control-bar .top-btn-back,
 .top-control-bar .top-btn-print,
 .top-control-bar .top-btn-hands {
@@ -2247,6 +2248,12 @@
   color: #ffffff !important;
 }
 
+.top-btn-home {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.6) !important;
+  color: #ffffff !important;
+}
+
 .top-btn-back {
   background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
   border: 1px solid rgba(186, 230, 253, 0.6) !important;
@@ -2273,32 +2280,31 @@
 
 @media screen and (max-width: 768px) {
   .top-control-bar {
-    padding: 6px 4px !important;
-    gap: 4px !important;
+    padding: 6px 3px !important;
+    gap: 3px !important;
   }
   .top-control-bar .ctrl-btn,
   .top-control-bar .top-btn-theme,
   .top-control-bar .top-btn-lang,
+  .top-control-bar .top-btn-home,
   .top-control-bar .top-btn-back,
   .top-control-bar .top-btn-print,
   .top-control-bar .top-btn-hands,
   .top-control-bar #chupuluBtn {
     padding: 6px 2px !important;
-    font-size: 11px !important;
-    border-radius: 14px !important;
+    font-size: 10px !important;
+    border-radius: 12px !important;
     height: 32px !important;
-    gap: 3px !important;
+    gap: 2px !important;
   }
 }
 </style>
 </head>
 
-
-
 <body>
 <div class="container">
 
-    <!-- Top Control Row Bar (Theme, Back, Print, Aspects, Language in Single Line at Top) -->
+    <!-- Top Control Row Bar (Theme, Home, Back, Print, Aspects, Language in Single Line at Top) -->
     <div class="top-control-bar print-hide">
       <!-- 1. Theme Switcher (FIRST / LEFT) -->
       <div class="theme-switcher" id="theme-switcher-container">
@@ -2319,7 +2325,13 @@
         </div>
       </div>
 
-      <!-- 2. Back / Normal Kundali Button -->
+      <!-- 2. Home Button -->
+      <a href="/" class="ctrl-btn top-btn-home" style="text-decoration: none; color: #ffffff;">
+        <i class="fas fa-home"></i>
+        <span>{{ _('హోమ్') }}</span>
+      </a>
+
+      <!-- 3. Back / Normal Kundali Button -->
       <a href="/chart" class="ctrl-btn top-btn-back" style="text-decoration: none; color: #ffffff;">
         <i class="fas fa-arrow-left"></i>
         <span>{{ _('సాధారణ కుండలి') }}</span>
@@ -2726,29 +2738,7 @@
 
 
 
-  <!-- Bottom Navigation Buttons -->
 
-  <div class="no-print" style="margin: 25px auto 50px auto; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-
-    <a href="/chart" class="action-btn-pill action-btn-primary" style="padding: 12px 24px; font-size: 15px;">
-
-      🌀 {{ _('సాధారణ కుండలి చూడండి') }}
-
-    </a>
-
-    <a href="/compare_kundali" class="action-btn-pill" style="padding: 12px 24px; font-size: 15px;">
-
-      ⚖️ {{ _('కుండలుల సరిపొంతన') }}
-
-    </a>
-
-    <a href="/" class="action-btn-pill" style="padding: 12px 24px; font-size: 15px;">
-
-      🏠 {{ _('హోమ్') }}
-
-    </a>
-
-  </div>
 
 
 

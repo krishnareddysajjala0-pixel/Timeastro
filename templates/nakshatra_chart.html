@@ -882,11 +882,15 @@
 
       align-items: center;
 
-      padding: 6px 8px;
+      padding: 5px 6px;
 
       background: rgba(120, 120, 120, 0.08);
 
       border-bottom: 1.5px solid var(--box-border);
+
+      white-space: nowrap;
+
+      overflow: hidden;
 
     }
 
@@ -900,13 +904,15 @@
 
       font-weight: 800;
 
-      font-size: 11.5px;
+      font-size: 11px;
 
-      padding: 2px 6px;
+      padding: 1.5px 5px;
 
       border-radius: 4px;
 
       border: 1px solid var(--card-border);
+
+      flex-shrink: 0;
 
     }
 
@@ -916,11 +922,19 @@
 
       font-weight: 800;
 
-      font-size: 14px;
+      font-size: 13px;
 
       color: var(--text-main);
 
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      margin: 0 2px;
 
     }
 
@@ -928,17 +942,21 @@
 
     .karma-badge-small {
 
-      font-size: 10.5px;
+      font-size: 10px;
 
-      font-weight: 700;
+      font-weight: 800;
 
-      padding: 2px 5px;
+      padding: 1.5px 5px;
 
       border-radius: 4px;
 
       background: var(--label-bg);
 
       color: var(--label-text);
+
+      white-space: nowrap;
+
+      flex-shrink: 0;
 
     }
 
@@ -1037,17 +1055,37 @@
 
     .pada-num {
 
-      font-weight: 800;
+      font-weight: 700;
 
       color: var(--pada-num-color);
 
-      min-width: 12px;
+      width: 15px;
 
-      display: inline-block;
+      height: 15px;
 
-      text-align: right;
+      min-width: 15px;
 
-      line-height: 1.35;
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      line-height: 1;
+
+      font-size: 10px;
+
+      border-radius: 50%;
+
+      border: 1.5px solid transparent;
+
+      box-sizing: border-box;
+
+      flex-shrink: 0;
+
+      margin-top: 1px;
 
     }
 
@@ -1057,7 +1095,11 @@
 
       color: var(--pada-active-color);
 
+      border-color: var(--pada-active-color);
+
       font-weight: 900;
+
+      background: rgba(125, 125, 125, 0.12);
 
     }
 
@@ -1065,19 +1107,7 @@
 
     .pada-arrow {
 
-      color: var(--pada-active-color);
-
-      font-size: 11px;
-
-      font-weight: 900;
-
-      display: inline-flex;
-
-      align-items: center;
-
-      line-height: 1.35;
-
-      margin-right: 1px;
+      display: none !important;
 
     }
 
@@ -1350,7 +1380,23 @@
 
         font-size: 9px;
 
-        gap: 2px;
+        gap: 2.5px;
+
+      }
+
+      .pada-num {
+
+        width: 13px !important;
+
+        height: 13px !important;
+
+        min-width: 13px !important;
+
+        font-size: 8px !important;
+
+        border-width: 1.2px !important;
+
+        margin-top: 1px !important;
 
       }
 
@@ -1360,9 +1406,37 @@
 
       }
 
+      .nak-box-header {
+
+        padding: 3px 4px !important;
+
+        white-space: nowrap !important;
+
+      }
+
+      .house-badge {
+
+        font-size: 9.5px !important;
+
+        padding: 1px 3px !important;
+
+      }
+
       .rashi-title-text {
 
-        font-size: 10.5px;
+        font-size: 10px !important;
+
+        margin: 0 2px !important;
+
+      }
+
+      .karma-badge-small {
+
+        font-size: 8.5px !important;
+
+        padding: 1px 3px !important;
+
+        white-space: nowrap !important;
 
       }
 
@@ -1640,25 +1714,53 @@
 
       .pada-num {
 
+        width: 14px !important;
+
+        height: 14px !important;
+
+        min-width: 14px !important;
+
+        font-size: 9px !important;
+
+        line-height: 1 !important;
+
+        border-radius: 50% !important;
+
+        border: 1.2px solid transparent !important;
+
+        display: inline-flex !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
         color: #475569 !important;
 
         font-weight: 800 !important;
 
-        font-size: 10px !important;
+        box-sizing: border-box !important;
 
-        line-height: 1.25 !important;
+        flex-shrink: 0 !important;
+
+        margin-top: 1px !important;
+
+      }
+
+      .pada-row.has-occupant .pada-num {
+
+        color: #0284c7 !important;
+
+        border-color: #0284c7 !important;
+
+        font-weight: 900 !important;
+
+        background: #e0f2fe !important;
 
       }
 
       .pada-arrow {
 
-        color: #0284c7 !important;
-
-        font-size: 9.5px !important;
-
-        font-weight: 900 !important;
-
-        line-height: 1.25 !important;
+        display: none !important;
 
       }
 
@@ -2396,7 +2498,7 @@
 
       <span class="rashi-title-text">{{ _(b.rashi_name) }}</span>
 
-      <span class="karma-badge-small">{{ _(b.karma_label) }}</span>
+      <span class="karma-badge-small" title="{% if b.karma_label == 'పు+పా' %}{{ _('పుణ్యం + పాపం') }}{% else %}{{ _(b.karma_label) }}{% endif %}">{{ _(b.karma_label) }}</span>
 
     </div>
 
@@ -2423,8 +2525,6 @@
             <span class="pada-num">{{ p.rashi_pada }}</span>
 
             {% if p.occupants %}
-
-              <span class="pada-arrow">➔</span>
 
               <span class="occupants-wrap">
 

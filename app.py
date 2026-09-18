@@ -3553,7 +3553,7 @@ def build_nakshatra_pada_boxes(data):
             karma_label = "పాపం"
             karma_class = "house-red"
         else:
-            karma_label = "పుణ్యం + పాపం"
+            karma_label = "పు+పా"
             karma_class = "house-mixed"
 
         nakshatras_data = []

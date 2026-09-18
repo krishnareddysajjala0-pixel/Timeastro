@@ -4832,20 +4832,28 @@
           <!-- Top Row: Button 1 (Save & Show) + Button 2 (Show Kundali) in SAME LINE -->
           <div style="display: flex; gap: 10px; width: 100%;">
             <!-- 1. Save & Show Kundali Button (FIRST) -->
-            <button type="button" onclick="saveUserProfile(true)" class="btn btn-submit btn-save-show" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <button type="button" onclick="saveUserProfile(true)" class="btn btn-submit btn-save-show" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
               <i class="fas fa-save"></i> <span>{{ _('సేవ్ చేసి కుండలిని చూపు') }}</span>
             </button>
 
             <!-- 2. Show Kundali Button (SECOND) -->
-            <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <button type="submit" formaction="/chart" class="btn btn-show" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
               <i class="fas fa-chart-pie"></i> <span>{{ _('కుండలి చూపండి') }}</span>
             </button>
           </div>
 
-          <!-- Bottom Row: Button 3 (Saved Data) -->
-          <button type="button" onclick="openSavedProfilesModal()" class="btn btn-saved-data" style="width: 100%; background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 16px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-            <i class="fas fa-folder-open"></i> <span>{{ _('సేవ్ చేసిన డేటా చూపు') }}</span> <span id="saved-profiles-count">(0)</span>
-          </button>
+          <!-- Second Row: Button 3 (Nakshatra Pada Kundali) + Button 4 (Saved Data) in SAME LINE -->
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <!-- 3. Nakshatra Pada Kundali Button -->
+            <button type="submit" formaction="/nakshatra_chart" class="btn btn-nakshatra" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(124, 58, 237, 0.45); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-star"></i> <span>{{ _('నక్షత్ర పాద కుండలి') }}</span>
+            </button>
+
+            <!-- 4. Saved Data Button -->
+            <button type="button" onclick="openSavedProfilesModal()" class="btn btn-saved-data" style="flex: 1; min-width: 0; background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: #ffffff; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); font-size: 15px; font-weight: 800; border-radius: 12px; border: none; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <i class="fas fa-folder-open"></i> <span>{{ _('సేవ్ చేసిన డేటా చూపు') }}</span> <span id="saved-profiles-count">(0)</span>
+            </button>
+          </div>
         </div>
 
 

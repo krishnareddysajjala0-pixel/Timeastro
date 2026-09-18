@@ -3582,7 +3582,7 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
       
 
       <!-- 3. Print Button -->
-      <button class="ctrl-btn top-btn-print" onclick="window.print()">
+      <button class="ctrl-btn top-btn-print" type="button" onclick="handleComparePrint()">
         <i class="fas fa-print"></i>
         <span>{{ _('ప్రింట్') }}</span>
       </button>
@@ -3633,10 +3633,6 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
   
 
   
-
-
-
-  <button onclick="window.print()" class="btn print-hide" style="position: fixed; top: 20px; left: 20px; z-index: 10000; background: linear-gradient(135deg, #e91e63, #c2185b); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 11px;"><i class="fas fa-print"></i> {{ _('ప్రింట్') }}</button>
 
   
 
@@ -7330,6 +7326,22 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
     const savedTheme = localStorage.getItem('preferred-theme') || 'default';
     setTheme(savedTheme);
   });
+
+  window.handleComparePrint = function() {
+    var overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    var pTitle = "{{ _('జాతకము పొంతన') }}";
+    if (pTitle) {
+      document.title = pTitle;
+    }
+
+    if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+      window.AndroidPrint.printPage();
+    } else {
+      window.print();
+    }
+  };
 </script>
 
 </body>

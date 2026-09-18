@@ -86,6 +86,52 @@ class MainActivity : AppCompatActivity() {
             Python.start(AndroidPlatform(this))
         }
 
+        // Create WebView UI
+        webView = WebView(this)
+        setContentView(webView)
+
+        // Show immediate loading screen instead of black screen
+        val loadingHtml = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body {
+                        background-color: #121212;
+                        color: #ffffff;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100vh;
+                        margin: 0;
+                    }
+                    .spinner {
+                        border: 4px solid rgba(255,255,255,0.1);
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        border-left-color: #ff9800;
+                        animation: spin 1s linear infinite;
+                        margin-bottom: 20px;
+                    }
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    h2 { font-weight: 500; font-size: 20px; margin: 0; }
+                </style>
+            </head>
+            <body>
+                <div class="spinner"></div>
+                <h2>Loading Timeastro...</h2>
+            </body>
+            </html>
+        """.trimIndent()
+        webView.loadDataWithBaseURL(null, loadingHtml, "text/html", "UTF-8", null)
+
         // Start embedded Flask server in background thread
         val py = Python.getInstance()
         val pyModule = py.getModule("server_launcher")
@@ -97,10 +143,6 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }.start()
-
-        // Create WebView UI
-        webView = WebView(this)
-        setContentView(webView)
 
         // Request runtime location permissions on app launch
         requestLocationPermission()
@@ -129,10 +171,11 @@ class MainActivity : AppCompatActivity() {
                 request: WebResourceRequest?,
                 error: WebResourceError?
             ) {
-                // Retry loading if local server is still initializing
-                view?.postDelayed({
-                    view.loadUrl("http://127.0.0.1:5000")
-                }, 1000)
+                if (request?.isForMainFrame == true) {
+                    view?.postDelayed({
+                        view.loadUrl("http://127.0.0.1:5000")
+                    }, 500)
+                }
             }
         }
 

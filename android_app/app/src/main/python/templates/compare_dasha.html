@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ current_lang if current_lang else 'te' }}" class="notranslate">
 <head>
   <meta name="google" content="notranslate">
@@ -1003,7 +1003,7 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
       </a>
 
       <!-- 3. Print Button -->
-      <button class="ctrl-btn top-btn-print" onclick="window.print()">
+      <button class="ctrl-btn top-btn-print" type="button" onclick="handleCompareDashaPrint()">
         <i class="fas fa-print"></i>
         <span>{{ _('ప్రింట్') }}</span>
       </button>
@@ -1427,6 +1427,22 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
     const savedTheme = localStorage.getItem('preferred-theme') || 'default';
     setTheme(savedTheme);
   });
+
+  window.handleCompareDashaPrint = function() {
+    var overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    var pTitle = "{{ _('దశాచార పొంతన') }}";
+    if (pTitle) {
+      document.title = pTitle;
+    }
+
+    if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+      window.AndroidPrint.printPage();
+    } else {
+      window.print();
+    }
+  };
 </script>
 
 </body>

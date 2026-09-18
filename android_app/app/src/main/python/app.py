@@ -908,7 +908,7 @@ def send_telegram_notification(name, dob, tob, place, serial_no=None, mobile=Non
         serial_line = f"🔢 *Serial Number:* {serial_no}\n" if serial_no else ""
         phone_line = f"📱 *Mobile:* {mobile}\n" if mobile else ""
         message = (
-            f"🌟 *New User Query on Timeastro!*\n\n"
+            f"🌟 *New User Query on Android app!*\n\n"
             f"{serial_line}"
             f"👤 *Name:* {name}\n"
             f"{phone_line}"

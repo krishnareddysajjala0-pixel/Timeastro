@@ -2181,6 +2181,116 @@
 }
 
 </style>
+<style>
+/* Single Line Top Control Bar for Nakshatra Chart */
+.top-control-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 10px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  margin-bottom: 8px !important;
+}
+
+.top-control-bar > *,
+.top-control-bar .theme-switcher,
+.top-control-bar .language-switcher {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.top-control-bar .ctrl-btn,
+.top-control-bar .top-btn-theme,
+.top-control-bar .top-btn-lang,
+.top-control-bar .top-btn-back,
+.top-control-bar .top-btn-print,
+.top-control-bar .top-btn-hands {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 6px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.2s ease !important;
+  height: 38px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  outline: none !important;
+}
+
+.top-btn-theme {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-lang {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  border: 1px solid rgba(45, 212, 191, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-back {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+  border: 1px solid rgba(186, 230, 253, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-print {
+  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
+  border: 1px solid rgba(199, 210, 254, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-btn-hands {
+  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%) !important;
+  border: 1px solid rgba(244, 114, 182, 0.6) !important;
+  color: #ffffff !important;
+}
+
+.top-control-bar .ctrl-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
+  filter: brightness(1.1) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .top-control-bar {
+    padding: 6px 4px !important;
+    gap: 4px !important;
+  }
+  .top-control-bar .ctrl-btn,
+  .top-control-bar .top-btn-theme,
+  .top-control-bar .top-btn-lang,
+  .top-control-bar .top-btn-back,
+  .top-control-bar .top-btn-print,
+  .top-control-bar .top-btn-hands,
+  .top-control-bar #chupuluBtn {
+    padding: 6px 2px !important;
+    font-size: 11px !important;
+    border-radius: 14px !important;
+    height: 32px !important;
+    gap: 3px !important;
+  }
+}
+</style>
 </head>
 
 
@@ -2188,7 +2298,7 @@
 <body>
 <div class="container">
 
-    <!-- Top Control Row Bar (Theme First, Language Last in Single Line at Top) -->
+    <!-- Top Control Row Bar (Theme, Back, Print, Aspects, Language in Single Line at Top) -->
     <div class="top-control-bar print-hide">
       <!-- 1. Theme Switcher (FIRST / LEFT) -->
       <div class="theme-switcher" id="theme-switcher-container">
@@ -2209,7 +2319,25 @@
         </div>
       </div>
 
-      <!-- 2. Language Switcher (LAST / RIGHT) -->
+      <!-- 2. Back / Normal Kundali Button -->
+      <a href="/chart" class="ctrl-btn top-btn-back" style="text-decoration: none; color: #ffffff;">
+        <i class="fas fa-arrow-left"></i>
+        <span>{{ _('సాధారణ కుండలి') }}</span>
+      </a>
+
+      <!-- 3. Print / PDF Button -->
+      <button class="ctrl-btn top-btn-print" type="button" onclick="doSharePDF()">
+        <i class="fas fa-print"></i>
+        <span>{{ _('ప్రింట్') }}</span>
+      </button>
+
+      <!-- 4. Aspects Button -->
+      <button class="top-btn-hands ctrl-btn" id="chupuluBtn" onclick="toggleAspects()" title="Toggle Aspects">
+        <i class="fas fa-eye"></i>
+        <span>{{ _('చూపులు') }}</span>
+      </button>
+
+      <!-- 5. Language Switcher (LAST / RIGHT) -->
       <div class="language-switcher">
         <button class="top-btn-lang ctrl-btn" onclick="toggleLangMenu(event)" title="Change Language">
           <i class="fas fa-language"></i>
@@ -2227,44 +2355,6 @@
       </div>
     </div>
 
-
-
-
-  <!-- Top Action Navigation -->
-
-  <div class="top-action-bar no-print">
-
-    <a href="/chart" class="action-btn-pill">
-
-      <i class="fas fa-arrow-left"></i> {{ _('సాధారణ కుండలి') }}
-
-    </a>
-
-
-
-    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-
-      <button onclick="toggleAspects()" id="chupuluBtn" class="action-btn-pill">
-
-        👆 {{ _('చూపులు దాచు/చూపు') }}
-
-      </button>
-
-
-
-      
-
-
-
-      <button onclick="doSharePDF()" class="action-btn-pill action-btn-primary">
-
-        <i class="fas fa-print"></i> {{ _('ప్రింట్ / PDF') }}
-
-      </button>
-
-    </div>
-
-  </div>
 
 
 
@@ -2892,6 +2982,18 @@
 
       document.body.style.margin = '';
 
+    };
+
+    window.doSharePDF = function () {
+      var pTitle = "{{ _('నక్షత్ర పాద కుండలి') }}";
+      if (pTitle) {
+        document.title = pTitle;
+      }
+      if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+        window.AndroidPrint.printPage();
+      } else {
+        window.print();
+      }
     };
 
   </script>

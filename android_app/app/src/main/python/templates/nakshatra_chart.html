@@ -979,65 +979,40 @@
 
 
     .nak-name-cell {
-
-      width: 24%;
-
-      min-width: 38px;
-
-      max-width: 52px;
-
-      padding: 2px 3px;
-
+      flex: 0 0 auto;
+      width: 14%;
+      min-width: 22px;
+      max-width: 32px;
+      padding: 1px 2px;
       background: rgba(0, 0, 0, 0.05);
-
       border-right: 1px solid var(--card-border);
-
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       text-align: center;
-
+      box-sizing: border-box;
     }
-
-
 
     .nak-name-text {
-
-      font-size: 11px;
-
+      font-size: 10px;
       font-weight: 800;
-
       color: var(--nak-title-color);
-
-      line-height: 1.15;
-
-      letter-spacing: -0.2px;
-
-      word-break: break-word;
-
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+      word-break: break-all;
+      overflow-wrap: anywhere;
     }
 
-
-
     .padas-list-cell {
-
-      width: 76%;
-
+      flex: 1 1 auto;
+      width: calc(100% - 32px);
       display: flex;
-
       flex-direction: column;
-
       justify-content: space-around;
-
-      padding: 2px 4px;
-
+      padding: 1px 3px;
       background: transparent;
-
       overflow: hidden;
-
+      box-sizing: border-box;
     }
 
 
@@ -1351,17 +1326,24 @@
       }
 
       .nak-name-cell {
-
-        width: 46%;
-
-        padding: 2px;
-
+        flex: 0 0 auto !important;
+        width: 14% !important;
+        min-width: 18px !important;
+        max-width: 24px !important;
+        padding: 1px !important;
       }
 
       .nak-name-text {
+        font-size: 8.5px !important;
+        line-height: 1.05 !important;
+        letter-spacing: -0.3px !important;
+        word-break: break-all !important;
+      }
 
-        font-size: 9.5px;
-
+      .padas-list-cell {
+        flex: 1 1 auto !important;
+        width: calc(100% - 24px) !important;
+        padding: 1px 2px !important;
       }
 
       .pada-row {
@@ -1594,17 +1576,19 @@
 
       .nak-name-cell {
 
-        width: 23% !important;
+        flex: 0 0 auto !important;
 
-        min-width: 32px !important;
+        width: 14% !important;
 
-        max-width: 48px !important;
+        min-width: 20px !important;
+
+        max-width: 28px !important;
 
         border-right: 1px solid #333 !important;
 
         background: #f8fafc !important;
 
-        padding: 1px 2px !important;
+        padding: 1px 1px !important;
 
       }
 
@@ -1614,17 +1598,21 @@
 
         font-weight: 800 !important;
 
-        font-size: 9.5px !important;
+        font-size: 8.5px !important;
 
-        line-height: 1.1 !important;
+        line-height: 1.05 !important;
 
-        letter-spacing: -0.2px !important;
+        letter-spacing: -0.3px !important;
+
+        word-break: break-all !important;
 
       }
 
       .padas-list-cell {
 
-        width: 77% !important;
+        flex: 1 1 auto !important;
+
+        width: calc(100% - 28px) !important;
 
         padding: 1px 2px !important;
 

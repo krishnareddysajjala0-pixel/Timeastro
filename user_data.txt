@@ -1354,3 +1354,4 @@
 1354. [17-Sep-2026 13:48:03] Name: Praveen , DOB: 2000-06-06, TOB: 04:15, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1355. [17-Sep-2026 13:50:23] Name: Praveen , DOB: 2000-06-05, TOB: 03:30, Place: Tadipatri, తాడిపత్రి, अनन्तपुर, Andhra Pradesh, 515400, India
 1356. [17-Sep-2026 21:24:33] Name: Bhagiratha, DOB: 1978-05-01, TOB: 10:05, Place: Siruguppa karnataka 
+1357. [18-Sep-2026 16:28:29] Name: gangaraj, DOB: 1989-06-21, TOB: 05:00, Place: Hosakote, Koratagere taluku, Tumakuru, Karnataka, 572129, India

@@ -840,9 +840,20 @@ def log_user_to_github(name, dob, tob, place, mobile=None):
         github_api_sync(name, log_entry)
         
         # 3. Local Git Sync (Run in background thread since it is local only)
-        git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0], mobile=mobile)
+        try:
+            git_thread = threading.Thread(target=local_git_sync, args=(name,))
+            git_thread.daemon = True
+            git_thread.start()
+        except Exception:
+            pass
+
+        # 4. Telegram Notification (Run in background thread so mobile app is instant)
+        try:
+            tele_thread = threading.Thread(target=send_telegram_notification, args=(name, dob, tob, place, final_serial[0], mobile))
+            tele_thread.daemon = True
+            tele_thread.start()
+        except Exception as te:
+            print(f"Telegram thread error: {te}")
         
     except Exception as e:
         print(f"Critical logging error: {e}")
@@ -863,10 +874,13 @@ def log_user_data_endpoint():
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
 
+DEFAULT_TELEGRAM_BOT_TOKEN = "8288114667:AAG6l1GiHwDf0dz9DITMQi-cdxAZJjHJmMU"
+DEFAULT_TELEGRAM_CHAT_ID = "5716746325"
+
 def send_telegram_notification(name, dob, tob, place, serial_no=None, mobile=None):
     """Send user details to Telegram Bot channel/chat."""
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token = os.environ.get("TELEGRAM_BOT_TOKEN") or DEFAULT_TELEGRAM_BOT_TOKEN
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID") or DEFAULT_TELEGRAM_CHAT_ID
     if not token or not chat_id:
         print("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured. Skipping notification.")
         return

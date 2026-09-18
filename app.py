@@ -15,6 +15,12 @@ import base64
 import json
 import re
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 # Cache loaded translation dictionaries in memory
 TRANSLATIONS_CACHE = {}
 TR_STRING_CACHE = {}
@@ -714,7 +720,7 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
         return False
 
 # ---------------- GITHUB LOGGING HELPER ----------------
-def log_user_to_github(name, dob, tob, place):
+def log_user_to_github(name, dob, tob, place, mobile=None):
     """Log user data to user_data.txt using GitHub API or local file."""
     try:
         basedir = os.path.dirname(os.path.abspath(__file__))
@@ -736,7 +742,8 @@ def log_user_to_github(name, dob, tob, place):
                                 pass
             
             timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-            log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+            phone_str = f", Mobile: {mobile}" if mobile else ""
+            log_entry = f"{serial_no}. [{timestamp}] Name: {name}{phone_str}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
             
             with open(log_file, "a", encoding="utf-8") as f:
                 f.write(log_entry)
@@ -835,7 +842,7 @@ def log_user_to_github(name, dob, tob, place):
         # 3. Local Git Sync (Run in background thread since it is local only)
         git_thread = threading.Thread(target=local_git_sync, args=(name,))
         # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
+        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0], mobile=mobile)
         
     except Exception as e:
         print(f"Critical logging error: {e}")
@@ -848,14 +855,15 @@ def log_user_data_endpoint():
         dob = data.get('dob', '')
         tob = data.get('tob', '')
         place = data.get('place', '')
+        mobile = data.get('mobile', None)
         if name and dob:
-            log_user_to_github(name, dob, tob, place)
+            log_user_to_github(name, dob, tob, place, mobile=mobile)
         return jsonify({'status': 'success'})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
 
-def send_telegram_notification(name, dob, tob, place, serial_no=None):
+def send_telegram_notification(name, dob, tob, place, serial_no=None, mobile=None):
     """Send user details to Telegram Bot channel/chat."""
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -884,10 +892,12 @@ def send_telegram_notification(name, dob, tob, place, serial_no=None):
 
     try:
         serial_line = f"🔢 *Serial Number:* {serial_no}\n" if serial_no else ""
+        phone_line = f"📱 *Mobile:* {mobile}\n" if mobile else ""
         message = (
             f"🌟 *New User Query on Timeastro!*\n\n"
             f"{serial_line}"
             f"👤 *Name:* {name}\n"
+            f"{phone_line}"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"
             f"📍 *Place:* {place}"
@@ -3636,6 +3646,8 @@ def nakshatra_chart():
             'name': name, 'dob': dob, 'tob': tob, 'place': place,
             'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
         }
+        if name and dob:
+            log_user_to_github(name, dob, tob, place, mobile=mobile)
     else:
         name = request.args.get("name")
         dob = request.args.get("dob")

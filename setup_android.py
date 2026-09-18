@@ -2,7 +2,7 @@ import os
 import shutil
 import glob
 
-base_dir = r"C:\Users\KRISH\.gemini\antigravity\scratch\Timeastro"
+base_dir = os.path.dirname(os.path.abspath(__file__))
 android_dir = os.path.join(base_dir, "android_app")
 python_dst = os.path.join(android_dir, "app", "src", "main", "python")
 java_dst = os.path.join(android_dir, "app", "src", "main", "java", "com", "timeastro", "app")

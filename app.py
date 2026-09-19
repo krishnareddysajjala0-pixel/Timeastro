@@ -1,4 +1,4 @@
-from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context
+from flask import Flask, render_template as flask_render_template, request, redirect, url_for, session, jsonify, has_request_context, make_response, g
 import swisseph as swe
 import datetime
 import pytz
@@ -15,11 +15,20 @@ import base64
 import json
 import re
 
-# Cache loaded translation dictionaries
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+# Cache loaded translation dictionaries in memory
 TRANSLATIONS_CACHE = {}
+TR_STRING_CACHE = {}
+TIME_KEYWORDS = ["ఉ: ", "సా: ", "ఉ:", "సా:", "గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న", "ముగింపు", "మొదలు"]
+TIME_KEYWORDS.sort(key=len, reverse=True)
 
 def get_translations_dict(lang):
-    if lang == 'te':
+    if not lang or lang == 'te':
         return {}
     if lang not in TRANSLATIONS_CACHE:
         path = os.path.join(os.path.dirname(__file__), "translations", f"translations_{lang}.json")
@@ -34,15 +43,30 @@ def get_translations_dict(lang):
             TRANSLATIONS_CACHE[lang] = {}
     return TRANSLATIONS_CACHE[lang]
 
+# Pre-warm all language dictionaries in memory in background thread for instant language selection without delaying startup
+import threading
+def _bg_prewarm():
+    for _l in ['en', 'hi', 'kn', 'ta', 'ml', 'or']:
+        try:
+            get_translations_dict(_l)
+        except Exception:
+            pass
+threading.Thread(target=_bg_prewarm, daemon=True).start()
+
+
 def tr(text, lang=None):
     if not text:
         return text
     if not lang:
         lang = 'te'
         if has_request_context():
-            lang = session.get('lang', 'te')
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang == 'te':
         return text
+        
+    cache_key = (text, lang)
+    if cache_key in TR_STRING_CACHE:
+        return TR_STRING_CACHE[cache_key]
         
     mapping = get_translations_dict(lang)
     
@@ -54,6 +78,7 @@ def tr(text, lang=None):
             translated = ' ' + translated
         if text.endswith(' '):
             translated = translated + ' '
+        TR_STRING_CACHE[cache_key] = translated
         return translated
         
     # Suffix matching
@@ -61,22 +86,22 @@ def tr(text, lang=None):
     if tithi_match:
         num = tithi_match.group(1)
         suffix = mapping.get("వ తిథి", " Tithi")
-        return f"{num}{suffix}"
+        res = f"{num}{suffix}"
+        TR_STRING_CACHE[cache_key] = res
+        return res
         
     padam_match = re.match(r'^(\d+)వ పాదం$', text)
     if padam_match:
         num = padam_match.group(1)
         suffix = mapping.get("వ పాదం", " Pada")
-        return f"{num}{suffix}"
+        res = f"{num}{suffix}"
+        TR_STRING_CACHE[cache_key] = res
+        return res
         
     # Handle combined times (e.g. "నిన్న సా: 03:12")
-    time_keywords = ["ఉ: ", "సా: ", "ఉ:", "సా:", "గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న", "ముగింపు", "మొదలు"]
-    # Sort by length descending to match longer keywords first (e.g. 'నిన్న' before 'ని')
-    time_keywords.sort(key=len, reverse=True)
-    
-    if any(k in text for k in time_keywords):
+    if any(k in text for k in TIME_KEYWORDS):
         translated_text = text
-        for te_word in time_keywords:
+        for te_word in TIME_KEYWORDS:
             if te_word in translated_text:
                 stripped_word = te_word.strip()
                 replacement = mapping.get(stripped_word)
@@ -86,8 +111,10 @@ def tr(text, lang=None):
                     if te_word.endswith(' '):
                         replacement = replacement + ' '
                     translated_text = translated_text.replace(te_word, replacement)
+        TR_STRING_CACHE[cache_key] = translated_text
         return translated_text
         
+    TR_STRING_CACHE[cache_key] = text
     return text
 
 
@@ -95,7 +122,7 @@ def translate_html_string(html_str, lang=None):
     if not lang:
         lang = 'te'
         if has_request_context():
-            lang = session.get('lang', 'te')
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang == 'te':
         return html_str
         
@@ -123,7 +150,7 @@ def translate_data(val, lang):
 def render_template(template_name_or_list, **context):
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
+        lang = session.get('lang') or request.cookies.get('lang') or 'te'
     if lang != 'te':
         translated_context = {}
         for k, v in context.items():
@@ -133,19 +160,29 @@ def render_template(template_name_or_list, **context):
     context['current_lang'] = 'te'
     return flask_render_template(template_name_or_list, **context)
 
-def load_rules(filename):
+RULES_CACHE = {}
+
+def load_rules(filename, lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
+
+    cache_key = (filename, lang)
+    if cache_key in RULES_CACHE:
+        return RULES_CACHE[cache_key]
+
     if filename == 'astro_constants.json':
         path = os.path.join(os.path.dirname(__file__), filename)
         try:
             with open(path, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                RULES_CACHE[cache_key] = data
+                return data
         except Exception as e:
             print(f"Error loading {filename}: {e}")
             return {}
 
-    lang = 'te'
-    if has_request_context():
-        lang = session.get('lang', 'te')
     if lang != 'te':
         base, ext = os.path.splitext(filename)
         localized_filename = f"{base}_{lang}{ext}"
@@ -153,22 +190,32 @@ def load_rules(filename):
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    RULES_CACHE[cache_key] = data
+                    return data
             except Exception as e:
                 print(f"Error loading localized {localized_filename}: {e}")
                 
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            RULES_CACHE[cache_key] = data
+            return data
     except Exception as e:
         print(f"Error loading {filename}: {e}")
         return {}
 
-def load_localized_constants():
-    lang = 'te'
-    if has_request_context():
-        lang = session.get('lang', 'te')
+def load_localized_constants(lang=None):
+    if not lang:
+        lang = 'te'
+        if has_request_context():
+            lang = session.get('lang') or request.cookies.get('lang') or 'te'
+
+    cache_key = ('astro_constants_localized', lang)
+    if cache_key in RULES_CACHE:
+        return RULES_CACHE[cache_key]
+
     filename = 'astro_constants.json'
     if lang != 'te':
         base, ext = os.path.splitext(filename)
@@ -177,16 +224,35 @@ def load_localized_constants():
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    RULES_CACHE[cache_key] = data
+                    return data
             except Exception as e:
                 print(f"Error loading localized {localized_filename}: {e}")
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            RULES_CACHE[cache_key] = data
+            return data
     except Exception as e:
         print(f"Error loading {filename}: {e}")
         return {}
+
+def prewarm_caches():
+    languages = ['en', 'kn', 'hi', 'ta', 'ml', 'or']
+    for l in languages:
+        get_translations_dict(l)
+        for rule_file in ['bhava_lord_rules.json', 'detailed_bhava_meanings.json', 'astro_constants.json']:
+            load_rules(rule_file, l)
+        load_localized_constants(l)
+    for rule_file in ['bhava_lord_rules.json', 'detailed_bhava_meanings.json', 'astro_constants.json']:
+        load_rules(rule_file, 'te')
+    load_localized_constants('te')
+
+prewarm_caches()
+
+
 
 def format_lord_placement(lord_house_num, lord_planet, p_house, lang):
     translated_planet = tr(lord_planet, lang)
@@ -220,49 +286,12 @@ app.secret_key = 'astrology-secret-key-2024'  # Required for session
 def inject_translation():
     lang = 'te'
     if has_request_context():
-        lang = session.get('lang', 'te')
-    
-    mapping = get_translations_dict(lang)
+        lang = request.args.get('lang') or session.get('lang') or request.cookies.get('lang') or 'te'
     
     def translate_text(text):
         if not text or lang == 'te':
             return text
-        if text == 'భాష':
-            return {
-                'en': 'Language',
-                'kn': 'ಭಾಷೆ',
-                'hi': 'भाषा',
-                'ta': 'மொழி',
-                'ml': 'ഭാഷ',
-                'or': 'ଭାଷା'
-            }.get(lang, 'Language')
-        if isinstance(text, str):
-            if text in mapping:
-                return mapping[text]
-            
-            # Suffix matching
-            import re
-            tithi_match = re.match(r'^(\d+)వ తిథి$', text)
-            if tithi_match:
-                num = tithi_match.group(1)
-                suffix = mapping.get("వ తిథి", " Tithi")
-                return f"{num}{suffix}"
-                
-            padam_match = re.match(r'^(\d+)వ పాదం$', text)
-            if padam_match:
-                num = padam_match.group(1)
-                suffix = mapping.get("వ పాదం", " Pada")
-                return f"{num}{suffix}"
-                
-            # Handle combined times
-            if any(k in text for k in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]):
-                translated_text = text
-                for te_word in ["గం", "ని", "సం", "నెలలు", "నుండి", "నుంచి", "వరకు", "రేపు", "నిన్న"]:
-                    if te_word in translated_text:
-                        translated_text = translated_text.replace(te_word, mapping.get(te_word, te_word))
-                return translated_text
-                
-        return text
+        return tr(text, lang)
     return dict(_=translate_text, current_lang=lang)
 
 # ---------------- Swiss Ephemeris ----------------
@@ -662,6 +691,8 @@ def get_exact_tithi_times(jd, tithi_index):
         
         # Relative speed approx 12.19 deg/day
         speed = m_info[0][3] - s_info[0][3]
+        if abs(speed) < 0.001:
+            speed = 12.1907
         
         diff = (elongation - target_start_deg) % 360
         if diff > 180: diff -= 360
@@ -680,6 +711,8 @@ def get_exact_tithi_times(jd, tithi_index):
         elongation = (moon_lon - sun_lon) % 360
         
         speed = m_info[0][3] - s_info[0][3]
+        if abs(speed) < 0.001:
+            speed = 12.1907
         
         diff = (target_end_deg - elongation) % 360
         if diff > 180: diff -= 360
@@ -702,7 +735,7 @@ def is_date_within_range(check_date, start_date_str, end_date_str):
         return False
 
 # ---------------- GITHUB LOGGING HELPER ----------------
-def log_user_to_github(name, dob, tob, place):
+def log_user_to_github(name, dob, tob, place, mobile=None):
     """Log user data to user_data.txt using GitHub API or local file."""
     try:
         basedir = os.path.dirname(os.path.abspath(__file__))
@@ -724,7 +757,8 @@ def log_user_to_github(name, dob, tob, place):
                                 pass
             
             timestamp = datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S")
-            log_entry = f"{serial_no}. [{timestamp}] Name: {name}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
+            phone_str = f", Mobile: {mobile}" if mobile else ""
+            log_entry = f"{serial_no}. [{timestamp}] Name: {name}{phone_str}, DOB: {dob}, TOB: {tob}, Place: {place}\n"
             
             with open(log_file, "a", encoding="utf-8") as f:
                 f.write(log_entry)
@@ -821,21 +855,47 @@ def log_user_to_github(name, dob, tob, place):
         github_api_sync(name, log_entry)
         
         # 3. Local Git Sync (Run in background thread since it is local only)
-        git_thread = threading.Thread(target=local_git_sync, args=(name,))
-        git_thread.daemon = True
-        git_thread.start()
-        
-        # 4. Telegram Notification (Run synchronously for Vercel/Render serverless reliability)
-        send_telegram_notification(name, dob, tob, place, serial_no=final_serial[0])
+        try:
+            git_thread = threading.Thread(target=local_git_sync, args=(name,))
+            git_thread.daemon = True
+            git_thread.start()
+        except Exception:
+            pass
+
+        # 4. Telegram Notification (Run in background thread so mobile app is instant)
+        try:
+            tele_thread = threading.Thread(target=send_telegram_notification, args=(name, dob, tob, place, final_serial[0], mobile))
+            tele_thread.daemon = True
+            tele_thread.start()
+        except Exception as te:
+            print(f"Telegram thread error: {te}")
         
     except Exception as e:
         print(f"Critical logging error: {e}")
 
+@app.route('/log_user_data', methods=['POST'])
+def log_user_data_endpoint():
+    try:
+        data = request.get_json(silent=True) or {}
+        name = data.get('name', '')
+        dob = data.get('dob', '')
+        tob = data.get('tob', '')
+        place = data.get('place', '')
+        mobile = data.get('mobile', None)
+        if name and dob:
+            log_user_to_github(name, dob, tob, place, mobile=mobile)
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
 
-def send_telegram_notification(name, dob, tob, place, serial_no=None):
+
+DEFAULT_TELEGRAM_BOT_TOKEN = "8288114667:AAG6l1GiHwDf0dz9DITMQi-cdxAZJjHJmMU"
+DEFAULT_TELEGRAM_CHAT_ID = "5716746325"
+
+def send_telegram_notification(name, dob, tob, place, serial_no=None, mobile=None):
     """Send user details to Telegram Bot channel/chat."""
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token = os.environ.get("TELEGRAM_BOT_TOKEN") or DEFAULT_TELEGRAM_BOT_TOKEN
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID") or DEFAULT_TELEGRAM_CHAT_ID
     if not token or not chat_id:
         print("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured. Skipping notification.")
         return
@@ -861,10 +921,12 @@ def send_telegram_notification(name, dob, tob, place, serial_no=None):
 
     try:
         serial_line = f"🔢 *Serial Number:* {serial_no}\n" if serial_no else ""
+        phone_line = f"📱 *Mobile:* {mobile}\n" if mobile else ""
         message = (
-            f"🌟 *New User Query on Timeastro!*\n\n"
+            f"🌟 *New User Query on Android app!*\n\n"
             f"{serial_line}"
             f"👤 *Name:* {name}\n"
+            f"{phone_line}"
             f"📅 *DOB:* {dob}\n"
             f"⏰ *TOB:* {tob}\n"
             f"📍 *Place:* {place}"
@@ -976,17 +1038,285 @@ def get_planet_icon(planet_name):
     return PLANET_ICONS.get(planet_name, "•")
 
 # ---------------- ROUTES ----------------
+IP_LOCATION_CACHE = {"data": None, "timestamp": 0}
+
+def get_server_ip_location():
+    import time
+    now = time.time()
+    if IP_LOCATION_CACHE["data"] and (now - IP_LOCATION_CACHE["timestamp"]) < 3600:
+        return IP_LOCATION_CACHE["data"]
+    try:
+        url = "https://ipapi.co/json/"
+        resp = requests.get(url, headers={"User-Agent": "RavanAstroApp/1.0"}, timeout=2.5)
+        if resp.status_code == 200:
+            d = resp.json()
+            city = d.get("city") or ""
+            region = d.get("region") or ""
+            country = d.get("country_name") or ""
+            lat = d.get("latitude")
+            lon = d.get("longitude")
+            if lat is not None and lon is not None:
+                disp = ", ".join([p for p in [city, region, country] if p]) or f"Location ({lat:.2f}, {lon:.2f})"
+                loc = {
+                    "available": True,
+                    "latitude": float(lat),
+                    "longitude": float(lon),
+                    "city": city,
+                    "region": region,
+                    "country": country,
+                    "display_name": disp
+                }
+                IP_LOCATION_CACHE["data"] = loc
+                IP_LOCATION_CACHE["timestamp"] = now
+                return loc
+    except Exception:
+        pass
+    return None
+
+@app.route("/api/device_location", methods=["GET", "POST"])
+@app.route("/api/ip_location", methods=["GET", "POST"])
+def api_device_location():
+    lat = os.environ.get("DEVICE_LAT", "").strip()
+    lon = os.environ.get("DEVICE_LON", "").strip()
+    if lat and lon:
+        try:
+            return jsonify({
+                "available": True,
+                "latitude": float(lat),
+                "longitude": float(lon),
+                "lat": float(lat),
+                "lon": float(lon),
+                "display_name": os.environ.get("DEVICE_PLACE", "")
+            })
+        except ValueError:
+            pass
+
+    loc = get_server_ip_location()
+    if loc:
+        return jsonify(loc)
+
+    return jsonify({
+        "available": False,
+        "latitude": None,
+        "longitude": None
+    })
+
+# Local offline database of prominent cities and towns
+LOCAL_CITIES = [
+    {"display_name": "Hyderabad, Telangana, India", "lat": 17.3850, "lon": 78.4867},
+    {"display_name": "Secunderabad, Telangana, India", "lat": 17.4399, "lon": 78.4983},
+    {"display_name": "Vijayawada, Andhra Pradesh, India", "lat": 16.5062, "lon": 80.6480},
+    {"display_name": "Visakhapatnam, Andhra Pradesh, India", "lat": 17.6868, "lon": 83.2185},
+    {"display_name": "Guntur, Andhra Pradesh, India", "lat": 16.3067, "lon": 80.4365},
+    {"display_name": "Tirupati, Andhra Pradesh, India", "lat": 13.6288, "lon": 79.4192},
+    {"display_name": "Kurnool, Andhra Pradesh, India", "lat": 15.8281, "lon": 78.0373},
+    {"display_name": "Nellore, Andhra Pradesh, India", "lat": 14.4426, "lon": 79.9865},
+    {"display_name": "Rajahmundry, Andhra Pradesh, India", "lat": 17.0005, "lon": 81.8040},
+    {"display_name": "Kakinada, Andhra Pradesh, India", "lat": 16.9891, "lon": 82.2475},
+    {"display_name": "Warangal, Telangana, India", "lat": 17.9689, "lon": 79.5941},
+    {"display_name": "Karimnagar, Telangana, India", "lat": 18.4386, "lon": 79.1288},
+    {"display_name": "Nizamabad, Telangana, India", "lat": 18.6725, "lon": 78.0941},
+    {"display_name": "Khammam, Telangana, India", "lat": 17.2473, "lon": 80.1514},
+    {"display_name": "Anantapur, Andhra Pradesh, India", "lat": 14.6819, "lon": 77.6006},
+    {"display_name": "Kadapa (Cuddapah), Andhra Pradesh, India", "lat": 14.4673, "lon": 78.8242},
+    {"display_name": "Vizianagaram, Andhra Pradesh, India", "lat": 18.1067, "lon": 83.3956},
+    {"display_name": "Eluru, Andhra Pradesh, India", "lat": 16.7107, "lon": 81.0952},
+    {"display_name": "Ongole, Andhra Pradesh, India", "lat": 15.5057, "lon": 80.0499},
+    {"display_name": "Nandyal, Andhra Pradesh, India", "lat": 15.4886, "lon": 78.4836},
+    {"display_name": "Machilipatnam, Andhra Pradesh, India", "lat": 16.1875, "lon": 81.1389},
+    {"display_name": "Tenali, Andhra Pradesh, India", "lat": 16.2437, "lon": 80.6400},
+    {"display_name": "Chittoor, Andhra Pradesh, India", "lat": 13.2172, "lon": 79.1003},
+    {"display_name": "Hindupur, Andhra Pradesh, India", "lat": 13.8292, "lon": 77.4916},
+    {"display_name": "Bhimavaram, Andhra Pradesh, India", "lat": 16.5449, "lon": 81.5212},
+    {"display_name": "Madanapalle, Andhra Pradesh, India", "lat": 13.5560, "lon": 78.5010},
+    {"display_name": "Srikakulam, Andhra Pradesh, India", "lat": 18.2949, "lon": 83.8938},
+    {"display_name": "Gudivada, Andhra Pradesh, India", "lat": 16.4410, "lon": 80.9926},
+    {"display_name": "Mahbubnagar, Telangana, India", "lat": 16.7488, "lon": 78.0035},
+    {"display_name": "Nalgonda, Telangana, India", "lat": 17.0575, "lon": 79.2684},
+    {"display_name": "Suryapet, Telangana, India", "lat": 17.1439, "lon": 79.6239},
+    {"display_name": "Siddipet, Telangana, India", "lat": 18.1018, "lon": 78.8520},
+    {"display_name": "Mancherial, Telangana, India", "lat": 18.8679, "lon": 79.4639},
+    {"display_name": "Adilabad, Telangana, India", "lat": 19.6641, "lon": 78.5320},
+    {"display_name": "Bengaluru (Bangalore), Karnataka, India", "lat": 12.9716, "lon": 77.5946},
+    {"display_name": "Chennai (Madras), Tamil Nadu, India", "lat": 13.0827, "lon": 80.2707},
+    {"display_name": "Mumbai (Bombay), Maharashtra, India", "lat": 19.0760, "lon": 72.8777},
+    {"display_name": "New Delhi, Delhi, India", "lat": 28.6139, "lon": 77.2090},
+    {"display_name": "Kolkata (Calcutta), West Bengal, India", "lat": 22.5726, "lon": 88.3639},
+    {"display_name": "Pune, Maharashtra, India", "lat": 18.5204, "lon": 73.8567},
+    {"display_name": "Ahmedabad, Gujarat, India", "lat": 23.0225, "lon": 72.5714},
+    {"display_name": "Jaipur, Rajasthan, India", "lat": 26.9124, "lon": 75.7873},
+    {"display_name": "Bhubaneswar, Odisha, India", "lat": 20.2961, "lon": 85.8245},
+    {"display_name": "Cuttack, Odisha, India", "lat": 20.4625, "lon": 85.8828},
+    {"display_name": "Puri, Odisha, India", "lat": 19.8135, "lon": 85.8312},
+    {"display_name": "Kochi, Kerala, India", "lat": 9.9312, "lon": 76.2673},
+    {"display_name": "Thiruvananthapuram, Kerala, India", "lat": 8.5241, "lon": 76.9366},
+    {"display_name": "Coimbatore, Tamil Nadu, India", "lat": 11.0168, "lon": 76.9558},
+    {"display_name": "Madurai, Tamil Nadu, India", "lat": 9.9252, "lon": 78.1198},
+    {"display_name": "Mysuru (Mysore), Karnataka, India", "lat": 12.2958, "lon": 76.6394},
+    {"display_name": "Dubai, United Arab Emirates", "lat": 25.2048, "lon": 55.2708},
+    {"display_name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278},
+    {"display_name": "New York, NY, USA", "lat": 40.7128, "lon": -74.0060},
+    {"display_name": "San Francisco, CA, USA", "lat": 37.7749, "lon": -122.4194},
+    {"display_name": "Dallas, TX, USA", "lat": 32.7767, "lon": -96.7970},
+    {"display_name": "Chicago, IL, USA", "lat": 41.8781, "lon": -87.6298},
+    {"display_name": "Toronto, Ontario, Canada", "lat": 43.6532, "lon": -79.3832},
+    {"display_name": "Sydney, NSW, Australia", "lat": -33.8688, "lon": 151.2093},
+    {"display_name": "Singapore", "lat": 1.3521, "lon": 103.8198}
+]
+
+@app.route("/api/search_place")
+@app.route("/api/search_location")
+def api_search_place():
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 2:
+        return jsonify([])
+    
+    q_lower = q.lower()
+    results = []
+    seen = set()
+
+    # Match in local offline dataset first
+    for city in LOCAL_CITIES:
+        name = city["display_name"]
+        if q_lower in name.lower():
+            results.append({
+                "display_name": city["display_name"],
+                "lat": city["lat"],
+                "lon": city["lon"],
+                "type": "city"
+            })
+            seen.add(name.lower())
+
+    # Try external Nominatim with valid User-Agent if available
+    try:
+        url = f"https://nominatim.openstreetmap.org/search?format=json&limit=8&addressdetails=1&q={requests.utils.quote(q)}"
+        headers = {"User-Agent": "RavanAstroApp/1.0 (info@ravanastro.com)"}
+        resp = requests.get(url, headers=headers, timeout=2.5)
+        if resp.status_code == 200:
+            for item in resp.json():
+                d_name = item.get("display_name", "")
+                if d_name.lower() not in seen:
+                    results.append({
+                        "display_name": d_name,
+                        "lat": float(item.get("lat", 0)),
+                        "lon": float(item.get("lon", 0)),
+                        "type": item.get("type", "city")
+                    })
+                    seen.add(d_name.lower())
+    except Exception:
+        pass
+
+    return jsonify(results[:10])
+
+@app.route("/api/reverse_geocode")
+def api_reverse_geocode():
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    if not lat or not lon:
+        return jsonify({"display_name": "Unknown Location"})
+    
+    try:
+        lat_f = float(lat)
+        lon_f = float(lon)
+    except ValueError:
+        return jsonify({"display_name": "Unknown Location"})
+
+    try:
+        url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat_f}&lon={lon_f}&zoom=10&addressdetails=1"
+        headers = {"User-Agent": "RavanAstroApp/1.0 (info@ravanastro.com)"}
+        resp = requests.get(url, headers=headers, timeout=2.5)
+        if resp.status_code == 200:
+            data = resp.json()
+            addr = data.get("address", {})
+            city = addr.get("city") or addr.get("town") or addr.get("village") or addr.get("county") or ""
+            state = addr.get("state") or ""
+            country = addr.get("country") or ""
+            place = ", ".join([p for p in [city, state, country] if p])
+            if place:
+                return jsonify({"display_name": place, "city": city, "state": state, "country": country})
+    except Exception:
+        pass
+
+    # Fallback to closest local city or coordinates
+    best_name = f"Location ({lat_f:.2f}, {lon_f:.2f})"
+    min_dist = 999999
+    for c in LOCAL_CITIES:
+        dist = abs(c["lat"] - lat_f) + abs(c["lon"] - lon_f)
+        if dist < min_dist and dist < 0.6:
+            min_dist = dist
+            best_name = c["display_name"]
+    return jsonify({"display_name": best_name})
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.before_request
+def check_lang_query_param():
+    lang = request.args.get('lang') or request.cookies.get('lang')
+    if lang and lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
+        session['lang'] = lang
 
 @app.route("/set_lang/<lang>")
 def set_lang(lang):
     if lang in ['te', 'en', 'kn', 'hi', 'ta', 'ml', 'or']:
         session['lang'] = lang
-    return redirect(request.referrer or url_for('index'))
+    next_page = request.args.get('next') or request.referrer or url_for('index')
+    resp = make_response(redirect(next_page))
+    resp.set_cookie('lang', lang, max_age=30*24*3600)
+    return resp
+
+
+def get_timezone_str(lat, lon):
+    try:
+        lat = float(lat)
+        lon = float(lon)
+        if 6.0 <= lat <= 38.0 and 68.0 <= lon <= 98.0:
+            return "Asia/Kolkata"
+        try:
+            from timezonefinder import TimezoneFinder
+            tf = TimezoneFinder()
+            if hasattr(tf, 'timezone_at'):
+                tz = tf.timezone_at(lat=lat, lng=lon) or tf.timezone_at(lng=lon, lat=lat)
+            elif hasattr(tf, 'certain_timezone_at'):
+                tz = tf.certain_timezone_at(lat=lat, lng=lon)
+            else:
+                tz = None
+            if tz:
+                return tz
+        except Exception:
+            pass
+        try:
+            import timezonefinderL
+            tf = timezonefinderL.TimezoneFinder()
+            tz = tf.timezone_at(lng=lon, lat=lat)
+            if tz:
+                return tz
+        except Exception:
+            pass
+    except Exception as e:
+        print("[get_timezone_str error]:", e)
+    return "Asia/Kolkata"
+
 
 def get_kundali_data(name, dob, tob, place, lat, lon):
+    try:
+        lat = float(lat) if lat is not None else 17.3850
+    except (ValueError, TypeError):
+        lat = 17.3850
+
+    try:
+        lon = float(lon) if lon is not None else 78.4867
+    except (ValueError, TypeError):
+        lon = 78.4867
+
+    if not dob or len(str(dob).strip()) < 8:
+        dob = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    if not tob or len(str(tob).strip()) < 3:
+        tob = datetime.datetime.now().strftime("%H:%M")
+
     # Ensure standard Lahiri Ayanamsa is used for all calculations
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     
@@ -995,14 +1325,7 @@ def get_kundali_data(name, dob, tob, place, lat, lon):
     day_name = DAY_TELUGU.get(day_eng, day_eng)
 
     # Determine Timezone based on Latitude and Longitude
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon)
-        if not timezone_str:
-            timezone_str = "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    timezone_str = get_timezone_str(lat, lon)
 
     # Time: Local Time → UTC
     local_tz = pytz.timezone(timezone_str)
@@ -2107,7 +2430,12 @@ def chart3():
         friends = [p for p in results_data if p['is_friend'] and not p['is_hand']]
         enemies = [p for p in results_data if not p['is_friend'] and not p['is_hand']]
 
+    name = birth_info.get('name', '') if birth_info else ''
+    selected_lang = session.get('lang') or request.cookies.get('lang') or 'te'
+    title = f"{name} {tr('ద్వాదశ గ్రహములు', selected_lang)}".strip() if name else tr('ద్వాదశ గ్రహములు', selected_lang)
     return render_template("chart3.html", 
+                           name=name,
+                           title=title,
                            current_year=current_year, 
                            lagna=lagna,
                            native_party=native_party,
@@ -2281,7 +2609,7 @@ def results():
                                 p_color = p['color']
                                 break
                         
-                        lang = session.get('lang', 'te') if has_request_context() else 'te'
+                        lang = session.get('lang') or request.cookies.get('lang') or 'te' if has_request_context() else 'te'
                         header_text = format_lord_placement(lord_house_num, lord_planet, p_house, lang)
                         placed_rules_map[p_house].append(
                             f"<br><br><span style='color: {p_color};'><strong>{header_text}</strong> {rule_text}</span>"
@@ -2846,30 +3174,18 @@ def daily_panchangam():
     lat = 17.3850
     lon = 78.4867
 
-    # On GET request: return empty form so JS can auto-detect location
-    if request.method == "GET":
-        return render_template(
-            "daily_panchangam.html",
-            dob=dob, tob=tob, place=place, lat=lat, lon=lon,
-            panch=None
-        )
-
-    # On POST: use submitted values
-    dob = request.form.get("dob", dob)
-    tob = request.form.get("tob", tob)
-    place = request.form.get("place", place)
-    lat_str = request.form.get("lat")
-    lon_str = request.form.get("lon")
+    # Use parameters from GET or POST, with defaults for today
+    dob = request.values.get("dob") or dob
+    tob = request.values.get("tob") or tob
+    place = request.values.get("place") or place
+    lat_str = request.values.get("lat")
+    lon_str = request.values.get("lon")
     
     lat = float(lat_str) if lat_str else 17.3850
     lon = float(lon_str) if lon_str else 78.4867
     
-    try:
-        from timezonefinder import TimezoneFinder
-        tf = TimezoneFinder()
-        timezone_str = tf.certain_timezone_at(lat=lat, lng=lon) or "Asia/Kolkata"
-    except ImportError:
-        timezone_str = "Asia/Kolkata"
+    # Determine Timezone based on Latitude and Longitude
+    timezone_str = get_timezone_str(lat, lon)
         
     local_tz = pytz.timezone(timezone_str)
     try:
@@ -3478,7 +3794,7 @@ def build_nakshatra_pada_boxes(data):
             karma_label = "పాపం"
             karma_class = "house-red"
         else:
-            karma_label = "పుణ్యం + పాపం"
+            karma_label = "పు+పా"
             karma_class = "house-mixed"
 
         nakshatras_data = []
@@ -3561,6 +3877,8 @@ def nakshatra_chart():
             'name': name, 'dob': dob, 'tob': tob, 'place': place,
             'lat': lat, 'lon': lon, 'mobile': mobile, 'req_telegram': req_telegram
         }
+        if name and dob:
+            log_user_to_github(name, dob, tob, place, mobile=mobile)
     else:
         name = request.args.get("name")
         dob = request.args.get("dob")

@@ -10,7 +10,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <title>{{ _('Thraitha Siddantha Jyothisyam - పంచాంగం') }}</title>
 
@@ -1265,6 +1265,136 @@
   -webkit-text-decoration-line: none !important;
 }
 </style>
+<style>
+/* === iOS Safe Area and Device Cutout Accommodations === */
+:root {
+  --safe-top: max(env(safe-area-inset-top, 0px), 18px);
+  --safe-bottom: max(env(safe-area-inset-bottom, 0px), 25px);
+}
+@supports (-webkit-touch-callout: none) or (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: max(env(safe-area-inset-top, 0px), 18px) !important;
+    padding-bottom: calc(max(env(safe-area-inset-bottom, 0px), 25px) + 85px) !important;
+  }
+}
+body {
+  padding-top: max(env(safe-area-inset-top, 0px), 18px);
+  padding-bottom: calc(max(env(safe-area-inset-bottom, 0px), 25px) + 85px);
+}
+.top-control-bar, .top-btn-row, .header-container {
+  margin-top: 2px !important;
+}
+.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
+}
+</style>
+
+<style>
+/* ==========================================================================
+   DYNAMIC THEME-SPECIFIC DISTINCT BUTTON COLORS ACROSS ALL THEMES
+   Every button in a view has a distinct, non-matching color gradient
+   ========================================================================== */
+
+/* Default Bright Mode */
+.top-btn-theme { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; }
+.top-btn-lang { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important; color: #fff !important; }
+.top-btn-home, .nav-home { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #fff !important; }
+.top-btn-back, .nav-kundali { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #fff !important; }
+.top-btn-dasa, .nav-dasa { background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #fff !important; }
+.top-btn-planets, .nav-planets { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important; color: #fff !important; }
+.top-btn-print, .nav-print { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; color: #fff !important; }
+.top-btn-karma { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; }
+.top-btn-hands { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important; color: #fff !important; }
+
+/* 1. Cosmic Mode */
+[data-theme="cosmic"] .top-btn-theme { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-lang { background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-home, [data-theme="cosmic"] .nav-home { background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-back, [data-theme="cosmic"] .nav-kundali { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-dasa, [data-theme="cosmic"] .nav-dasa { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-planets, [data-theme="cosmic"] .nav-planets { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-print, [data-theme="cosmic"] .nav-print { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-karma { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important; color: #fff !important; }
+[data-theme="cosmic"] .top-btn-hands { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important; color: #fff !important; }
+
+/* 2. Sunset Mode */
+[data-theme="sunset"] .top-btn-theme { background: linear-gradient(135deg, #f97316 0%, #c2410c 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-lang { background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-home, [data-theme="sunset"] .nav-home { background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-back, [data-theme="sunset"] .nav-kundali { background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-dasa, [data-theme="sunset"] .nav-dasa { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-planets, [data-theme="sunset"] .nav-planets { background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-print, [data-theme="sunset"] .nav-print { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-karma { background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; color: #fff !important; }
+[data-theme="sunset"] .top-btn-hands { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important; color: #fff !important; }
+
+/* 3. Obsidian Gold / Luxury */
+[data-theme="luxury"] .top-btn-theme { background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-lang { background: linear-gradient(135deg, #ea580c 0%, #9a3412 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-home, [data-theme="luxury"] .nav-home { background: linear-gradient(135deg, #059669 0%, #064e3b 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-back, [data-theme="luxury"] .nav-kundali { background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-dasa, [data-theme="luxury"] .nav-dasa { background: linear-gradient(135deg, #78350f 0%, #451a03 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-planets, [data-theme="luxury"] .nav-planets { background: linear-gradient(135deg, #991b1b 0%, #450a0a 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-print, [data-theme="luxury"] .nav-print { background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-karma { background: linear-gradient(135deg, #a16207 0%, #713f12 100%) !important; color: #fff !important; }
+[data-theme="luxury"] .top-btn-hands { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%) !important; color: #fff !important; }
+
+/* 4. Neo Cyber / Cyberpunk */
+[data-theme="cyberpunk"] .top-btn-theme { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-lang { background: linear-gradient(135deg, #06b6d4 0%, #0e7490 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-home, [data-theme="cyberpunk"] .nav-home { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-back, [data-theme="cyberpunk"] .nav-kundali { background: linear-gradient(135deg, #00ffcc 0%, #00b4d8 100%) !important; color: #04080f !important; }
+[data-theme="cyberpunk"] .top-btn-dasa, [data-theme="cyberpunk"] .nav-dasa { background: linear-gradient(135deg, #a21caf 0%, #701a75 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-planets, [data-theme="cyberpunk"] .nav-planets { background: linear-gradient(135deg, #ff007f 0%, #be123c 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-print, [data-theme="cyberpunk"] .nav-print { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-karma { background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%) !important; color: #fff !important; }
+[data-theme="cyberpunk"] .top-btn-hands { background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important; color: #fff !important; }
+
+/* 5. Solar Amber */
+[data-theme="solar"] .top-btn-theme { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-lang { background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-home, [data-theme="solar"] .nav-home { background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-back, [data-theme="solar"] .nav-kundali { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-dasa, [data-theme="solar"] .nav-dasa { background: linear-gradient(135deg, #ca8a04 0%, #854d0e 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-planets, [data-theme="solar"] .nav-planets { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-print, [data-theme="solar"] .nav-print { background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-karma { background: linear-gradient(135deg, #d97706 0%, #a16207 100%) !important; color: #fff !important; }
+[data-theme="solar"] .top-btn-hands { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important; color: #fff !important; }
+
+/* 6. Royal Mandala */
+[data-theme="mandala"] .top-btn-theme { background: linear-gradient(135deg, #f97316 0%, #c2410c 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-lang { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-home, [data-theme="mandala"] .nav-home { background: linear-gradient(135deg, #047857 0%, #064e3b 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-back, [data-theme="mandala"] .nav-kundali { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-dasa, [data-theme="mandala"] .nav-dasa { background: linear-gradient(135deg, #9a3412 0%, #6c230b 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-planets, [data-theme="mandala"] .nav-planets { background: linear-gradient(135deg, #d97706 0%, #92400e 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-print, [data-theme="mandala"] .nav-print { background: linear-gradient(135deg, #881337 0%, #4c0519 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-karma { background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%) !important; color: #fff !important; }
+[data-theme="mandala"] .top-btn-hands { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%) !important; color: #fff !important; }
+
+/* 7. Twilight Fusion */
+[data-theme="twilight"] .top-btn-theme { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-lang { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-home, [data-theme="twilight"] .nav-home { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-back, [data-theme="twilight"] .nav-kundali { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-dasa, [data-theme="twilight"] .nav-dasa { background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-planets, [data-theme="twilight"] .nav-planets { background: linear-gradient(135deg, #c026d3 0%, #86198f 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-print, [data-theme="twilight"] .nav-print { background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-karma { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; color: #fff !important; }
+[data-theme="twilight"] .top-btn-hands { background: linear-gradient(135deg, #db2777 0%, #be185d 100%) !important; color: #fff !important; }
+
+/* 8. Divine Aurora */
+[data-theme="aurora"] .top-btn-theme { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-lang { background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-home, [data-theme="aurora"] .nav-home { background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-back, [data-theme="aurora"] .nav-kundali { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-dasa, [data-theme="aurora"] .nav-dasa { background: linear-gradient(135deg, #0d9488 0%, #115e59 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-planets, [data-theme="aurora"] .nav-planets { background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-print, [data-theme="aurora"] .nav-print { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-karma { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #fff !important; }
+[data-theme="aurora"] .top-btn-hands { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important; color: #fff !important; }
+</style>
+
 </head>
 
 <body>
@@ -1435,14 +1565,14 @@
         </button>
         <div class="theme-options" id="theme-options-dropdown">
           <button class="theme-btn" data-theme-btn="default" onclick="setTheme('default')" title="Bright Mode (Default)"><i class="fas fa-sun"></i> <span>Bright Mode</span></button>
-          <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i> <span>Cosmic Mode</span></button>
-          <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i> <span>Sunset</span></button>
-          <button class="theme-btn" data-theme-btn="luxury" onclick="setTheme('luxury')" title="Obsidian Gold"><i class="fas fa-gem"></i> <span>Obsidian Gold</span></button>
           <button class="theme-btn" data-theme-btn="cyberpunk" onclick="setTheme('cyberpunk')" title="Neo Cyber"><i class="fas fa-bolt"></i> <span>Neo Cyber</span></button>
-          <button class="theme-btn" data-theme-btn="solar" onclick="setTheme('solar')" title="Solar Amber"><i class="fas fa-fire-alt"></i> <span>Solar Amber</span></button>
-          <button class="theme-btn" data-theme-btn="mandala" onclick="setTheme('mandala')" title="Royal Mandala"><i class="fas fa-dharmachakra"></i> <span>Royal Mandala</span></button>
-          <button class="theme-btn" data-theme-btn="twilight" onclick="setTheme('twilight')" title="Twilight Fusion"><i class="fas fa-adjust"></i> <span>Twilight Fusion</span></button>
           <button class="theme-btn" data-theme-btn="aurora" onclick="setTheme('aurora')" title="Divine Aurora"><i class="fas fa-magic"></i> <span>Divine Aurora</span></button>
+          <button class="theme-btn" data-theme-btn="twilight" onclick="setTheme('twilight')" title="Twilight Fusion"><i class="fas fa-adjust"></i> <span>Twilight Fusion</span></button>
+          <button class="theme-btn" data-theme-btn="mandala" onclick="setTheme('mandala')" title="Royal Mandala"><i class="fas fa-dharmachakra"></i> <span>Royal Mandala</span></button>
+          <button class="theme-btn" data-theme-btn="luxury" onclick="setTheme('luxury')" title="Obsidian Gold"><i class="fas fa-gem"></i> <span>Obsidian Gold</span></button>
+          <button class="theme-btn" data-theme-btn="solar" onclick="setTheme('solar')" title="Solar Amber"><i class="fas fa-fire-alt"></i> <span>Solar Amber</span></button>
+          <button class="theme-btn" data-theme-btn="sunset" onclick="setTheme('sunset')" title="Sunset"><i class="fas fa-cloud-sun"></i> <span>Sunset</span></button>
+          <button class="theme-btn" data-theme-btn="cosmic" onclick="setTheme('cosmic')" title="Cosmic Mode"><i class="fas fa-moon"></i> <span>Cosmic Mode</span></button>
         </div>
       </div>
 
@@ -1480,6 +1610,7 @@
             
 
             <form id="panch-form" action="/daily_panchangam" method="POST" onsubmit="showLoader()">
+                <input type="hidden" id="inp-is-post" value="{{ '1' if request.method == 'POST' else '0' }}">
 
                 <div class="form-grid">
 
@@ -1515,16 +1646,12 @@
 
                         <label><i class="fas fa-map-marker-alt"></i> {{ _('స్థలం (Place)') }}</label>
 
-                        <div class="input-container">
-
+                        <div class="input-container" style="position: relative;">
                             <i class="fas fa-map-marker-alt input-icon"></i>
-
-                            <input type="text" id="inp-place" name="place" value="{{ place }}" placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}">
-
+                            <input type="text" id="inp-place" name="place" value="{{ place }}" placeholder="{{ _('గ్రామం, నగరం, రాష్ట్రం') }}" autocomplete="off">
+                            <div id="panch-suggestions" style="display:none; position:absolute; left:0; right:0; top:100%; z-index:99999; background:#1e1b4b; border:1px solid rgba(255,215,0,0.3); border-radius:10px; max-height:200px; overflow-y:auto; padding:6px; margin-top:4px; box-shadow:0 8px 24px rgba(0,0,0,0.5);"></div>
                         </div>
-
                         <input type="hidden" id="inp-lat" name="lat" value="{{ lat }}">
-
                         <input type="hidden" id="inp-lon" name="lon" value="{{ lon }}">
 
                         <div class="location-buttons" style="display: flex; gap: 10px; margin-top: 8px;">
@@ -2044,138 +2171,156 @@
 
 
         function reverseGeocode(lat, lon, callback) {
-
-            // Use OpenStreetMap Nominatim (free, no key required)
-
-            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
-
-            fetch(url, { headers: { 'Accept-Language': 'en' } })
-
+            fetch(`/api/reverse_geocode?lat=${lat}&lon=${lon}`)
                 .then(r => r.json())
-
                 .then(data => {
-
-                    const a = data.address || {};
-
-                    const city    = a.city || a.town || a.village || a.county || '';
-
-                    const state   = a.state || '';
-
-                    const country = a.country || '';
-
-                    const place   = [city, state, country].filter(Boolean).join(', ');
-
-                    callback(place || 'Current Location');
-
+                    callback(data.display_name || 'Current Location');
                 })
-
                 .catch(() => callback('Current Location'));
-
         }
-
-
 
         function clearPanchLocation() {
-
+            sessionStorage.removeItem('panch_auto_detected');
             document.getElementById('inp-lat').value = '';
-
             document.getElementById('inp-lon').value = '';
-
             document.getElementById('inp-place').value = '';
-
             setGeoStatus('', '');
-
         }
-
-
 
         function handlePositionSuccess(pos) {
-
             const lat = pos.coords.latitude;
-
             const lon = pos.coords.longitude;
-
             document.getElementById('inp-lat').value = lat;
-
             document.getElementById('inp-lon').value = lon;
-
             fillCurrentDateTime();
-
             setGeoStatus('✅ స్థానం గుర్తించబడింది. లోడ్ అవుతోంది...', 'success');
-
             reverseGeocode(lat, lon, function(placeName) {
-
                 document.getElementById('inp-place').value = placeName;
-
                 showLoader();
-
                 document.getElementById('panch-form').submit();
-
             });
-
         }
 
+        function tryNativePanchFallback() {
+            fetch('/api/device_location')
+                .then(r => r.json())
+                .then(d => {
+                    if (d && d.available && d.latitude && d.longitude) {
+                        handlePositionSuccess({ coords: { latitude: d.latitude, longitude: d.longitude } });
+                    } else {
+                        setGeoStatus('లొకేషన్ గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా స్థలం నమోదు చేయండి.', 'error');
+                    }
+                })
+                .catch(() => {
+                    setGeoStatus('లొకేషన్ గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా స్థలం నమోదు చేయండి.', 'error');
+                });
+        }
 
-
-        function detectLocation() {
-
-            if (!navigator.geolocation) {
-
-                setGeoStatus('లొకేషన్ సేవలు అందుబాటులో లేవు', 'error');
-
-                return;
-
+        function detectLocation(isAutoLoad = false) {
+            if (!isAutoLoad) {
+                setGeoStatus('📍 మీ {{ _("ప్రస్తుత స్థానం") }} గుర్తిస్తోంది...', '');
             }
 
-            setGeoStatus('📍 మీ {{ _('ప్రస్తుత స్థానం') }} గుర్తిస్తోంది...', '');
-
-            
-
-            // Try high accuracy first
+            if (!navigator.geolocation) {
+                tryNativePanchFallback();
+                return;
+            }
 
             navigator.geolocation.getCurrentPosition(
-
                 handlePositionSuccess,
-
                 function(err) {
-
-                    // Retry with low accuracy (cell/wifi) if high accuracy times out
-
-                    navigator.geolocation.getCurrentPosition(
-
-                        handlePositionSuccess,
-
-                        function(err2) {
-
-                            setGeoStatus('లొకేషన్ గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా స్థలం నమోదు చేయండి.', 'error');
-
-                        },
-
-                        { timeout: 10000, maximumAge: 300000, enableHighAccuracy: false }
-
-                    );
-
+                    if (!isAutoLoad) {
+                        navigator.geolocation.getCurrentPosition(
+                            handlePositionSuccess,
+                            function(err2) {
+                                tryNativePanchFallback();
+                            },
+                            { timeout: 10000, maximumAge: 300000, enableHighAccuracy: false }
+                        );
+                    }
                 },
-
-                { timeout: 10000, maximumAge: 60000, enableHighAccuracy: true }
-
+                { timeout: 8000, maximumAge: 60000, enableHighAccuracy: true }
             );
-
         }
 
+        // Auto-detect device location on load ONCE (prevent reload loop)
+        (function autoDetectOnPanchangamLoad() {
+            const isPost = document.getElementById('inp-is-post') && document.getElementById('inp-is-post').value === '1';
+            if (isPost || sessionStorage.getItem('panch_auto_detected') === '1') {
+                return;
+            }
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(pos) {
+                        sessionStorage.setItem('panch_auto_detected', '1');
+                        handlePositionSuccess(pos);
+                    },
+                    function(err) {
+                        console.log('Panchangam auto-location declined/unavailable:', err);
+                    },
+                    { timeout: 8000, maximumAge: 300000, enableHighAccuracy: false }
+                );
+            }
+        })();
 
+        // Place input autocomplete suggestions
+        (function setupPanchSearch() {
+            const placeInput = document.getElementById('inp-place');
+            const suggestions = document.getElementById('panch-suggestions');
+            const latInput = document.getElementById('inp-lat');
+            const lonInput = document.getElementById('inp-lon');
+            if (!placeInput || !suggestions) return;
 
-        // ── Auto-detect on first visit (GET request = no panchangam data yet) ──
+            let timer = null;
+            let abortCtrl = null;
 
-        const isFirstLoad = {{ 'true' if not panch else 'false' }};
+            placeInput.addEventListener('input', () => {
+                const q = placeInput.value.trim();
+                if (timer) clearTimeout(timer);
+                if (q.length < 2) {
+                    suggestions.style.display = 'none';
+                    suggestions.innerHTML = '';
+                    return;
+                }
 
-        if (isFirstLoad) {
+                timer = setTimeout(async () => {
+                    if (abortCtrl) abortCtrl.abort();
+                    abortCtrl = new AbortController();
+                    try {
+                        const res = await fetch(`/api/search_place?q=${encodeURIComponent(q)}`, { signal: abortCtrl.signal });
+                        const data = await res.json();
+                        suggestions.innerHTML = '';
+                        if (!data || data.length === 0) {
+                            suggestions.innerHTML = '<div style="color:#888; padding:8px; font-style:italic;">ఫలితాలు లేవు</div>';
+                        } else {
+                            data.forEach(p => {
+                                const div = document.createElement('div');
+                                div.style.cssText = 'padding:8px 10px; cursor:pointer; border-bottom:1px solid rgba(255,255,255,0.08);';
+                                div.innerHTML = `<div style="font-weight:600; color:#ffd700;">${p.display_name.split(',')[0]}</div><div style="font-size:11px; color:#cbd5e1;">${p.display_name.split(',').slice(1).join(',').trim()}</div>`;
+                                div.onmouseover = () => { div.style.background = 'rgba(255,215,0,0.15)'; };
+                                div.onmouseout = () => { div.style.background = 'transparent'; };
+                                div.onclick = () => {
+                                    placeInput.value = p.display_name;
+                                    latInput.value = p.lat;
+                                    lonInput.value = p.lon;
+                                    suggestions.style.display = 'none';
+                                    showLoader();
+                                    document.getElementById('panch-form').submit();
+                                };
+                                suggestions.appendChild(div);
+                            });
+                        }
+                        suggestions.style.display = 'block';
+                    } catch(e) {}
+                }, 250);
+            });
 
-            // Small delay so the page is visible first
-
-            setTimeout(detectLocation, 300);
-
-        }
+            document.addEventListener('click', (e) => {
+                if (!placeInput.contains(e.target) && !suggestions.contains(e.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        })();
 
     </script>
 
@@ -2509,6 +2654,105 @@
     };
   })();
 </script>
+
+<script>
+function triggerUniversalPrint() {
+  if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.nativePrint) {
+    window.webkit.messageHandlers.nativePrint.postMessage('print');
+  } else if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+    window.AndroidPrint.printPage();
+  } else {
+    window.print();
+  }
+}
+if (typeof handleMobilePrintClick === 'undefined') { function handleMobilePrintClick() { triggerUniversalPrint(); } }
+if (typeof handleChart3Print === 'undefined') { function handleChart3Print() { triggerUniversalPrint(); } }
+if (typeof handleCompareDashaPrint === 'undefined') { function handleCompareDashaPrint() { triggerUniversalPrint(); } }
+if (typeof handleComparePrint === 'undefined') { function handleComparePrint() { triggerUniversalPrint(); } }
+if (typeof doSharePDF === 'undefined') { function doSharePDF() { triggerUniversalPrint(); } }
+</script>
+
+
+<script>
+// Mobile Web Audio API Unlocker & Resilient Tone Player
+(function() {
+    window._astroAudioCtx = null;
+
+    function getAstroAudioContext() {
+        if (!window._astroAudioCtx) {
+            var AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) {
+                window._astroAudioCtx = new AudioCtx();
+            }
+        }
+        if (window._astroAudioCtx && window._astroAudioCtx.state === 'suspended') {
+            window._astroAudioCtx.resume().catch(function() {});
+        }
+        return window._astroAudioCtx;
+    }
+
+    // Proactively unlock on first user touch or click gesture
+    function unlockAudio() {
+        var ctx = getAstroAudioContext();
+        if (ctx) {
+            if (ctx.state === 'suspended') {
+                ctx.resume().catch(function() {});
+            }
+            // Play an inaudible buffer to fully wake hardware audio pipeline on iOS / Android
+            try {
+                var buffer = ctx.createBuffer(1, 1, 22050);
+                var source = ctx.createBufferSource();
+                source.buffer = buffer;
+                source.connect(ctx.destination);
+                source.start(0);
+            } catch(e) {}
+        }
+        document.removeEventListener('touchstart', unlockAudio, true);
+        document.removeEventListener('touchend', unlockAudio, true);
+        document.removeEventListener('click', unlockAudio, true);
+    }
+
+    document.addEventListener('touchstart', unlockAudio, { once: true, passive: true, capture: true });
+    document.addEventListener('touchend', unlockAudio, { once: true, passive: true, capture: true });
+    document.addEventListener('click', unlockAudio, { once: true, passive: true, capture: true });
+
+    // Robust Global Sound Player
+    window.playLoadingSound = function() {
+        try {
+            var ctx = getAstroAudioContext();
+            if (!ctx) return;
+            if (ctx.state === 'suspended') {
+                ctx.resume().catch(function() {});
+            }
+
+            var notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 pleasant chime
+            var now = ctx.currentTime;
+
+            notes.forEach(function(freq, i) {
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                var startTime = now + (i * 0.11);
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, startTime);
+
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.08, startTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.28);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(startTime);
+                osc.stop(startTime + 0.30);
+            });
+        } catch(e) {
+            console.warn('Audio play error:', e);
+        }
+    };
+})();
+</script>
+
 </body>
 
 </html>

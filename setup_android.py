@@ -19,7 +19,7 @@ for pattern in ["astro_constants*.json", "bhava_lord_rules*.json", "detailed_bha
     for f in glob.glob(os.path.join(base_dir, pattern)):
         shutil.copy2(f, python_dst)
 
-for fname in ["astro_qa_rules.txt", "extracted_rules.txt", "user_data.txt"]:
+for fname in ["astro_qa_rules.txt", "extracted_rules.txt", "user_data.txt", "swisseph.py"]:
     src_f = os.path.join(base_dir, fname)
     if os.path.exists(src_f):
         shutil.copy2(src_f, python_dst)

@@ -1648,3 +1648,4 @@
 1647. [24-Sep-2026 19:34:10] Name: మహీంద్రా పెళ్లి , DOB: 2013-05-26, TOB: 21:00, Place: Bengaluru, Karnataka, India
 1648. [24-Sep-2026 19:34:29] Name: మహీంద్రా పెళ్లి , DOB: 2013-05-26, TOB: 16:00, Place: Bengaluru, Karnataka, India
 1649. [24-Sep-2026 19:34:40] Name: మహీంద్రా పెళ్లి , DOB: 2013-05-26, TOB: 13:00, Place: Bengaluru, Karnataka, India
+1650. [24-Sep-2026 19:38:04] Name: మహీంద్రా , DOB: 1985-07-19, TOB: 08:05, Place: Nellore, Andhra Pradesh, India

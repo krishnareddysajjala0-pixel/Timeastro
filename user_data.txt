@@ -1669,3 +1669,4 @@
 1668. [26-Sep-2026 02:19:48] Name: Harshitha, DOB: 2004-06-19, TOB: 23:00, Place: Madanapalle, Annamayya, Andhra Pradesh, 517300, India
 1669. [26-Sep-2026 02:35:15] Name: Narayanachari, DOB: 1976-10-31, TOB: 18:20, Place: Mudigubba, Sri Sathya Sai, Andhra Pradesh, India
 1670. [26-Sep-2026 02:44:28] Name: Siddhu , DOB: 2025-10-10, TOB: 17:30, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
+1671. [26-Sep-2026 03:01:58] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, 516360, India

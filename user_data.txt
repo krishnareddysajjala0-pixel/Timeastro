@@ -1673,3 +1673,4 @@
 1672. [26-Sep-2026 03:02:18] Name: UPENDRA KUMAR, DOB: 1986-06-06, TOB: 06:05, Place: Proddatur, YSR Kadapa, Andhra Pradesh, 516360, India
 1673. [26-Sep-2026 04:56:38] Name: మనీ , DOB: 2026-09-25, TOB: 08:20, Place: Ashburn, Virginia, United States
 1674. [26-Sep-2026 04:58:13] Name: Niharika, DOB: 2000-01-30, TOB: 12:00, Place: Hyd
+1675. [26-Sep-2026 05:00:44] Name: మనీ , DOB: 2026-09-25, TOB: 12:20, Place: Bengaluru, Karnataka, India

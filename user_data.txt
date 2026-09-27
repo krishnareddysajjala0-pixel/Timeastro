@@ -1726,3 +1726,4 @@
 1725. [27-Sep-2026 09:00:17] Name: Sivanjineyulu, DOB: 1990-02-23, TOB: 02:30, Place: Bandarlapalli, kolimigundla mandal 
 1726. [27-Sep-2026 09:04:15] Name: Moksha Chaithanya , DOB: 2013-03-20, TOB: 05:25, Place: Hyderabad 
 1727. [27-Sep-2026 09:06:18] Name: Sivanjineyulu, DOB: 1990-02-23, TOB: 02:30, Place: Bandarlapalli, kolimigundla mandal 
+1728. [27-Sep-2026 09:06:49] Name: Suresh , DOB: 1995-12-05, TOB: 04:30, Place: Kolimigundla, Andhra Pradesh, India

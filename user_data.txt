@@ -1725,3 +1725,4 @@
 1724. [27-Sep-2026 08:56:38] Name: Naveen, DOB: 2000-10-01, TOB: 04:00, Place: Bandarlapalli, kolimigundla mandal
 1725. [27-Sep-2026 09:00:17] Name: Sivanjineyulu, DOB: 1990-02-23, TOB: 02:30, Place: Bandarlapalli, kolimigundla mandal 
 1726. [27-Sep-2026 09:04:15] Name: Moksha Chaithanya , DOB: 2013-03-20, TOB: 05:25, Place: Hyderabad 
+1727. [27-Sep-2026 09:06:18] Name: Sivanjineyulu, DOB: 1990-02-23, TOB: 02:30, Place: Bandarlapalli, kolimigundla mandal 

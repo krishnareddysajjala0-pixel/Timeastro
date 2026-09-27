@@ -1722,3 +1722,4 @@
 1721. [27-Sep-2026 08:44:37] Name: Naveen, DOB: 2000-01-10, TOB: 04:00, Place: Kolimigundla 
 1722. [27-Sep-2026 08:48:42] Name: Naveen, DOB: 2000-01-10, TOB: 04:00, Place: Tadipatri 
 1723. [27-Sep-2026 08:52:08] Name: Naveen, DOB: 2000-10-01, TOB: 04:00, Place: Tadipatri 
+1724. [27-Sep-2026 08:56:38] Name: Naveen, DOB: 2000-10-01, TOB: 04:00, Place: Bandarlapalli, kolimigundla mandal

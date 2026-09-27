@@ -1718,3 +1718,4 @@
 1717. [27-Sep-2026 06:59:24] Name: Chittakka , DOB: 1998-11-20, TOB: 01:40, Place: Garladinne, Anantapuram, Andhra Pradesh, India
 1718. [27-Sep-2026 07:00:29] Name: Chittakka , DOB: 1998-11-20, TOB: 01:40, Place: Garladinne, Anantapuram, Andhra Pradesh, India
 1719. [27-Sep-2026 07:04:02] Name: Chittakka , DOB: 1998-11-20, TOB: 01:40, Place: Garladinne, Anantapuram, Andhra Pradesh, India
+1720. [27-Sep-2026 08:44:30] Name: Naveen, DOB: 2000-01-10, TOB: 04:00, Place: Kolimigundla

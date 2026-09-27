@@ -1741,3 +1741,4 @@
 1740. [27-Sep-2026 10:11:30] Name: Sivanjineyulu , DOB: 1990-02-23, TOB: 02:30, Place: Kolimigundla, Nandyal, Andhra Pradesh, 518123, India
 1741. [27-Sep-2026 10:15:01] Name: Sivanjineyulu , DOB: 1990-02-23, TOB: 02:30, Place: Kolimigundla, Nandyal, Andhra Pradesh, 518123, India
 1742. [27-Sep-2026 10:18:39] Name: Sivanjineyulu , DOB: 1990-02-23, TOB: 02:30, Place: Kolimigundla, Nandyal, Andhra Pradesh, 518123, India
+1743. [27-Sep-2026 10:22:04] Name: Sankar, DOB: 1998-01-04, TOB: 03:30, Place: Kolimigundla, Nandyal, Andhra Pradesh, 518123, India

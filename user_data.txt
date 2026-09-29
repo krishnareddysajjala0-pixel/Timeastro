@@ -1756,3 +1756,4 @@
 1755. [28-Sep-2026 13:52:28] Name: Vuyyuru Srinivas Reddy , DOB: 1975-04-20, TOB: 18:00, Place: Ongole, Andhra Pradesh, India
 1756. [28-Sep-2026 16:30:20] Name: Subbu, DOB: 1993-09-06, TOB: 07:03, Place: Nellore, Andhra Pradesh, India
 1757. [29-Sep-2026 01:53:48] Name: Job, DOB: 2026-10-01, TOB: 09:30, Place: Bengaluru (Bangalore), Karnataka, India
+1758. [29-Sep-2026 04:06:56] Name: Ravali, DOB: 2000-07-05, TOB: 20:50, Place: Karimnagar, Telangana, India

@@ -1824,3 +1824,4 @@
 1823. [02-Oct-2026 15:12:49] Name: GAYATHRI , DOB: 2027-01-15, TOB: 08:40, Place: Bangalore 
 1824. [02-Oct-2026 15:14:26] Name: Raju, DOB: 1989-03-27, TOB: 04:30, Place: Jammikunta mandal, Telangana, India
 1825. [02-Oct-2026 15:15:40] Name: GAYATHRI , DOB: 2027-01-15, TOB: 08:40, Place: Ashburn, Virginia, United States
+1826. [02-Oct-2026 15:15:51] Name: Navya, DOB: 1995-10-30, TOB: 04:30, Place: Jammikunta mandal, Telangana, India

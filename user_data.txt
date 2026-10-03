@@ -1846,3 +1846,4 @@
 1845. [03-Oct-2026 14:11:33] Name: Bhaskar , DOB: 1983-07-01, TOB: 20:00, Place: Madanapalli, Surappavari Gudem, Buttayagudem, Eluru, Andhra Pradesh, 534448, India
 1846. [03-Oct-2026 14:13:05] Name: Chandrakala, DOB: 1997-02-23, TOB: 09:00, Place: Madanapalli, Surappavari Gudem, Buttayagudem, Eluru, Andhra Pradesh, 534448, India
 1847. [03-Oct-2026 14:15:48] Name: Rishi, DOB: 2013-12-25, TOB: 16:15, Place: Madanapalli, Surappavari Gudem, Buttayagudem, Eluru, Andhra Pradesh, 534448, India
+1848. [03-Oct-2026 14:19:33] Name: Thanishik, DOB: 2020-07-02, TOB: 02:15, Place: Madanapalli, Surappavari Gudem, Buttayagudem, Eluru, Andhra Pradesh, 534448, India

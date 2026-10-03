@@ -1856,3 +1856,4 @@
 1855. [03-Oct-2026 16:31:13] Name: Navami chandru, DOB: 2018-02-09, TOB: 13:05, Place: Kolar, Karnataka, India
 1856. [03-Oct-2026 16:31:15] Name: Navami chandru, DOB: 2018-02-09, TOB: 13:05, Place: Kolar, Karnataka, India
 1857. [03-Oct-2026 19:39:08] Name: Kishor , DOB: 2001-04-16, TOB: 11:00, Place: Tadipatri, Tadpatri, Anantapuram, Andhra Pradesh, 515400, India
+1858. [03-Oct-2026 22:04:49] Name: A, DOB: 2000-07-02, TOB: 18:01, Place: Vinukonda, Palnadu, Andhra Pradesh, 522647, India

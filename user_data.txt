@@ -1867,3 +1867,4 @@
 1866. [05-Oct-2026 01:54:02] Name: Hunsur , DOB: 1993-06-23, TOB: 22:30, Place: Bengaluru, Karnataka, India
 1867. [05-Oct-2026 01:55:58] Name: Hunsur , DOB: 1993-06-23, TOB: 22:30, Place: Bengaluru, Karnataka, India
 1868. [05-Oct-2026 05:44:39] Name: సత్యనారాయణ , DOB: 1969-08-01, TOB: 00:34, Place: Srikakulam, Andhra Pradesh, India
+1869. [05-Oct-2026 05:50:57] Name: Koushik chandru, DOB: 2014-12-01, TOB: 09:44, Place: Kolar, Karnataka, India

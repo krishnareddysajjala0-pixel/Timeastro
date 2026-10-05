@@ -1877,3 +1877,4 @@
 1876. [05-Oct-2026 07:48:09] Name: ఘన , DOB: 2005-01-13, TOB: 05:20, Place: Anantapur, Andhra Pradesh, India
 1877. [05-Oct-2026 07:56:14] Name: ఆది , DOB: 2013-09-08, TOB: 17:30, Place: Anantapur, Andhra Pradesh, India
 1878. [05-Oct-2026 14:00:02] Name: Shashikanth Thangallapally, DOB: 1992-06-08, TOB: 15:05, Place: Bhongiri mandal, Telangana, India
+1879. [05-Oct-2026 14:00:21] Name: Thangallapally Shashikanth, DOB: 1992-06-08, TOB: 15:05, Place: Bhongiri mandal, Telangana, India

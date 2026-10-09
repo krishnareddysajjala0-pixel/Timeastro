@@ -1945,3 +1945,4 @@
 1944. [09-Oct-2026 16:11:49] Name: vijay kumar, DOB: 1993-12-01, TOB: 22:30, Place: srinivasa pura kolar
 1945. [09-Oct-2026 16:26:33] Name: vennela, DOB: 2006-07-22, TOB: 02:45, Place: hosakote Bangalore 
 1946. [09-Oct-2026 16:27:50] Name: vennela, DOB: 2006-07-22, TOB: 02:45, Place: hosakote Bangalore 
+1947. [09-Oct-2026 19:51:34] Name: Pelli, DOB: 1996-08-28, TOB: 05:15, Place: Devanahalli taluku, Karnataka, India

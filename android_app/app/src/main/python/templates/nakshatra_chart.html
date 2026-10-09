@@ -24,8 +24,6 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <link rel="stylesheet" href="/static/css/theme-fonts.css">
 
   
@@ -1157,6 +1155,15 @@
 
       font-weight: 900 !important;
 
+    }
+
+    .planet-deg-suffix {
+      font-size: 8.5px;
+      opacity: 0.88;
+      margin-left: 2px;
+      font-weight: 700;
+      display: inline-block;
+      vertical-align: baseline;
     }
 
 
@@ -2745,6 +2752,7 @@ body {
 
   <!-- Page Header -->
 
+  <div id="nakshatra-pdf-export-container">
   <div class="page-header">
 
     <div class="main-title">
@@ -2815,15 +2823,15 @@ body {
 
                   {% if occ.is_lagna %}
 
-                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}</span>
+                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% elif occ.is_hand %}
 
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}</span>
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% else %}
 
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}</span>
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% endif %}
 
@@ -3277,16 +3285,37 @@ body {
 
     };
 
-    window.doSharePDF = function () {
+        window.doSharePDF = function(action) {
+      if (!action) action = 'print';
       var pTitle = "{{ _('నక్షత్ర పాద కుండలి') }}";
-      if (pTitle) {
-        document.title = pTitle;
+      let uName = "{{ name|default('') }}".trim();
+      let title = (uName ? (uName + ' ') : '') + pTitle;
+      document.title = title;
+
+      // 1. Native iOS WKWebView bridge
+      if (window.webkit && window.webkit.messageHandlers) {
+        if (action === 'pdf' && window.webkit.messageHandlers.nativeSavePDF) {
+          window.webkit.messageHandlers.nativeSavePDF.postMessage({ title: title });
+          return;
+        }
+        if (window.webkit.messageHandlers.nativePrint) {
+          window.webkit.messageHandlers.nativePrint.postMessage({ title: title });
+          return;
+        }
       }
+
+      // 2. Android App
       if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
         window.AndroidPrint.printPage();
-      } else {
-        window.print();
+        return;
       }
+
+      // 3. Desktop / Safari
+      window.print();
+    };
+
+    window.triggerDirectPDFDownload = function() {
+      window.doSharePDF('pdf');
     };
 
   </script>

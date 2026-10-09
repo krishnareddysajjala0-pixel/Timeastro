@@ -40,6 +40,39 @@
 
     })();
 
+    window.handleComparePrint = function(action) {
+      if (!action) action = 'print';
+      var overlay = document.getElementById('loading-overlay');
+      if (overlay) overlay.style.display = 'none';
+
+      var pTitle = "{{ _('జాతకము పొంతన') }}";
+      if (pTitle) {
+        document.title = pTitle;
+      }
+
+      // 1. Native iOS WKWebView bridge
+      if (window.webkit && window.webkit.messageHandlers) {
+        if (action === 'pdf' && window.webkit.messageHandlers.nativeSavePDF) {
+          window.webkit.messageHandlers.nativeSavePDF.postMessage({ title: pTitle });
+          return;
+        }
+        if (window.webkit.messageHandlers.nativePrint) {
+          window.webkit.messageHandlers.nativePrint.postMessage({ title: pTitle });
+          return;
+        }
+      }
+
+      // 2. Android App
+      if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+        window.AndroidPrint.printPage();
+        return;
+      }
+
+      // 3. Desktop / Safari
+      window.print();
+    };
+    window.triggerUniversalPrint = window.handleComparePrint;
+
   </script>
 
   <style>
@@ -58,7 +91,7 @@
 
     html {
 
-      background-color: #0a0a0a;
+      background-color: #0c0c0c !important;
 
     }
 
@@ -260,51 +293,51 @@
 
     }
 
-    /* ☀️ Solar Amber — Warm sunlit papyrus glow */
+    /* ☀️ Solar Amber — Warm dark amber & golden glow */
 
     [data-theme="solar"] {
 
-      --bg-primary: linear-gradient(150deg, #fffbeb 0%, #fef3c7 45%, #fff7ed 100%);
+      --bg-primary: radial-gradient(ellipse at 50% 20%, #2a1803 0%, #130a01 60%, #080400 100%);
 
-      --text-main: #451a03;
+      --text-main: #fef3c7;
 
-      --text-muted: #92400e;
+      --text-muted: #fbbf24;
 
-      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-bg: rgba(28, 18, 5, 0.94);
 
-      --card-border: rgba(217, 119, 6, 0.32);
+      --card-border: rgba(217, 119, 6, 0.4);
 
-      --input-bg: #ffffff;
+      --input-bg: rgba(20, 10, 2, 0.92);
 
       --input-border: rgba(217, 119, 6, 0.4);
 
-      --input-focus-border: #d97706;
+      --input-focus-border: #f59e0b;
 
-      --input-focus-shadow: 0 0 16px rgba(217, 119, 6, 0.28);
+      --input-focus-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
 
       --btn-show-bg: linear-gradient(135deg, #b45309, #f59e0b);
 
       --btn-show-text: #ffffff;
 
-      --shadow-color: rgba(120, 53, 15, 0.12);
+      --shadow-color: rgba(0, 0, 0, 0.85);
 
-      --header-bg: linear-gradient(45deg, #451a03, #b45309);
+      --header-bg: linear-gradient(45deg, #fef3c7, #f59e0b);
 
-      --label-bg: rgba(254, 243, 199, 0.8);
+      --label-bg: rgba(45, 25, 5, 0.85);
 
-      --label-text: #78350f;
+      --label-text: #fef3c7;
 
       --house-no-bg: rgba(245, 158, 11, 0.22);
 
-      --house-no-text: #451a03;
+      --house-no-text: #fbbf24;
 
-      --box-border: rgba(217, 119, 6, 0.28);
+      --box-border: rgba(217, 119, 6, 0.35);
 
-      --box-border-hover: #b45309;
+      --box-border-hover: #f59e0b;
 
-      --color-pos: #059669;
+      --color-pos: #10b981;
 
-      --color-neg: #dc2626;
+      --color-neg: #f43f5e;
 
     }
 
@@ -360,17 +393,17 @@
 
     }
 
-    /* 🌆 Twilight Fusion — Pastel dusk sky with deep violet cards */
+    /* 🌆 Twilight Fusion — Deep mystic violet and starlight glow */
 
     [data-theme="twilight"] {
 
-      --bg-primary: linear-gradient(160deg, #fde68a 0%, #fca5a5 35%, #c4b5fd 70%, #a5b4fc 100%);
+      --bg-primary: linear-gradient(160deg, #1d1135 0%, #120924 50%, #080312 100%);
 
       --text-main: #f0eeff;
 
       --text-muted: #ddd6fe;
 
-      --card-bg: rgba(17, 12, 46, 0.93);
+      --card-bg: rgba(17, 12, 46, 0.94);
 
       --card-border: rgba(196, 181, 253, 0.45);
 
@@ -386,9 +419,9 @@
 
       --btn-show-text: #ffffff;
 
-      --shadow-color: rgba(30, 27, 75, 0.25);
+      --shadow-color: rgba(0, 0, 0, 0.85);
 
-      --header-bg: linear-gradient(45deg, #1e1b4b, #7c3aed, #c4b5fd);
+      --header-bg: linear-gradient(45deg, #f0eeff, #c4b5fd, #7c3aed);
 
       --label-bg: rgba(10, 8, 30, 0.85);
 
@@ -506,9 +539,11 @@
 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-      background: var(--bg-primary);
+      background-color: #0c0c0c !important;
 
-      color: var(--text-main);
+      background: var(--bg-primary, #0c0c0c) !important;
+
+      color: var(--text-main, #f8fafc) !important;
 
       line-height: 1.6;
 
@@ -558,9 +593,11 @@
 
       text-align: center;
 
-      margin-bottom: 12px ;
+      margin-top: 2px !important;
 
-      padding-bottom: 20px;
+      margin-bottom: 2px !important;
+
+      padding-bottom: 2px !important;
 
       position: relative;
 
@@ -570,21 +607,7 @@
 
     .header::after {
 
-      content: '';
-
-      position: absolute;
-
-      bottom: 0;
-
-      left: 25%;
-
-      width: 50%;
-
-      height: 3px;
-
-      background: linear-gradient(90deg, transparent, gold, transparent);
-
-      border-radius: 3px;
+      display: none !important;
 
     }
 
@@ -614,7 +637,7 @@
 
     .page-title {
 
-      font-size: 36px;
+      font-size: 20px !important;
 
       color: var(--text-main);
 
@@ -622,7 +645,9 @@
 
       text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
 
-      margin-bottom: 1.5em;
+      margin-top: 2px !important;
+
+      margin-bottom: 2px !important;
 
     }
 
@@ -788,19 +813,19 @@
 
       max-width: 900px;
 
-      margin: 0 auto 20px;
+      margin: 2px auto 4px !important;
 
-      padding: 20px;
+      padding: 8px 6px !important;
 
       background: var(--card-bg);
 
       backdrop-filter: blur(10px);
 
-      border-radius: 20px;
+      border-radius: 16px;
 
       border: 1px solid var(--card-border);
 
-      box-shadow: 0 20px 40px var(--shadow-color);
+      box-shadow: 0 10px 25px var(--shadow-color);
 
       display: flex;
 
@@ -1948,12 +1973,14 @@
 
 
 
-      .lagna {
-
-        border: 3px solid #000 !important;
-
+      .box.lagna, .lagna {
+        border: 8px double #000000 !important;
+        background: 
+          linear-gradient(#ffffff, #ffffff) padding-box,
+          linear-gradient(#006400, #006400) border-box !important;
         box-shadow: none !important;
-
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
       
@@ -2492,7 +2519,7 @@
 
         flex-direction: column;
 
-        gap: 20px;
+        gap: 4px !important;
 
         width: 100%;
 
@@ -2500,7 +2527,7 @@
 
         margin: 0 auto;
 
-        padding: 0 20px;
+        padding: 0 4px !important;
 
     }
 
@@ -2542,17 +2569,19 @@
 
         color: #ffd700;
 
-        font-size: 24px;
+        font-size: 19px !important;
 
         font-weight: bold;
 
-        margin-bottom: 20px;
+        margin-top: 2px !important;
+
+        margin-bottom: 2px !important;
 
         text-shadow: 0 2px 5px rgba(255, 215, 0, 0.4);
 
-        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        border-bottom: none !important;
 
-        padding-bottom: 10px;
+        padding-bottom: 2px !important;
 
     }
 
@@ -2774,7 +2803,7 @@
 
   <style>
 
-    .nak-grid-wrapper { display: flex !important; flex-direction: column !important; gap: 35px; width: 100%; max-width: 1100px; margin: 0 auto; }
+    .nak-grid-wrapper { display: flex !important; flex-direction: column !important; gap: 8px !important; width: 100%; max-width: 1100px; margin: 2px auto !important; }
 
     @media print {
 
@@ -2829,6 +2858,15 @@
     .lagna-occupant { background: #b45309; color: #ffffff; border: 1px solid #fbbf24; }
 
     .planet-name-pill { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.2); }
+
+    .planet-deg-suffix {
+      font-size: 8.5px;
+      opacity: 0.88;
+      margin-left: 2px;
+      font-weight: 700;
+      display: inline-block;
+      vertical-align: baseline;
+    }
 
     .center-box { grid-column: 2 / 4; grid-row: 2 / 4; display: flex; align-items: center; justify-content: center; text-align: center; border: 2px solid var(--box-border, #334155); border-radius: 12px; background: var(--card-bg, rgba(15, 23, 42, 0.9)); padding: 10px; }
 
@@ -4046,15 +4084,15 @@ body {
         </div>
       </div>
     </div>
-<div class="header" style="margin-top: 20px;">
+<div class="header" style="margin-top: 4px !important; margin-bottom: 2px !important; padding-bottom: 2px !important;">
 
-    <h2 class="page-title" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <h2 class="page-title" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 !important; font-size: 19px !important;">
 
-      <img src="/static/images/brand_logo.png" alt="Logo" style="height: 24px; width: auto; object-fit: contain; vertical-align: middle;">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="height: 20px; width: auto; object-fit: contain; vertical-align: middle;">
 
-      {{ _('జాఫతకము పొంతన') }}
+      {{ _('జాతకము పొంతన') }}
 
-      <img src="/static/images/brand_logo.png" alt="Logo" style="height: 24px; width: auto; object-fit: contain; vertical-align: middle;">
+      <img src="/static/images/brand_logo.png" alt="Logo" style="height: 20px; width: auto; object-fit: contain; vertical-align: middle;">
 
     </h2>
 
@@ -5339,7 +5377,9 @@ body {
 
     html {
 
-      background-color: transparent;
+      background-color: #0c0c0c !important;
+
+      background: var(--bg-primary, #0c0c0c) !important;
 
     }
 
@@ -5347,41 +5387,41 @@ body {
 
     :root {
 
-      --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --bg-primary: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b0f19 60%, #030712 100%);
 
-      --text-main: #0f172a;
+      --text-main: #f8fafc;
 
-      --text-muted: #334155;
+      --text-muted: #cbd5e1;
 
-      --card-bg: rgba(255, 255, 255, 0.98);
+      --card-bg: rgba(15, 23, 42, 0.92);
 
-      --card-border: rgba(15, 23, 42, 0.15);
+      --card-border: rgba(255, 255, 255, 0.15);
 
-      --box-border: #334155;
+      --box-border: rgba(255, 255, 255, 0.2);
 
-      --box-border-hover: #b45309;
+      --box-border-hover: #fbbf24;
 
-      --header-bg: linear-gradient(45deg, #b45309, #d97706);
+      --header-bg: linear-gradient(45deg, #fbbf24, #f59e0b);
 
-      --shadow-color: rgba(0, 0, 0, 0.1);
+      --shadow-color: rgba(0, 0, 0, 0.6);
 
-      --color-pos: #059669;
+      --color-pos: #10b981;
 
-      --color-neg: #dc2626;
+      --color-neg: #f43f5e;
 
-      --label-bg: rgba(15, 23, 42, 0.05);
+      --label-bg: rgba(0, 0, 0, 0.5);
 
-      --label-text: #0f172a;
+      --label-text: #ffffff;
 
-      --house-no-bg: rgba(15, 23, 42, 0.1);
+      --house-no-bg: rgba(255, 255, 255, 0.12);
 
-      --house-no-text: #0f172a;
+      --house-no-text: #ffffff;
 
-      --nak-title-color: #b45309;
+      --nak-title-color: #fbbf24;
 
-      --pada-num-color: #475569;
+      --pada-num-color: #94a3b8;
 
-      --pada-active-color: #0284c7;
+      --pada-active-color: #38bdf8;
 
     }
 
@@ -5557,41 +5597,41 @@ body {
 
     [data-theme="solar"] {
 
-      --bg-primary: linear-gradient(150deg, #fffbeb 0%, #fef3c7 45%, #fff7ed 100%);
+      --bg-primary: radial-gradient(ellipse at 50% 20%, #2a1803 0%, #130a01 60%, #080400 100%);
 
-      --text-main: #451a03;
+      --text-main: #fef3c7;
 
-      --text-muted: #92400e;
+      --text-muted: #fbbf24;
 
-      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-bg: rgba(28, 18, 5, 0.94);
 
-      --card-border: rgba(217, 119, 6, 0.32);
+      --card-border: rgba(217, 119, 6, 0.4);
 
       --box-border: rgba(217, 119, 6, 0.35);
 
-      --box-border-hover: #b45309;
+      --box-border-hover: #f59e0b;
 
-      --header-bg: linear-gradient(45deg, #451a03, #b45309);
+      --header-bg: linear-gradient(45deg, #fef3c7, #f59e0b);
 
-      --shadow-color: rgba(120, 53, 15, 0.12);
+      --shadow-color: rgba(0, 0, 0, 0.85);
 
-      --label-bg: rgba(254, 243, 199, 0.8);
+      --label-bg: rgba(45, 25, 5, 0.85);
 
-      --label-text: #78350f;
+      --label-text: #fef3c7;
 
       --house-no-bg: rgba(245, 158, 11, 0.22);
 
-      --house-no-text: #451a03;
+      --house-no-text: #fbbf24;
 
-      --color-pos: #059669;
+      --color-pos: #10b981;
 
-      --color-neg: #dc2626;
+      --color-neg: #f43f5e;
 
-      --nak-title-color: #b45309;
+      --nak-title-color: #fbbf24;
 
-      --pada-num-color: #92400e;
+      --pada-num-color: #d97706;
 
-      --pada-active-color: #ea580c;
+      --pada-active-color: #f59e0b;
 
     }
 
@@ -5645,7 +5685,7 @@ body {
 
     [data-theme="twilight"] {
 
-      --bg-primary: linear-gradient(160deg, #fde68a 0%, #fca5a5 35%, #c4b5fd 70%, #a5b4fc 100%);
+      --bg-primary: linear-gradient(160deg, #1d1135 0%, #120924 50%, #080312 100%);
 
       --text-main: #f0eeff;
 
@@ -5659,9 +5699,9 @@ body {
 
       --box-border-hover: #a78bfa;
 
-      --header-bg: linear-gradient(45deg, #1e1b4b, #7c3aed, #c4b5fd);
+      --header-bg: linear-gradient(45deg, #f0eeff, #c4b5fd, #7c3aed);
 
-      --shadow-color: rgba(30, 27, 75, 0.25);
+      --shadow-color: rgba(0, 0, 0, 0.85);
 
       --label-bg: rgba(10, 8, 30, 0.85);
 
@@ -5679,7 +5719,7 @@ body {
 
       --pada-num-color: #a5b4fc;
 
-      --pada-active-color: #fde68a;
+      --pada-active-color: #c084fc;
 
     }
 
@@ -5731,9 +5771,11 @@ body {
 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-      background: var(--bg-primary);
+      background-color: #0c0c0c !important;
 
-      color: var(--text-main);
+      background: var(--bg-primary, #0c0c0c) !important;
+
+      color: var(--text-main, #f8fafc) !important;
 
       min-height: 100vh;
 
@@ -6441,6 +6483,15 @@ body {
 
     }
 
+    .planet-deg-suffix {
+      font-size: 8.5px;
+      opacity: 0.88;
+      margin-left: 2px;
+      font-weight: 700;
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
 
 
     .lagna-occupant {
@@ -6699,7 +6750,7 @@ body {
 
     [data-theme="solar"] .center-label {
 
-      color: #92400e;
+      color: #fbbf24;
 
     }
 
@@ -6757,6 +6808,29 @@ body {
 
         background-color: #ffffff !important;
 
+      }
+
+      :root,
+      html,
+      html[data-theme],
+      body,
+      body[data-theme],
+      [data-theme],
+      [data-theme] * {
+        --bg-primary: #ffffff !important;
+        --bg-secondary: #ffffff !important;
+        --card-bg: #ffffff !important;
+        --card-border: #475569 !important;
+        --text-main: #000000 !important;
+        --text-bright: #000000 !important;
+        --text-muted: #334155 !important;
+        --border-color: #cbd5e1 !important;
+        --table-header-bg: #f1f5f9 !important;
+        --table-row-bg: #ffffff !important;
+        --table-row-alt-bg: #f8fafc !important;
+        --table-border: #cbd5e1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
       .top-action-bar, .no-print, .fixed-bottom-bar-nav, #transit-toggle-bar, #transit-btn, #transit-loading, .location-buttons {
@@ -7321,15 +7395,15 @@ body {
 
                   {% if occ.is_lagna %}
 
-                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}</span>
+                    <span class="occupant-pill lagna-occupant">🚩 {{ _("లగ్నం") }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% elif occ.is_hand %}
 
-                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}</span>
+                    <span class="occupant-pill aspect-hand" style="color: {{ occ.color }};">👉 {{ _(occ.name) }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% else %}
 
-                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}</span>
+                    <span class="occupant-pill planet-name-pill" style="color: {{ occ.color }};">{{ _(occ.name) }}{% if occ.deg_only %}&nbsp;<span class="planet-deg-suffix">{{ occ.deg_only }}</span>{% endif %}</span>
 
                   {% endif %}
 
@@ -7795,7 +7869,8 @@ body {
     setTheme(savedTheme);
   });
 
-  window.handleComparePrint = function() {
+  function triggerUniversalPrint(action) {
+    if (!action) action = 'print';
     var overlay = document.getElementById('loading-overlay');
     if (overlay) overlay.style.display = 'none';
 
@@ -7804,25 +7879,38 @@ body {
       document.title = pTitle;
     }
 
+    // 1. Native iOS WKWebView bridge
+    if (window.webkit && window.webkit.messageHandlers) {
+      if (action === 'pdf' && window.webkit.messageHandlers.nativeSavePDF) {
+        window.webkit.messageHandlers.nativeSavePDF.postMessage({ title: pTitle });
+        return;
+      }
+      if (window.webkit.messageHandlers.nativePrint) {
+        window.webkit.messageHandlers.nativePrint.postMessage({ title: pTitle });
+        return;
+      }
+    }
+
+    // 2. Android App
     if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
       window.AndroidPrint.printPage();
-    } else {
-      window.print();
+      return;
     }
+
+    // 3. Desktop / Safari
+    window.print();
+  }
+
+  window.handleComparePrint = function(action) {
+    triggerUniversalPrint(action || 'print');
+  };
+
+  window.triggerDirectPDFDownload = function() {
+    triggerUniversalPrint('pdf');
   };
 </script>
 
-
 <script>
-function triggerUniversalPrint() {
-  if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.nativePrint) {
-    window.webkit.messageHandlers.nativePrint.postMessage('print');
-  } else if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
-    window.AndroidPrint.printPage();
-  } else {
-    window.print();
-  }
-}
 if (typeof handleMobilePrintClick === 'undefined') { function handleMobilePrintClick() { triggerUniversalPrint(); } }
 if (typeof handleChart3Print === 'undefined') { function handleChart3Print() { triggerUniversalPrint(); } }
 if (typeof handleCompareDashaPrint === 'undefined') { function handleCompareDashaPrint() { triggerUniversalPrint(); } }

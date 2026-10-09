@@ -50,7 +50,7 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
 
 
 
@@ -5690,7 +5690,7 @@
 
 
 
-            border-radius: 30px;
+            border-radius: 18px !important;
 
 
 
@@ -5778,7 +5778,7 @@
 
 
 
-            border-radius: 20px;
+            border-radius: 12px !important;
 
 
 
@@ -6568,7 +6568,8 @@
   justify-content: space-between !important;
   gap: 6px !important;
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: 900px !important;
+  margin: 0 auto 8px auto !important;
   padding: 8px 6px !important;
   box-sizing: border-box !important;
   position: relative !important;
@@ -6576,7 +6577,6 @@
   left: auto !important;
   right: auto !important;
   z-index: 1000 !important;
-  margin-bottom: 8px !important;
 }
 
 /* Make every direct child container / button of top-control-bar expand equally */
@@ -6611,7 +6611,7 @@
   padding: 7px 4px !important;
   font-size: 12.5px !important;
   font-weight: 700 !important;
-  border-radius: 20px !important;
+  border-radius: 12px !important;
   white-space: nowrap !important;
   cursor: pointer !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
@@ -6632,6 +6632,8 @@
 
 @media screen and (max-width: 768px) {
   .top-control-bar {
+    max-width: 900px !important;
+    margin: 0 auto 6px auto !important;
     padding: 6px 4px !important;
     gap: 5px !important;
   }
@@ -6656,7 +6658,7 @@
     bottom: auto !important;
     padding: 6px 2px !important;
     font-size: 11px !important;
-    border-radius: 14px !important;
+    border-radius: 12px !important;
     height: 32px !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -6853,7 +6855,7 @@ body {
 .top-control-bar, .top-btn-row, .header-container {
   margin-top: 2px !important;
 }
-.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
+.fixed-bottom-bar-nav, .bottom-nav {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
 }
 </style>
@@ -6964,6 +6966,136 @@ body {
 [data-theme="aurora"] .top-btn-hands { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important; color: #fff !important; }
 </style>
 
+<style>
+
+/* ============================================================
+   PERFECT UNIFIED FLOATING BOTTOM ACTION BAR & BUTTONS
+   ============================================================ */
+.fixed-bottom-bar,
+#action-bar {
+  position: fixed !important;
+  bottom: max(env(safe-area-inset-bottom, 0px), 14px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 18px !important;
+  padding: 7px 14px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65), 0 0 16px rgba(99, 102, 241, 0.22) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  z-index: 99999 !important;
+  max-width: calc(100vw - 20px) !important;
+  box-sizing: border-box !important;
+  width: max-content !important;
+  overflow: visible !important;
+}
+
+.fixed-bottom-bar .float-btn,
+.fixed-bottom-bar button {
+  flex: 0 0 auto !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+.fixed-bottom-bar .float-btn i,
+.fixed-bottom-bar button i {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  display: inline-block !important;
+}
+
+.fixed-bottom-bar .float-btn:hover,
+.fixed-bottom-bar button:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  filter: brightness(1.12) !important;
+}
+
+.fixed-bottom-bar .float-btn:active,
+.fixed-bottom-bar button:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Distinct High-Quality Color Gradients for Buttons */
+.fixed-bottom-bar .nav-home,
+.fixed-bottom-bar .btn-home {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+}
+
+.fixed-bottom-bar .nav-kundali,
+.fixed-bottom-bar .btn-kundali {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+}
+
+.fixed-bottom-bar .nav-dasa,
+.fixed-bottom-bar .btn-dasa {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+}
+
+.fixed-bottom-bar .nav-planets,
+.fixed-bottom-bar .btn-planets {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+}
+
+.fixed-bottom-bar .nav-print,
+.fixed-bottom-bar .btn-print {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar,
+  #action-bar {
+    bottom: max(env(safe-area-inset-bottom, 0px), 10px) !important;
+    padding: 6px 10px !important;
+    gap: 6px !important;
+    border-radius: 18px !important;
+    max-width: calc(100vw - 12px) !important;
+  }
+
+  .fixed-bottom-bar .float-btn,
+  .fixed-bottom-bar button {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 11px !important;
+    font-size: 12px !important;
+    gap: 5px !important;
+    border-radius: 12px !important;
+  }
+
+  .fixed-bottom-bar .float-btn i,
+  .fixed-bottom-bar button i {
+    font-size: 12px !important;
+  }
+}
+
+</style>
 </head>
 
 
@@ -8536,17 +8668,17 @@ body {
 
 
     <div class="fixed-bottom-bar" id="action-bar">
-        <button class="nav-item nav-home float-btn" onclick="window.location.href='/'">
-            <i class="fas fa-home"></i> {{ _('హోమ్') }}
+        <button class="float-btn btn-home" onclick="window.location.href='/'">
+            <i class="fas fa-home"></i> <span>{{ _('హోమ్') }}</span>
         </button>
-        <button class="nav-kundali float-btn" onclick="window.location.href='/go-to-birth-chart'">
-            <i class="fas fa-arrow-left"></i> {{ _('కుండలికి') }}
+        <button class="float-btn btn-kundali" onclick="window.location.href='/go-to-birth-chart'">
+            <i class="fas fa-dharmachakra"></i> <span>{{ _('కుండలి') }}</span>
         </button>
-        <button class="nav-planets float-btn" onclick="window.location.href='/chart3'">
-            <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
+        <button class="float-btn btn-planets" onclick="window.location.href='/chart3'">
+            <i class="fas fa-star"></i> <span>{{ _('ద్వాదశ గ్రహములు') }}</span>
         </button>
-        <button class="nav-print float-btn print-hide" onclick="handleMobilePrintClick()">
-            <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
+        <button class="float-btn btn-print print-hide" onclick="handleMobilePrintClick()">
+            <i class="fas fa-print"></i> <span>{{ _('ప్రింట్') }}</span>
         </button>
     </div>
 
@@ -9821,449 +9953,38 @@ body {
 
 
 
-        window.handleMobilePrintClick = function() {
-    let uName = "{{ name|default('') }}".trim();
-    let pTitle = "{{ _('దశాచారం') }}";
-    document.title = (uName ? (uName + ' ') : '') + pTitle;
-    if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
-        window.AndroidPrint.printPage();
-    } else {
-        window.print();
-    }
-};
-
-
-
-
-
-
-
-        // Use matchMedia for print — often more reliable on Android WebViews than onafterprint
-
-
-
-        if (window.matchMedia) {
-
-
-
-            const mediaQueryList = window.matchMedia('print');
-
-
-
-            mediaQueryList.addListener(function(mql) {
-
-
-
-                if (!mql.matches) {
-
-
-
-                    if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
-
-
-
-                }
-
-
-
-            });
-
-
-
-        }
-
-
-
-        window.onafterprint = function() {
-
-
-
-            if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
-
-
-
-        };
-
-
-
-        window.addEventListener('afterprint', function() {
-
-
-
-            if (typeof doAfterPrintChart2 === 'function') doAfterPrintChart2();
-
-
-
-        });
-
-
-
-
-
-
-
-        window.triggerDirectPDFDownload = function(pageType) {
-
-
-
-            showGananaLoader();
-
-
-
-            
-
-
-
-            let element = document.body;
-
-
-
+                window.handleMobilePrintClick = function(action) {
+            if (!action) action = 'print';
             let uName = "{{ name|default('') }}".trim();
             let pTitle = "{{ _('దశాచారం') }}";
-            let filename = (uName ? (uName + ' ') : '') + pTitle + '.pdf';
-
-
-
-            
-
-
-
-            if (pageType === 'chart2') {
-
-
-
-                element = document.querySelector('.glow-container') || document.body;
-
-
-
-            }
-
-
-
-            
-
-
-
-            document.body.classList.add('mobile-pdf-rendering');
-
-
-
-            const originalTheme = document.documentElement.getAttribute('data-theme') || 'default';
-
-
-
-            document.documentElement.removeAttribute('data-theme');
-
-
-
-
-
-
-
-            // Temporarily activate ALL @media print rules for screen context capture
-
-
-
-            // and disable mobile responsive rules
-
-
-
-            const printRules = [];
-
-
-
-            const disabledRules = [];
-
-
-
-            for (const sheet of document.styleSheets) {
-
-
-
-                try {
-
-
-
-                    const rules = sheet.cssRules || sheet.rules;
-
-
-
-                    if (!rules) continue;
-
-
-
-                    for (const rule of rules) {
-
-
-
-                        if (rule.media && rule.media.mediaText) {
-
-
-
-                            const text = rule.media.mediaText;
-
-
-
-                            if (text.indexOf('print') !== -1) {
-
-
-
-                                printRules.push(rule);
-
-
-
-                            } else if (text.indexOf('max-width') !== -1 || text.indexOf('768') !== -1) {
-
-
-
-                                disabledRules.push({ rule, originalText: text });
-
-
-
-                            }
-
-
-
-                        }
-
-
-
-                    }
-
-
-
-                } catch (e) {
-
-
-
-                    // Ignore cross-origin style sheet errors
-
-
-
+            let title = (uName ? (uName + ' ') : '') + pTitle;
+            document.title = title;
+
+            // 1. Native iOS WKWebView bridge
+            if (window.webkit && window.webkit.messageHandlers) {
+                if (action === 'pdf' && window.webkit.messageHandlers.nativeSavePDF) {
+                    window.webkit.messageHandlers.nativeSavePDF.postMessage({ title: title });
+                    return;
                 }
-
-
-
-            }
-
-
-
-            printRules.forEach(rule => {
-
-
-
-                rule.media.mediaText = 'all';
-
-
-
-            });
-
-
-
-            disabledRules.forEach(item => {
-
-
-
-                item.rule.media.mediaText = 'not all';
-
-
-
-            });
-
-
-
-            
-
-
-
-            // Remove images temporarily to avoid SecurityError in WebView/mobile apps
-
-
-
-            const images = Array.from(element.querySelectorAll('img'));
-
-
-
-            const placeholders = images.map(img => {
-
-
-
-                const placeholder = document.createElement('div');
-
-
-
-                placeholder.style.display = 'none';
-
-
-
-                img.parentNode.replaceChild(placeholder, img);
-
-
-
-                return { img, placeholder };
-
-
-
-            });
-
-
-
-            
-
-
-
-            const opt = {
-
-
-
-                margin:       [8, 4, 8, 4],
-
-
-
-                filename:     filename,
-
-
-
-                image:        { type: 'jpeg', quality: 0.98 },
-
-
-
-                html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 1024, width: 1024 },
-
-
-
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-
-
-
-                pagebreak:    { mode: ['css', 'legacy'], avoid: 'tr' }
-
-
-
-            };
-
-
-
-
-
-
-
-            function restoreAfterPDF() {
-
-
-
-                // Restore print media rules
-
-
-
-                printRules.forEach(rule => { rule.media.mediaText = 'print'; });
-
-
-
-                disabledRules.forEach(item => { item.rule.media.mediaText = item.originalText; });
-
-
-
-                // Restore images
-
-
-
-                placeholders.forEach(({ img, placeholder }) => {
-
-
-
-                    if (placeholder.parentNode) placeholder.parentNode.replaceChild(img, placeholder);
-
-
-
-                });
-
-
-
-                document.body.classList.remove('mobile-pdf-rendering');
-
-
-
-                if (originalTheme !== 'default') {
-
-
-
-                    document.documentElement.setAttribute('data-theme', originalTheme);
-
-
-
+                if (window.webkit.messageHandlers.nativePrint) {
+                    window.webkit.messageHandlers.nativePrint.postMessage({ title: title });
+                    return;
                 }
-
-
-
-                const overlay = document.getElementById('loading-overlay');
-
-
-
-                if (overlay) overlay.style.display = 'none';
-
-
-
             }
 
-
-
-            
-
-
-
-            if (typeof html2pdf !== 'undefined') {
-
-
-
-                html2pdf().set(opt).from(element).save().then(() => {
-
-
-
-                    restoreAfterPDF();
-
-
-
-                }).catch(err => {
-
-
-
-                    console.warn("PDF generation error, falling back to print:", err);
-
-
-
-                    restoreAfterPDF();
-
-
-
-                    window.handleMobilePrintClick();
-
-
-
-                });
-
-
-
-            } else {
-
-
-
-                restoreAfterPDF();
-
-
-
-                window.handleMobilePrintClick();
-
-
-
+            // 2. Android App
+            if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
+                window.AndroidPrint.printPage();
+                return;
             }
 
-
-
+            // 3. Desktop / Safari
+            window.print();
         };
 
-
-
+        window.triggerDirectPDFDownload = function() {
+            window.handleMobilePrintClick('pdf');
+        };
     })();
 
 

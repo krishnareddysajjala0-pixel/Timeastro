@@ -51,6 +51,7 @@
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
 
 
 
@@ -3546,7 +3547,7 @@
 
 
 
-        border: 2px solid #000 !important;
+        border: 3px solid #000000 !important;
 
 
 
@@ -4510,6 +4511,23 @@
 
 
 
+            /* All rows of anukulam in green, all rows of pratikulam in red */
+      .maha-print-table tr.row-anukulam td,
+      .maha-print-table tr.row-anukulam td * {
+        color: #008000 !important;
+        font-weight: 700 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .maha-print-table tr.row-pratikulam td,
+      .maha-print-table tr.row-pratikulam td * {
+        color: #dc2626 !important;
+        font-weight: 700 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
       .maha-current-row td {
 
 
@@ -4566,7 +4584,7 @@
 
 
 
-        border: 1px solid #000 !important;
+        border: 3px solid #000000 !important;
 
 
 
@@ -4694,7 +4712,7 @@
 
 
 
-        border: 1px solid #000 !important;
+        border: 3px solid #000000 !important;
 
 
 
@@ -4826,18 +4844,14 @@
 
 
 
-      .lagna {
-
-
-
-        border: 6px double #000 !important;
-
-
-
+      .box.lagna, .lagna {
+        border: 8px double #000000 !important;
+        background: 
+          linear-gradient(#ffffff, #ffffff) padding-box,
+          linear-gradient(#006400, #006400) border-box !important;
         box-shadow: none !important;
-
-
-
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
 
@@ -5923,6 +5937,46 @@
 
 
 
+    body.mobile-pdf-rendering {
+      background: #ffffff !important;
+      color: #000000 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 1024px !important;
+      min-width: 1024px !important;
+    }
+
+    body.mobile-pdf-rendering #chart-pdf-export-container,
+    body.mobile-pdf-rendering #print-wrapper {
+      background: #ffffff !important;
+      color: #000000 !important;
+      width: 1024px !important;
+      min-width: 1024px !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      zoom: 1 !important;
+    }
+
+    body.mobile-pdf-rendering[data-print-mode="kundali-only"] #mahadasha-print-section {
+      display: none !important;
+    }
+
+    body.mobile-pdf-rendering[data-print-mode="kundali-and-dasha"] #mahadasha-print-section {
+      display: block !important;
+      page-break-before: always !important;
+      break-before: page !important;
+      width: 1024px !important;
+      min-width: 1024px !important;
+      background: #ffffff !important;
+      color: #000000 !important;
+      margin-top: 15px !important;
+    }
+
+    body.mobile-pdf-rendering #transit-toggle-bar,
+    body.mobile-pdf-rendering #transit-loading,
+    body.mobile-pdf-rendering #loading-overlay,
     body.mobile-pdf-rendering #mobile-print-modal {
 
 
@@ -5954,28 +6008,6 @@
   gap: 6px !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding: 8px 10px !important;
-  box-sizing: border-box !important;
-  position: relative !important;
-  z-index: 1000 !important;
-  margin-bottom: 8px !important;
-}
-
-.top-control-bar > *,
-.top-control-bar .theme-switcher,
-.top-control-bar .language-switcher {
-  flex: 1 1 0% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  width: 100% !important;
-}
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 6px !important;
-  width: 100% !important;
-  max-width: 100% !important;
   padding: 8px 6px !important;
   box-sizing: border-box !important;
   position: relative !important;
@@ -5997,6 +6029,7 @@
 }
 
 .top-control-bar .ctrl-btn,
+.top-control-bar .top-btn-nakshatra,
 .top-control-bar #karmaBtn,
 .top-control-bar #chupuluBtn,
 .top-control-bar .top-btn-theme,
@@ -6050,6 +6083,7 @@
   }
 
   .top-control-bar .ctrl-btn,
+  .top-control-bar .top-btn-nakshatra,
   .top-control-bar #karmaBtn,
   .top-control-bar #chupuluBtn,
   .top-control-bar .top-btn-theme,
@@ -6062,7 +6096,7 @@
     right: auto !important;
     bottom: auto !important;
     padding: 6px 2px !important;
-    font-size: 22.7px !important;
+    font-size: 11px !important;
     border-radius: 14px !important;
     height: 32px !important;
     width: 100% !important;
@@ -6074,12 +6108,13 @@
 
 @media screen and (max-width: 380px) {
   .top-control-bar .ctrl-btn,
+  .top-control-bar .top-btn-nakshatra,
   .top-control-bar #karmaBtn,
   .top-control-bar #chupuluBtn,
   .top-control-bar .top-btn-theme,
   .top-control-bar .top-btn-lang {
     padding: 5px 2px !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     height: 30px !important;
   }
 }
@@ -6294,6 +6329,21 @@ body, .container, .top-control-bar, .theme-switcher, .language-switcher {
   border: 1px solid rgba(45, 212, 191, 0.6) !important;
   color: #ffffff !important;
 }
+
+.top-btn-nakshatra {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.6) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+[data-theme="sunset"] .top-btn-nakshatra { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; border: 1px solid rgba(253, 164, 175, 0.7) !important; color: #ffffff !important; }
+[data-theme="luxury"] .top-btn-nakshatra { background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important; border: 1px solid rgba(251, 191, 36, 0.7) !important; color: #ffffff !important; }
+[data-theme="cyberpunk"] .top-btn-nakshatra { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; border: 1px solid #38bdf8 !important; color: #ffffff !important; }
+[data-theme="solar"] .top-btn-nakshatra { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important; border: 1px solid rgba(254, 215, 170, 0.7) !important; color: #ffffff !important; }
+[data-theme="mandala"] .top-btn-nakshatra { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; border: 1px solid rgba(186, 230, 253, 0.7) !important; color: #ffffff !important; }
+[data-theme="twilight"] .top-btn-nakshatra { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%) !important; border: 1px solid rgba(221, 214, 254, 0.7) !important; color: #ffffff !important; }
+[data-theme="aurora"] .top-btn-nakshatra { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; border: 1px solid rgba(186, 230, 253, 0.7) !important; color: #ffffff !important; }
+[data-theme="cosmic"] .top-btn-nakshatra { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important; border: 1px solid rgba(165, 180, 252, 0.7) !important; color: #ffffff !important; }
 
 .top-btn-back {
   background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%) !important;
@@ -6936,9 +6986,139 @@ body {
 .top-control-bar, .top-btn-row, .header-container {
   margin-top: 2px !important;
 }
-.fixed-bottom-bar-nav, .bottom-nav, .fixed-bottom-bar {
+.fixed-bottom-bar-nav, .bottom-nav {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 25px) !important;
 }
+</style>
+<style>
+
+/* ============================================================
+   PERFECT UNIFIED FLOATING BOTTOM ACTION BAR & BUTTONS
+   ============================================================ */
+.fixed-bottom-bar,
+#action-bar {
+  position: fixed !important;
+  bottom: max(env(safe-area-inset-bottom, 0px), 14px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 50px !important;
+  padding: 7px 14px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65), 0 0 16px rgba(99, 102, 241, 0.22) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  z-index: 99999 !important;
+  max-width: calc(100vw - 20px) !important;
+  box-sizing: border-box !important;
+  width: max-content !important;
+  overflow: visible !important;
+}
+
+.fixed-bottom-bar .float-btn,
+.fixed-bottom-bar button {
+  flex: 0 0 auto !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 20px !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease !important;
+  box-sizing: border-box !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+.fixed-bottom-bar .float-btn i,
+.fixed-bottom-bar button i {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  display: inline-block !important;
+}
+
+.fixed-bottom-bar .float-btn:hover,
+.fixed-bottom-bar button:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  filter: brightness(1.12) !important;
+}
+
+.fixed-bottom-bar .float-btn:active,
+.fixed-bottom-bar button:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Distinct High-Quality Color Gradients for Buttons */
+.fixed-bottom-bar .nav-home,
+.fixed-bottom-bar .btn-home {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+}
+
+.fixed-bottom-bar .nav-kundali,
+.fixed-bottom-bar .btn-kundali {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+}
+
+.fixed-bottom-bar .nav-dasa,
+.fixed-bottom-bar .btn-dasa {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+}
+
+.fixed-bottom-bar .nav-planets,
+.fixed-bottom-bar .btn-planets {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+}
+
+.fixed-bottom-bar .nav-print,
+.fixed-bottom-bar .btn-print {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-bottom-bar,
+  #action-bar {
+    bottom: max(env(safe-area-inset-bottom, 0px), 10px) !important;
+    padding: 6px 10px !important;
+    gap: 6px !important;
+    border-radius: 40px !important;
+    max-width: calc(100vw - 12px) !important;
+  }
+
+  .fixed-bottom-bar .float-btn,
+  .fixed-bottom-bar button {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 11px !important;
+    font-size: 12px !important;
+    gap: 5px !important;
+    border-radius: 18px !important;
+  }
+
+  .fixed-bottom-bar .float-btn i,
+  .fixed-bottom-bar button i {
+    font-size: 12px !important;
+  }
+}
+
 </style>
 </head>
 
@@ -6970,9 +7150,11 @@ body {
         </div>
       </div>
 
-      
-
-      
+      <!-- 2. Nakshatra Kundali Button -->
+      <a href="/nakshatra_chart" class="ctrl-btn top-btn-nakshatra" title="{{ _('నక్షత్ర కుండలి') }}">
+        <i class="fas fa-star"></i>
+        <span>{{ _('నక్షత్ర కుండలి') }}</span>
+      </a>
 
       <!-- 4. Karma Button -->
       <button class="top-btn-karma ctrl-btn" id="karmaBtn" onclick="toggleKarma()" title="Toggle Karma">
@@ -7004,6 +7186,7 @@ body {
       </div>
     </div>
 
+  <div id="chart-pdf-export-container">
   <div id="print-wrapper">
 <div class="header">
 
@@ -8021,7 +8204,7 @@ body {
 
 
 
-        <tr{% if dasa.is_current %} class="maha-current-row"{% endif %}>
+        <tr class="{{ 'row-anukulam' if dasa.is_favorable else 'row-pratikulam' }}{% if dasa.is_current %} maha-current-row{% endif %}">
 
 
 
@@ -8089,97 +8272,26 @@ body {
 
 
 
-    <!-- Floating Bottom Action Bar -->
+    </div><!-- end #chart-pdf-export-container -->
+
+<!-- Floating Bottom Action Bar -->
 
 
 
     <div class="fixed-bottom-bar" id="action-bar">
-
-
-
-      <button class="float-btn" style="background: linear-gradient(135deg, #1e3c72, #2a5298);"
-
-
-
-        onclick="window.location.href='/'">
-
-
-
-        <i class="fas fa-home"></i> {{ _('హోమ్') }}
-
-
-
+      <button class="float-btn btn-home" onclick="window.location.href='/'">
+        <i class="fas fa-home"></i> <span>{{ _('హోమ్') }}</span>
       </button>
-
-
-
-
-
-
-
-      <button class="float-btn" style="background: linear-gradient(135deg, #059669, #047857);"
-
-
-
-        onclick="window.location.href='/go-to-dasha-chart'">
-
-
-
-        <i class="fas fa-calendar-alt"></i> {{ _('దశాచారము') }}
-
-
-
+      <button class="float-btn btn-dasa" onclick="window.location.href='/go-to-dasha-chart'">
+        <i class="fas fa-calendar-alt"></i> <span>{{ _('దశాచారము') }}</span>
       </button>
-
-
-
-      <button class="float-btn" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"
-
-
-
-        onclick="window.location.href='/chart3'">
-
-
-
-        <i class="fas fa-star"></i> {{ _('ద్వాదశ గ్రహములు') }}
-
-
-
+      <button class="float-btn btn-planets" onclick="window.location.href='/chart3'">
+        <i class="fas fa-star"></i> <span>{{ _('ద్వాదశ గ్రహములు') }}</span>
       </button>
-
-
-
-
-
-
-
-      <button class="float-btn print-hide" id="print-options-btn"
-
-
-
-        style="background: linear-gradient(135deg, #e91e63, #c2185b);"
-
-
-
-        onclick="openPrintOptions()">
-
-
-
-        <i class="fas fa-print"></i> {{ _('ప్రింట్') }}
-
-
-
+      <button class="float-btn btn-print print-hide" onclick="openPrintOptions()">
+        <i class="fas fa-print"></i> <span>{{ _('ప్రింట్') }}</span>
       </button>
-
-
-
     </div>
-
-
-
-
-
-
 
     <!-- Print Options Modal -->
 
@@ -9636,7 +9748,8 @@ body {
 
 
 
-      function doPrint() {
+            function doPrint(action) {
+        if (!action) action = 'print';
         const selected = document.querySelector('input[name="print-mode"]:checked');
         const mode = selected ? selected.value : 'kundali-only';
         document.body.setAttribute('data-print-mode', mode);
@@ -9644,12 +9757,36 @@ body {
         closePrintOptions();
         window.onbeforeprint();
 
+        let uName = "{{ name|default('') }}".trim();
+        let pTitle = "{{ _('కుండలి') }}";
+        let title = (uName ? (uName + ' ') : '') + pTitle;
+        document.title = title;
+
+        // 1. Native iOS WKWebView bridge (AirPrint and PDF export)
+        if (window.webkit && window.webkit.messageHandlers) {
+          if (action === 'pdf' && window.webkit.messageHandlers.nativeSavePDF) {
+            window.webkit.messageHandlers.nativeSavePDF.postMessage({ title: title, mode: mode });
+            return;
+          }
+          if (window.webkit.messageHandlers.nativePrint) {
+            window.webkit.messageHandlers.nativePrint.postMessage({ title: title, mode: mode });
+            return;
+          }
+        }
+
+        // 2. Android App (with AndroidPrint interface)
         if (window.AndroidPrint && typeof window.AndroidPrint.printPage === 'function') {
           window.AndroidPrint.printPage();
-        } else {
-          window.print();
+          return;
         }
+
+        // 3. Desktop / Safari standard browser print
+        window.print();
       }
+
+      window.triggerDirectPDFDownload = function(mode) {
+        doPrint('pdf');
+      };
 
 
 

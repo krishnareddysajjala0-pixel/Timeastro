@@ -1959,3 +1959,4 @@
 1958. [10-Oct-2026 05:20:58] Name: KRISHNA REDDY, DOB: 1988-10-25, TOB: 01:11, Place: Kandukur, Andhra Pradesh, India
 1959. [10-Oct-2026 05:21:02] Name: KRISHNA REDDY, DOB: 1988-10-25, TOB: 01:11, Place: Kandukur, Andhra Pradesh, India
 1960. [10-Oct-2026 05:21:26] Name: KRISHNA REDDY, DOB: 1988-10-25, TOB: 01:11, Place: Kandukur, Andhra Pradesh, India
+1961. [10-Oct-2026 12:24:56] Name: Sina, DOB: 2026-10-10, TOB: 17:54, Place: Yelahanka taluku, Karnataka, India

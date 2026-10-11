@@ -1992,3 +1992,4 @@
 1991. [10-Oct-2026 18:15:28] Name: Sridevi, DOB: 1981-01-12, TOB: 19:00, Place: Ballari, Karnataka, India
 1992. [10-Oct-2026 18:36:05] Name: Sridevi, DOB: 1981-01-12, TOB: 19:00, Place: Ballari, Karnataka, India
 1993. [10-Oct-2026 19:04:48] Name: Sridevi, DOB: 1981-01-12, TOB: 20:00, Place: Ballari, Karnataka, India
+1994. [11-Oct-2026 03:32:22] Name: Gandhi , DOB: 1869-10-02, TOB: 09:02, Place: Bengaluru, Karnataka, India

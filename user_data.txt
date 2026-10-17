@@ -1950,3 +1950,4 @@
 1949. [16-Oct-2026 12:58:27] Name: Ok, DOB: 2026-10-16, TOB: 18:28, Place: Kandukur Mandal, Andhra Pradesh, India
 1950. [17-Oct-2026 01:16:46] Name: Ok, DOB: 2026-10-17, TOB: 06:46, Place: Kandukur Mandal, Andhra Pradesh, India
 1951. [17-Oct-2026 13:21:36] Name: Sai Kumar , DOB: 1997-03-30, TOB: 07:15, Place: APSRTC Kalyanadurgam Bus Depot Inner Road, Kalyandurgam Urban, Kalyandurgam, Kalyandurg Mandal, Anantapuramu District, Andhra Pradesh, 515761, India
+1952. [17-Oct-2026 13:22:53] Name: Sai Kumar , DOB: 1997-03-30, TOB: 07:15, Place: APSRTC Kalyanadurgam Bus Depot Inner Road, Kalyandurgam Urban, Kalyandurgam, Kalyandurg Mandal, Anantapuramu District, Andhra Pradesh, 515761, India

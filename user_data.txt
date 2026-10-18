@@ -1962,3 +1962,4 @@
 1961. [18-Oct-2026 08:27:39] Name: Suresh, DOB: 2027-06-03, TOB: 04:40, Place: Anantapur, Andhra Pradesh, India
 1962. [18-Oct-2026 08:29:06] Name: Suresh, DOB: 1983-06-03, TOB: 04:40, Place: Anantapur, Andhra Pradesh, India
 1963. [18-Oct-2026 08:32:54] Name: Suresh, DOB: 1983-06-03, TOB: 04:40, Place: Tadpatri Rural, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
+1964. [18-Oct-2026 17:25:58] Name: సత్యనారాయణ B, DOB: 1969-08-01, TOB: 00:34, Place: Srikakulam, Andhra Pradesh, India

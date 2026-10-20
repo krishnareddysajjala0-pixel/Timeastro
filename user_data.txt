@@ -1981,3 +1981,4 @@
 1980. [20-Oct-2026 02:12:30] Name: Prab, DOB: 1979-10-23, TOB: 05:06, Place: Palakollu, Palakollu Mandal, West Godavari District, Andhra Pradesh, 534260, India
 1981. [20-Oct-2026 07:40:37] Name: సత్యనారాయణ B, DOB: 1969-07-31, TOB: 00:34, Place: Bengaluru, Karnataka, India
 1982. [20-Oct-2026 07:40:39] Name: సత్యనారాయణ B, DOB: 1969-07-31, TOB: 00:34, Place: Bengaluru, Karnataka, India
+1983. [20-Oct-2026 07:40:55] Name: సత్యనారాయణ B, DOB: 1969-07-31, TOB: 00:34, Place: Srikakulam, Andhra Pradesh, India

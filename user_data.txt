@@ -2026,3 +2026,4 @@
 2025. [21-Oct-2026 10:57:23] Name: Ok, DOB: 2026-10-21, TOB: 16:27, Place: Kandukur Mandal, Andhra Pradesh, India
 2026. [21-Oct-2026 12:41:26] Name: Sachin , DOB: 1999-09-29, TOB: 10:45, Place: Pandavapura, Hasana taluk, Hassan, Karnataka, 573212, India
 2027. [21-Oct-2026 12:47:17] Name: Sunitha, DOB: 2002-09-15, TOB: 22:50, Place: Pandavapura, Hasana taluk, Hassan, Karnataka, 573212, India
+2028. [22-Oct-2026 02:22:04] Name: krishna reddy sajjala, DOB: 1988-10-25, TOB: 01:12, Place: Kandukur, Andhra Pradesh, India

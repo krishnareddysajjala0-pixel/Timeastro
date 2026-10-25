@@ -2050,3 +2050,4 @@
 2049. [23-Oct-2026 13:40:40] Name: Hemanth, DOB: 2004-04-01, TOB: 17:00, Place: Peruru, Tirupati Rural Mandal, Tirupati District, Andhra Pradesh, 517505, India
 2050. [23-Oct-2026 19:20:10] Name: Praveen, DOB: 2000-06-05, TOB: 04:00, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
 2051. [24-Oct-2026 14:20:48] Name: Ramesh , DOB: 1988-07-11, TOB: 23:30, Place: Narpala, Narpala Mandal, Anantapuramu District, Andhra Pradesh, 515425, India
+2052. [25-Oct-2026 04:55:56] Name: Syam, DOB: 2002-10-23, TOB: 12:10, Place: Boddam, Rajam Mandal, Vizianagaram District, Andhra Pradesh, 532148, India

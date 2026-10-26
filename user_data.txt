@@ -2074,3 +2074,4 @@
 2073. [26-Oct-2026 03:54:54] Name: Ok, DOB: 2026-10-26, TOB: 09:24, Place: TadIpatri Mandal, Andhra Pradesh, India
 2074. [26-Oct-2026 04:19:41] Name: Narayanachari , DOB: 1976-10-31, TOB: 18:20, Place: ముదిగుబ్బ 
 2075. [26-Oct-2026 04:22:58] Name: Narayanachari , DOB: 1976-10-31, TOB: 18:20, Place: ముదిగుబ్బ 
+2076. [26-Oct-2026 04:24:54] Name: Jhansi lakshmi, DOB: 1994-05-03, TOB: 17:50, Place: Mudigubba 

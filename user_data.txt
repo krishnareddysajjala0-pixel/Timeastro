@@ -2080,3 +2080,4 @@
 2079. [26-Oct-2026 06:54:23] Name: అక్క , DOB: 1983-03-28, TOB: 19:10, Place: TadIpatri Mandal, Andhra Pradesh, India
 2080. [26-Oct-2026 06:55:15] Name: అక్క , DOB: 1983-03-28, TOB: 19:10, Place: TadIpatri Mandal, Andhra Pradesh, India
 2081. [26-Oct-2026 06:55:26] Name: అక్క , DOB: 1983-03-28, TOB: 19:10, Place: TadIpatri Mandal, Andhra Pradesh, India
+2082. [26-Oct-2026 06:57:54] Name: బాబు , DOB: 2004-08-27, TOB: 16:10, Place: TadIpatri Mandal, Andhra Pradesh, India

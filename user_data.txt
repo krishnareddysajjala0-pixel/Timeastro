@@ -2081,3 +2081,4 @@
 2080. [26-Oct-2026 06:55:15] Name: అక్క , DOB: 1983-03-28, TOB: 19:10, Place: TadIpatri Mandal, Andhra Pradesh, India
 2081. [26-Oct-2026 06:55:26] Name: అక్క , DOB: 1983-03-28, TOB: 19:10, Place: TadIpatri Mandal, Andhra Pradesh, India
 2082. [26-Oct-2026 06:57:54] Name: బాబు , DOB: 2004-08-27, TOB: 16:10, Place: TadIpatri Mandal, Andhra Pradesh, India
+2083. [27-Oct-2026 08:01:18] Name: Madan, DOB: 1993-03-07, TOB: 08:42, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India

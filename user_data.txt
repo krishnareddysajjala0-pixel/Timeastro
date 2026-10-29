@@ -2128,3 +2128,4 @@
 2127. [29-Oct-2026 14:30:58] Name: తరుణ్, DOB: 2007-12-03, TOB: 20:40, Place: Srikakulam, Andhra Pradesh, India
 2128. [29-Oct-2026 14:31:00] Name: తరుణ్ , DOB: 2007-12-03, TOB: 20:40, Place: Srikakulam, Andhra Pradesh, India
 2129. [29-Oct-2026 14:53:50] Name: తరుణ్ , DOB: 2007-12-03, TOB: 20:30, Place: Srikakulam, Andhra Pradesh, India
+2130. [29-Oct-2026 16:08:33] Name: Krishnareddy, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur Mandal, Andhra Pradesh, India

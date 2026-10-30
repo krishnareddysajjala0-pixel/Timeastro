@@ -2140,3 +2140,4 @@
 2139. [30-Oct-2026 10:31:46] Name: Sai Kiran, DOB: 1992-10-14, TOB: 20:30, Place: Tadipatri
 2140. [30-Oct-2026 10:52:55] Name: Sai Kiran, DOB: 1992-10-14, TOB: 20:30, Place: Tadipatri
 2141. [30-Oct-2026 18:14:53] Name: Sankalpa , DOB: 2001-01-26, TOB: 08:45, Place: Raichur, Rayachuru taluku, Raichur, Karnataka, 584100, India
+2142. [30-Oct-2026 18:35:55] Name: Rajath, DOB: 2000-10-14, TOB: 05:20, Place: Hosapete, Hosapete taluk, Vijayanagara, Karnataka, 583200, India

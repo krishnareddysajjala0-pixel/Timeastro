@@ -2193,3 +2193,4 @@
 2192. [03-Nov-2026 16:33:56] Name: K.shiva, DOB: 2022-04-05, TOB: 11:21, Place: Tadipatri  Anantapur district
 2193. [04-Nov-2026 10:00:09] Name: Myra, DOB: 2024-05-18, TOB: 08:05, Place: Tirupati, Andhra Pradesh, India
 2194. [05-Nov-2026 10:19:46] Name: Krishnareddy, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur Mandal, Andhra Pradesh, India
+2195. [05-Nov-2026 17:14:37] Name: Tarun, DOB: 2026-11-05, TOB: 22:44, Place: Bengaluru, Karnataka, India

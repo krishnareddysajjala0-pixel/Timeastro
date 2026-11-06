@@ -2204,3 +2204,4 @@
 2203. [06-Nov-2026 03:28:31] Name: Death, DOB: 2026-11-06, TOB: 10:55, Place: Bengaluru, Karnataka, India
 2204. [06-Nov-2026 03:28:33] Name: Death , DOB: 2026-11-06, TOB: 10:55, Place: Bengaluru, Karnataka, India
 2205. [06-Nov-2026 03:29:03] Name: Death , DOB: 2026-11-06, TOB: 10:55, Place: Bengaluru, Karnataka, India
+2206. [06-Nov-2026 03:32:13] Name: Mahesh, DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India

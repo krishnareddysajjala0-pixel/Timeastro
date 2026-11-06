@@ -2198,3 +2198,4 @@
 2197. [05-Nov-2026 17:19:20] Name: Tarun, DOB: 2026-11-05, TOB: 22:44, Place: Bengaluru, Karnataka, India
 2198. [06-Nov-2026 02:36:20] Name: Vijji, DOB: 1987-06-14, TOB: 19:20, Place: Srigiripadu, palnadu
 2199. [06-Nov-2026 03:27:38] Name: Death , DOB: 2026-10-07, TOB: 08:57, Place: Bengaluru, Karnataka, India
+2200. [06-Nov-2026 03:27:41] Name: Death, DOB: 2026-10-07, TOB: 08:57, Place: Bengaluru, Karnataka, India

@@ -2218,3 +2218,4 @@
 2217. [06-Nov-2026 07:53:00] Name: Chetana, DOB: 1996-07-25, TOB: 00:45, Place: Bagalkot, Station Road, Bagalkote, Bagalakote taluk, Bagalkote, Karnataka, 587103, India
 2218. [06-Nov-2026 08:02:41] Name: A, DOB: 2026-10-02, TOB: 14:35, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
 2219. [06-Nov-2026 11:37:25] Name: Seshadri, DOB: 2000-04-21, TOB: 20:05, Place: Hosapete, Karnataka, India
+2220. [06-Nov-2026 11:38:53] Name: Seshadri, DOB: 2000-04-21, TOB: 20:05, Place: Rayadurg, Rayadurg Mandal, Anantapuramu District, Andhra Pradesh, 515865, India

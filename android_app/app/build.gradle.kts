@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.timeastro.app"
+    namespace = "com.ravanastro.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.timeastro.app"
+        applicationId = "com.ravanastro.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

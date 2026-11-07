@@ -15,9 +15,9 @@ def start_server():
             setattr(tf_light, 'TimezoneFinder', tf_light.TimezoneFinderL)
         sys.modules['timezonefinder'] = tf_light
     except Exception as e:
-        print("[Timeastro Launcher] timezonefinderL alias notice:", e)
+        print("[Ravan Astro Launcher] timezonefinderL alias notice:", e)
 
-    print(f"[Timeastro Server] Starting embedded Flask server from {bundle_dir}...")
+    print(f"[Ravan Astro Server] Starting embedded Flask server from {bundle_dir}...")
     
     # Import app module dynamically after setting up paths and aliases
     from app import app

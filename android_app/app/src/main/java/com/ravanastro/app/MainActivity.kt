@@ -1,4 +1,4 @@
-package com.timeastro.app
+package com.ravanastro.app
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 try {
                     val printManager = getSystemService(PRINT_SERVICE) as PrintManager
-                    val jobName = "Timeastro_Kundali"
+                    val jobName = "RavanAstro_Kundali"
                     val printAdapter = webView.createPrintDocumentAdapter(jobName)
                     printManager.print(jobName, printAdapter, PrintAttributes.Builder().build())
                 } catch (e: Exception) {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                         base64Data
                     }
                     val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-                    val pdfFile = File(cacheDir, if (fileName.isEmpty()) "Timeastro_Kundali.pdf" else fileName)
+                    val pdfFile = File(cacheDir, if (fileName.isEmpty()) "RavanAstro_Kundali.pdf" else fileName)
                     pdfFile.writeBytes(pdfBytes)
 
                     val uri = FileProvider.getUriForFile(
@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity() {
             </head>
             <body>
                 <div class="spinner"></div>
-                <h2>Loading Timeastro...</h2>
+                <h2>Loading Ravan Astro...</h2>
             </body>
             </html>
         """.trimIndent()

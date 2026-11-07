@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Timeastro"
+rootProject.name = "RavanAstro"
 include(":app")

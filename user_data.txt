@@ -2227,3 +2227,4 @@
 2226. [07-Nov-2026 09:37:17] Name: Jjjjjj, DOB: 1996-10-12, TOB: 19:40, Place: Banglore Town, گلشن اقبال ٹاؤن, ضلع گلشن, کراچی ڈویژن, سندھ, پاکستان
 2227. [07-Nov-2026 10:42:15] Name: Death, DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
 2228. [07-Nov-2026 10:42:17] Name: Death, DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2229. [07-Nov-2026 10:43:51] Name: Death, DOB: 2026-10-07, TOB: 13:00, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India

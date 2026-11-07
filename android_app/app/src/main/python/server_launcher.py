@@ -11,6 +11,8 @@ def start_server():
     # Alias timezonefinder to timezonefinderL (pure Python lightweight version)
     try:
         import timezonefinderL as tf_light
+        if hasattr(tf_light, 'TimezoneFinderL') and not hasattr(tf_light, 'TimezoneFinder'):
+            setattr(tf_light, 'TimezoneFinder', tf_light.TimezoneFinderL)
         sys.modules['timezonefinder'] = tf_light
     except Exception as e:
         print("[Timeastro Launcher] timezonefinderL alias notice:", e)

@@ -27,19 +27,6 @@ android {
                 arguments += listOf("-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
             }
         }
-
-        chaquopy {
-            defaultConfig {
-                version = "3.10"
-                pip {
-                    install("flask")
-                    install("pytz")
-                    install("timezonefinderL")
-                    install("astral")
-                    install("requests")
-                }
-            }
-        }
     }
 
     externalNativeBuild {
@@ -64,6 +51,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        version = "3.10"
+        pip {
+            options("--trusted-host", "pypi.org", "--trusted-host", "files.pythonhosted.org", "--trusted-host", "pypi.python.org")
+            install("flask")
+            install("pytz")
+            install("timezonefinderL")
+            install("astral")
+            install("requests")
+        }
     }
 }
 

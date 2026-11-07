@@ -2222,3 +2222,4 @@
 2221. [06-Nov-2026 15:03:39] Name: Satyanarayana , DOB: 1969-08-01, TOB: 00:30, Place: Srikakulam, Andhra Pradesh, India
 2222. [06-Nov-2026 15:03:42] Name: Satyanarayana, DOB: 1969-08-01, TOB: 00:30, Place: Srikakulam, Andhra Pradesh, India
 2223. [06-Nov-2026 15:05:03] Name: Satyanarayana , DOB: 1969-08-01, TOB: 00:30, Place: Srikakulam, Andhra Pradesh, India
+2224. [07-Nov-2026 09:30:54] Name: Jjjjjj, DOB: 1996-10-12, TOB: 19:40, Place: Banglore Town, گلشن اقبال ٹاؤن, ضلع گلشن, کراچی ڈویژن, سندھ, پاکستان

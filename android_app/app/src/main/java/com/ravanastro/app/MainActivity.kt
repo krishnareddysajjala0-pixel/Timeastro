@@ -118,10 +118,17 @@ class MainActivity : AppCompatActivity() {
         settings.setGeolocationEnabled(true)
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         settings.useWideViewPort = true
-        settings.loadWithOverviewMode = true
+        settings.loadWithOverviewMode = false
         settings.setSupportZoom(true)
         settings.builtInZoomControls = true
         settings.displayZoomControls = false
+
+        // Disable cache so newly deployed templates and CSS take effect immediately
+        webView.clearCache(true)
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+
+        // Identify Android App in User-Agent
+        settings.userAgentString = settings.userAgentString + " RavanAstroApp/Android"
 
         webView.addJavascriptInterface(WebAppInterface(), "AndroidPrint")
 
@@ -142,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (request?.isForMainFrame == true && isServerLoaded) {
                     view?.postDelayed({
-                        view.loadUrl("http://127.0.0.1:5000")
+                        view.loadUrl("http://127.0.0.1:5000?app=1")
                     }, 1000)
                 }
             }
@@ -283,7 +290,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 if (connected) {
                     isServerLoaded = true
-                    webView.loadUrl("http://127.0.0.1:5000")
+                    webView.loadUrl("http://127.0.0.1:5000?app=1")
                 } else {
                     showErrorHtml()
                 }

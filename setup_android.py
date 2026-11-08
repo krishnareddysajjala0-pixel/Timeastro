@@ -15,7 +15,7 @@ os.makedirs(res_values_dst, exist_ok=True)
 # Copy python backend & resources
 shutil.copy2(os.path.join(base_dir, "app.py"), python_dst)
 
-for pattern in ["astro_constants*.json", "bhava_lord_rules*.json", "detailed_bhava_meanings*.json"]:
+for pattern in ["astro_constants*.json"]:
     for f in glob.glob(os.path.join(base_dir, pattern)):
         shutil.copy2(f, python_dst)
 

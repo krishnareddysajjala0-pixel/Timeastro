@@ -2025,3 +2025,4 @@
 2018. [08-Nov-2026 14:31:18] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
 2019. [08-Nov-2026 14:31:20] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
 2020. [08-Nov-2026 14:33:15] Name: Mahesh ( death ), DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2021. [08-Nov-2026 14:33:17] Name: Mahesh ( death ), DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India

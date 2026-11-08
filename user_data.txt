@@ -1275,7 +1275,6 @@
 1275. [16-Sep-2026 21:03:28] Name: ok, DOB: 2026-09-16, TOB: 21:02, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 1276. [16-Sep-2026 21:08:16] Name: jk, DOB: 2026-09-16, TOB: 21:08, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 1277. [16-Sep-2026 21:32:28] Name: Krishna Reddy sajjala, DOB: 2026-09-16, TOB: 21:32, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
-1277. [16-Sep-2026 21:32:28] Name: Krishna Reddy sajjala, DOB: 2026-09-16, TOB: 21:32, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 1278. [16-Sep-2026 21:39:16] Name: Krishna Reddy sajjala, DOB: 2026-09-16, TOB: 21:32, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 1279. [16-Sep-2026 21:39:16] Name: Krishna Reddy sajjala, DOB: 2026-09-16, TOB: 21:32, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
 1280. [16-Sep-2026 21:55:18] Name: OK, DOB: 2026-09-16, TOB: 21:53, Place: Hyderabad, Bahadurpura mandal, Hyderabad, Telangana, India
@@ -1958,3 +1957,12 @@
 1957. [08-Nov-2026 11:01:57] Name: Krishna, DOB: 1990-05-15, TOB: 06:30, Place: Hyderabad
 1958. [08-Nov-2026 11:09:29] Name: Krishna, DOB: 1990-05-15, TOB: 06:30, Place: Hyderabad
 1959. [08-Nov-2026 11:09:30] Name: Krishna, DOB: 1990-05-15, TOB: 06:30, Place: Hyderabad
+1953. [08-Nov-2026 04:55:26] Name: lll, DOB: 2026-11-08, TOB: 10:08, Place: Kandukur Mandal, Andhra Pradesh, India
+1954. [08-Nov-2026 04:57:27] Name: lll, DOB: 2026-11-08, TOB: 10:08, Place: Kandukur Mandal, Andhra Pradesh, India
+1955. [08-Nov-2026 05:19:46] Name: lll, DOB: 2026-11-08, TOB: 10:08, Place: Kandukur Mandal, Andhra Pradesh, India
+1956. [08-Nov-2026 05:23:42] Name: hhh, DOB: 2026-11-08, TOB: 10:53, Place: Kandukur Mandal, Andhra Pradesh, India
+1957. [08-Nov-2026 05:46:25] Name: Ok, DOB: 2026-11-08, TOB: 11:16, Place: Kandukur Mandal, Andhra Pradesh, India
+1958. [08-Nov-2026 05:50:44] Name: Ok, DOB: 2026-11-08, TOB: 11:16, Place: Kandukur Mandal, Andhra Pradesh, India
+1959. [08-Nov-2026 06:01:10] Name: Ok, DOB: 2026-11-08, TOB: 11:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1960. [08-Nov-2026 06:10:04] Name: Ok, DOB: 2026-11-08, TOB: 11:39, Place: Kandukur Mandal, Andhra Pradesh, India
+1961. [08-Nov-2026 06:10:17] Name: Ok, DOB: 2026-11-08, TOB: 11:39, Place: Kandukur Mandal, Andhra Pradesh, India

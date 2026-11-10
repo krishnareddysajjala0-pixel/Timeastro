@@ -1,4 +1,4 @@
-name: Build Ravan Astro Android APK
+name: Build Ravan Astro Android APK & Play Store AAB
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-apk:
-    name: Build Android APK
+  build-apk-and-aab:
+    name: Build Android APK and AAB Bundle
     runs-on: ubuntu-24.04
     env:
       ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: "node24"
@@ -47,14 +47,23 @@ jobs:
         with:
           cache-disabled: false
 
-      - name: Build Android APK
+      - name: Build Android AAB Bundle & APK
         working-directory: android_app
         run: |
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew bundleRelease assembleRelease assembleDebug --no-daemon --stacktrace
 
-      - name: Upload APK Artifact
+      - name: Upload Play Store AAB Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: RavanAstro-PlayStore-AAB
+          path: android_app/app/build/outputs/bundle/release/*.aab
+          retention-days: 30
+
+      - name: Upload APKs (Release & Debug)
         uses: actions/upload-artifact@v4
         with:
           name: RavanAstro-Android-APK
-          path: android_app/app/build/outputs/apk/debug/*.apk
+          path: |
+            android_app/app/build/outputs/apk/release/*.apk
+            android_app/app/build/outputs/apk/debug/*.apk
           retention-days: 14

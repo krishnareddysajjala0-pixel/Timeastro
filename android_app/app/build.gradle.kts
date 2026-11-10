@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "com.ravanastro.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ravanastro.app"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 8
-        versionName = "1.6.1"
+        targetSdk = 36
+        versionCode = 9
+        versionName = "1.6.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

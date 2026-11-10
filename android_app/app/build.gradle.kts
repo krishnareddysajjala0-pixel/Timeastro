@@ -12,8 +12,8 @@ android {
         applicationId = "com.ravanastro.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.6.2"
+        versionCode = 10
+        versionName = "1.6.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

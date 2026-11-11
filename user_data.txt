@@ -2077,3 +2077,4 @@
 2070. [10-Nov-2026 11:30:12] Name: K. Sandhya, DOB: 2024-01-14, TOB: 08:04, Place: Dharmavaram Sathya Sai district
 2071. [10-Nov-2026 11:38:02] Name: K. Shiva, DOB: 2022-04-05, TOB: 11:21, Place:  Tadipatri
 2072. [10-Nov-2026 14:14:31] Name: Laxmi , DOB: 1995-01-11, TOB: 16:30, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
+2073. [11-Nov-2026 05:06:03] Name: Raju, DOB: 1993-07-28, TOB: 10:35, Place: Jammikunta mandal, Telangana, India

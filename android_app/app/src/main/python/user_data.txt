@@ -1984,8 +1984,85 @@
 1977. [08-Nov-2026 07:09:16] Name: ggggg, DOB: 2026-11-08, TOB: 12:39, Place: Kandukur Mandal, Andhra Pradesh, India
 1978. [08-Nov-2026 07:11:31] Name: ggggg, DOB: 2026-11-08, TOB: 12:39, Place: Kandukur Mandal, Andhra Pradesh, India
 1979. [08-Nov-2026 07:22:00] Name: hhhh, DOB: 2026-11-08, TOB: 12:51, Place: Kandukur Mandal, Andhra Pradesh, India
-1980. [08-Nov-2026 13:52:20] Name: hhhh, DOB: 2026-11-08, TOB: 12:36, Place: Kandukur
-1981. [08-Nov-2026 13:53:55] Name: hhhh, DOB: 2026-11-08, TOB: 12:36, Place: Kandukur
-1982. [08-Nov-2026 13:55:44] Name: hhhh, DOB: 2026-11-08, TOB: 12:36, Place: Kandukur
-1983. [08-Nov-2026 13:57:57] Name: Ghhh (Compare 1), DOB: 2026-11-08, TOB: 12:36, Place: Kandukur
-1984. [08-Nov-2026 13:57:57] Name: Test2 (Compare 2), DOB: 1995-05-15, TOB: 10:00, Place: Hyderabad
+1980. [08-Nov-2026 07:56:44] Name: Ok, DOB: 2026-11-08, TOB: 13:26, Place: Kandukur Mandal, Andhra Pradesh, India
+1981. [08-Nov-2026 07:58:02] Name: Ok, DOB: 2026-11-08, TOB: 13:27, Place: Kandukur Mandal, Andhra Pradesh, India
+1982. [08-Nov-2026 08:01:35] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1983. [08-Nov-2026 08:04:09] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1984. [08-Nov-2026 08:04:46] Name: Ok, DOB: 2026-11-08, TOB: 13:27, Place: Kandukur Mandal, Andhra Pradesh, India
+1985. [08-Nov-2026 08:09:28] Name: Ok, DOB: 2026-11-08, TOB: 13:36, Place: Kandukur Mandal, Andhra Pradesh, India
+1986. [08-Nov-2026 08:31:59] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1987. [08-Nov-2026 08:34:29] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1988. [08-Nov-2026 08:36:55] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1989. [08-Nov-2026 08:37:22] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1990. [08-Nov-2026 08:37:25] Name: hhhh, DOB: 2026-11-08, TOB: 13:31, Place: Kandukur Mandal, Andhra Pradesh, India
+1991. [08-Nov-2026 08:39:16] Name: ggg (Compare 1), DOB: 2026-11-08, TOB: 14:09, Place: Kandukur Mandal, Andhra Pradesh, India
+1992. [08-Nov-2026 08:39:17] Name: ggg (Compare 2), DOB: 2026-11-08, TOB: 14:09, Place: Kandukur Mandal, Andhra Pradesh, India
+1993. [08-Nov-2026 08:39:38] Name: ok, DOB: 2026-11-08, TOB: 14:09, Place: Kandukur Mandal, Andhra Pradesh, India
+1994. [08-Nov-2026 08:41:01] Name: ok, DOB: 2026-11-08, TOB: 14:09, Place: Kandukur Mandal, Andhra Pradesh, India
+1995. [08-Nov-2026 09:34:28] Name: Ok, DOB: 2026-11-08, TOB: 15:04, Place: Kandukur Mandal, Andhra Pradesh, India
+1996. [08-Nov-2026 09:34:43] Name: Ok, DOB: 2026-11-08, TOB: 15:04, Place: Kandukur Mandal, Andhra Pradesh, India
+1997. [08-Nov-2026 09:34:53] Name: Ok, DOB: 2026-11-08, TOB: 15:04, Place: Kandukur Mandal, Andhra Pradesh, India
+1998. [08-Nov-2026 09:35:19] Name: Ok, DOB: 2026-11-08, TOB: 15:05, Place: Kandukur Mandal, Andhra Pradesh, India
+1999. [08-Nov-2026 09:35:30] Name: kkk, DOB: 2026-11-08, TOB: 14:32, Place: Kandukur Mandal, Andhra Pradesh, India
+2000. [08-Nov-2026 09:35:54] Name: Ok, DOB: 2026-11-08, TOB: 15:05, Place: Kandukur Mandal, Andhra Pradesh, India
+2001. [08-Nov-2026 09:36:02] Name: kkk, DOB: 2026-11-08, TOB: 14:32, Place: Kandukur Mandal, Andhra Pradesh, India
+2002. [08-Nov-2026 09:37:34] Name: Ok, DOB: 2026-11-08, TOB: 15:05, Place: Kandukur Mandal, Andhra Pradesh, India
+2003. [08-Nov-2026 09:41:52] Name: Ok, DOB: 2026-11-08, TOB: 15:05, Place: Kandukur Mandal, Andhra Pradesh, India
+2004. [08-Nov-2026 09:42:02] Name: Ok, DOB: 2026-11-08, TOB: 15:05, Place: Kandukur Mandal, Andhra Pradesh, India
+2005. [08-Nov-2026 09:43:47] Name: kkk, DOB: 2026-11-08, TOB: 14:32, Place: Kandukur Mandal, Andhra Pradesh, India
+2006. [08-Nov-2026 09:44:24] Name: fffff, DOB: 2026-11-08, TOB: 15:14, Place: Kandukur Mandal, Andhra Pradesh, India
+2007. [08-Nov-2026 09:46:27] Name: Reddy, DOB: 2026-11-08, TOB: 15:16, Place: Kandukur Mandal, Andhra Pradesh, India
+2008. [08-Nov-2026 10:15:03] Name: ok, DOB: 2026-11-08, TOB: 15:22, Place: Kandukur Mandal, Andhra Pradesh, India
+2009. [08-Nov-2026 11:00:56] Name: Jjj, DOB: 2026-11-08, TOB: 16:30, Place: Kandukur Mandal, Andhra Pradesh, India
+2010. [08-Nov-2026 11:01:15] Name: Jjj, DOB: 2026-11-08, TOB: 16:30, Place: Kandukur Mandal, Andhra Pradesh, India
+2011. [08-Nov-2026 11:01:29] Name: Ok, DOB: 2026-11-08, TOB: 16:31, Place: Kandukur Mandal, Andhra Pradesh, India
+2012. [08-Nov-2026 13:55:47] Name: Sdfgv, DOB: 2026-11-08, TOB: 19:25, Place: Hosakote taluk, Karnataka, India
+2013. [08-Nov-2026 13:55:49] Name: Sdfgv, DOB: 2026-11-08, TOB: 19:25, Place: Hosakote taluk, Karnataka, India
+2014. [08-Nov-2026 13:55:50] Name: Sdfgv, DOB: 2026-11-08, TOB: 19:25, Place: Hosakote taluk, Karnataka, India
+2015. [08-Nov-2026 13:55:52] Name: Sdfgv, DOB: 2026-11-08, TOB: 19:25, Place: Hosakote taluk, Karnataka, India
+2016. [08-Nov-2026 13:56:19] Name: Sdfgv, DOB: 2026-11-08, TOB: 17:25, Place: Bangalore
+2017. [08-Nov-2026 13:56:21] Name: Sdfgv, DOB: 2026-11-08, TOB: 17:25, Place: Bangalore
+2018. [08-Nov-2026 14:31:18] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2019. [08-Nov-2026 14:31:20] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2020. [08-Nov-2026 14:33:15] Name: Mahesh ( death ), DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2021. [08-Nov-2026 14:33:17] Name: Mahesh ( death ), DOB: 2026-10-07, TOB: 15:33, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2022. [08-Nov-2026 14:35:13] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2023. [08-Nov-2026 14:35:15] Name: Mahesh ( birth ), DOB: 2005-01-12, TOB: 05:30, Place: Dharmavaram, Dharmavaram Mandal, Sri Sathya Sai District, Andhra Pradesh, 515671, India
+2024. [09-Nov-2026 04:21:32] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri
+2025. [09-Nov-2026 04:28:24] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
+2026. [09-Nov-2026 04:28:26] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, TadIpatri Mandal, Anantapuramu District, Andhra Pradesh, 515400, India
+2027. [09-Nov-2026 04:33:54] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Ashburn, Virginia, United States
+2028. [09-Nov-2026 04:35:14] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2029. [09-Nov-2026 04:35:16] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2030. [09-Nov-2026 04:38:13] Name: Raghava, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri
+2031. [09-Nov-2026 04:40:55] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2032. [09-Nov-2026 04:45:31] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2033. [09-Nov-2026 04:48:32] Name: Mehasri, DOB: 2020-02-10, TOB: 18:27, Place: Anantapur, Andhra Pradesh, India
+2034. [09-Nov-2026 04:48:34] Name: Mehasri, DOB: 2020-02-10, TOB: 18:27, Place: Anantapur, Andhra Pradesh, India
+2035. [09-Nov-2026 04:49:58] Name: Mehasri, DOB: 2020-02-10, TOB: 18:27, Place: Anantapur, Andhra Pradesh, India
+2036. [09-Nov-2026 05:03:30] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2037. [09-Nov-2026 05:04:54] Name: Raghavendra, DOB: 1988-07-21, TOB: 13:27, Place: Tadipatri, India
+2038. [09-Nov-2026 05:06:17] Name: Pavan, DOB: 2000-02-18, TOB: 21:18, Place: Bangalore 
+2039. [09-Nov-2026 05:11:44] Name: Pavan, DOB: 2000-02-18, TOB: 21:18, Place: Bangalore 
+2040. [09-Nov-2026 06:02:58] Name: Krishnareddy, DOB: 1988-10-25, TOB: 01:10, Place: Kandukur Mandal, Andhra Pradesh, India
+2041. [09-Nov-2026 06:21:11] Name: Bhavik, DOB: 2026-05-06, TOB: 05:46, Place: Anantapur
+2042. [09-Nov-2026 06:21:13] Name: Bhavik, DOB: 2026-05-06, TOB: 05:46, Place: Anantapur
+2043. [09-Nov-2026 08:11:31] Name: Sdfgv, DOB: 2026-11-09, TOB: 13:41, Place: Bangalore East, Karnataka, India
+2044. [09-Nov-2026 08:11:33] Name: Sdfgv, DOB: 2026-11-09, TOB: 13:41, Place: Bangalore East, Karnataka, India
+2045. [09-Nov-2026 08:12:34] Name: Sdfgv, DOB: 2026-11-09, TOB: 16:42, Place: Bangalore East, Karnataka, India
+2046. [09-Nov-2026 08:12:36] Name: Sdfgv, DOB: 2026-11-09, TOB: 16:42, Place: Bangalore East, Karnataka, India
+2047. [09-Nov-2026 08:15:54] Name: Jagan, DOB: 1972-12-21, TOB: 01:30, Place: Jammalamadugu, Jammalamadugu Mandal, YSR  Kadapa District, Andhra Pradesh, 516434, India
+2048. [09-Nov-2026 08:15:57] Name: Jagan, DOB: 1972-12-21, TOB: 01:30, Place: Jammalamadugu, Jammalamadugu Mandal, YSR  Kadapa District, Andhra Pradesh, 516434, India
+2049. [09-Nov-2026 08:27:12] Name: Sdfgv, DOB: 2026-11-09, TOB: 10:45, Place: Bangalore East, Karnataka, India
+2050. [09-Nov-2026 08:27:14] Name: Sdfgv, DOB: 2026-11-09, TOB: 10:45, Place: Bangalore East, Karnataka, India
+2051. [09-Nov-2026 08:28:08] Name: Sdfgv, DOB: 2026-11-09, TOB: 11:35, Place: Bangalore East, Karnataka, India
+2052. [09-Nov-2026 08:28:11] Name: Sdfgv, DOB: 2026-11-09, TOB: 11:35, Place: Bangalore East, Karnataka, India
+2053. [09-Nov-2026 09:22:53] Name: Bhavani (Compare 1), DOB: 2003-11-05, TOB: 05:00, Place: Hosapete, Karnataka, India
+2054. [09-Nov-2026 09:22:55] Name: Venkat sai kumar (Compare 2), DOB: 2003-08-18, TOB: 14:40, Place: Hosapete, Karnataka, India
+2055. [09-Nov-2026 09:24:57] Name: Bhavani (Compare 1), DOB: 2003-11-05, TOB: 05:00, Place: Hosapete, Karnataka, India
+2056. [09-Nov-2026 09:24:59] Name: Venkat sai kumar (Compare 2), DOB: 2003-08-18, TOB: 14:40, Place: Kalyandurg Mandal, Anantapuramu District, Andhra Pradesh, India
+2057. [09-Nov-2026 10:53:20] Name: Bhavani (Compare 1), DOB: 2003-11-05, TOB: 05:00, Place: Hosapete, Karnataka, India
+2058. [09-Nov-2026 10:53:21] Name: Venkat sai kumar (Compare 2), DOB: 2003-08-18, TOB: 14:40, Place: Hosapete, Karnataka, India
+2059. [10-Nov-2026 04:01:37] Name: Test, DOB: 2026-11-10, TOB: 09:31, Place: Kandukur Mandal, Andhra Pradesh, India
+2060. [10-Nov-2026 06:28:08] Name: రాకేశ్ , DOB: 1997-07-02, TOB: 20:50, Place: Jammikunta mandal, Telangana, India
+2061. [10-Nov-2026 06:28:59] Name: రాకేశ్ , DOB: 1997-07-02, TOB: 20:50, Place: Jammikunta mandal, Telangana, India

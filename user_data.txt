@@ -2144,3 +2144,4 @@
 2137. [12-Nov-2026 10:43:08] Name: Ok, DOB: 2026-11-12, TOB: 16:11, Place: Kandukur Mandal, Andhra Pradesh, India
 2138. [12-Nov-2026 10:53:25] Name: reddy, DOB: 2026-11-12, TOB: 16:23, Place: Kandukur Mandal, Andhra Pradesh, India
 2139. [12-Nov-2026 10:54:29] Name: S, DOB: 2003-05-20, TOB: 08:35, Place: Vadlamanu, Agiripalle Mandal, Krishna District, Andhra Pradesh, India
+2140. [12-Nov-2026 10:55:31] Name: g (Compare 1), DOB: 2026-11-12, TOB: 16:25, Place: Kandukur Mandal, Andhra Pradesh, India

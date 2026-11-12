@@ -3,9 +3,15 @@ name: Build Ravan Astro Android APK & Play Store AAB
 on:
   push:
     branches: [ main, master ]
+    paths-ignore:
+      - 'user_data.txt'
+      - '.vercelignore'
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-apk-and-aab:
@@ -52,18 +58,43 @@ jobs:
         run: |
           ./gradlew bundleRelease assembleRelease assembleDebug --no-daemon --stacktrace
 
+      - name: Publish AAB & APK to GitHub Release (No Artifact Quota)
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          shopt -s nullglob
+          FILES=(
+            android_app/app/build/outputs/bundle/release/*.aab
+            android_app/app/build/outputs/apk/release/*.apk
+            android_app/app/build/outputs/apk/debug/*.apk
+          )
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "No Android build outputs found."
+            exit 1
+          fi
+          NOTES="Automated Android build from commit ${{ github.sha }} ($(date -u +'%Y-%m-%d %H:%M UTC'))."
+          if gh release view latest-android >/dev/null 2>&1; then
+            gh release upload latest-android "${FILES[@]}" --clobber
+            gh release edit latest-android --title "Latest Ravan Astro Android Build" --notes "$NOTES" --target "${{ github.ref_name }}"
+          else
+            gh release create latest-android "${FILES[@]}" --title "Latest Ravan Astro Android Build" --notes "$NOTES" --target "${{ github.ref_name }}"
+          fi
+
       - name: Upload Play Store AAB Bundle
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: RavanAstro-PlayStore-AAB
           path: android_app/app/build/outputs/bundle/release/*.aab
-          retention-days: 30
+          retention-days: 2
 
       - name: Upload APKs (Release & Debug)
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: RavanAstro-Android-APK
           path: |
             android_app/app/build/outputs/apk/release/*.apk
             android_app/app/build/outputs/apk/debug/*.apk
-          retention-days: 14
+          retention-days: 2

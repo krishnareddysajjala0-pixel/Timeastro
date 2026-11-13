@@ -40,7 +40,6 @@ routes.txt
 rules_repr.txt
 temp_help.txt
 *.txt
-!user_data.txt
 !requirements.txt
 !runtime.txt
 Dockerfile

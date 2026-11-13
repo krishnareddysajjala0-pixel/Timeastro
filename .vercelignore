@@ -34,7 +34,8 @@ sync_to_ipa.py
 test_*.py
 update_*.py
 verify_*.py
-*.png
+# Exclude root debug/test files, but NEVER exclude static directory
+/*.png
 out.txt
 routes.txt
 rules_repr.txt
@@ -42,5 +43,6 @@ temp_help.txt
 *.txt
 !requirements.txt
 !runtime.txt
+!static/**
 Dockerfile
 Procfile

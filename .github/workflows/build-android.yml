@@ -80,21 +80,3 @@ jobs:
           else
             gh release create latest-android "${FILES[@]}" --title "Latest Ravan Astro Android Build" --notes "$NOTES" --target "${{ github.ref_name }}"
           fi
-
-      - name: Upload Play Store AAB Bundle
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: RavanAstro-PlayStore-AAB
-          path: android_app/app/build/outputs/bundle/release/*.aab
-          retention-days: 2
-
-      - name: Upload APKs (Release & Debug)
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: RavanAstro-Android-APK
-          path: |
-            android_app/app/build/outputs/apk/release/*.apk
-            android_app/app/build/outputs/apk/debug/*.apk
-          retention-days: 2

@@ -57,6 +57,20 @@ jobs:
         run: |
           ./gradlew bundleRelease assembleRelease assembleDebug --no-daemon --stacktrace
 
+      - name: Upload AAB Bundle to Actions Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ravan-astro-aab
+          path: android_app/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
+
+      - name: Upload Release APK to Actions Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ravan-astro-release-apk
+          path: android_app/app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
+
       - name: Publish AAB & APK to GitHub Release (No Artifact Quota)
         if: github.event_name != 'pull_request'
         env:

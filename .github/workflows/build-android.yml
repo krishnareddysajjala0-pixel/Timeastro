@@ -59,6 +59,7 @@ jobs:
 
       - name: Upload AAB Bundle to Actions Artifacts
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: ravan-astro-aab
           path: android_app/app/build/outputs/bundle/release/*.aab
@@ -66,6 +67,7 @@ jobs:
 
       - name: Upload Release APK to Actions Artifacts
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: ravan-astro-release-apk
           path: android_app/app/build/outputs/apk/release/*.apk

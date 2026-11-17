@@ -51,7 +51,12 @@ class MainActivity : AppCompatActivity() {
                     val printManager = getSystemService(PRINT_SERVICE) as PrintManager
                     val jobName = "RavanAstro_Kundali"
                     val printAdapter = webView.createPrintDocumentAdapter(jobName)
-                    printManager.print(jobName, printAdapter, PrintAttributes.Builder().build())
+                    val printAttributes = PrintAttributes.Builder()
+                        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                        .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
+                        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                        .build()
+                    printManager.print(jobName, printAdapter, printAttributes)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

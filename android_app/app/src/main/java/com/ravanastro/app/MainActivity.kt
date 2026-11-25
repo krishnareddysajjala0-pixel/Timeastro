@@ -18,6 +18,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,13 +26,21 @@ import androidx.core.content.FileProvider
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 import java.io.File
-import java.net.Socket
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.atomic.AtomicBoolean
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    private val HOME_URL = "http://127.0.0.1:5000?app=1"
     private var isServerLoaded = false
+    private var lastGoodServerUrl = HOME_URL
+    private var clearHistoryOnNextPage = false
+    private var consecutiveErrorCount = 0
+    private val isBootstrappingServer = AtomicBoolean(false)
+    private var backCallback: OnBackPressedCallback? = null
 
     companion object {
         init {
@@ -97,23 +106,27 @@ class MainActivity : AppCompatActivity() {
         fun sharePdf() {
             printPage()
         }
+
+        @JavascriptInterface
+        fun retryConnection() {
+            runOnUiThread {
+                consecutiveErrorCount = 0
+                showLoadingHtml()
+                ensureServerAndLoad(lastGoodServerUrl, loadWhenAlreadyUp = true)
+            }
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize Python runtime if not started
-        if (!Python.isStarted()) {
-            Python.start(AndroidPlatform(this))
-        }
-
-        // Create WebView UI with explicit dark background to prevent black screen on emulator
+        // Create WebView UI immediately with dark background so launch renders cleanly
         webView = WebView(this)
         webView.setBackgroundColor(Color.parseColor("#121212"))
         setContentView(webView)
 
-        // Configure WebView settings for full app capabilities
+        // Configure WebView settings for full app capabilities and smooth Back caching
         val settings: WebSettings = webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -127,10 +140,7 @@ class MainActivity : AppCompatActivity() {
         settings.setSupportZoom(true)
         settings.builtInZoomControls = true
         settings.displayZoomControls = false
-
-        // Disable cache so newly deployed templates and CSS take effect immediately
-        webView.clearCache(true)
-        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+        settings.cacheMode = WebSettings.LOAD_DEFAULT
 
         // Identify Android App in User-Agent
         settings.userAgentString = settings.userAgentString + " RavanAstroApp/Android"
@@ -147,39 +157,88 @@ class MainActivity : AppCompatActivity() {
         }
 
         webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (url != null && url.startsWith("http://127.0.0.1:5000")) {
+                    consecutiveErrorCount = 0
+                    if (!url.contains("/go-to-birth-chart")) {
+                        lastGoodServerUrl = url
+                    }
+                    if (clearHistoryOnNextPage) {
+                        view?.clearHistory()
+                        clearHistoryOnNextPage = false
+                    }
+                    // Ensure any stale loading overlay never stays stuck across navigation/resume
+                    view?.evaluateJavascript(
+                        "(function(){var o=document.getElementById('loading-overlay');if(o)o.style.display='none';var l=document.getElementById('loading');if(l)l.style.display='none';})();",
+                        null
+                    )
+                }
+            }
+
             override fun onReceivedError(
                 view: WebView?,
                 request: WebResourceRequest?,
                 error: WebResourceError?
             ) {
-                if (request?.isForMainFrame == true && isServerLoaded) {
-                    view?.postDelayed({
-                        view.loadUrl("http://127.0.0.1:5000?app=1")
-                    }, 1000)
+                val failingUrl = request?.url?.toString() ?: ""
+                if (request?.isForMainFrame == true && isServerLoaded && failingUrl.startsWith("http://127.0.0.1:5000")) {
+                    consecutiveErrorCount++
+                    if (consecutiveErrorCount > 2) {
+                        showErrorHtml()
+                    } else {
+                        view?.postDelayed({
+                            if (!isFinishing && !isDestroyed) {
+                                ensureServerAndLoad(failingUrl, loadWhenAlreadyUp = true)
+                            }
+                        }, 350)
+                    }
                 }
             }
         }
 
-        // Show immediate loading screen
-        showLoadingHtml()
-
-        // Start embedded Flask server in background thread
-        val py = Python.getInstance()
-        val pyModule = py.getModule("server_launcher")
-
-        Thread {
-            try {
-                pyModule.callAttr("start_server")
-            } catch (e: Exception) {
-                e.printStackTrace()
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!::webView.isInitialized) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    return
+                }
+                val history = webView.copyBackForwardList()
+                var stepsBack = -1
+                var i = history.currentIndex - 1
+                while (i >= 0) {
+                    val itemUrl = history.getItemAtIndex(i)?.url ?: ""
+                    val isTrap = itemUrl.isEmpty() ||
+                        itemUrl.startsWith("about:") ||
+                        itemUrl.startsWith("data:") ||
+                        itemUrl.contains("/go-to-birth-chart")
+                    if (!isTrap) {
+                        stepsBack = i - history.currentIndex
+                        break
+                    }
+                    i--
+                }
+                if (i >= 0 && webView.canGoBackOrForward(stepsBack)) {
+                    webView.goBackOrForward(stepsBack)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
             }
-        }.start()
+        }
+        backCallback = callback
+        onBackPressedDispatcher.addCallback(this, callback)
+
+        // Show immediate loading screen without blocking UI thread on Python startup
+        showLoadingHtml()
 
         // Request runtime location permissions
         requestLocationPermission()
 
-        // Poll local port and load server once ready
-        pollAndLoadServer()
+        // Start embedded Python + Flask in background, poll quickly, and load home
+        clearHistoryOnNextPage = true
+        ensureServerAndLoad(HOME_URL, loadWhenAlreadyUp = true)
     }
 
     private fun showLoadingHtml() {
@@ -261,7 +320,7 @@ class MainActivity : AppCompatActivity() {
             <body>
                 <h2>Server Connection Error</h2>
                 <p>Unable to connect to the internal server. Please tap retry to try connecting again.</p>
-                <a href="javascript:location.reload()" class="btn">Retry</a>
+                <a href="javascript:void(0)" onclick="if(window.AndroidPrint && AndroidPrint.retryConnection){AndroidPrint.retryConnection();}else{window.location.href='http://127.0.0.1:5000?app=1';}" class="btn">Retry</a>
             </body>
             </html>
         """.trimIndent()
@@ -278,36 +337,97 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun pollAndLoadServer() {
-        Thread {
-            var connected = false
-            var attempts = 0
-            while (!connected && attempts < 120) {
-                try {
-                    val socket = Socket("127.0.0.1", 5000)
-                    socket.close()
-                    connected = true
-                } catch (e: Exception) {
-                    attempts++
-                    Thread.sleep(500)
-                }
-            }
-            runOnUiThread {
-                if (connected) {
-                    isServerLoaded = true
-                    webView.loadUrl("http://127.0.0.1:5000?app=1")
-                } else {
-                    showErrorHtml()
-                }
-            }
-        }.start()
+    override fun onPause() {
+        super.onPause()
+        if (::webView.isInitialized) {
+            webView.onPause()
+        }
     }
 
-    override fun onBackPressed() {
-        if (::webView.isInitialized && webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
+    override fun onResume() {
+        super.onResume()
+        backCallback?.isEnabled = true
+        if (::webView.isInitialized) {
+            webView.onResume()
+            webView.resumeTimers()
+            if (isServerLoaded) {
+                webView.evaluateJavascript(
+                    "(function(){var o=document.getElementById('loading-overlay');if(o)o.style.display='none';var l=document.getElementById('loading');if(l)l.style.display='none';})();",
+                    null
+                )
+                ensureServerAndLoad(lastGoodServerUrl, loadWhenAlreadyUp = false)
+            }
         }
+    }
+
+    private fun isHealthEndpointUp(): Boolean {
+        var conn: HttpURLConnection? = null
+        return try {
+            val url = URL("http://127.0.0.1:5000/health")
+            conn = (url.openConnection() as HttpURLConnection).apply {
+                connectTimeout = 400
+                readTimeout = 400
+                requestMethod = "GET"
+                useCaches = false
+            }
+            conn.responseCode == 200
+        } catch (e: Exception) {
+            false
+        } finally {
+            conn?.disconnect()
+        }
+    }
+
+    private fun ensureServerAndLoad(targetUrl: String, loadWhenAlreadyUp: Boolean) {
+        if (!isBootstrappingServer.compareAndSet(false, true)) {
+            return
+        }
+        Thread {
+            var connected = false
+            try {
+                if (isHealthEndpointUp()) {
+                    connected = true
+                    if (!loadWhenAlreadyUp) {
+                        return@Thread
+                    }
+                } else {
+                    if (!Python.isStarted()) {
+                        Python.start(AndroidPlatform(applicationContext))
+                    }
+                    val pyModule = Python.getInstance().getModule("server_launcher")
+                    Thread {
+                        try {
+                            pyModule.callAttr("start_server")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }.start()
+
+                    val deadlineMs = System.currentTimeMillis() + 25_000L
+                    while (!connected && System.currentTimeMillis() < deadlineMs) {
+                        if (isHealthEndpointUp()) {
+                            connected = true
+                        } else {
+                            Thread.sleep(50)
+                        }
+                    }
+                }
+
+                runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    if (connected) {
+                        isServerLoaded = true
+                        val currentUrl = webView.url ?: ""
+                        if (loadWhenAlreadyUp || currentUrl.isEmpty() || currentUrl.startsWith("about:") || currentUrl.startsWith("data:")) {
+                            webView.loadUrl(targetUrl)
+                        }
+                    } else {
+                        showErrorHtml()
+                    }
+                }
+            } finally {
+                isBootstrappingServer.set(false)
+            }
+        }.start()
     }
 }

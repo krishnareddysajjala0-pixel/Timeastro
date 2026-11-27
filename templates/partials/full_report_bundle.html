@@ -11754,53 +11754,9 @@ body {
 
         }
 
-        .header {
+        /* Removed leaking card .header styles */
 
-            text-align: center;
-
-            margin-bottom: 25px;
-
-            padding: 30px;
-
-            background: linear-gradient(135deg, rgba(25, 30, 45, 0.8), rgba(15, 20, 30, 0.9));
-
-            backdrop-filter: blur(20px);
-
-            -webkit-backdrop-filter: blur(20px);
-
-            border-radius: 24px;
-
-            border: 1px solid var(--card-border);
-
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-
-            position: relative;
-
-            overflow: hidden;
-
-        }
-
-        .header::before {
-
-            content: '';
-
-            position: absolute;
-
-            top: 0;
-
-            left: 0;
-
-            right: 0;
-
-            height: 5px;
-
-            background: linear-gradient(90deg, #FF416C, #FF4B2B, #f12711, #f5af19, #8E2DE2, #4A00E0);
-
-            background-size: 300% 300%;
-
-            animation: gradientShift 5s ease infinite;
-
-        }
+        /* Removed leaking .header::before */
 
         @keyframes gradientShift {
 

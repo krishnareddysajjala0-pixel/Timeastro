@@ -132,6 +132,7 @@
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
+    zoom: 1.18 !important;
     page-break-before: always !important;
     break-before: page !important;
     page-break-after: always !important;
@@ -146,12 +147,24 @@
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
+    zoom: 1.18 !important;
     page-break-before: always !important;
     break-before: page !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+  }
+
+  body[data-print-mode="full-report"] #print-wrapper .page-title,
+  body[data-print-mode="full-report"] .page-title {
+    color: #d2691e !important;
+    -webkit-text-fill-color: #d2691e !important;
+    font-size: 39px !important;
+    font-weight: 800 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
